@@ -17,22 +17,20 @@ Game::~Game() {
 void Game::initialize() {
     // Initialize game objects
     initializeGameObjects();
-    
-    // Show splash screen
-    window.BeginDrawing();
-    window.ClearBackground(RAYWHITE);
-    DrawText("Press Arrow Keys to Control Pac-Man", 200, 200, 20, BLACK);
-    DrawText("Press ESC to Exit", 200, 230, 20, BLACK);
-    window.EndDrawing();
 
-    // Wait for a key press
+    // Display the splash screen
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        // Just wait
+        window.BeginDrawing();
+        window.ClearBackground(RAYWHITE);
+        DrawText("Use the arrow keys to move PacMan", 200, 200, 20, BLACK);
+        DrawText("Press ENTER to Start", 200, 230, 20, BLACK);
+        DrawText("Press ESC to Exit", 200, 260, 20, BLACK);
+        window.EndDrawing();
     }
 }
 
 
-// Maingameloop
+// Main game loop
 void Game::run() {
     while (isRunning && !window.ShouldClose()) {
         handleInput();   // Handle user input
@@ -43,8 +41,13 @@ void Game::run() {
     endGame();  // End the game
 }
 
-// Handle user input
 void Game::handleInput() {
+    if (IsKeyDown(KEY_ESCAPE)) {
+        isRunning = false;  // Exit the game loop immediately
+        return;
+    }
+
+    // Handle movement
     if (IsKeyDown(KEY_RIGHT)) {
         pacMan->setDirection(1, 0); // Move right
     } else if (IsKeyDown(KEY_LEFT)) {
@@ -55,6 +58,7 @@ void Game::handleInput() {
         pacMan->setDirection(0, 1); // Move down
     }
 }
+
 
 // Update game state
 void Game::update() {
@@ -89,11 +93,33 @@ void Game::checkCollisions() {
     }
 }
 
-// End the game
 void Game::endGame() {
-    // Display game over screen or perform clean-up tasks
+    // Display the Game Over screen
+    window.BeginDrawing();
+    window.ClearBackground(RAYWHITE);
     DrawText("Game Over!", window.GetWidth() / 2 - 100, window.GetHeight() / 2, 20, RED);
+    window.EndDrawing();
+
+    // Give some time for the player to see the Game Over screen
+    // Use a timed delay or wait for a key press to exit
+    for (int i = 0; i < 180; i++) {  // Show "Game Over" for ~3 seconds at 60 FPS
+        window.BeginDrawing();
+        window.ClearBackground(RAYWHITE);
+        DrawText("Game Over!", window.GetWidth() / 2 - 100, window.GetHeight() / 2, 20, RED);
+        window.EndDrawing();
+        
+        // Allow the player to exit early by pressing ESC or closing the window
+        if (IsKeyPressed(KEY_ENTER) || window.ShouldClose()) {
+            break;
+        }
+    }
+
+    // Now close the window and exit the game properly
+    CloseWindow();
+    isRunning = false;  // Ensure the game loop stops
 }
+
+
 
 // Initialize game objects
 void Game::initializeGameObjects() {
