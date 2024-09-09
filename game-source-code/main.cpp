@@ -1,5 +1,6 @@
 #include <raylib-cpp.hpp>
 #include <iostream>
+#include "Game.h"
 using namespace raylib; // import the raylib-cpp namespace into the global namespace
 
 
@@ -8,5 +9,8 @@ using namespace raylib; // import the raylib-cpp namespace into the global names
 
 int main()
 {
+    Game game;
+    game.initialize();
+    game.run();
     return 0;
 }
