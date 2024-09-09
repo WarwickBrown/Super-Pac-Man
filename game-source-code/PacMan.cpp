@@ -20,15 +20,23 @@ void PacMan::move(const Maze& maze) {
     std::cout << "PacMan before move - X: " << x << " Y: " << y << std::endl;
     std::cout << "PacMan dx: " << dx << " dy: " << dy << std::endl;
 
-    int newX = x + dx;
+    int newX = x + dx;  // Move Pac-Man by 1 tile (dx or dy will be 1, 0, or -1)
     int newY = y + dy;
 
-    if (!maze.isWall(newX / 32, newY / 32)) {
-        x = newX;
+    if (!maze.isWall(newX, newY)) {
+        x = newX;  // Update tile position
         y = newY;
+        std::cout << "PacMan moved to tile (" << x << ", " << y << ")" << std::endl;
     } else {
-        std::cout << "PacMan hit a wall at (" << newX / 32 << ", " << newY / 32 << ")" << std::endl;
+        std::cout << "PacMan hit a wall at (" << newX << ", " << newY << ")" << std::endl;
     }
+
+    // After moving, reset the direction so Pac-Man doesn't keep moving
+    dx = 0;
+    dy = 0;
+
+    // Handle Super state or any other game logic here...
+
 
     // Handle special cases (like eating fruits or keys) here if needed
 
@@ -48,7 +56,9 @@ void PacMan::draw() const {
     if (superState) {
         DrawCircle(x, y, radius, BLUE);  // Draw "Super" Pac-Man in blue
     } else {
-        DrawCircle(x, y, radius, YELLOW);  // Draw normal Pac-Man in yellow
+        int pixelX = x * 32;  // Convert tile coordinates to pixel coordinates
+        int pixelY = y * 32;
+        DrawCircle(pixelX + 16, pixelY + 16, 16, YELLOW);  // Draw Pac-Man centered in the tile    
     }
 }
 
@@ -63,20 +73,19 @@ bool PacMan::checkCollision(const Maze& maze) const {
     return maze.isWall(x / 32, y / 32);
 }
 
-// Checks for collisions with ghosts
 bool PacMan::checkCollision(const Ghost& ghost) const {
-    // Simple bounding box collision detection for now
-    int ghostX = ghost.getX();
-    int ghostY = ghost.getY();
-    int ghostSize = ghost.getSize();  // Assume ghosts are drawn as squares for simplicity
+    // Assuming Pac-Man and Ghost are both aligned to 32x32 tiles
+    int pacManTileX = x / 32;
+    int pacManTileY = y / 32;
+    int ghostTileX = ghost.getX() / 32;
+    int ghostTileY = ghost.getY() / 32;
 
-    if (x < ghostX + ghostSize && x + radius * 2 > ghostX &&
-        y < ghostY + ghostSize && y + radius * 2 > ghostY) {
-        return true;  // Collision detected
-    }
+    std::cout << "PacMan Tile: (" << pacManTileX << ", " << pacManTileY << ")"
+              << " Ghost Tile: (" << ghostTileX << ", " << ghostTileY << ")" << std::endl;
 
-    return false;
+    return (pacManTileX == ghostTileX && pacManTileY == ghostTileY);
 }
+
 
 // Changes Pac-Man's state to "Super"
 void PacMan::becomeSuper() {

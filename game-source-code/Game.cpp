@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <raylib-cpp.hpp>
+#include <iostream>
 
 // Constructor
 Game::Game() : window(800, 600, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr) {}
@@ -15,19 +16,26 @@ Game::~Game() {
 }
 
 void Game::initialize() {
-    // Initialize game objects
     initializeGameObjects();
 
-    // Display the splash screen
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
         window.BeginDrawing();
         window.ClearBackground(RAYWHITE);
-        DrawText("Use the arrow keys to move PacMan", 200, 200, 20, BLACK);
-        DrawText("Press ENTER to Start", 200, 230, 20, BLACK);
-        DrawText("Press ESC to Exit", 200, 260, 20, BLACK);
+        DrawText("Press ENTER to Start", 200, 200, 20, BLACK);
+        DrawText("Press ESC to Exit", 200, 230, 20, BLACK);
         window.EndDrawing();
     }
+
+    if (IsKeyPressed(KEY_ENTER)) {
+        std::cout << "Enter pressed, starting game..." << std::endl;
+    }
+
+    if (window.ShouldClose()) {
+        std::cout << "Window close detected" << std::endl;
+        isRunning = false;
+    }
 }
+
 
 
 // Main game loop
@@ -47,51 +55,56 @@ void Game::handleInput() {
         return;
     }
 
-    // Handle movement
-    if (IsKeyDown(KEY_RIGHT)) {
-        pacMan->setDirection(1, 0); // Move right
-    } else if (IsKeyDown(KEY_LEFT)) {
-        pacMan->setDirection(-1, 0); // Move left
-    } else if (IsKeyDown(KEY_UP)) {
-        pacMan->setDirection(0, -1); // Move up
-    } else if (IsKeyDown(KEY_DOWN)) {
-        pacMan->setDirection(0, 1); // Move down
+    if (IsKeyPressed(KEY_RIGHT)) {
+        pacMan->setDirection(1, 0);  // Move right once
+        std::cout << "Right key pressed" << std::endl;
+    } else if (IsKeyPressed(KEY_LEFT)) {
+        pacMan->setDirection(-1, 0);  // Move left once
+        std::cout << "Left key pressed" << std::endl;
+    } else if (IsKeyPressed(KEY_UP)) {
+        pacMan->setDirection(0, -1);  // Move up once
+        std::cout << "Up key pressed" << std::endl;
+    } else if (IsKeyPressed(KEY_DOWN)) {
+        pacMan->setDirection(0, 1);  // Move down once
+        std::cout << "Down key pressed" << std::endl;
     }
 }
 
-
-// Update game state
 void Game::update() {
-    pacMan->move(*maze);  // Update Pac-Man's position
+    pacMan->move(*maze);  // Update Pac-Man's position by tile
     for (auto& ghost : ghosts) {
-        ghost->move(*maze,*pacMan);  // Update each ghost's position
+        ghost->move(*maze, *pacMan);  // Update each ghost's position
     }
-    checkCollisions();  // Check for collisions
+
+    checkCollisions();  // Check for tile-based collisions
 }
 
-// Render game objects
 void Game::render() {
     window.BeginDrawing();
     window.ClearBackground(RAYWHITE);
 
-    maze->draw();  // Draw the maze
-    pacMan->draw();  // Draw Pac-Man
+    maze->draw();  // Draw the maze (based on tile grid)
+    pacMan->draw();  // Draw Pac-Man (based on tile)
     for (auto& ghost : ghosts) {
-        ghost->draw();  // Draw each ghost
+        ghost->draw();  // Draw each ghost (based on tile)
     }
 
     window.EndDrawing();
 }
 
-// Check for collisions between objects
+
+
 void Game::checkCollisions() {
-    // Collision detection logic
     for (auto& ghost : ghosts) {
         if (pacMan->checkCollision(*ghost)) {
+            std::cout << "Collision detected with Ghost at Tile ("
+                      << ghost->getX() / 32 << ", " << ghost->getY() / 32 << ")" << std::endl;
             isRunning = false;  // Stop the game if Pac-Man collides with a ghost
         }
     }
 }
+
+
 
 void Game::endGame() {
     // Display the Game Over screen
@@ -125,6 +138,6 @@ void Game::endGame() {
 void Game::initializeGameObjects() {
     maze = new Maze();  // Initialize the maze
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Initialize Pac-Man at the maze start
-    ghosts.push_back(new Ghost(maze->getGhostStartX(), maze->getGhostStartY()));  // Initialize ghost(s)
+    //ghosts.push_back(new Ghost(maze->getGhostStartX(), maze->getGhostStartY()));  // Initialize ghost(s)
 }
 

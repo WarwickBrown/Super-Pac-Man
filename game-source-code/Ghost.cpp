@@ -16,7 +16,7 @@ Ghost::~Ghost() {
 
 // Moves the ghost based on AI logic
 void Ghost::move(const Maze& maze, const PacMan& pacMan) {
-    cout << "Ghost before move - X: " << x << " Y: " << y << endl;
+
     if (state == GhostState::Frightened) {
         frightenedDuration -= GetFrameTime();
         if (frightenedDuration <= 0) {
@@ -33,19 +33,31 @@ void Ghost::move(const Maze& maze, const PacMan& pacMan) {
         chasePacMan(pacMan);
     }
 
-    // Update position
-    x += dx;
-    y += dy;
+    if (isWallAhead(maze)) {
+        changeDirection(maze);  // Change direction if there's a wall ahead
+    }
 
-    cout << "Ghost after move - X: " << x << " Y: " << y << endl;
+    int newX = x + dx;  // Move by tile, not pixel
+    int newY = y + dy;
+
+    if (!maze.isWall(newX, newY)) {
+        x = newX;
+        y = newY;
+    }
+
+    std::cout << "Ghost moved to tile (" << x << ", " << y << ")" << std::endl;
 }
+
+
 
 // Draws the ghost on the screen
 void Ghost::draw() const {
     if (state == GhostState::Frightened) {
         DrawRectangle(x, y, size, size, BLUE);  // Draw frightened ghost in blue
     } else {
-        DrawRectangle(x, y, size, size, RED);  // Draw normal ghost in red
+        int pixelX = x * 32;
+        int pixelY = y * 32;
+        DrawRectangle(pixelX, pixelY, 32, 32, RED);  // Draw ghost in the tile
     }
 }
 

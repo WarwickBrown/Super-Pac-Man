@@ -30,15 +30,18 @@ void Maze::initializeDefaultMaze() {
         layout[i][width - 1] = Cell(CellType::Wall);
     }
 
-    // Set additional walls
-    layout[2][2] = Cell(CellType::Wall);
-    layout[3][2] = Cell(CellType::Wall);
-    layout[4][4] = Cell(CellType::Wall);
-    layout[5][6] = Cell(CellType::Wall);
+    // Make sure the start position at (1, 1) is not a wall
+    layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
 
-    // Set fruits and keys
-    layout[2][3] = Cell(CellType::Fruit);
-    layout[3][5] = Cell(CellType::Key);
+    // // Set additional walls
+    // layout[2][2] = Cell(CellType::Wall);
+    // layout[3][2] = Cell(CellType::Wall);
+    // layout[4][4] = Cell(CellType::Wall);
+    // layout[5][6] = Cell(CellType::Wall);
+
+    // // Set fruits and keys
+    // layout[2][3] = Cell(CellType::Fruit);
+    // layout[3][5] = Cell(CellType::Key);
 }
 
 // Loads maze layout from a file
@@ -90,7 +93,7 @@ void Maze::draw() const {
 // Checks if the given position is a wall
 bool Maze::isWall(int x, int y) const {
     if (x < 0 || x >= width || y < 0 || y >= height) return true;
-    return layout[y][x].type == CellType::Wall;
+    return layout[y][x].type == CellType::Wall;  // Check if the tile is a wall
 }
 
 // Returns the type of cell at the position
