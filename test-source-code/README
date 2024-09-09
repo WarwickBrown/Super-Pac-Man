@@ -1,0 +1,1 @@
+This directory must contain all of the test source code, and only the test source code. It must also contain the modified doctest.h file that is given here. The file containing the tests must be named: tests.cpp
