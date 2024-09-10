@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Constructor
-Game::Game() : window(800, 600, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0) {}
+Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0) {}
 
 // Destructor
 Game::~Game() {

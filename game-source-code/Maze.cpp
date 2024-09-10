@@ -38,23 +38,21 @@ void Maze::initializeDefaultMaze() {
 // We might need to make vertical and horizontal walls for pixel system
 // Maybe two types of wall, wall vert and wall hori
 void Maze::draw() const {
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            switch (layout[y][x].type) {
-                case CellType::Wall:
-                    DrawRectangle(x * 32, y * 32, 32, 32, DARKGRAY);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+    DrawRectangle(0, 0, 10, 900, raylib::Color::DarkBlue());
+    DrawRectangle(0, 0, 1600, 10, raylib::Color::DarkBlue());
+    DrawRectangle(1590, 0, 10, 900, raylib::Color::DarkBlue());
+    DrawRectangle(0, 890, 1600, 10, raylib::Color::DarkBlue());
 }
 
 // Checks if the given position is a wall
 bool Maze::isWall(int x, int y) const {
-    if (x < 0 || x >= width || y < 0 || y >= height) return true;
-    return layout[y][x].type == CellType::Wall;  // Check if the tile is a wall
+    raylib::Rectangle placement{x, y, 1, 1};
+    raylib::Vector2 posi{x, y};
+    if(placement.CheckCollision(posi, 1))
+    {
+        return false;
+    }
+    return true;
 }
 
 // Returns the type of cell at the position

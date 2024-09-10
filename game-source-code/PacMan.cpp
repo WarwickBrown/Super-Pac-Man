@@ -14,7 +14,7 @@ PacMan::~PacMan() {
 }
 
 // Moves Pac-Man based on direction and checks for collisions
-// This needs to be over-halled
+// This needs to be over-hauled
 void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     setDirection(dir);
     float newX = x + dx;
