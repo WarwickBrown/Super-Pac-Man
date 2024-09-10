@@ -35,6 +35,8 @@ void Maze::initializeDefaultMaze() {
 }
 
 // Draws the maze on the screen
+// We might need to make vertical and horizontal walls for pixel system
+// Maybe two types of wall, wall vert and wall hori
 void Maze::draw() const {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {

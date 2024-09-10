@@ -14,6 +14,7 @@ PacMan::~PacMan() {
 }
 
 // Moves Pac-Man based on direction and checks for collisions
+// This needs to be over-halled
 void PacMan::move(const Maze& maze) {
 
     std::cout << "PacMan before move - X: " << x << " Y: " << y << std::endl;

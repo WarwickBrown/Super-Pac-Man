@@ -19,7 +19,8 @@ void Game::initialize() {
         window.BeginDrawing();
         window.ClearBackground(RAYWHITE);
         DrawText("Press ENTER to Start", 200, 200, 20, BLACK);
-        DrawText("Press ESC to Exit", 200, 230, 20, BLACK);
+        DrawText("Use the ARROW KEYS to change direction", 200, 230, 20, BLACK);
+        DrawText("Press ESC to Exit", 200, 260, 20, BLACK);
         window.EndDrawing();
     }
 
@@ -84,7 +85,7 @@ void Game::render() {
 }
 
 
-
+// For checking collisions with ghosts later
 void Game::checkCollisions() {
     
 }
