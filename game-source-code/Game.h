@@ -23,6 +23,7 @@ private:
     Maze* maze;  // Pointer to the maze
     PacMan* pacMan;  // Pointer to Pac-Man
     bool isRunning;  // Game running state
+    int dir;
     raylib::Window window;  // Game window
 
     void initializeGameObjects(); // Initializes game objects

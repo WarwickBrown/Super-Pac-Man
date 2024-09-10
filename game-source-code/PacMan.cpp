@@ -6,7 +6,7 @@ using namespace std;
 
 // Constructor
 PacMan::PacMan(int startX, int startY) 
-    : x(startX), y(startY), dx(0), dy(0), radius(16) {}
+    : x(startX), y(startY), dx(0), dy(0), speed(50) {}
 
 // Destructor
 PacMan::~PacMan() {
@@ -15,40 +15,52 @@ PacMan::~PacMan() {
 
 // Moves Pac-Man based on direction and checks for collisions
 // This needs to be over-halled
-void PacMan::move(const Maze& maze) {
+void PacMan::move(const Maze& maze, float deltaTime, int dir) {
+    setDirection(dir);
+    float newX = x + dx;
+    float newY = y + dy;
 
-    std::cout << "PacMan before move - X: " << x << " Y: " << y << std::endl;
-    std::cout << "PacMan dx: " << dx << " dy: " << dy << std::endl;
+    //int gridX = static_cast<int>(newX) / 16;
+    //int gridY = static_cast<int>(newY) / 16;
 
-    int newX = x + dx;  // Move Pac-Man by 1 tile (dx or dy will be 1, 0, or -1)
-    int newY = y + dy;
+    std::cout << "New Position: (" << newX << ", " << newY << ")\n";  // Debug output
+    //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
     if (!maze.isWall(newX, newY)) {
-        x = newX;  // Update tile position
-        y = newY;
-        std::cout << "PacMan moved to tile (" << x << ", " << y << ")" << std::endl;
-    } else {
-        std::cout << "PacMan hit a wall at (" << newX << ", " << newY << ")" << std::endl;
+        x += dx*0.01;
+        y += dy*0.01;
     }
-
-    // After moving, reset the direction so Pac-Man doesn't keep moving
-    dx = 0;
-    dy = 0;
-
-    cout << "PacMan after move - X: " << x << " Y: " << y << endl;
 }
 
 // Draws Pac-Man on the screen
 void PacMan::draw() const {
-    int pixelX = x * 32;  // Convert tile coordinates to pixel coordinates
-    int pixelY = y * 32;
+    double pixelX = x * 32;  // Convert tile coordinates to pixel coordinates
+    double pixelY = y * 32;
     DrawCircle(pixelX + 16, pixelY + 16, 16, YELLOW);  // Draw Pac-Man centered in the tile    
 }
 
 // Sets the movement direction of Pac-Man
-void PacMan::setDirection(int dx, int dy) {
-    this->dx = dx;
-    this->dy = dy;
+void PacMan::setDirection(int dir) {
+    if(dir == 0){
+        dx = 0;
+        dy = 0;
+    }
+    else if(dir == 1){
+        dx = 1;
+        dy = 0;
+    }
+    else if(dir == 2){
+        dx = -1;
+        dy = 0;
+    }
+    else if(dir == 3){
+        dx = 0;
+        dy = -1;
+    }
+    else if(dir == 4){
+        dx = 0;
+        dy = 1;
+    }
 }
 
 // Checks for collisions with the maze
@@ -64,3 +76,4 @@ void PacMan::handleMazeCollision(const Maze& maze) {
         dy = 0;  // Stop Pac-Man's movement
     }
 }
+

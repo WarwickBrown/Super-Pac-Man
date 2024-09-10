@@ -9,18 +9,19 @@ public:
     PacMan(int startX, int startY);  // Constructor
     ~PacMan();  // Destructor
 
-    void move(const Maze& maze);  // Moves Pac-Man based on direction and checks for collisions
+    void move(const Maze& maze, float deltaTime, int dir);  // Moves Pac-Man based on direction and checks for collisions
     void draw() const;  // Draws Pac-Man on the screen
-    void setDirection(int dx, int dy);  // Sets the movement direction of Pac-Man
+    void setDirection(int dir);  // Sets the movement direction of Pac-Man
     bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
-
     int getX() const { return x; }
     int getY() const { return y; }
 
 private:
-    int x, y;  // Current position of Pac-Man
-    int dx, dy;  // Direction of Pac-Man's movement
+    float x, y;  // Current position of Pac-Man
+    float dx, dy;  // Direction of Pac-Man's movement
     int radius;  // Radius for drawing Pac-Man
+    float speed;  // Movement speed in pixels per second
+    float timeSinceLastMove;  // Timer to track movement updates
 
     void handleMazeCollision(const Maze& maze);  // Handles collisions with the maze
 };

@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Constructor
-Game::Game() : window(800, 600, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr) {}
+Game::Game() : window(800, 600, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0) {}
 
 // Destructor
 Game::~Game() {
@@ -34,8 +34,6 @@ void Game::initialize() {
     }
 }
 
-
-
 // Main game loop
 void Game::run() {
     while (isRunning && !window.ShouldClose()) {
@@ -54,29 +52,30 @@ void Game::handleInput() {
     }
 
     if (IsKeyPressed(KEY_RIGHT)) {
-        pacMan->setDirection(1, 0);  // Move right once
-        std::cout << "Right key pressed" << std::endl;
+        //pacMan->setDirection(1, 0);  // Move right
+        dir = 1;
     } else if (IsKeyPressed(KEY_LEFT)) {
-        pacMan->setDirection(-1, 0);  // Move left once
-        std::cout << "Left key pressed" << std::endl;
+       // pacMan->setDirection(-1, 0);  // Move left
+        dir = 2;
     } else if (IsKeyPressed(KEY_UP)) {
-        pacMan->setDirection(0, -1);  // Move up once
-        std::cout << "Up key pressed" << std::endl;
+        //pacMan->setDirection(0, -1);  // Move up
+        dir = 3;
     } else if (IsKeyPressed(KEY_DOWN)) {
-        pacMan->setDirection(0, 1);  // Move down once
-        std::cout << "Down key pressed" << std::endl;
+        //pacMan->setDirection(0, 1);  // Move down
+        dir = 4;
     }
 }
 
 void Game::update() {
-    pacMan->move(*maze);  // Update Pac-Man's position by tile
-
-    checkCollisions();  // Check for tile-based collisions
+    float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+    pacMan->move(*maze, deltaTime, dir);  // Update Pac-Man's position
+    checkCollisions();  // Check for collisions
 }
+
 
 void Game::render() {
     window.BeginDrawing();
-    window.ClearBackground(RAYWHITE);
+    window.ClearBackground(BLACK);
 
     maze->draw();  // Draw the maze (based on tile grid)
     pacMan->draw();  // Draw Pac-Man (based on tile)
