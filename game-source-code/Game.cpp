@@ -10,9 +10,6 @@ Game::~Game() {
     // Clean up dynamically allocated memory
     delete maze;
     delete pacMan;
-    for (auto ghost : ghosts) {
-        delete ghost;
-    }
 }
 
 void Game::initialize() {
@@ -72,9 +69,6 @@ void Game::handleInput() {
 
 void Game::update() {
     pacMan->move(*maze);  // Update Pac-Man's position by tile
-    for (auto& ghost : ghosts) {
-        ghost->move(*maze, *pacMan);  // Update each ghost's position
-    }
 
     checkCollisions();  // Check for tile-based collisions
 }
@@ -85,9 +79,6 @@ void Game::render() {
 
     maze->draw();  // Draw the maze (based on tile grid)
     pacMan->draw();  // Draw Pac-Man (based on tile)
-    for (auto& ghost : ghosts) {
-        ghost->draw();  // Draw each ghost (based on tile)
-    }
 
     window.EndDrawing();
 }
@@ -95,13 +86,7 @@ void Game::render() {
 
 
 void Game::checkCollisions() {
-    for (auto& ghost : ghosts) {
-        if (pacMan->checkCollision(*ghost)) {
-            std::cout << "Collision detected with Ghost at Tile ("
-                      << ghost->getX() / 32 << ", " << ghost->getY() / 32 << ")" << std::endl;
-            isRunning = false;  // Stop the game if Pac-Man collides with a ghost
-        }
-    }
+    
 }
 
 

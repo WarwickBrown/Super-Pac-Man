@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "PacMan.h"
+#include "Ghost.h"
 #include "Maze.h"
 
 // Test Pac-Man Movement within the Maze
@@ -34,6 +35,42 @@ TEST_CASE("PacMan Movement") {
         pacMan.move(maze);  // Move Pac-Man
         CHECK(pacMan.getY() == 33);  // Expect Pac-Man to move down to (1,2), so y = 64
         CHECK(pacMan.getX() == 32);  // X should remain the same
+    }
+}
+
+
+// Test Ghost Movement and Collision with Maze
+TEST_CASE("Ghost Movement") {
+    Maze maze;  // Create a maze instance
+    Ghost ghost(32, 32);  // Ghost starts at (64, 64) pixels, corresponding to grid (2, 2)
+    PacMan pacMan(64, 64);  // Pac-Man starts at (32, 32) pixels, corresponding to grid (1, 1)
+
+    SUBCASE("Move Right into Empty Space") {
+        ghost.setDirection(1, 0);  // Set direction to right
+        ghost.move(maze, pacMan);  // Move ghost
+        CHECK(ghost.getX() == 96);  // Ghost should move to the right (3, 2), so x = 96
+        CHECK(ghost.getY() == 64);  // Y should remain the same
+    }
+
+    SUBCASE("Move Left into Wall") {
+        ghost.setDirection(-1, 0);  // Set direction to left
+        ghost.move(maze, pacMan);  // Move ghost
+        CHECK(ghost.getX() == 64);  // Ghost should not move into the wall at (1, 2), so x = 64
+        CHECK(ghost.getY() == 64);  // Y should remain the same
+    }
+
+    SUBCASE("Move Down into Empty Space") {
+        ghost.setDirection(0, 1);  // Set direction to down
+        ghost.move(maze, pacMan);  // Move ghost
+        CHECK(ghost.getY() == 96);  // Ghost should move down to (2, 3), so y = 96
+        CHECK(ghost.getX() == 64);  // X should remain the same
+    }
+
+    SUBCASE("Move Up into Wall") {
+        ghost.setDirection(0, -1);  // Set direction to up
+        ghost.move(maze, pacMan);  // Move ghost
+        CHECK(ghost.getY() == 64);  // Ghost should not move into the wall at (2, 1), so y = 64
+        CHECK(ghost.getX() == 64);  // X should remain the same
     }
 }
 

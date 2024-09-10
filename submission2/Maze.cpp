@@ -4,7 +4,7 @@
 #include <raylib-cpp.hpp>
 
 // Constructor
-Maze::Maze() : width(0), height(0), startX(1), startY(1) {
+Maze::Maze() : width(0), height(0), startX(1), startY(1), ghostStartX(5), ghostStartY(5) {
     initializeDefaultMaze();  // Initialize a simple default maze for testing
 }
 
@@ -32,6 +32,41 @@ void Maze::initializeDefaultMaze() {
 
     // Make sure the start position at (1, 1) is not a wall
     layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
+
+    // // Set additional walls
+    // layout[2][2] = Cell(CellType::Wall);
+    // layout[3][2] = Cell(CellType::Wall);
+    // layout[4][4] = Cell(CellType::Wall);
+    // layout[5][6] = Cell(CellType::Wall);
+
+    // // Set fruits and keys
+    // layout[2][3] = Cell(CellType::Fruit);
+    // layout[3][5] = Cell(CellType::Key);
+}
+
+// Loads maze layout from a file
+void Maze::loadFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open maze file: " << filename << std::endl;
+        return;
+    }
+
+    file >> width >> height;
+    layout = std::vector<std::vector<Cell>>(height, std::vector<Cell>(width, Cell(CellType::Empty)));
+
+    char cellChar;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            file >> cellChar;
+            switch (cellChar) {
+                case '#': layout[y][x] = Cell(CellType::Wall); break;
+                case '.': layout[y][x] = Cell(CellType::Fruit); break;
+                case 'K': layout[y][x] = Cell(CellType::Key); break;
+                default: layout[y][x] = Cell(CellType::Empty); break;
+            }
+        }
+    }
 }
 
 // Draws the maze on the screen
@@ -41,6 +76,12 @@ void Maze::draw() const {
             switch (layout[y][x].type) {
                 case CellType::Wall:
                     DrawRectangle(x * 32, y * 32, 32, 32, DARKGRAY);
+                    break;
+                case CellType::Fruit:
+                    DrawCircle(x * 32 + 16, y * 32 + 16, 8, ORANGE);
+                    break;
+                case CellType::Key:
+                    DrawCircle(x * 32 + 16, y * 32 + 16, 8, YELLOW);
                     break;
                 default:
                     break;
@@ -81,3 +122,12 @@ int Maze::getStartY() const {
     return startY;
 }
 
+// Returns starting X position for Ghost
+int Maze::getGhostStartX() const {
+    return ghostStartX;
+}
+
+// Returns starting Y position for Ghost
+int Maze::getGhostStartY() const {
+    return ghostStartY;
+}

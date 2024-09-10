@@ -5,7 +5,6 @@
 #include <raylib-cpp.hpp>
 #include "Maze.h"
 #include "PacMan.h"
-#include "Ghost.h"
 
 class Game {
 public:
@@ -23,7 +22,6 @@ public:
 private:
     Maze* maze;  // Pointer to the maze
     PacMan* pacMan;  // Pointer to Pac-Man
-    std::vector<Ghost*> ghosts; // Vector of ghosts
     bool isRunning;  // Game running state
     raylib::Window window;  // Game window
 
