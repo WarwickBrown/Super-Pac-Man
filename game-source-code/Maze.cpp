@@ -4,8 +4,8 @@
 #include <raylib-cpp.hpp>
 
 // Constructor
-Maze::Maze() : width(0), height(0), startX(1), startY(1) {
-    initializeDefaultMaze();  // Initialize a simple default maze for testing
+Maze::Maze() : width(0), height(0), startX(10), startY(10) {
+    initializeCustomWalls();  // Initialize a simple default maze for testing
 }
 
 // Destructor
@@ -14,51 +14,72 @@ Maze::~Maze() {
 }
 
 // Initializes a default maze layout for testing
-void Maze::initializeDefaultMaze() {
-    // Simple 10x10 maze layout for testing purposes
-    width = 10;
-    height = 10;
-    layout = std::vector<std::vector<Cell>>(height, std::vector<Cell>(width, Cell(CellType::Empty)));
+// void Maze::initializeDefaultMaze() {
+//     // Simple 10x10 maze layout for testing purposes
+//     width = 10;
+//     height = 10;
+//     layout = std::vector<std::vector<Cell>>(height, std::vector<Cell>(width, Cell(CellType::Empty)));
 
-    // Set maze walls
-    for (int i = 0; i < width; i++) {
-        layout[0][i] = Cell(CellType::Wall);
-        layout[height - 1][i] = Cell(CellType::Wall);
-    }
-    for (int i = 0; i < height; i++) {
-        layout[i][0] = Cell(CellType::Wall);
-        layout[i][width - 1] = Cell(CellType::Wall);
-    }
+//     // Set maze walls
+//     for (int i = 0; i < width; i++) {
+//         layout[0][i] = Cell(CellType::Wall);
+//         layout[height - 1][i] = Cell(CellType::Wall);
+//     }
+//     for (int i = 0; i < height; i++) {
+//         layout[i][0] = Cell(CellType::Wall);
+//         layout[i][width - 1] = Cell(CellType::Wall);
+//     }
 
-    // Make sure the start position at (1, 1) is not a wall
-    layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
+//     // Make sure the start position at (1, 1) is not a wall
+//     layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
+// }
+
+void Maze::initializeCustomWalls() {
+    // Add custom rectangles to the walls vector
+    walls.push_back(Rectangle{0, 0, 10, 900});     // Left wall
+    walls.push_back(Rectangle{0, 0, 1600, 10});    // Top wall
+    walls.push_back(Rectangle{1590, 0, 10, 900});  // Right wall
+    walls.push_back(Rectangle{0, 890, 1600, 10});  // Bottom wall
 }
 
 // Draws the maze on the screen
 // We might need to make vertical and horizontal walls for pixel system
 // Maybe two types of wall, wall vert and wall hori
 void Maze::draw() const {
-    DrawRectangle(0, 0, 10, 900, raylib::Color::DarkBlue());
-    DrawRectangle(0, 0, 1600, 10, raylib::Color::DarkBlue());
-    DrawRectangle(1590, 0, 10, 900, raylib::Color::DarkBlue());
-    DrawRectangle(0, 890, 1600, 10, raylib::Color::DarkBlue());
+    for (const auto& wall : walls) {
+        DrawRectangleRec(wall, raylib::Color::DarkBlue());
+    }
 }
 
-// Checks if the given position is a wall
-bool Maze::isWall(int x, int y) const {
-    raylib::Rectangle placement{x, y, 1, 1};
-    raylib::Vector2 posi{x, y};
-    if(placement.CheckCollision(posi, 1))
-    {
-        return false;
+// Checks if Pac-Man is colliding with any wall in the custom walls
+bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
+    // Loop through all custom walls in the vector and check for collisions
+    for (const auto& wall : walls) {
+        if (CheckCollisionCircleRec({ static_cast<float>((pacmanX * 32)), static_cast<float>((pacmanY * 32)) }, pacmanRadius, wall)) {
+            std::cout << "Collision" << std::endl;
+            std::cout << "Ball Position: (" << pacmanX*32 << ", " << pacmanY*32 << ")\n";
+            std::cout << "Object Position: (" << wall.x << ", " << wall.y << ", width: " << wall.width << ", height: " << wall.height << ")\n";
+
+            return true;  // Collision detected
+        }
     }
-    return true;
+    return false;  // No collision detected
+}
+
+// Checks if Pac-Man is colliding with a given rectangle
+bool Maze::isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const {
+    return CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, rect);
 }
 
 // Returns the type of cell at the position
-CellType Maze::getCellType(int x, int y) const {
-    if (x < 0 || x >= width || y < 0 || y >= height) return CellType::Wall;
-    return layout[y][x].type;
+// CellType Maze::getCellType(int x, int y) const {
+//     if (x < 0 || x >= width || y < 0 || y >= height) return CellType::Wall;
+//     return layout[y][x].type;
+// }
+
+// Getter to access the walls vector (if needed elsewhere)
+const std::vector<Rectangle>& Maze::getWalls() const {
+    return walls;
 }
 
 // Returns maze width
