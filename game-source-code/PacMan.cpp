@@ -23,12 +23,12 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     //int gridX = static_cast<int>(newX) / 16;
     //int gridY = static_cast<int>(newY) / 16;
 
-    std::cout << "New Position: (" << newX << ", " << newY << ")\n";  // Debug output
+    // std::cout << "New Position: (" << newX << ", " << newY << ")\n";  // Debug output
     //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
-    if (!maze.isWall(newX, newY)) {
-        x += dx*0.5;
-        y += dy*0.5;
+    if (!maze.isWall(newX, newY, radius)) {
+        x += dx*0.1;
+        y += dy*0.1;
     }
 }
 
@@ -123,15 +123,16 @@ void PacMan::setDirection(int dir) {
 
 // Checks for collisions with the maze
 bool PacMan::checkCollision(const Maze& maze) const {
-    return maze.isWall(x / 32, y / 32);
+    return maze.isWall(x / 32, y / 32, radius);
 }
 
 // Handles collisions with the maze
 void PacMan::handleMazeCollision(const Maze& maze) {
     // Check if next position is a wall
-    if (maze.isWall(x / 32 + dx, y / 32 + dy)) {
+    if (maze.isWall(x / 32 + dx, y / 32 + dy, radius)) {
         dx = 0;
         dy = 0;  // Stop Pac-Man's movement
+        cout << "Hit wall" << endl;
     }
 }
 
