@@ -40,6 +40,7 @@ void Maze::initializeCustomWalls() {
     walls.push_back(Rectangle{0, 0, 1600, 10});    // Top wall
     walls.push_back(Rectangle{1590, 0, 10, 900});  // Right wall
     walls.push_back(Rectangle{0, 890, 1600, 10});  // Bottom wall
+    walls.push_back(Rectangle{500,100,1000,10});
 }
 
 // Draws the maze on the screen
@@ -55,9 +56,9 @@ void Maze::draw() const {
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
     // Loop through all custom walls in the vector and check for collisions
     for (const auto& wall : walls) {
-        if (CheckCollisionCircleRec({ static_cast<float>((pacmanX * 32) + 32), static_cast<float>((pacmanY * 32) + 32) }, pacmanRadius, wall)) {
+        if (CheckCollisionCircleRec({ static_cast<float>((pacmanX)), static_cast<float>((pacmanY)) }, pacmanRadius, wall)) {
             std::cout << "Collision" << std::endl;
-            std::cout << "Ball Position: (" << pacmanX*32 << ", " << pacmanY*32 << ")\n";
+            std::cout << "Ball Position: (" << (pacmanX) << ", " << (pacmanY) << ")\n";
             std::cout << "Object Position: (" << wall.x << ", " << wall.y << ", width: " << wall.width << ", height: " << wall.height << ")\n";
 
             return true;  // Collision detected

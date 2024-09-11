@@ -6,7 +6,7 @@ using namespace std;
 
 // Constructor
 PacMan::PacMan(int startX, int startY) 
-    : x(startX), y(startY), dx(0), dy(0), speed(50) {}
+    : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {}
 
 // Destructor
 PacMan::~PacMan() {
@@ -27,8 +27,8 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
     if (!maze.isWall(newX, newY, radius)) {
-        x += dx*0.01;
-        y += dy*0.01;
+        x += dx*0.1;
+        y += dy*0.1;
     }
 }
 
@@ -48,8 +48,10 @@ int PacMan::draw(int frame, int dir) const {
     }
 
     // Convert tile coordinates to pixel coordinates
-    double pixelX = x * 32;
-    double pixelY = y * 32;
+    double pixelX = x - 43;
+    double pixelY = y - 50;
+
+    cout << radius << endl;
 
     // Begin blending for transparency
     BeginBlendMode(BLEND_ALPHA);
@@ -124,15 +126,5 @@ void PacMan::setDirection(int dir) {
 // Checks for collisions with the maze
 bool PacMan::checkCollision(const Maze& maze) const {
     return maze.isWall(x / 32, y / 32, radius);
-}
-
-// Handles collisions with the maze
-void PacMan::handleMazeCollision(const Maze& maze) {
-    // Check if next position is a wall
-    if (maze.isWall(x / 32 + dx, y / 32 + dy, radius)) {
-        dx = 0;
-        dy = 0;  // Stop Pac-Man's movement
-        cout << "Hit wall" << endl;
-    }
 }
 

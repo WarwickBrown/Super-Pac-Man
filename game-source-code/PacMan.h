@@ -22,12 +22,12 @@ private:
     int radius;  // Radius for drawing Pac-Man
     float speed;  // Movement speed in pixels per second
     float timeSinceLastMove;  // Timer to track movement updates
-    Texture2D manLeft = LoadTexture("../assets/pacmenLeft.png");
-    Texture2D manRight = LoadTexture("../assets/pacmenRight.png");
-    Texture2D manUp = LoadTexture("../assets/pacmenUp.png");
-    Texture2D manDown = LoadTexture("../assets/pacmenDown.png");
+    Texture2D manLeft = LoadTexture("../resources/pacman-images/pacmenLeft.png");
+    Texture2D manRight = LoadTexture("../resources/pacman-images/pacmenRight.png");
+    Texture2D manUp = LoadTexture("../resources/pacman-images/pacmenUp.png");
+    Texture2D manDown = LoadTexture("../resources/pacman-images/pacmenDown.png");
 
-    void handleMazeCollision(const Maze& maze);  // Handles collisions with the maze
+
 };
 
 #endif // PACMAN_H

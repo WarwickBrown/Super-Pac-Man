@@ -85,6 +85,7 @@ void Game::render() {
 
 
 // For checking collisions with ghosts later
+// Maybe we should check pacman collisions here too
 void Game::checkCollisions() {
     
 }
