@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Constructor
-Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0) {}
+Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0), frame(0) {}
 
 // Destructor
 Game::~Game() {
@@ -78,7 +78,7 @@ void Game::render() {
     window.ClearBackground(BLACK);
 
     maze->draw();  // Draw the maze (based on tile grid)
-    pacMan->draw();  // Draw Pac-Man (based on tile)
+    frame = pacMan->draw(frame, dir);  // Draw Pac-Man (based on tile)
 
     window.EndDrawing();
 }
@@ -125,4 +125,5 @@ void Game::initializeGameObjects() {
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Initialize Pac-Man at the maze start
     //ghosts.push_back(new Ghost(maze->getGhostStartX(), maze->getGhostStartY()));  // Initialize ghost(s)
 }
+
 

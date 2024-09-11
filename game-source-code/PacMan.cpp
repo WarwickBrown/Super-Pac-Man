@@ -27,17 +27,73 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
     if (!maze.isWall(newX, newY)) {
-        x += dx*0.01;
-        y += dy*0.01;
+        x += dx*0.1;
+        y += dy*0.1;
     }
 }
 
-// Draws Pac-Man on the screen
-void PacMan::draw() const {
-    double pixelX = x * 32;  // Convert tile coordinates to pixel coordinates
+int PacMan::draw(int frame, int dir) const {
+    // Load the texture
+    Texture2D manLeft = LoadTexture("../assets/pacmenLeft.png");
+    Texture2D manRight = LoadTexture("../assets/pacmenRight.png");
+    // Update the timer and frame
+    static float timer = 0;
+    timer += GetFrameTime();
+    
+    if (timer >= 0.2f) {
+        timer = 0.0f;
+        frame = (frame + 1) % 6;
+    }
+
+    // Convert tile coordinates to pixel coordinates
+    double pixelX = x * 32;
     double pixelY = y * 32;
-    DrawCircle(pixelX + 16, pixelY + 16, 16, YELLOW);  // Draw Pac-Man centered in the tile    
+
+    // Begin blending for transparency
+    BeginBlendMode(BLEND_ALPHA);
+
+   if(dir == 2){
+        DrawTextureRec(
+        manLeft, 
+        Rectangle{(float)(manLeft.width / 6) * frame, 0, (float)(manLeft.width / 6), (float)(manLeft.height)}, 
+        Vector2{(float)pixelX, (float)pixelY}, 
+        RAYWHITE
+    );
+    }
+    else if(dir == 1){
+        DrawTextureRec(
+        manRight, 
+        Rectangle{(float)(manRight.width / 6) * frame, 0, (float)(manRight.width / 6), (float)(manRight.height)}, 
+        Vector2{(float)pixelX, (float)pixelY}, 
+        RAYWHITE
+    );
+    }
+    else if(dir == 3){
+        DrawTextureRec(
+        manLeft, 
+        Rectangle{(float)(manLeft.width / 6) * frame, 0, (float)(manLeft.width / 6), (float)(manLeft.height)}, 
+        Vector2{(float)pixelX, (float)pixelY}, 
+        RAYWHITE
+    );
+    }
+    else if(dir == 4){
+        DrawTextureRec(
+        manRight, 
+        Rectangle{(float)(manRight.width / 6) * frame, 0, (float)(manRight.width / 6), (float)(manRight.height)}, 
+        Vector2{(float)pixelX, (float)pixelY}, 
+        RAYWHITE
+    );
+    }
+
+    // End blending
+    EndBlendMode();
+
+    // Return the updated frame
+    return frame;
 }
+
+
+
 
 // Sets the movement direction of Pac-Man
 void PacMan::setDirection(int dir) {

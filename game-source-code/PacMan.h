@@ -10,7 +10,7 @@ public:
     ~PacMan();  // Destructor
 
     void move(const Maze& maze, float deltaTime, int dir);  // Moves Pac-Man based on direction and checks for collisions
-    void draw() const;  // Draws Pac-Man on the screen
+    int draw(int frame, int dir) const;  // Draws Pac-Man on the screen
     void setDirection(int dir);  // Sets the movement direction of Pac-Man
     bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
     int getX() const { return x; }
