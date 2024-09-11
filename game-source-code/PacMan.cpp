@@ -27,8 +27,8 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
     if (!maze.isWall(newX, newY)) {
-        x += dx*0.1;
-        y += dy*0.1;
+        x += dx*0.5;
+        y += dy*0.5;
     }
 }
 
@@ -36,6 +36,8 @@ int PacMan::draw(int frame, int dir) const {
     // Load the texture
     Texture2D manLeft = LoadTexture("../assets/pacmenLeft.png");
     Texture2D manRight = LoadTexture("../assets/pacmenRight.png");
+    Texture2D manUp = LoadTexture("../assets/pacmenUp.png");
+    Texture2D manDown = LoadTexture("../assets/pacmenDown.png");
     // Update the timer and frame
     static float timer = 0;
     timer += GetFrameTime();
@@ -70,16 +72,16 @@ int PacMan::draw(int frame, int dir) const {
     }
     else if(dir == 3){
         DrawTextureRec(
-        manLeft, 
-        Rectangle{(float)(manLeft.width / 6) * frame, 0, (float)(manLeft.width / 6), (float)(manLeft.height)}, 
+        manUp, 
+        Rectangle{(float)(manUp.width / 6) * frame, 0, (float)(manUp.width / 6), (float)(manUp.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
     );
     }
     else if(dir == 4){
         DrawTextureRec(
-        manRight, 
-        Rectangle{(float)(manRight.width / 6) * frame, 0, (float)(manRight.width / 6), (float)(manRight.height)}, 
+        manDown, 
+        Rectangle{(float)(manDown.width / 6) * frame, 0, (float)(manDown.width / 6), (float)(manDown.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
     );
