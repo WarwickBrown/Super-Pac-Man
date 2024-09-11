@@ -27,17 +27,17 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     //std::cout << "Grid Position: (" << gridX << ", " << gridY << ")\n";  // Debug output
 
     if (!maze.isWall(newX, newY, radius)) {
-        x += dx*0.1;
-        y += dy*0.1;
+        x += dx*0.01;
+        y += dy*0.01;
     }
 }
 
 int PacMan::draw(int frame, int dir) const {
     // Load the texture
-    Texture2D manLeft = LoadTexture("../assets/pacmenLeft.png");
-    Texture2D manRight = LoadTexture("../assets/pacmenRight.png");
-    Texture2D manUp = LoadTexture("../assets/pacmenUp.png");
-    Texture2D manDown = LoadTexture("../assets/pacmenDown.png");
+    //Texture2D manLeft = LoadTexture("../assets/pacmenLeft.png");
+    //Texture2D manRight = LoadTexture("../assets/pacmenRight.png");
+    //Texture2D manUp = LoadTexture("../assets/pacmenUp.png");
+    //Texture2D manDown = LoadTexture("../assets/pacmenDown.png");
     // Update the timer and frame
     static float timer = 0;
     timer += GetFrameTime();
