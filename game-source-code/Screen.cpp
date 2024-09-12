@@ -79,7 +79,7 @@ bool Screen::endGame() {
 
     // Give some time for the player to see the Game Over screen
     // Use a timed delay or wait for a key press to exit
-    for (int i = 0; i < 180; i++) {  // Show "Game Over" for ~3 seconds at 60 FPS
+    for (int i = 0; i < 1800; i++) {  // Show "Game Over" for ~3 seconds at 60 FPS
         window.BeginDrawing();
         window.ClearBackground(RAYWHITE);
         DrawText("Game Over!", window.GetWidth() / 2 - 100, window.GetHeight() / 2, 20, RED);

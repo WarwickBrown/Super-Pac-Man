@@ -3,7 +3,6 @@
 
 #include <raylib-cpp.hpp>
 #include "Maze.h"
-#include "PacManScreen.h"
 #include <tuple>
 
 // Forward declaration of Screen
@@ -24,14 +23,11 @@ public:
 
 
 private:
-    Maze* maze;  // Pointer to the maze
-    PacManScreen* screen;
     std::vector<Texture2D> pacManImages;
     float x, y;  // Current position of Pac-Man
     float dx, dy;  // Direction of Pac-Man's movement
     int radius;  // Radius for drawing Pac-Man
     float speed;  // Movement speed in pixels per second
-    float timeSinceLastMove;  // Timer to track movement updates
     Texture2D manLeft = LoadTexture("../resources/pacman-images/pacmenLeft.png");
     Texture2D manRight = LoadTexture("../resources/pacman-images/pacmenRight.png");
     Texture2D manUp = LoadTexture("../resources/pacman-images/pacmenUp.png");
