@@ -18,6 +18,7 @@ public:
     bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
     int getX() const { return x; }
     int getY() const { return y; }
+    int getRadius() const { return radius; }
     const std::vector<Texture2D>& getPacmanImages() const;
     void initilisePacManImages();
 
