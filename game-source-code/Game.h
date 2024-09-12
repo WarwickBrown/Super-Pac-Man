@@ -5,6 +5,7 @@
 #include <raylib-cpp.hpp>
 #include "Maze.h"
 #include "PacMan.h"
+#include "Screen.h"
 
 class Game {
 public:
@@ -22,6 +23,7 @@ public:
 private:
     Maze* maze;  // Pointer to the maze
     PacMan* pacMan;  // Pointer to Pac-Man
+    Screen* screen;
     bool isRunning;  // Game running state
     int dir;
     raylib::Window window;  // Game window

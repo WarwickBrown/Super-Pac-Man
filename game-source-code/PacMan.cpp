@@ -1,12 +1,13 @@
 #include "PacMan.h"
+#include "PacManScreen.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
+#include <tuple>
 
 using namespace std;
 
 // Constructor
-PacMan::PacMan(int startX, int startY) 
-    : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {}
+PacMan::PacMan(int startX, int startY) : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {}
 
 // Destructor
 PacMan::~PacMan() {
@@ -26,7 +27,7 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     }
 }
 
-int PacMan::draw(int frame, int dir) const {
+int PacMan::location(int frame, int dir) const {
     // Update the timer and frame
     static float timer = 0;
     timer += GetFrameTime();
@@ -39,19 +40,15 @@ int PacMan::draw(int frame, int dir) const {
     // Convert tile coordinates to pixel coordinates
     double pixelX = x - 43;
     double pixelY = y - 50;
-
-    cout << radius << endl;
-
-    // Begin blending for transparency
-    BeginBlendMode(BLEND_ALPHA);
-
-   if(dir == 2){
+    
+    //screen->draw(frame, pixelX, pixelY, dir);
+    if(dir == 2){
         DrawTextureRec(
         manLeft, 
         Rectangle{(float)(manLeft.width / 6) * frame, 0, (float)(manLeft.width / 6), (float)(manLeft.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
-    );
+        );
     }
     else if(dir == 1){
         DrawTextureRec(
@@ -59,7 +56,7 @@ int PacMan::draw(int frame, int dir) const {
         Rectangle{(float)(manRight.width / 6) * frame, 0, (float)(manRight.width / 6), (float)(manRight.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
-    );
+        );
     }
     else if(dir == 3){
         DrawTextureRec(
@@ -67,7 +64,7 @@ int PacMan::draw(int frame, int dir) const {
         Rectangle{(float)(manUp.width / 6) * frame, 0, (float)(manUp.width / 6), (float)(manUp.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
-    );
+        );
     }
     else if(dir == 4){
         DrawTextureRec(
@@ -75,18 +72,11 @@ int PacMan::draw(int frame, int dir) const {
         Rectangle{(float)(manDown.width / 6) * frame, 0, (float)(manDown.width / 6), (float)(manDown.height)}, 
         Vector2{(float)pixelX, (float)pixelY}, 
         RAYWHITE
-    );
+        );
     }
-
-    // End blending
-    EndBlendMode();
-
     // Return the updated frame
     return frame;
 }
-
-
-
 
 // Sets the movement direction of Pac-Man
 void PacMan::setDirection(int dir) {
