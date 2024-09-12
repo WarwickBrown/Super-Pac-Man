@@ -4,6 +4,7 @@
 #include <vector>
 #include <raylib-cpp.hpp>
 #include "Maze.h"
+#include "PacMan.h"
 
 // Forward declaration of PacMan
 
@@ -14,8 +15,8 @@ public:
 
     void startScreen();
     void render();
-    void drawPacMan(int frame, int pixelX, int pixelY, int dir);
-    void drawMaze() const;
+    void drawPacMan(const PacMan& pacman, int frame, int dir);
+    void drawMaze(const Maze& maze);
     bool endGame();
 
 private:

@@ -19,10 +19,14 @@ public:
     bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
     int getX() const { return x; }
     int getY() const { return y; }
+    const std::vector<Texture2D>& getPacmanImages() const;
+    void initilisePacManImages();
+
 
 private:
     Maze* maze;  // Pointer to the maze
     PacManScreen* screen;
+    std::vector<Texture2D> pacManImages;
     float x, y;  // Current position of Pac-Man
     float dx, dy;  // Direction of Pac-Man's movement
     int radius;  // Radius for drawing Pac-Man

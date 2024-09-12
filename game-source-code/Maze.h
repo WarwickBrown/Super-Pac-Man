@@ -33,8 +33,8 @@ public:
     int getHeight() const; // Returns maze height
     int getStartX() const; // Returns starting X position for Pac-Man
     int getStartY() const; // Returns starting Y position for Pac-Man
-    const std::vector<Rectangle>& getWalls() const;  // To access the walls vector
-    void initializeCustomWalls();  // Function to add custom rectangles
+    const std::vector<Rectangle>& getWalls() const;  // Read-only access  // To access the walls vector
+    void initialiseCustomWalls();  // Function to add custom rectangles
     bool isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const;
     bool isWall(int pacmanX, int pacmanY, int pacmanRadius) const;
 

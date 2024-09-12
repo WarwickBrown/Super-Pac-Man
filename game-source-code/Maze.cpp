@@ -5,7 +5,7 @@
 
 // Constructor
 Maze::Maze() : width(0), height(0), startX(10), startY(10) {
-    initializeCustomWalls();  // Initialize a simple default maze for testing
+    initialiseCustomWalls();  // Initialize a simple default maze for testing
 }
 
 // Destructor
@@ -34,7 +34,7 @@ Maze::~Maze() {
 //     layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
 // }
 
-void Maze::initializeCustomWalls() {
+void Maze::initialiseCustomWalls() {
     // Add custom rectangles to the walls vector
     walls.push_back(Rectangle{0, 0, 10, 900});     // Left wall
     walls.push_back(Rectangle{0, 0, 1600, 10});    // Top wall
@@ -46,11 +46,13 @@ void Maze::initializeCustomWalls() {
 // Draws the maze on the screen
 // We might need to make vertical and horizontal walls for pixel system
 // Maybe two types of wall, wall vert and wall hori
-void Maze::draw() const {
-    for (const auto& wall : walls) {
-        DrawRectangleRec(wall, raylib::Color::DarkBlue());
-    }
-}
+// void Maze::draw() const {
+//     for (const auto& wall : walls) {
+//         DrawRectangleRec(wall, raylib::Color::DarkBlue());
+//     }
+// }
+
+
 
 // Checks if Pac-Man is colliding with any wall in the custom walls
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {

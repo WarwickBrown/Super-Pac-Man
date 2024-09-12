@@ -7,7 +7,9 @@
 using namespace std;
 
 // Constructor
-PacMan::PacMan(int startX, int startY) : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {}
+PacMan::PacMan(int startX, int startY) : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {
+    initilisePacManImages();
+}
 
 // Destructor
 PacMan::~PacMan() {
@@ -15,7 +17,6 @@ PacMan::~PacMan() {
 }
 
 // Moves Pac-Man based on direction and checks for collisions
-// This needs to be over-hauled
 void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     setDirection(dir);
     float newX = x + dx;
@@ -27,55 +28,29 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     }
 }
 
+const std::vector<Texture2D>& PacMan::getPacmanImages() const {
+    return pacManImages;
+}
+
+void PacMan::initilisePacManImages() {
+    pacManImages.push_back(manLeft);
+    pacManImages.push_back(manRight);
+    pacManImages.push_back(manUp);
+    pacManImages.push_back(manDown);
+}
+
+
 int PacMan::location(int frame, int dir) const {
     // Update the timer and frame
     static float timer = 0;
     timer += GetFrameTime();
-    
+
     if (timer >= 0.2f) {
         timer = 0.0f;
-        frame = (frame + 1) % 6;
+        frame = (frame + 1) % 6;  // Cycle through frames
     }
 
-    // Convert tile coordinates to pixel coordinates
-    double pixelX = x - 43;
-    double pixelY = y - 50;
-    
-    //screen->draw(frame, pixelX, pixelY, dir);
-    if(dir == 2){
-        DrawTextureRec(
-        manLeft, 
-        Rectangle{(float)(manLeft.width / 6) * frame, 0, (float)(manLeft.width / 6), (float)(manLeft.height)}, 
-        Vector2{(float)pixelX, (float)pixelY}, 
-        RAYWHITE
-        );
-    }
-    else if(dir == 1){
-        DrawTextureRec(
-        manRight, 
-        Rectangle{(float)(manRight.width / 6) * frame, 0, (float)(manRight.width / 6), (float)(manRight.height)}, 
-        Vector2{(float)pixelX, (float)pixelY}, 
-        RAYWHITE
-        );
-    }
-    else if(dir == 3){
-        DrawTextureRec(
-        manUp, 
-        Rectangle{(float)(manUp.width / 6) * frame, 0, (float)(manUp.width / 6), (float)(manUp.height)}, 
-        Vector2{(float)pixelX, (float)pixelY}, 
-        RAYWHITE
-        );
-    }
-    else if(dir == 4){
-        DrawTextureRec(
-        manDown, 
-        Rectangle{(float)(manDown.width / 6) * frame, 0, (float)(manDown.width / 6), (float)(manDown.height)}, 
-        Vector2{(float)pixelX, (float)pixelY}, 
-        RAYWHITE
-        );
-    }
-    // Return the updated frame
-    return frame;
+    return frame;  // Return the updated frame number
 }
 
 // Sets the movement direction of Pac-Man

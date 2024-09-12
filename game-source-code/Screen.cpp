@@ -1,4 +1,6 @@
 #include "Screen.h"
+#include "Maze.h"
+#include "PacMan.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -27,13 +29,44 @@ void Screen::render() {
     window.EndDrawing();
 }
 
-void Screen::drawPacMan(int frame, int pixelX, int pixelY, int dir){
+// Function to draw Pac-Man at a specific location and frame
+void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
+    const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get Pac-Man textures
 
+    // Convert tile coordinates to pixel coordinates and apply some shift
+    double pixelX = pacman.getX() - 43;  // Adjust this based on desired position
+    double pixelY = pacman.getY() - 50;
+
+    // Choose the appropriate texture based on the direction
+    Texture2D texture = pacManImages[0];  // Default texture is manLeft
+    if (dir == 1) { 
+        texture = pacManImages[1];  // manRight
+    } else if (dir == 3) {
+        texture = pacManImages[2];  // manUp
+    } else if (dir == 4) {
+        texture = pacManImages[3];  // manDown
+    }
+
+    // Calculate which part of the texture to draw (based on frame)
+    Rectangle sourceRec = {
+        (float)(texture.width / 6) * frame,  // Frame width
+        0, 
+        (float)(texture.width / 6),          // Single frame width
+        (float)(texture.height)              // Full height
+    };
+
+    // Draw the texture with the frame at the correct position
+    DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
 }
 
-void Screen::drawMaze() const {
-    for (const auto& wall : maze->getWalls()) {
-        DrawRectangleRec(wall, raylib::Color::DarkBlue());
+// Function to draw the maze walls on the screen
+void Screen::drawMaze(const Maze& maze) {
+    // Get the vector of wall rectangles from the maze
+    const std::vector<Rectangle>& walls = maze.getWalls();
+
+    // Iterate over each wall in the vector and draw it
+    for (const auto& wall : walls) {
+        DrawRectangleRec(wall, DARKBLUE);  // Draw each wall with a dark blue color
     }
 }
 

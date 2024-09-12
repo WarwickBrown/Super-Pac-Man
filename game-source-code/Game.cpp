@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Screen.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -37,8 +38,10 @@ void Game::run() {
         handleInput();   // Handle user input
         update();        // Update game state
         screen->render();        // Render the game
-        maze->draw();  // Draw the maze (based on tile grid)
+        screen->drawMaze(*maze);
+        //maze->draw();  // Draw the maze (based on tile grid)
         frame = pacMan->location(frame, dir);  //
+        screen->drawPacMan(*pacMan, frame, dir);    
     }
     isRunning = screen->endGame();  // End the game
 }
