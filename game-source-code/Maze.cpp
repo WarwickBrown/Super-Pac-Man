@@ -71,13 +71,6 @@ bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
 bool Maze::isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const {
     return CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, rect);
 }
-
-// Returns the type of cell at the position
-// CellType Maze::getCellType(int x, int y) const {
-//     if (x < 0 || x >= width || y < 0 || y >= height) return CellType::Wall;
-//     return layout[y][x].type;
-// }
-
 // Getter to access the walls vector (if needed elsewhere)
 const std::vector<Rectangle>& Maze::getWalls() const {
     return walls;

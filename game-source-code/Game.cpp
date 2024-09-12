@@ -124,7 +124,6 @@ void Game::endGame() {
 void Game::initializeGameObjects() {
     maze = new Maze();  // Initialize the maze
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Initialize Pac-Man at the maze start
-    //ghosts.push_back(new Ghost(maze->getGhostStartX(), maze->getGhostStartY()));  // Initialize ghost(s)
 }
 
 
