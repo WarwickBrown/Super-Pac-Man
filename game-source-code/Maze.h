@@ -5,21 +5,21 @@
 #include <string>
 #include <raylib-cpp.hpp>
 
-// Enum to define different cell types in the maze
-enum class CellType {
-    Empty,  // Walkable space
-    Wall,   // Wall blocking movement
-    Fruit,  // Fruit to be collected
-    Key     // Key to unlock doors
-};
+// // Enum to define different cell types in the maze
+// enum class CellType {
+//     Empty,  // Walkable space
+//     Wall,   // Wall blocking movement
+//     Fruit,  // Fruit to be collected
+//     Key     // Key to unlock doors
+// };
 
-// Cell structure to represent each cell in the maze
-struct Cell {
-    CellType type;  // Type of the cell (Empty, Wall, Fruit, Key)
-    bool isVisited; // To keep track of visited cells if needed
+// // Cell structure to represent each cell in the maze
+// struct Cell {
+//     CellType type;  // Type of the cell (Empty, Wall, Fruit, Key)
+//     bool isVisited; // To keep track of visited cells if needed
 
-    Cell(CellType type = CellType::Empty) : type(type), isVisited(false) {}
-};
+//     Cell(CellType type = CellType::Empty) : type(type), isVisited(false) {}
+// };
 
 class Maze {
 public:
@@ -28,7 +28,7 @@ public:
 
     void draw() const;  // Draws the maze on the screen
     bool isWall(int x, int y) const;  // Checks if the given position is a wall
-    CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
+    //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
     int getWidth() const;  // Returns maze width
     int getHeight() const; // Returns maze height
     int getStartX() const; // Returns starting X position for Pac-Man
@@ -39,7 +39,7 @@ public:
     bool isWall(int pacmanX, int pacmanY, int pacmanRadius) const;
 
 private:
-    std::vector<std::vector<Cell>> layout;  // 2D grid representing the maze
+    //std::vector<std::vector<Cell>> layout;  // 2D grid representing the maze
     std::vector<Rectangle> walls;  // Vector to hold all wall rectangles
     int width;   // Width of the maze
     int height;  // Height of the maze
