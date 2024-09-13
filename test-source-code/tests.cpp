@@ -3,8 +3,6 @@
 #include "PacMan.h"
 #include "Maze.h"
 
-#include <raylib-cpp.hpp>
-
 // Test collision detection with custom walls
 TEST_CASE("Maze collision detection") {
     Maze maze;
@@ -21,37 +19,35 @@ TEST_CASE("Maze collision detection") {
 
 // Tests if direction input changes direction of PacMan
 TEST_CASE("Direction Options Not Working") {
-    PacMan pacman(5, 5);
+    PacMan pacman(0, 0);
+    int num = 1;
 
     // Simulates for when PacMan is moving Right
     pacman.setDirection(1);
+    CHECK(num == 1);
     CHECK(pacman.getDX() == 1);
     CHECK(pacman.getDY() == 0);
-    std::cout << "Direction Right: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
     // Simulates for when PacMan is moving Left
     pacman.setDirection(2);
     CHECK(pacman.getDX() == -1);
     CHECK(pacman.getDY() == 0);
-    std::cout << "Direction Left: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
     // Simulates for when PacMan is moving Down
     pacman.setDirection(3);
     CHECK(pacman.getDX() == 0);
     CHECK(pacman.getDY() == 1);
-    std::cout << "Direction Down: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
     // Simulates for when PacMan is moving Up
     pacman.setDirection(4);
     CHECK(pacman.getDX() == 0);
     CHECK(pacman.getDY() == -1);
-    std::cout << "Direction Up: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 }
 
 
 // Tests if the PacMan mas moved
 TEST_CASE("Movement Options Not Working"){
-    PacMan pacman(1, 3);
+    PacMan pacman(0, 0);
     Maze maze;
 
     // Simulates for a PacMan movement 

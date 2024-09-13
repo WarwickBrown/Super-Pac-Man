@@ -5,7 +5,9 @@
 #include <tuple>
 
 // Constructor
-Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0), frame(0) {}
+Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0), frame(0) {
+    
+}
 // Destructor
 Game::~Game() {
     // Clean up dynamically allocated memory
@@ -15,7 +17,7 @@ Game::~Game() {
 
 void Game::initialize() {
     initializeGameObjects();
-
+    pacMan->initilisePacManImages();
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
         screen->startScreen();
     }
@@ -34,6 +36,7 @@ void Game::initialize() {
 void Game::run() {
     int pixelX;
     int pixelY;
+
     while (isRunning && !window.ShouldClose()) {
         handleInput();   // Handle user input
         update();        // Update game state
