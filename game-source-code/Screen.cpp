@@ -1,6 +1,7 @@
 #include "Screen.h"
 #include "Maze.h"
 #include "PacMan.h"
+#include "Game.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -13,9 +14,8 @@ Screen::~Screen() {
     delete maze;
 }
 
-void Screen::startScreen()
+void Screen::startScreen(const Game* game)
 {
-    Texture2D keyInputs = LoadTexture("../resources/pacman-images/inputkeys.png");
     window.BeginDrawing();
     window.ClearBackground(BLACK);  // Set background to black for a Pac-Man-like feel
 
@@ -39,8 +39,8 @@ void Screen::startScreen()
              window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 20) / 2, 
              window.GetHeight() - 50, 20, LIGHTGRAY);  // Arrow keys instruction
 
-     DrawTexture(keyInputs, window.GetWidth() / 2 - keyInputs.width / 2, window.GetHeight() / 2 - keyInputs.height + 450, WHITE);
-     
+    drawGameImages(*game);
+
 
     // Background Animation: You could add subtle animations like moving dots or Pac-Man-style graphics to give the screen more energy.
     // Sound Effects or Music: Adding a looping retro game soundtrack or sound effect could enhance the arcade atmosphere.
@@ -86,6 +86,11 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
 
     // Draw the texture with the frame at the correct position
     DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
+}
+
+void Screen::drawGameImages(const Game& game) {
+    const std::vector<Texture2D>& gameImages = game.getGameImages();
+    DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
 
 // Function to draw the maze walls on the screen

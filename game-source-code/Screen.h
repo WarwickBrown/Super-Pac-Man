@@ -5,18 +5,21 @@
 #include <raylib-cpp.hpp>
 #include "Maze.h"
 #include "PacMan.h"
+#include "Game.h"
 
-// Forward declaration of PacMan
+// Forward declaration of the Game class
+class Game;
 
 class Screen {
 public:
     Screen();  // Constructor
     ~Screen(); // Destructor
 
-    void startScreen();
+    void startScreen(const Game* game);
     void render();
     void drawPacMan(const PacMan& pacman, int frame, int dir);
     void drawMaze(const Maze& maze);
+    void drawGameImages(const Game& game);
     bool endGame();
 
 private:

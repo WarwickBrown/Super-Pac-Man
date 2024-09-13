@@ -13,13 +13,15 @@ Game::~Game() {
     // Clean up dynamically allocated memory
     delete maze;
     delete pacMan;
+    delete screen;
 }
 
 void Game::initialize() {
     initializeGameObjects();
+    initiliseGameImages();
     pacMan->initilisePacManImages();
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        screen->startScreen();
+        screen->startScreen(this);
     }
 
     if (IsKeyPressed(KEY_ENTER)) {
@@ -82,6 +84,16 @@ void Game::update() {
 void Game::initializeGameObjects() {
     maze = new Maze();  // Initialize the maze
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Initialize Pac-Man at the maze start
+    screen = new Screen();
+}
+
+void Game::initiliseGameImages() {
+    Texture2D arrowKeyImage = LoadTexture("../resources/pacman-images/inputkeys.png");
+    gameImages.push_back(arrowKeyImage);
+}
+
+const std::vector<Texture2D>& Game::getGameImages() const {
+    return gameImages;
 }
 
 
