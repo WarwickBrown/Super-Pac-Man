@@ -20,29 +20,34 @@ TEST_CASE("Maze collision detection") {
 }
 
 // Tests if direction input changes direction of PacMan
-TEST_CASE("Direction Options Not Working"){
-    PacMan pacman(1, 3);
+TEST_CASE("Direction Options Not Working") {
+    PacMan pacman(5, 5);
 
-    // Simulates for when the PacMan is moving Right
-    int dir = 1;
-    pacman.setDirection(dir);
-    CHECK(pacman.getDX() != 1 && pacman.getDY() != 0);
+    // Simulates for when PacMan is moving Right
+    pacman.setDirection(1);
+    CHECK(pacman.getDX() == 1);
+    CHECK(pacman.getDY() == 0);
+    std::cout << "Direction Right: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
-    // Simulates for when the PacMan is moving Left
-    dir = 2;
-    pacman.setDirection(dir);
-    CHECK(pacman.getDX() != -1 && pacman.getDY() != 0);
+    // Simulates for when PacMan is moving Left
+    pacman.setDirection(2);
+    CHECK(pacman.getDX() == -1);
+    CHECK(pacman.getDY() == 0);
+    std::cout << "Direction Left: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
-    // Simulates for when the PacMan is moving Down
-    dir = 3;
-    pacman.setDirection(dir);
-    CHECK(pacman.getDX() != 0 && pacman.getDY() != -1);
+    // Simulates for when PacMan is moving Down
+    pacman.setDirection(3);
+    CHECK(pacman.getDX() == 0);
+    CHECK(pacman.getDY() == 1);
+    std::cout << "Direction Down: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 
-    // Simulates for when the PacMan is moving Up
-    dir = 4;
-    pacman.setDirection(dir);
-    CHECK(pacman.getDX() != 0 && pacman.getDY() != 1);
+    // Simulates for when PacMan is moving Up
+    pacman.setDirection(4);
+    CHECK(pacman.getDX() == 0);
+    CHECK(pacman.getDY() == -1);
+    std::cout << "Direction Up: DX=" << pacman.getDX() << ", DY=" << pacman.getDY() << std::endl;
 }
+
 
 // Tests if the PacMan mas moved
 TEST_CASE("Movement Options Not Working"){
@@ -54,7 +59,8 @@ TEST_CASE("Movement Options Not Working"){
     float initialX = pacman.getX();
     float initialY = pacman.getY();
     pacman.move(maze, pacman.getFrames(), 1);
-    CHECK((initialX + pacman.getDX()*0.1) == pacman.getX() && (initialY + pacman.getDY()*0.1) == pacman.getY());
+    CHECK((initialX + pacman.getDX()*0.1) == pacman.getX());
+    CHECK((initialY + pacman.getDY()*0.1) == pacman.getY());
 }
 
 
