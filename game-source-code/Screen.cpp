@@ -15,6 +15,7 @@ Screen::~Screen() {
 
 void Screen::startScreen()
 {
+    Texture2D keyInputs = LoadTexture("../resources/pacman-images/inputkeys.png");
     window.BeginDrawing();
     window.ClearBackground(BLACK);  // Set background to black for a Pac-Man-like feel
 
@@ -37,6 +38,9 @@ void Screen::startScreen()
     DrawText("Use the ARROW KEYS to change direction", 
              window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 20) / 2, 
              window.GetHeight() - 50, 20, LIGHTGRAY);  // Arrow keys instruction
+
+     DrawTexture(keyInputs, window.GetWidth() / 2 - keyInputs.width / 2, window.GetHeight() / 2 - keyInputs.height + 450, WHITE);
+     
 
     // Background Animation: You could add subtle animations like moving dots or Pac-Man-style graphics to give the screen more energy.
     // Sound Effects or Music: Adding a looping retro game soundtrack or sound effect could enhance the arcade atmosphere.

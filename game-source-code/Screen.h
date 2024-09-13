@@ -24,8 +24,8 @@ private:
     bool isRunning;  // Game running state
     int dir;
     raylib::Window window;  // Game window
-
     void initializeGameObjects(); // Initializes game objects
+    
 };
 
 #endif // SCREEN_H

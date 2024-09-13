@@ -22,7 +22,6 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     if (!maze.isWall(newX, newY, radius)) {
         x += dx*speed*deltaTime;
         y += dy*speed*deltaTime;
-        cout << x << endl;
     }
 }
 
