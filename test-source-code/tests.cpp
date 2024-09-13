@@ -18,13 +18,11 @@ TEST_CASE("Maze collision detection") {
 }
 
 // Tests if direction input changes direction of PacMan
-TEST_CASE("Direction Options Not Working") {
+TEST_CASE("PacMan Direction Options Not Working") {
     PacMan pacman(0, 0);
-    int num = 1;
 
     // Simulates for when PacMan is moving Right
     pacman.setDirection(1);
-    CHECK(num == 1);
     CHECK(pacman.getDX() == 1);
     CHECK(pacman.getDY() == 0);
 
@@ -46,17 +44,38 @@ TEST_CASE("Direction Options Not Working") {
 
 
 // Tests if the PacMan mas moved
-TEST_CASE("Movement Options Not Working"){
-    PacMan pacman(0, 0);
+TEST_CASE("PacMan Movement Options Testing"){
+    PacMan pacman(100, 100);
     Maze maze;
+    maze.initialiseCustomWalls();
 
-    // Simulates for a PacMan movement 
-    pacman.setDirection(1);
-    float initialX = pacman.getX();
-    float initialY = pacman.getY();
+    // Checks for valid right movement
+    int initialX = pacman.getX();
+    int initialY = pacman.getY();
     pacman.move(maze, pacman.getFrames(), 1);
-    CHECK((initialX + pacman.getDX()*0.1) == pacman.getX());
-    CHECK((initialY + pacman.getDY()*0.1) == pacman.getY());
+    CHECK((initialX + pacman.getDX()*pacman.getFrames()*pacman.getSpeed()) == pacman.getX());
+    CHECK((initialY + pacman.getDY()*pacman.getFrames()*pacman.getSpeed()) == pacman.getY());
+
+    // Checks for valid left movement
+    initialX = pacman.getX();
+    initialY = pacman.getY();
+    pacman.move(maze, pacman.getFrames(), 2);
+    CHECK((initialX + pacman.getDX()*pacman.getFrames()*pacman.getSpeed()) == pacman.getX());
+    CHECK((initialY + pacman.getDY()*pacman.getFrames()*pacman.getSpeed()) == pacman.getY());
+
+    // Checks for valid up movement
+    initialX = pacman.getX();
+    initialY = pacman.getY();
+    pacman.move(maze, pacman.getFrames(), 3);
+    CHECK((initialX + pacman.getDX()*pacman.getFrames()*pacman.getSpeed()) == pacman.getX());
+    CHECK((initialY + pacman.getDY()*pacman.getFrames()*pacman.getSpeed()) == pacman.getY());
+
+    // Checks for valid down movement
+    initialX = pacman.getX();
+    initialY = pacman.getY();
+    pacman.move(maze, pacman.getFrames(), 4);
+    CHECK((initialX + pacman.getDX()*pacman.getFrames()*pacman.getSpeed()) == pacman.getX());
+    CHECK((initialY + pacman.getDY()*pacman.getFrames()*pacman.getSpeed()) == pacman.getY());
 }
 
 

@@ -16,13 +16,16 @@ public:
     int location(int frame, int dir) const;  // Draws Pac-Man on the screen
     void setDirection(int dir);  // Sets the movement direction of Pac-Man
     // bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
-    int getX() const { return x; }
-    int getY() const { return y; }
+    float getX() const { return x; }
+    float getY() const { return y; }
+    void setX(const float newX) {};
+    void setY(const float newY) {};
     int getDX() const { return dx; }
     int getDY() const { return dy; }
     int getFrames() const { return GetFrameTime(); }
     int getRadius() const { return radius; }
     const std::vector<Texture2D>& getPacmanImages() const;
+    int getSpeed(){ return speed; }
     void initilisePacManImages();
 
 private:

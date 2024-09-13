@@ -22,6 +22,7 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     if (!maze.isWall(newX, newY, radius)) {
         x += dx*speed*deltaTime;
         y += dy*speed*deltaTime;
+        cout << x << endl;
     }
 }
 
@@ -64,7 +65,6 @@ void PacMan::setDirection(int direction) {
         default: dx = 0; dy = 0;        // Default/fail case
     }
 }
-
 
 // Checks for collisions with the maze
 // bool PacMan::checkCollision(const Maze& maze) const {
