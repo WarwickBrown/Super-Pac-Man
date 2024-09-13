@@ -77,6 +77,6 @@ void PacMan::setDirection(int dir) {
 }
 
 // Checks for collisions with the maze
-bool PacMan::checkCollision(const Maze& maze) const {
-    return maze.isWall(x / 32, y / 32, radius);
-}
+// bool PacMan::checkCollision(const Maze& maze) const {
+//     return maze.isWall(x / 32, y / 32, radius);
+// }

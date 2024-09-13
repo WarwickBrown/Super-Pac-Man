@@ -17,7 +17,7 @@ public:
     void handleInput();  // Handles user input
     void update();       // Updates game state
     void render();       // Renders game objects
-    void checkCollisions(); // Checks for collisions between objects
+    //void checkCollisions(); // Checks for collisions between objects
     void endGame();      // Ends the game
 
 private:

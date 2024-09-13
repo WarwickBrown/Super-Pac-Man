@@ -66,14 +66,14 @@ void Game::handleInput() {
 void Game::update() {
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, dir);  // Update Pac-Man's position
-    checkCollisions();  // Check for collisions
+    //checkCollisions();  // Check for collisions
 }
 
 // For checking collisions with ghosts later
 // Maybe we should check pacman collisions here too
-void Game::checkCollisions() {
+// void Game::checkCollisions() {
     
-}
+// }
 
 // Initialize game objects
 void Game::initializeGameObjects() {

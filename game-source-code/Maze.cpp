@@ -35,13 +35,42 @@ Maze::~Maze() {
 // }
 
 void Maze::initialiseCustomWalls() {
-    // Add custom rectangles to the walls vector
+    // Outer walls
     walls.push_back(Rectangle{0, 0, 10, 900});     // Left wall
     walls.push_back(Rectangle{0, 0, 1600, 10});    // Top wall
     walls.push_back(Rectangle{1590, 0, 10, 900});  // Right wall
     walls.push_back(Rectangle{0, 890, 1600, 10});  // Bottom wall
-    walls.push_back(Rectangle{500,100,1000,10});
-}
+
+    // // Horizontal walls (top section)
+    // walls.push_back(Rectangle{90, 90, 160, 10});   // Horizontal wall
+    // walls.push_back(Rectangle{400, 90, 240, 10});  // Horizontal wall
+    // walls.push_back(Rectangle{880, 90, 240, 10});  // Horizontal wall
+    // walls.push_back(Rectangle{1240, 90, 160, 10}); // Horizontal wall
+
+    // // Vertical walls (sides)
+    // walls.push_back(Rectangle{90, 90, 10, 240});   // Vertical wall
+    // walls.push_back(Rectangle{400, 90, 10, 240});  // Vertical wall
+    // walls.push_back(Rectangle{1240, 90, 10, 240}); // Vertical wall
+
+    // // Central box (approximate the inner box)
+    // walls.push_back(Rectangle{720, 320, 160, 10}); // Top horizontal wall of central box
+    // walls.push_back(Rectangle{720, 560, 160, 10}); // Bottom horizontal wall of central box
+    // walls.push_back(Rectangle{720, 320, 10, 240}); // Left vertical wall of central box
+    // walls.push_back(Rectangle{870, 320, 10, 240}); // Right vertical wall of central box
+
+    // // Bottom horizontal walls (mirroring top layout)
+    // walls.push_back(Rectangle{90, 720, 160, 10});   // Horizontal wall
+    // walls.push_back(Rectangle{400, 720, 240, 10});  // Horizontal wall
+    // walls.push_back(Rectangle{880, 720, 240, 10});  // Horizontal wall
+    // walls.push_back(Rectangle{1240, 720, 160, 10}); // Horizontal wall
+
+    // // More vertical walls for more complexity
+    // walls.push_back(Rectangle{240, 320, 10, 160});   // Vertical wall
+    // walls.push_back(Rectangle{1240, 320, 10, 160});  // Vertical wall
+
+    // Continue mapping the rest of the maze
+};
+
 
 // Draws the maze on the screen
 // We might need to make vertical and horizontal walls for pixel system

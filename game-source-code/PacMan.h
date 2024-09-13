@@ -15,7 +15,7 @@ public:
     void move(const Maze& maze, float deltaTime, int dir);  // Moves Pac-Man based on direction and checks for collisions
     int location(int frame, int dir) const;  // Draws Pac-Man on the screen
     void setDirection(int dir);  // Sets the movement direction of Pac-Man
-    bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
+    // bool checkCollision(const Maze& maze) const;  // Checks for collisions with the maze
     int getX() const { return x; }
     int getY() const { return y; }
     int getDX() const { return dx; }

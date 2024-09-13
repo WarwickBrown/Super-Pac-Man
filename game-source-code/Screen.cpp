@@ -91,7 +91,7 @@ void Screen::drawMaze(const Maze& maze) {
 
     // Iterate over each wall in the vector and draw it
     for (const auto& wall : walls) {
-        DrawRectangleRec(wall, DARKBLUE);  // Draw each wall with a dark blue color
+        DrawRectangleRec(wall, PINK);  // Draw each wall with a dark blue color
     }
 }
 
