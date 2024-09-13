@@ -36,12 +36,12 @@ TEST_CASE("Direction Options Not Working") {
     // Simulates for when PacMan is moving Down
     pacman.setDirection(3);
     CHECK(pacman.getDX() == 0);
-    CHECK(pacman.getDY() == 1);
+    CHECK(pacman.getDY() == -1);
 
     // Simulates for when PacMan is moving Up
     pacman.setDirection(4);
     CHECK(pacman.getDX() == 0);
-    CHECK(pacman.getDY() == -1);
+    CHECK(pacman.getDY() == 1);
 }
 
 
