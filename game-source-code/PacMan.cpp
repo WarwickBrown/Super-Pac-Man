@@ -6,7 +6,7 @@
 using namespace std;
 
 // Constructor
-PacMan::PacMan(int startX, int startY) : x(100), y(100), dx(0), dy(0), speed(250), radius(37) {
+PacMan::PacMan(int startX, int startY) : x(100), y(100), dx(0), dy(0), speed(250), radius(39) {
     initilisePacManImages();
 }
 
@@ -22,8 +22,8 @@ void PacMan::move(const Maze& maze, float deltaTime, int dir) {
     float newY = y + dy;
 
     if (!maze.isWall(newX, newY, radius)) {
-        x += dx*0.5;
-        y += dy*0.5;
+        x += dx*0.1;
+        y += dy*0.1;
     }
 }
 

@@ -34,8 +34,8 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
     const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get Pac-Man textures
 
     // Convert tile coordinates to pixel coordinates and apply some shift
-    double pixelX = pacman.getX() - 43;  // Adjust this based on desired position
-    double pixelY = pacman.getY() - 50;
+    double pixelX = pacman.getX() - 39;  // Adjust this based on desired position
+    double pixelY = pacman.getY() - 40;
 
     // Choose the appropriate texture based on the direction
     Texture2D texture = pacManImages[0];  // Default texture is manLeft
