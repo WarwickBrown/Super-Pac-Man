@@ -77,7 +77,7 @@ void Game::handleInput() {
     default:
         // No direction change
         break;
-}
+    }
 }
 
 // Updates the game state (e.g., Pac-Man's position)
