@@ -15,9 +15,9 @@ PacMan::~PacMan() {
 
 // Moves Pac-Man based on the direction and checks for wall collisions.
 // If Pac-Man does not collide with a wall, his position is updated.
-void PacMan::move(const Maze& maze, float deltaTime, int dir) {
+void PacMan::move(const Maze& maze, float deltaTime, int direction) {
     // Set the movement direction (based on input direction).
-    setDirection(dir);
+    setDirection(direction);
 
     // Calculate the new position.
     float newX = x + dx;
@@ -53,7 +53,7 @@ void PacMan::initilisePacManImages() {
 
 // Manages Pac-Man's animation frame timing and returns the appropriate frame index for rendering.
 // This method controls how quickly Pac-Man's sprite animation changes as he moves.
-int PacMan::location(int frame, int dir) const {
+int PacMan::location(int frame) const {
     // Timer to control the speed of the frame change.
     static float timer = 0;
     timer += GetFrameTime();  // Add time since the last frame.
@@ -72,10 +72,24 @@ int PacMan::location(int frame, int dir) const {
 // This updates `dx` and `dy`, which represent movement in the x and y directions.
 void PacMan::setDirection(int direction) {
     switch (direction) {
-        case 1: dx = 1; dy = 0; break;  // Right movement
-        case 2: dx = -1; dy = 0; break; // Left movement
-        case 3: dx = 0; dy = -1; break; // Down movement
-        case 4: dx = 0; dy = 1; break;  // Up movement
-        default: dx = 0; dy = 0;        // No movement (None)
+        case 1: 
+            dx = 1; 
+            dy = 0; 
+            break;  // Right movement
+        case 2: 
+            dx = -1; 
+            dy = 0; 
+            break; // Left movement
+        case 3: 
+            dx = 0; 
+            dy = -1; 
+            break; // Down movement
+        case 4: 
+            dx = 0; 
+            dy = 1; 
+            break;  // Up movement
+        default: 
+            dx = 0; 
+            dy = 0;        // No movement (None)
     }
 }

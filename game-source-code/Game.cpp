@@ -5,7 +5,7 @@
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), dir(0), frame(0) {}
+Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
@@ -43,8 +43,8 @@ void Game::run() {
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
         screen->drawMaze(*maze);  // Draw the maze
-        frame = pacMan->location(frame, dir);  // Update Pac-Man's frame for animation
-        screen->drawPacMan(*pacMan, frame, dir);  // Draw Pac-Man with its current frame and direction
+        frame = pacMan->location(frame);  // Update Pac-Man's frame for animation
+        screen->drawPacMan(*pacMan, frame, direction);  // Draw Pac-Man with its current frame and direction
     }
     
     // Display the end game screen and stop running the game
@@ -53,28 +53,37 @@ void Game::run() {
 
 // Handles user input for controlling Pac-Man's direction
 void Game::handleInput() {
+    auto key = GetKeyPressed();
     // Check if the ESCAPE key is pressed to exit the game
-    if (IsKeyDown(KEY_ESCAPE)) {
+    if (key == KEY_ESCAPE) {
         isRunning = false;  // Stop the game loop
         return;
     }
 
     // Detect arrow key presses to update Pac-Man's direction
-    if (IsKeyPressed(KEY_RIGHT)) {
-        dir = 1;  // Move right
-    } else if (IsKeyPressed(KEY_LEFT)) {
-        dir = 2;  // Move left
-    } else if (IsKeyPressed(KEY_UP)) {
-        dir = 3;  // Move up
-    } else if (IsKeyPressed(KEY_DOWN)) {
-        dir = 4;  // Move down
-    }
+    switch (key) {
+    case KEY_RIGHT:
+        direction = 1;  // Move right
+        break;
+    case KEY_LEFT:
+        direction = 2;  // Move left
+        break;
+    case KEY_UP:
+        direction = 3;  // Move up
+        break;
+    case KEY_DOWN:
+        direction = 4;  // Move down
+        break;
+    default:
+        // No direction change
+        break;
+}
 }
 
 // Updates the game state (e.g., Pac-Man's position)
 void Game::update() {
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
-    pacMan->move(*maze, deltaTime, dir);  // Move Pac-Man based on the direction and elapsed time
+    pacMan->move(*maze, deltaTime, direction);  // Move Pac-Man based on the direction and elapsed time
 }
 
 // Initializes game objects like the maze, Pac-Man, and the screen

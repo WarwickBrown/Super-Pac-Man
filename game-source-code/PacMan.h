@@ -11,10 +11,10 @@ public:
     ~PacMan();  // Destructor: Cleans up resources if necessary (not much needed here)
 
     // Moves Pac-Man based on the direction and delta time, and checks for collisions with the maze
-    void move(const Maze& maze, float deltaTime, int dir);  
+    void move(const Maze& maze, float deltaTime, int direction);  
 
     // Determines and returns the current animation frame based on direction and frame time
-    int location(int frame, int dir) const;
+    int location(int frame) const;
 
     // Sets Pac-Man's movement direction based on the input direction (e.g., left, right, etc.)
     void setDirection(int dir);
