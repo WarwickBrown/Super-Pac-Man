@@ -36,16 +36,14 @@ Maze::~Maze() {
 
 void Maze::initialiseCustomWalls() {
     // Outer walls
-    walls.push_back(Rectangle{0, 0, 10, 900});     // Left wall
-    walls.push_back(Rectangle{0, 0, 1600, 10});    // Top wall
-    walls.push_back(Rectangle{1590, 0, 10, 900});  // Right wall
-    walls.push_back(Rectangle{0, 890, 1600, 10});  // Bottom wall
+    walls.push_back(Rectangle{0, 0, 10, 1000});     // Left wall
+    walls.push_back(Rectangle{0, 0, 1720, 10});    // Top wall
+    walls.push_back(Rectangle{1710, 0, 10, 1000});  // Right wall
+    walls.push_back(Rectangle{0, 990, 1720, 10});  // Bottom wall
 
     // // Horizontal walls (top section)
-    // walls.push_back(Rectangle{90, 90, 160, 10});   // Horizontal wall
-    // walls.push_back(Rectangle{400, 90, 240, 10});  // Horizontal wall
-    // walls.push_back(Rectangle{880, 90, 240, 10});  // Horizontal wall
-    // walls.push_back(Rectangle{1240, 90, 160, 10}); // Horizontal wall
+    
+
 
     // // Vertical walls (sides)
     // walls.push_back(Rectangle{90, 90, 10, 240});   // Vertical wall
@@ -59,15 +57,115 @@ void Maze::initialiseCustomWalls() {
     // walls.push_back(Rectangle{870, 320, 10, 240}); // Right vertical wall of central box
 
     // // Bottom horizontal walls (mirroring top layout)
-    // walls.push_back(Rectangle{90, 720, 160, 10});   // Horizontal wall
-    // walls.push_back(Rectangle{400, 720, 240, 10});  // Horizontal wall
-    // walls.push_back(Rectangle{880, 720, 240, 10});  // Horizontal wall
-    // walls.push_back(Rectangle{1240, 720, 160, 10}); // Horizontal wall
+    walls.push_back(Rectangle{90, 900, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{90, 90, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{10, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{270, 900, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{90, 720, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{90, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{180, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{270, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{270, 540, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{180, 180, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{180, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{360, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{360, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{360, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{540, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{450, 720, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{540, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{630, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{450, 540, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{540, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{450, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{360, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{720, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{900, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{720, 900, 270, 10});   // Horizontal wall
+    walls.push_back(Rectangle{720, 540, 270, 10});   // Horizontal wall
+    walls.push_back(Rectangle{720, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{900, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{720, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{900, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{990, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1080, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1170, 720, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1530, 90, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1260, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1350, 900, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1350, 540, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1620, 810, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1530, 900, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1530, 720, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1080, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1170, 540, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1170, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1260, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1260, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1350, 540, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1440, 630, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1440, 450, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1350, 360, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1260, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1530, 270, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1440, 180, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1530, 90, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{1080, 270, 90, 10});   // Horizontal wall
 
     // // More vertical walls for more complexity
     // walls.push_back(Rectangle{240, 320, 10, 160});   // Vertical wall
-    // walls.push_back(Rectangle{1240, 320, 10, 160});  // Vertical wall
+    walls.push_back(Rectangle{180, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{270, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{90, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{90, 360, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{90, 90, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{180, 270, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{270, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{270, 90, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{360, 90, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{450, 90, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{540, 0, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{450, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{720, 0, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{630, 90, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{360, 540, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{630, 900, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{540, 720, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{630, 90, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{540, 450, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{630, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{450, 360, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1080, 900, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{630, 450, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{720, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{990, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{720, 450, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{990, 450, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{810, 270, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{900, 270, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1080, 450, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1080, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1260, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1170, 720, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1620, 90, 10, 90});  // Vertical wall
+    walls.push_back(Rectangle{1170, 0, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1080, 90, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{990, 0, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1440, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1530, 810, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1440, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1170, 450, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1260, 360, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1350, 540, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1620, 630, 10, 100});  // Vertical wall
+    walls.push_back(Rectangle{1620, 360, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1530, 270, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{1440, 90, 10, 280});  // Vertical wall
+    walls.push_back(Rectangle{1350, 90, 10, 190});  // Vertical wall
+    walls.push_back(Rectangle{1260, 90, 10, 100});  // Vertical wall
 
+    walls.push_back(Rectangle{810, 720, 100, 100});   // Block
+    walls.push_back(Rectangle{810, 90, 100, 100});   // Block
     // Continue mapping the rest of the maze
 };
 

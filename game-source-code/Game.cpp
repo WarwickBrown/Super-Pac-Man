@@ -5,7 +5,7 @@
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
+Game::Game() : window(1720, 1000, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
