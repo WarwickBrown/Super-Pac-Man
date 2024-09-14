@@ -7,35 +7,40 @@
 #include "PacMan.h"
 #include "Screen.h"
 
-// Forward declaration of the Screen class
+// Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
+
 class Game {
 public:
-    Game();  // Constructor
-    ~Game(); // Destructor
+    Game();  // Constructor - Initializes game properties and sets up the game window
+    ~Game(); // Destructor - Cleans up dynamically allocated memory
 
-    void initialize();   // Initializes the game
-    void initiliseGameImages();
-    void run();          // Main game loop
-    void handleInput();  // Handles user input
-    void update();       // Updates game state
-    void render();       // Renders game objects
-    //void checkCollisions(); // Checks for collisions between objects
-    void endGame();      // Ends the game
-    const std::vector<Texture2D>& getGameImages() const;
+    void initialise();   // Initializes the game (calls functions to setup game objects, loads images, etc.)
+    void initiliseGameImages(); // Loads game images (like arrow keys) into a vector
+    void run();          // Main game loop - Handles input, updates the game state, and renders the game
+    void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
+    void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
+    void render();       // Renders game objects (maze, Pac-Man, etc.) on the screen
+    void endGame();      // Ends the game (shows game over screen or exits)
+    
+    const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
 
 private:
-    std::vector<Texture2D> gameImages;
-    Maze* maze;  // Pointer to the maze
-    PacMan* pacMan;  // Pointer to Pac-Man
-    Screen* screen;
-    bool isRunning;  // Game running state
-    int dir;
-    raylib::Window window;  // Game window
-    int frame;
-    Texture2D arrowKeyImage;
+    std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
+    
+    // Pointers to various game objects
+    Maze* maze;  // Pointer to the maze object
+    PacMan* pacMan;  // Pointer to the Pac-Man object
+    Screen* screen;  // Pointer to the screen object
+    
+    bool isRunning;  // Boolean to track whether the game is running or not
+    int dir;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
+    raylib::Window window;  // The game window where the game will be rendered
+    int frame;       // Current frame number (used for animation)
+    
+    Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 
-    void initializeGameObjects(); // Initializes game objects
+    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
 };
 
 #endif // GAME_H

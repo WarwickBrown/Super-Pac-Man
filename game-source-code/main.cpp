@@ -2,16 +2,18 @@
 #include <iostream>
 #include "Game.h"
 
-using namespace raylib; // import the raylib-cpp namespace into the global namespace
-
-
-// Predefined raylib-cpp colours can be found here:
-// https://robloach.github.io/raylib-cpp/classraylib_1_1_color.html#a3c177f10d10851fdf20d09fae83c8e19
-
+// Entry point of the program
 int main()
 {
+    // Create an instance of the Game class
     Game game;
-    game.initialize();
+
+    // Call the initialise method to set up the game objects, load images, and get ready for the game to start
+    game.initialise();
+
+    // Enter the main game loop, where the game is run until the player exits
     game.run();
+
+    // Return 0 to indicate successful completion of the program
     return 0;
 }

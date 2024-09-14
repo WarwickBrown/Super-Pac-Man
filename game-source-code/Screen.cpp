@@ -6,101 +6,104 @@
 #include <raylib-cpp.hpp>
 #include <iostream>
 
+// Constructor for Screen class
+Screen::Screen() 
+    : window(1600, 900, "Super Pac-Man"),  // Initialize window dimensions and title
+      isRunning(true),                     // Set initial game state to running
+      maze(nullptr),                       // Initialize maze pointer to nullptr
+      dir(0)                               // Initialize direction to 0 (no direction)
+{}
 
-Screen::Screen() : window(1600, 900, "Super Pac-Man"), isRunning(true), maze(nullptr), dir(0){}
-
+// Destructor for Screen class
 Screen::~Screen() {
-    // Clean up dynamically allocated memory
+    // Clean up dynamically allocated memory for the maze
     delete maze;
 }
 
-void Screen::startScreen(const Game* game)
-{
-    window.BeginDrawing();
-    window.ClearBackground(BLACK);  // Set background to black for a Pac-Man-like feel
+// Function to display the start screen with game instructions
+void Screen::startScreen(const Game* game) {
+    window.BeginDrawing();   // Start drawing the screen
+    window.ClearBackground(BLACK);  // Set background color to black
 
-    // Draw the title (Super Pac-Man) in yellow at the top
+    // Draw the title "Super Pac-Man" at the top in yellow
     DrawText("Super Pac-Man", 
-             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 60) / 2, 
-             window.GetHeight() / 4, 60, YELLOW);  // Title in Pac-Man yellow
+             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 60) / 2,  // Center the text horizontally
+             window.GetHeight() / 4, 60, YELLOW);  // Position text at 1/4th the window height
 
-    // Draw "Press ENTER to Start" below the title in white
+    // Draw "Press ENTER to Start" below the title in green
     DrawText("Press ENTER to Start", 
-             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 30) / 2, 
-             window.GetHeight() / 2 - 20, 30, GREEN);  // Main action prompt in white
+            window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 30) / 2, 
+            window.GetHeight() / 2 - 20, 30, GREEN);  
 
-    // Draw "Press ESC to Exit" below the start prompt in gray
+    // Draw "Press ESC to Exit" instruction in red
     DrawText("Press ESC to Exit", 
-             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 20) / 2, 
-             window.GetHeight() / 2 + 30, 20, RED);  // Exit instruction in gray
+            window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 20) / 2, 
+            window.GetHeight() / 2 + 30, 20, RED);
 
-    // Draw the arrow key instructions at the bottom
+    // Display arrow key instructions in light gray at the bottom of the screen
     DrawText("Use the ARROW KEYS to change direction", 
-             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 20) / 2, 
-             window.GetHeight() - 50, 20, LIGHTGRAY);  // Arrow keys instruction
+            window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 20) / 2, 
+            window.GetHeight() - 50, 20, LIGHTGRAY);
 
+    // Draw any game images (e.g., controls) on the start screen
     drawGameImages(*game);
 
-
-    // Background Animation: You could add subtle animations like moving dots or Pac-Man-style graphics to give the screen more energy.
-    // Sound Effects or Music: Adding a looping retro game soundtrack or sound effect could enhance the arcade atmosphere.
-    // Flashing Text: The "Press ENTER to Start" could flash or pulse to draw attention.
-    // Game Logo or Visuals: If you want to add an extra visual element, you could include an image or graphic representing Pac-Man (like a simple circle with a mouth) near the title.
-    // High Score Display: You could display high scores from previous sessions if that's a feature you plan to implement.
-
-    window.EndDrawing();
+    window.EndDrawing();  // Finish drawing the screen
 }
 
-
+// Function to render the screen with a black background
 void Screen::render() {
     window.BeginDrawing();
-    window.ClearBackground(BLACK);
+    window.ClearBackground(BLACK);  // Clear the screen with black background
     window.EndDrawing();
 }
 
-// Function to draw Pac-Man at a specific location and frame
+// Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
-    const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get Pac-Man textures
+    const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get textures for Pac-Man
 
-    // Convert tile coordinates to pixel coordinates and apply some shift
-    double pixelX = pacman.getX() - 40;  // Adjust this based on desired position
-    double pixelY = pacman.getY() - 40;
+    // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
+    double pixelX = pacman.getX() - 40;  // Adjust X position
+    double pixelY = pacman.getY() - 40;  // Adjust Y position
 
-    // Choose the appropriate texture based on the direction
-    Texture2D texture = pacManImages[0];  // Default texture is manLeft
+    // Select the appropriate texture based on the direction Pac-Man is moving
+    Texture2D texture = pacManImages[0];  // Default texture is for moving left
     if (dir == 1) { 
-        texture = pacManImages[1];  // manRight
+        texture = pacManImages[1];  // Texture for moving right
     } else if (dir == 3) {
-        texture = pacManImages[2];  // manUp
+        texture = pacManImages[2];  // Texture for moving up
     } else if (dir == 4) {
-        texture = pacManImages[3];  // manDown
+        texture = pacManImages[3];  // Texture for moving down
     }
 
-    // Calculate which part of the texture to draw (based on frame)
+    // Determine which part of the texture to draw (based on animation frame)
     Rectangle sourceRec = {
-        (float)(texture.width / 6) * frame,  // Frame width
+        (float)(texture.width / 6) * frame,  // Calculate width of a single frame
         0, 
-        (float)(texture.width / 6),          // Single frame width
-        (float)(texture.height)              // Full height
+        (float)(texture.width / 6),          // Width of a single frame
+        (float)(texture.height)              // Full height of the texture
     };
 
-    // Draw the texture with the frame at the correct position
+    // Draw Pac-Man's texture at the specified location and frame
     DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
 }
 
+// Function to draw additional images on the start screen (e.g., controls)
 void Screen::drawGameImages(const Game& game) {
-    const std::vector<Texture2D>& gameImages = game.getGameImages();
-    DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
+    const std::vector<Texture2D>& gameImages = game.getGameImages();  // Get game images
+    // Draw the image in the center of the screen with some vertical adjustment
+    DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
+                window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
 
-// Function to draw the maze walls on the screen
+// Function to draw the maze on the screen
 void Screen::drawMaze(const Maze& maze) {
-    // Get the vector of wall rectangles from the maze
+    // Get the vector of rectangles representing maze walls
     const std::vector<Rectangle>& walls = maze.getWalls();
 
-    // Iterate over each wall in the vector and draw it
+    // Draw each wall as a rectangle with a pink color
     for (const auto& wall : walls) {
-        DrawRectangleRec(wall, PINK);  // Draw each wall with a dark blue color
+        DrawRectangleRec(wall, PINK);  
     }
 }
 
