@@ -58,6 +58,11 @@ void Game::run() {
             fruit.draw();
         }
 
+        // Draw each ghost
+        for (const auto& ghost : ghosts) {
+            screen->drawGhost(ghost);
+        }
+
                 // If the game has been won, break the loop
         if (gameWon) {
             break;
@@ -72,10 +77,6 @@ void Game::run() {
             isRunning = screen->endGame();  
         }
 
-        // Draw each ghost
-        for (const auto& ghost : ghosts) {
-            screen->drawGhost(ghost);
-        }
 }
 
 
