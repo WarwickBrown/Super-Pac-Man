@@ -8,7 +8,7 @@
 
 // Constructor for Screen class
 Screen::Screen() 
-    : window(1720, 1000, "Super Pac-Man"),  // Initialize window dimensions and title
+    : window(1530, 890, "Super Pac-Man"),  // Initialize window dimensions and title
       isRunning(true),                     // Set initial game state to running
       maze(nullptr),                       // Initialize maze pointer to nullptr
       dir(0)                               // Initialize direction to 0 (no direction)
