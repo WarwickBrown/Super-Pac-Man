@@ -1,11 +1,12 @@
 #include "Game.h"
 #include "Screen.h"
+#include "Ghost.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : window(1720, 1000, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
+Game::Game() :isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
@@ -45,6 +46,11 @@ void Game::run() {
         screen->drawMaze(*maze);  // Draw the maze
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawPacMan(*pacMan, frame, direction);  // Draw Pac-Man with its current frame and direction
+
+                // Draw each ghost
+        for (const auto& ghost : ghosts) {
+            screen->drawGhost(ghost);
+        }
     }
     
     // Display the end game screen and stop running the game
@@ -113,6 +119,11 @@ void Game::update() {
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
+
+        // Update each ghost's position
+    for (auto& ghost : ghosts) {
+        ghost.move(*maze, deltaTime);
+    }
 }
 
 // For checking collisions with ghosts later
@@ -126,6 +137,10 @@ void Game::initialiseGameObjects() {
     maze = new Maze();  // Create and initialize the maze
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Create and initialize Pac-Man at the starting position
     screen = new Screen(); // Create and initialize the screen
+    // Add a vector to store Ghost objects
+    ghosts.push_back(Ghost(685, 445, 150.0f));  // Ghost 1 at (200, 200) with speed 150
+    ghosts.push_back(Ghost(765, 445, 150.0f));  // Ghost 2 at (400, 400) with speed 150
+    ghosts.push_back(Ghost(845, 445, 150.0f));  // Ghost 3 at (600, 600) with speed 150
 }
 
 // Initializes game images (like the arrow key instructions)

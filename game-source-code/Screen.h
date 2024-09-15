@@ -6,6 +6,7 @@
 #include "Maze.h"
 #include "PacMan.h"
 #include "Game.h"
+#include "Ghost.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -20,6 +21,7 @@ public:
     void render();                      // Clears the screen and prepares it for rendering
     void drawPacMan(const PacMan& pacman, int frame, int dir); // Draws Pac-Man at a specific location and frame
     void drawMaze(const Maze& maze);    // Draws the maze on the screen
+    void drawGhost(const Ghost& ghost);
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
     bool endGame();                     // Displays the end game screen and handles the end of the game
 

@@ -6,9 +6,11 @@
 #include "Maze.h"
 #include "PacMan.h"
 #include "Screen.h"
+#include "Ghost.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
+class Ghost;
 
 class Game {
 public:
@@ -32,7 +34,7 @@ private:
     Maze* maze;  // Pointer to the maze object
     PacMan* pacMan;  // Pointer to the Pac-Man object
     Screen* screen;  // Pointer to the screen object
-    
+    std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     bool isRunning;  // Boolean to track whether the game is running or not
     int direction;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
     int oldDirection = 2;
