@@ -158,3 +158,7 @@ bool Screen::endGame() {  // Accept score as a parameter to display
     CloseWindow();
     return false;  // Ensure the game loop stops
 }
+
+void Screen::drawGhost(const Ghost& ghost) {
+    DrawCircle(static_cast<int>(ghost.getX()), static_cast<int>(ghost.getY()), 34, RED);  // Draw the ghost as a red circle
+}

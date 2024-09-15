@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Screen.h"
+#include "Ghost.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -45,6 +46,11 @@ void Game::run() {
         screen->drawMaze(*maze);  // Draw the maze
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+
+        // Draw each ghost
+        for (const auto& ghost : ghosts) {
+            screen->drawGhost(ghost);
+        }
     }
     
     // Display the end game screen and stop running the game
@@ -113,6 +119,17 @@ void Game::update() {
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
+
+    for (auto& ghost : ghosts) {
+        ghost.move(*maze, deltaTime);
+
+        // Check for collision with Pac-Man
+        if (ghost.checkCollisionWithPacMan(*pacMan)) {
+            // Collision detected, end the game
+            isRunning = false;
+            return;
+        }
+    }
 }
 
 // For checking collisions with ghosts later
@@ -126,6 +143,10 @@ void Game::initialiseGameObjects() {
     maze = new Maze();  // Create and initialize the maze
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Create and initialize Pac-Man at the starting position
     screen = new Screen(); // Create and initialize the screen
+
+    ghosts.push_back(Ghost(685, 445, 150.0f));  // Ghost 1 at (200, 200) with speed 150
+    ghosts.push_back(Ghost(765, 445, 150.0f));  // Ghost 2 at (400, 400) with speed 150
+    ghosts.push_back(Ghost(845, 445, 150.0f));  // Ghost 3 at (600, 600) with speed 150
 }
 
 // Initializes game images (like the arrow key instructions)
