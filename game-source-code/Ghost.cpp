@@ -104,3 +104,13 @@ int Ghost::getDX() const {
 int Ghost::getDY() const {
     return dy;
 }
+
+
+// Check if the ghost is colliding with Pac-Man
+bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
+    // Calculate the distance between the ghost and Pac-Man
+    float distance = std::sqrt(std::pow(x - pacman.getX(), 2) + std::pow(y - pacman.getY(), 2));
+
+    // Check if the distance is less than the sum of the radii (indicating a collision)
+    return distance < (radius + pacman.getRadius());
+}

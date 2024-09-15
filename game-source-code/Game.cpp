@@ -124,6 +124,18 @@ void Game::update() {
     for (auto& ghost : ghosts) {
         ghost.move(*maze, deltaTime);
     }
+
+        // Update each ghost's position
+    for (auto& ghost : ghosts) {
+        ghost.move(*maze, deltaTime);
+
+        // Check for collision with Pac-Man
+        if (ghost.checkCollisionWithPacMan(*pacMan)) {
+            // Collision detected, end the game
+            isRunning = false;
+            return;
+        }
+    }
 }
 
 // For checking collisions with ghosts later
