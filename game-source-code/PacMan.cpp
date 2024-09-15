@@ -39,10 +39,10 @@ const std::vector<Texture2D>& PacMan::getPacmanImages() const {
 // Loads the textures for Pac-Man's various directional sprites and stores them in the `pacManImages` vector.
 void PacMan::initilisePacManImages() {
     // Load textures for Pac-Man moving in different directions.
-    Texture2D manLeft = LoadTexture("../resources/pacman-images/pacmenLeft.png");
-    Texture2D manRight = LoadTexture("../resources/pacman-images/pacmenRight.png");
-    Texture2D manUp = LoadTexture("../resources/pacman-images/pacmenUp.png");
-    Texture2D manDown = LoadTexture("../resources/pacman-images/pacmenDown.png");
+    Texture2D manLeft = LoadTexture("../resources/pacman-images/pacmenLeftCopy.png");
+    Texture2D manRight = LoadTexture("../resources/pacman-images/pacmenRightCopy.png");
+    Texture2D manUp = LoadTexture("../resources/pacman-images/pacmenUpCopy.png");
+    Texture2D manDown = LoadTexture("../resources/pacman-images/pacmenDownCopy.png");
 
     // Add the textures to the vector.
     pacManImages.push_back(manLeft);

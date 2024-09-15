@@ -34,7 +34,7 @@ private:
     int dir;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
     void initializeGameObjects(); // Initializes game objects
-    Texture2D ghostPic = LoadTexture("../resources/pacman-images/GhostTa.png");
+    Texture2D ghostPic = LoadTexture("../resources/pacman-images/GhostHigh.png");
     bool eaten;
 };
 

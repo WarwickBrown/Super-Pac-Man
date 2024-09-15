@@ -64,8 +64,8 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
     const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get textures for Pac-Man
 
     // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
-    double pixelX = pacman.getX() - 35;  // Adjust X position
-    double pixelY = pacman.getY() - 35;  // Adjust Y position
+    double pixelX = pacman.getX() - 30;  // Adjust X position
+    double pixelY = pacman.getY() - 30;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     Texture2D texture = pacManImages[0];  // Default texture is for moving left
@@ -169,7 +169,7 @@ void Screen::drawGhost(const Ghost& ghost) {
     };
 
     // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
+    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-31, (float)ghost.getY()-31}, RAYWHITE);
 }
 
 // Implement the "You Win!" screen
@@ -207,7 +207,7 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
         if(!fruit.isEaten())
         {
             // Draw each fruit as a green circle
-            DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
+          //  DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
         }
 
     }
