@@ -161,7 +161,15 @@ bool Screen::endGame() {  // Accept score as a parameter to display
 }
 
 void Screen::drawGhost(const Ghost& ghost) {
-    DrawCircle(static_cast<int>(ghost.getX()), static_cast<int>(ghost.getY()), 34, RED);  // Draw the ghost as a red circle
+    Rectangle sourceRec = {
+        (float)(ghostPic.width) ,  // Calculate width of a single frame
+        0, 
+        (float)(ghostPic.width),          // Width of a single frame
+        (float)(ghostPic.height)              // Full height of the texture
+    };
+
+    // Draw Ghosts texture at the specified location and frame
+    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
 }
 
 // Implement the "You Win!" screen
