@@ -204,8 +204,8 @@ void Game::initialiseFruits() {
     Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
     // Add fruits to specific positions
-    fruits.emplace_back(100, 100, fruitTexture);
-    fruits.emplace_back(100, 120, fruitTexture);
+    fruits.emplace_back(440, 440, fruitTexture);
+    fruits.emplace_back(1160, 440, fruitTexture);
     // Add more fruits as needed
 }
 
