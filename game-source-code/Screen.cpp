@@ -2,6 +2,7 @@
 #include "Maze.h"
 #include "PacMan.h"
 #include "Game.h"
+#include "Fruit.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -157,4 +158,42 @@ bool Screen::endGame() {  // Accept score as a parameter to display
     // Close the window and exit the game properly
     CloseWindow();
     return false;  // Ensure the game loop stops
+}
+
+
+// Implement the "You Win!" screen
+bool Screen::winGame() {
+    // Display the "You Win!" screen
+    window.BeginDrawing();
+    window.ClearBackground(BLACK);
+
+    // Center "You Win!" text
+    DrawText("You Win!", 
+             window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
+             window.GetHeight() / 3, 60, GREEN);  // Use green color for the win message
+
+    window.EndDrawing();
+
+    // Display the "You Win!" screen for ~3 seconds or until player presses ENTER
+    for (int i = 0; i < 1800; i++) {  // Show for ~3 seconds at 60 FPS
+        window.BeginDrawing();
+        window.ClearBackground(BLACK);
+        DrawText("You Win!", 
+                 window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
+                 window.GetHeight() / 3, 60, GREEN);
+
+        window.EndDrawing();
+    }
+
+    // Close the window and exit the game properly
+    CloseWindow();
+    return false;  // Ensure the game loop stops
+}
+
+// Function to draw fruits on the screen
+void Screen::drawFruits(const std::vector<Fruit>& fruits) {
+    for (const auto& fruit : fruits) {
+        // Draw each fruit as a green circle
+        DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
+    }
 }

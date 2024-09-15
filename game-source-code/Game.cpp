@@ -1,11 +1,12 @@
 #include "Game.h"
 #include "Screen.h"
+#include "Fruit.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : window(1720, 1000, "Super Pac-Man"), isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
@@ -19,6 +20,7 @@ Game::~Game() {
 void Game::initialise() {
     initialiseGameObjects();    // Initializes game objects (maze, pacMan, screen)
     initiliseGameImages();      // Initializes game images like arrow keys
+    initialiseFruits();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     // Display the start screen until the player presses ENTER or closes the window
@@ -45,10 +47,28 @@ void Game::run() {
         screen->drawMaze(*maze);  // Draw the maze
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawPacMan(*pacMan, frame, direction);  // Draw Pac-Man with its current frame and direction
+
+        // Draw the fruits on the screen
+        screen->drawFruits(fruits);
+
+        // Draw each fruit on the screen
+        for (const auto& fruit : fruits) {
+            fruit.draw();
+        }
+
+                // If the game has been won, break the loop
+        if (gameWon) {
+            break;
+        }
     }
-    
-    // Display the end game screen and stop running the game
-    isRunning = screen->endGame();  
+
+    // If the game is won, show the win screen
+    if (gameWon) {
+        isRunning = screen->winGame();
+    } else {
+        // Otherwise, show the end game screen
+        isRunning = screen->endGame();  
+    }
 }
 
 // Handles user input for controlling Pac-Man's direction
@@ -113,6 +133,20 @@ void Game::update() {
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
+
+        // Check if Pac-Man collects any fruits
+    for (auto& fruit : fruits) {
+        if (fruit.isActive() && CheckCollisionCircles(
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
+                { (float)fruit.getX(), (float)fruit.getY() }, fruit.getRadius())) {
+            fruit.collect();
+            // Increase score or trigger other game events
+        }
+    }
+
+
+    // Check if all fruits have been collected
+    checkWinCondition();
 }
 
 // For checking collisions with ghosts later
@@ -140,4 +174,25 @@ const std::vector<Texture2D>& Game::getGameImages() const {
     return gameImages;  // Return a reference to the vector containing game images
 }
 
+// Initialize the fruits in the game
+void Game::initialiseFruits() {
+    // Load fruit texture (replace with the correct path)
+    Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
+    // Add fruits to specific positions
+    fruits.emplace_back(100, 100, fruitTexture);
+    fruits.emplace_back(100, 120, fruitTexture);
+    // Add more fruits as needed
+}
+
+// Implement the method to check if all fruits are collected
+void Game::checkWinCondition() {
+    for (const auto& fruit : fruits) {
+        if (fruit.isActive()) {
+            return;  // If any fruit is still active, return early
+        }
+    }
+    // If all fruits are collected, set gameWon to true
+    gameWon = true;
+    isRunning = false;  // Stop the game loop
+}
