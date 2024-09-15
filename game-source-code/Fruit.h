@@ -16,12 +16,15 @@ public:
     bool isActive() const; // Checks if the fruit is active
     void collect();        // Collects the fruit (deactivates it)
     void draw() const;     // Draws the fruit on the screen
+    void markAsEaten();
+    bool isEaten() const;
 
 private:
     int x, y;              // Position of the fruit
     int radius;            // Radius of the fruit
     bool active;           // Whether the fruit is still on the screen
     Texture2D texture;     // Texture of the fruit
+    bool eaten;
 };
 
 #endif // FRUIT_H

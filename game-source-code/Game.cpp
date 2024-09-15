@@ -143,12 +143,13 @@ void Game::update() {
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 
-            // Check if Pac-Man collects any fruits
+    // Check if Pac-Man collects any fruits
     for (auto& fruit : fruits) {
-        if (fruit.isActive() && CheckCollisionCircles(
+        if (!fruit.isEaten() && fruit.isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
                 { (float)fruit.getX(), (float)fruit.getY() }, fruit.getRadius())) {
             fruit.collect();
+            fruit.markAsEaten();
             // Increase score or trigger other game events
         }
     }
@@ -169,11 +170,6 @@ void Game::update() {
     }
 }
 
-// For checking collisions with ghosts later
-// Maybe we should check pacman collisions here too
-// void Game::checkCollisions() {
-    
-// }
 
 // Initializes game objects like the maze, Pac-Man, and the screen
 void Game::initialiseGameObjects() {

@@ -196,7 +196,11 @@ bool Screen::winGame() {
 // Function to draw fruits on the screen
 void Screen::drawFruits(const std::vector<Fruit>& fruits) {
     for (const auto& fruit : fruits) {
-        // Draw each fruit as a green circle
-        DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
+        if(!fruit.isEaten())
+        {
+            // Draw each fruit as a green circle
+            DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
+        }
+
     }
 }
