@@ -57,6 +57,7 @@ public:
     bool isWall(int pacmanX, int pacmanY, int pacmanRadius) const;
 
     //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
+    bool isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const;
 
 
 private:

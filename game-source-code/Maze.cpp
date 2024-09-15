@@ -194,6 +194,18 @@ bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
     return false;  // No collision detected, return false.
 }
 
+bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
+    // Loop through all custom walls in the vector and check for collisions. 
+    for (const auto& wall : walls) {
+        
+        // CheckCollisionCircleRec checks for collision between a circle (Pac-Man) and a rectangle (wall).
+        if (CheckCollisionRecs(Rectangle{(float)pacmanX-40, (float)pacmanY-40, 80, 80}, wall)) {
+            return true;  // Collision detected, return true.
+        }
+    }
+    return false;  // No collision detected, return false.
+}
+
 // Checks if Pac-Man is colliding with a given rectangle (specified by the rectangle's coordinates).
 // Takes in Pac-Man's X, Y coordinates and radius, as well as the rectangle to check against.
 bool Maze::isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const {

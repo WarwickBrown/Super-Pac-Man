@@ -15,9 +15,9 @@ PacMan::~PacMan() {
 
 // Moves Pac-Man based on the direction and checks for wall collisions.
 // If Pac-Man does not collide with a wall, his position is updated.
-void PacMan::move(const Maze& maze, float deltaTime, int dir) {
-    // Set the movement direction (based on input direction).
-    setDirection(dir);
+void PacMan::move(const Maze& maze, float deltaTime, int direction) {
+   // Set the movement direction (based on input direction).
+    setDirection(direction);
 
     // Calculate the new position.
     float newX = x + dx;

@@ -82,8 +82,37 @@ void Game::handleInput() {
 
 // Updates the game state (e.g., Pac-Man's position)
 void Game::update() {
+    int dx, dy;
+    switch (direction) {
+    case 1: 
+            dx = 1; 
+            dy = 0; 
+            break;  // Right movement
+        case 2: 
+            dx = -1; 
+            dy = 0; 
+            break; // Left movement
+        case 3: 
+            dx = 0; 
+            dy = -1; 
+            break; // Down movement
+        case 4: 
+            dx = 0; 
+            dy = 1; 
+            break;  // Up movement
+        default: 
+            dx = 0; 
+            dy = 0; 
+            break;
+    }
+    float newX = pacMan->getX()+dx;
+    float newY = pacMan->getY()+dy;
+    if (!maze->isWallRec(newX, newY, 39)) {
+        oldDirection = direction;
+    }
+    
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
-    pacMan->move(*maze, deltaTime, direction);  // Move Pac-Man based on the direction and elapsed time
+    pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 }
 
 // For checking collisions with ghosts later
@@ -102,7 +131,7 @@ void Game::initialiseGameObjects() {
 // Initializes game images (like the arrow key instructions)
 void Game::initiliseGameImages() {
     // Load the texture for the arrow key image and store it in the gameImages vector
-    Texture2D arrowKeyImage = LoadTexture("../resources/game-images/inputkeys.png");
+    Texture2D arrowKeyImage = LoadTexture("../resources/pacman-images/inputkeys.png");
     gameImages.push_back(arrowKeyImage);  // Add the loaded image to the vector
 }
 

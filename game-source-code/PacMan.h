@@ -40,6 +40,7 @@ private:
     std::vector<Texture2D> pacManImages;  // Holds Pac-Man's textures for different directions (left, right, up, down)
     float x, y;  // Pac-Man's current position on the screen (x, y)
     float dx, dy;  // Direction of movement (change in x, change in y)
+    int newDirection;
     int radius;  // Radius of Pac-Man (used for collision detection)
     float speed;  // Movement speed of Pac-Man (pixels per second)
 };

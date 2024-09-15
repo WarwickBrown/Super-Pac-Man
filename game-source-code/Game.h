@@ -35,6 +35,7 @@ private:
     
     bool isRunning;  // Boolean to track whether the game is running or not
     int direction;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
+    int oldDirection = 2;
     raylib::Window window;  // The game window where the game will be rendered
     int frame;       // Current frame number (used for animation)
     
