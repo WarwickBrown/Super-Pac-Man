@@ -13,7 +13,7 @@ public:
     // Destructor
     ~Ghost();
 
-    void move(const Maze& maze, float deltaTime);  // Moves the ghost based on direction
+    int move(const Maze& maze, float deltaTime);  // Moves the ghost based on direction
     void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
 
     bool checkCollisionWithPacMan(const PacMan& pacman) const;

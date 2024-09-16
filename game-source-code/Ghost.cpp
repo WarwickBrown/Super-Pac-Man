@@ -16,7 +16,7 @@ Ghost::~Ghost() {
 }
 
 // Move ghost in a direction while avoiding walls
-void Ghost::move(const Maze& maze, float deltaTime) {
+int Ghost::move(const Maze& maze, float deltaTime) {
     float newX = x;
     float newY = y;
 
@@ -37,6 +37,7 @@ void Ghost::move(const Maze& maze, float deltaTime) {
         x = newX;
         y = newY;
     }
+    return direction;
 }
 
 // Chooses a new direction for the ghost when a collision occurs

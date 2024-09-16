@@ -49,7 +49,6 @@ void Game::run() {
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
 
-        screen->drawEdges();
         screen->drawInner();
         // Draw the fruits on the screen
         screen->drawFruits(fruits);
@@ -58,11 +57,12 @@ void Game::run() {
         for (const auto& fruit : fruits) {
             fruit.draw();
         }
-
+/*
         // Draw each ghost
         for (const auto& ghost : ghosts) {
-            screen->drawGhost(ghost);
-        }
+            screen->drawGhost(ghost, ghostDirection);
+            std::cout << ghostDirection << std::endl;
+        }*/
 
                 // If the game has been won, break the loop
         if (gameWon) {
@@ -160,8 +160,12 @@ void Game::update() {
     checkWinCondition();
 
     for (auto& ghost : ghosts) {
-        ghost.move(*maze, deltaTime);
-
+        int ghostDirection = ghost.move(*maze, deltaTime);
+        // Draw each ghost
+        for (const auto& ghost : ghosts) {
+            screen->drawGhost(ghost, ghostDirection);
+            std::cout << ghostDirection << std::endl;
+        }
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {
             // Collision detected, end the game

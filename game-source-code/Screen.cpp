@@ -160,7 +160,24 @@ bool Screen::endGame() {  // Accept score as a parameter to display
     return false;  // Ensure the game loop stops
 }
 
-void Screen::drawGhost(const Ghost& ghost) {
+void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
+    Texture2D ghostPic;
+    if(ghostDirection == 1)
+    {
+        ghostPic = ghostPicLeft;
+    }
+    else if(ghostDirection == 2)
+    {
+        ghostPic = ghostPicRight;
+    }
+    else if(ghostDirection == 3)
+    {
+        ghostPic = ghostPicUp;
+    }
+    else if(ghostDirection == 4)
+    {
+        ghostPic = ghostPicDown;
+    }
     Rectangle sourceRec = {
         (float)(ghostPic.width) ,  // Calculate width of a single frame
         0, 
