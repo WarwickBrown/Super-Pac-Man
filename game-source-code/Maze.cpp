@@ -59,7 +59,7 @@ void Maze::initialiseCustomWalls() {
     // // Bottom horizontal walls (mirroring top layout)
     walls.push_back(Rectangle{80, 800, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{80, 80, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{10, 720, 90, 10});   // Horizontal wall
+    walls.push_back(Rectangle{0, 720, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{240, 800, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{80, 640, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{80, 240, 90, 10});   // Horizontal wall
