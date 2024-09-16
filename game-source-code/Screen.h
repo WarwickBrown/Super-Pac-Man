@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Ghost.h"
 #include "Fruit.h"
+#include "GameKey.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -29,6 +30,7 @@ public:
     bool winGame(); // Add a method to display the "You Win!" screen
     void drawEdges();
     void drawInner();
+    void drawKeys(const std::vector<GameKey>& keys);
 
 private:
     Maze* maze;            // Pointer to the maze

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <raylib-cpp.hpp>
+#include "Wall.h"
 
 // // Enum to define different cell types in the maze
 // enum class CellType {
@@ -44,9 +45,6 @@ public:
     // Returns the Y-coordinate of Pac-Man's starting position in the maze.
     int getStartY() const;
 
-    // Provides read-only access to the vector of wall rectangles.
-    const std::vector<Rectangle>& getWalls() const;
-
     // Initializes custom walls in the maze by creating and positioning rectangle objects.
     void initialiseCustomWalls();
 
@@ -59,9 +57,13 @@ public:
     //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
     bool isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const;
 
+    const std::vector<Wall>& getWalls() const;
+
+    std::vector<Wall>& getWalls();
+
 
 private:
-    std::vector<Rectangle> walls;  // Vector to hold all wall rectangles
+    std::vector<Wall> walls;
     int width;   // Width of the maze
     int height;  // Height of the maze
     int startX, startY;  // Starting position for Pac-Man

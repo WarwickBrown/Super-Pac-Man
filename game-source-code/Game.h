@@ -8,6 +8,7 @@
 #include "Screen.h"
 #include "Fruit.h"
 #include "Ghost.h"
+#include "GameKey.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
@@ -27,6 +28,9 @@ public:
     void render();       // Renders game objects (maze, Pac-Man, etc.) on the screen
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
+
+    std::vector<GameKey> keys;
+    void initialiseKeys();
     
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
 

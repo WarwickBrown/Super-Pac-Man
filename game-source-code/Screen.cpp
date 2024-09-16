@@ -97,16 +97,23 @@ void Screen::drawGameImages(const Game& game) {
                 window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
 
-// Function to draw the maze on the screen
 void Screen::drawMaze(const Maze& maze) {
-    // Get the vector of rectangles representing maze walls
-    const std::vector<Rectangle>& walls = maze.getWalls();
-
-    // Draw each wall as a rectangle with a pink color
+    const std::vector<Wall>& walls = maze.getWalls();
     for (const auto& wall : walls) {
-        DrawRectangleRec(wall, PINK);  
+        if (wall.active) {
+            DrawRectangleRec(wall.rect, wall.color);
+        }
     }
 }
+
+void Screen::drawKeys(const std::vector<GameKey>& keys) {
+    for (const auto& key : keys) {
+        if (key.isActive()) {
+            key.draw();
+        }
+    }
+}
+
 
 bool Screen::endGame() {  // Accept score as a parameter to display
     // Display the Game Over screen

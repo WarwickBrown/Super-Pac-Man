@@ -22,6 +22,7 @@ void Game::initialise() {
     initialiseGameObjects();    // Initializes game objects (maze, pacMan, screen)
     initiliseGameImages();      // Initializes game images like arrow keys
     initialiseFruits();
+    initialiseKeys();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     // Display the start screen until the player presses ENTER or closes the window
@@ -35,6 +36,7 @@ void Game::initialise() {
     }
 }
 
+
 // Main game loop
 void Game::run() {
     int pixelX; // Coordinates for rendering
@@ -46,6 +48,7 @@ void Game::run() {
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
         screen->drawMaze(*maze);  // Draw the maze
+        screen->drawKeys(keys);
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawFruits(fruits);
         // Draw each fruit on the screen
@@ -157,9 +160,22 @@ void Game::update() {
         }
     }
 
-
-    // Check if all fruits have been collected
+        // Check if all fruits have been collected
     checkWinCondition();
+
+        // Check if Pac-Man collects any keys
+    for (auto& key : keys) {
+        if (key.isActive() && CheckCollisionCircles(
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
+                { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
+            key.collect();
+            // Unlock associated walls
+            for (int wallIndex : key.getWallsToUnlock()) {
+                maze->getWalls()[wallIndex].active = false;
+            }
+        }
+    }
+
 
     for (auto& ghost : ghosts) {
         int ghostDirection = ghost.move(*maze, deltaTime);
@@ -193,6 +209,8 @@ void Game::initiliseGameImages() {
     // Load the texture for the arrow key image and store it in the gameImages vector
     Texture2D arrowKeyImage = LoadTexture("../resources/pacman-images/inputkeys.png");
     gameImages.push_back(arrowKeyImage);  // Add the loaded image to the vector
+    Texture2D keyTexture = LoadTexture("../resources/pacman-images/ghostyUP.png");
+    gameImages.push_back(keyTexture);
 }
 
 // Returns a reference to the vector of game images (to be used for rendering)
@@ -214,6 +232,17 @@ void Game::initialiseFruits() {
     fruits.emplace_back(1160, 440, fruitTexture);
     // Add more fruits as needed
 }
+
+void Game::initialiseKeys() {
+    Texture2D keyTexture = LoadTexture("../resources/pacman-images/ghostyUP.png");
+
+    // Suppose walls[5] and walls[10] are to be unlocked by the key at (500, 500)
+    keys.emplace_back(500, 500, std::vector<int>{5, 10});
+
+    // Another key that unlocks walls[15] and walls[20]
+    keys.emplace_back(700, 300, std::vector<int>{15, 20});
+}
+
 
 // Implement the method to check if all fruits are collected
 void Game::checkWinCondition() {
