@@ -25,7 +25,7 @@ private:
     bool active;           // Whether the fruit is still on the screen
     Texture2D texture;     // Texture of the fruit
     bool eaten;
-    Texture2D fruitPic = LoadTexture("../resources/pacman-images/straw.png");
+    Texture2D fruitPic = LoadTexture("../resources/pacman-images/strawberry.png");
 };
 
 #endif // FRUIT_H

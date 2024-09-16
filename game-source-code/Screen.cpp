@@ -169,7 +169,7 @@ void Screen::drawGhost(const Ghost& ghost) {
     };
 
     // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-31, (float)ghost.getY()-31}, RAYWHITE);
+    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
 }
 
 // Implement the "You Win!" screen
@@ -211,4 +211,130 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
         }
 
     }
+}
+
+void Screen::drawEdges()
+{
+   // DrawCircleSector({(float)180,(float)80}, 5, 270, 360, 50, PINK);
+}
+
+void Screen::drawInner(){
+
+    DrawRectangleRec(Rectangle{2, 2, 6, 886}, BLACK);     // Left wall
+    DrawRectangleRec(Rectangle{2, 2, 1520, 6}, BLACK);    // Top wall
+    DrawRectangleRec(Rectangle{1522, 2, 6, 886}, BLACK);  // Right wall
+    DrawRectangleRec(Rectangle{2, 882, 1520, 6}, BLACK);  // Bottom wall
+
+    //DrawRectangleRec(Rectangle{82, 802, 82, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({82, 82, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({2, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({242, 802, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({82, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({82, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({162, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({242, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({242, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({162, 162, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({162, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({322, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({322, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({322, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({482, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({402, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({482, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({562, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({402, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({482, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({402, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({322, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({802, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 802, 244, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 482, 242, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({802, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({802, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({882, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({962, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1042, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1362, 82, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1122, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1202, 802, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1202, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1442, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1362, 802, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1362, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({962, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1042, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1122, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1122, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1202, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1282, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1282, 402, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1202, 322, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1042, 482, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1122, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({82, 802, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1362, 242, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1282, 162, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({1362, 82, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({962, 242, 86, 6}, BLACK);   // Horizontal wall
+
+    // Vertical walls for more complexity
+    DrawRectangleRec({162, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({242, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({82, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({82, 322, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({82, 82, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({162, 242, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({242, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({242, 82, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({322, 82, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({402, 82, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({482, 2, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({402, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({642, 2, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({562, 82, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({322, 482, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({562, 802, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({482, 642, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({562, 82, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({482, 402, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({562, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({402, 322, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({962, 802, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({562, 402, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({642, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({882, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({642, 402, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({882, 402, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({722, 242, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({802, 242, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({962, 402, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({962, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1122, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1042, 2, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1042, 402, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1442, 82, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({642, 2, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({962, 82, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({882, 2, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1282, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1362, 722, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1282, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1042, 642, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1122, 322, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1202, 482, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1442, 562, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({1442, 322, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1362, 242, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({1282, 82, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({1202, 82, 6, 166}, BLACK);  // Vertical wall
+    DrawRectangleRec({1122, 82, 6, 86}, BLACK);  // Vertical wall
+    DrawRectangleRec({722, 642, 86, 86}, BLACK);   // Block
+    DrawRectangleRec({722, 82, 86, 86}, BLACK);   // Block
+    DrawRectangleRec({642, 722, 6, 6}, BLACK);   // Block
+    DrawRectangleRec({882, 722, 6, 6}, BLACK);   // Block
 }

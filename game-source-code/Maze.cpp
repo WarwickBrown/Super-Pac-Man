@@ -41,22 +41,7 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{1520, 0, 10, 890});  // Right wall
     walls.push_back(Rectangle{0, 880, 1520, 10});  // Bottom wall
 
-    // // Horizontal walls (top section)
-    
-
-
-    // // Vertical walls (sides)
-    // walls.push_back(Rectangle{80, 80, 10, 240});   // Vertical wall
-    // walls.push_back(Rectangle{400, 80, 10, 240});  // Vertical wall
-    // walls.push_back(Rectangle{1240, 80, 10, 240}); // Vertical wall
-
-    // // Central box (approximate the inner box)
-    // walls.push_back(Rectangle{640, 320, 160, 10}); // Top horizontal wall of central box
-    // walls.push_back(Rectangle{640, 560, 160, 10}); // Bottom horizontal wall of central box
-    // walls.push_back(Rectangle{640, 320, 10, 240}); // Left vertical wall of central box
-    // walls.push_back(Rectangle{870, 320, 10, 240}); // Right vertical wall of central box
-
-    // // Bottom horizontal walls (mirroring top layout)
+    // Horizontal walls (mirroring top layout)
     walls.push_back(Rectangle{80, 800, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{80, 80, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{0, 720, 90, 10});   // Horizontal wall
@@ -112,8 +97,7 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{1360, 80, 90, 10});   // Horizontal wall
     walls.push_back(Rectangle{960, 240, 90, 10});   // Horizontal wall
 
-    // // More vertical walls for more complexity
-    // walls.push_back(Rectangle{240, 320, 10, 160});   // Vertical wall
+    // Vertical walls for more complexity
     walls.push_back(Rectangle{160, 720, 10, 90});  // Vertical wall
     walls.push_back(Rectangle{240, 720, 10, 90});  // Vertical wall
     walls.push_back(Rectangle{80, 560, 10, 90});  // Vertical wall

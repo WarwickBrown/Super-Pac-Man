@@ -27,6 +27,8 @@ public:
     bool endGame();                     // Displays the end game screen and handles the end of the game
     void drawGhost(const Ghost& ghost);
     bool winGame(); // Add a method to display the "You Win!" screen
+    void drawEdges();
+    void drawInner();
 
 private:
     Maze* maze;            // Pointer to the maze
@@ -34,7 +36,7 @@ private:
     int dir;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
     void initializeGameObjects(); // Initializes game objects
-    Texture2D ghostPic = LoadTexture("../resources/pacman-images/GhostHigh.png");
+    Texture2D ghostPic = LoadTexture("../resources/pacman-images/ghosty.png");
     bool eaten;
 };
 

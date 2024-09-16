@@ -42,7 +42,7 @@ void Fruit::draw() const {
     };
 
     // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(fruitPic, sourceRec, Vector2{(float)getX()-44, (float)getY()-27}, RAYWHITE);
+    DrawTextureRec(fruitPic, sourceRec, Vector2{(float)getX()-28, (float)getY()-28}, RAYWHITE);
        // DrawTexture(texture, x, y, RAYWHITE); // Draw the fruit if it's active
     }
 }

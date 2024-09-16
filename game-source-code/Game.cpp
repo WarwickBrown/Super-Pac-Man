@@ -49,7 +49,8 @@ void Game::run() {
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
 
-
+        screen->drawEdges();
+        screen->drawInner();
         // Draw the fruits on the screen
         screen->drawFruits(fruits);
 
