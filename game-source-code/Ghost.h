@@ -1,3 +1,4 @@
+// Ghost.h
 #ifndef GHOST_H
 #define GHOST_H
 
@@ -5,42 +6,52 @@
 #include "Maze.h"
 #include "PacMan.h"
 
+enum class GhostState {
+    Chase,
+    Scatter,
+    Frightened
+};
+
 class Ghost {
 public:
-    // Constructor: Initializes the ghost's starting position and speed
     Ghost(int startX, int startY, float speed);
 
-    // Destructor
-    ~Ghost();
+    void move(const Maze& maze, float deltaTime, const PacMan& pacman, GhostState newState);
+    void chooseNewDirection(const Maze& maze);
+    bool checkCollisionWithPacMan(const PacMan& pacman);
+    void switchState(GhostState newState, const Maze& maze);
+    void updateTimers(GhostState newState,float deltaTime, const Maze& maze);
 
-    int move(const Maze& maze, float deltaTime);  // Moves the ghost based on direction
-    void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
-
-    bool checkCollisionWithPacMan(const PacMan& pacman) const;
-
-
-    // Method to set the ghost's direction
-    void setDirection(int direction);
-
-    // Getters for the ghost's position and radius
+    // Getters
     int getX() const;
     int getY() const;
     int getRadius() const;
-    int getDX() const;
-    int getDY() const;
+    GhostState getState() const{
+        return state;
+    };
 
-    // Ghost behavior methods
+    int getGhostDirection() const;
+
+    void setDirection(int newDirection);
     void setFrightened(bool state);
-    void chase(const PacMan& pacman); // Simple chase behavior towards Pac-Man
-    void scatter(); // Move to a random corner of the maze
+
 
 private:
-    float x, y;    // Current position of the ghost
-    float dx, dy;  // Direction of the ghost's movement
-    float speed;   // Movement speed in pixels per second
+    float x, y;
+    float speed;
     int direction;
     int radius;
-    bool frightened; // Whether the ghost is in a frightened state
+    GhostState state;  // Add state to represent the ghost's behavior
+
+    // Timers to manage state changes
+    float chaseTime;
+    float scatterTime;
+    float frightenedTime;
+
+    void chase(const Maze& maze, const PacMan& pacman);
+    void scatter(const Maze& maze);
+    void frightened(const Maze& maze);
+    void setRandomDirection(const Maze& maze);
 };
 
 #endif // GHOST_H

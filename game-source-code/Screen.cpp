@@ -168,6 +168,7 @@ bool Screen::endGame() {  // Accept score as a parameter to display
 }
 
 void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
+    std::cout << "Drawing ghost at (" << ghost.getX() << ", " << ghost.getY() << ") with direction " << ghostDirection << std::endl;
     Texture2D ghostPic;
     if(ghostDirection == 1)
     {

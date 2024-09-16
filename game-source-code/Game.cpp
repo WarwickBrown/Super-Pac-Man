@@ -44,6 +44,7 @@ void Game::run() {
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
+        
         handleInput();   // Handle user input like key presses for movement
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
@@ -59,6 +60,12 @@ void Game::run() {
 
         screen->drawInner();
         // Draw the fruits on the screen
+
+        for (const auto& ghost : ghosts) {
+            int ghostDirection = ghost.getGhostDirection();
+            screen->drawGhost(ghost, ghostDirection);
+            std::cout << ghostDirection << std::endl;
+        }
         
 
         
@@ -177,11 +184,10 @@ void Game::update() {
     }
 
 
+    // Update each ghost's behavior
     for (auto& ghost : ghosts) {
-        int ghostDirection = ghost.move(*maze, deltaTime);
-        // Draw each ghost
-
-        screen->drawGhost(ghost, ghostDirection);
+        // Move each ghost, passing the maze and Pac-Man as references
+        ghost.move(*maze, deltaTime, *pacMan, ghost.getState());
 
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {

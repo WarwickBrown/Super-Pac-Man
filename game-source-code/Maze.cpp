@@ -229,3 +229,6 @@ int Maze::getStartY() const {
     return startY;
 }
 
+int Maze::getWidth() const {
+    return width;
+}

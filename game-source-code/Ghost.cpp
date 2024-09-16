@@ -1,6 +1,7 @@
 #include "Ghost.h"
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For time()
+#include <iostream>
 
 // Constructor
 Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34) {
@@ -10,17 +11,28 @@ Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(
     direction = rand() % 4 + 1; // Randomly set to 1 (right), 2 (left), 3 (up), or 4 (down)
 }
 
-// Destructor
-Ghost::~Ghost() {
-    // No dynamic memory to clean up in this class, but the definition is needed
-}
 
-// Move ghost in a direction while avoiding walls
-int Ghost::move(const Maze& maze, float deltaTime) {
+// Move ghost based on current state
+void Ghost::move(const Maze& maze, float deltaTime, const PacMan& pacman, GhostState newState) {
+    // Update the state timers
+    updateTimers(newState, deltaTime, maze);
+
+    switch (state) {
+        case GhostState::Chase:
+            chase(maze, pacman);
+            break;
+        case GhostState::Scatter:
+            scatter(maze);
+            break;
+        case GhostState::Frightened:
+            frightened(maze);
+            break;
+    }
+
+    // Calculate new position
     float newX = x;
     float newY = y;
 
-    // Calculate the next position based on the current direction
     switch (direction) {
         case 1: newX += speed * deltaTime; break;  // Move right
         case 2: newX -= speed * deltaTime; break;  // Move left
@@ -37,7 +49,99 @@ int Ghost::move(const Maze& maze, float deltaTime) {
         x = newX;
         y = newY;
     }
+}
+
+int Ghost::getGhostDirection() const {
     return direction;
+}
+
+
+// Update all switchState calls in Ghost.cpp
+void Ghost::updateTimers(GhostState newState, float deltaTime, const Maze& maze) {
+    if (state == GhostState::Chase) {
+        chaseTime -= deltaTime;
+        if (chaseTime <= 0) {
+            switchState(GhostState::Scatter, maze);  // Add 'maze' argument
+        }
+    } else if (state == GhostState::Scatter) {
+        scatterTime -= deltaTime;
+        if (scatterTime <= 0) {
+            switchState(GhostState::Chase, maze);  // Add 'maze' argument
+        }
+    } else if (state == GhostState::Frightened) {
+        frightenedTime -= deltaTime;
+        if (frightenedTime <= 0) {
+            switchState(GhostState::Chase, maze);  // Add 'maze' argument
+        }
+    }
+}
+
+
+// Switch the ghost's state
+void Ghost::switchState(GhostState newState, const Maze& maze) {
+    state = newState;
+
+    if (state == GhostState::Chase) {
+        chaseTime = 20.0f; // Set chase time duration
+    } else if (state == GhostState::Scatter) {
+        scatterTime = 7.0f; // Set scatter time duration
+    } else if (state == GhostState::Frightened) {
+        frightenedTime = 5.0f; // Set frightened time duration
+        setRandomDirection(maze);
+    }
+}
+
+// Chase Pac-Man
+void Ghost::chase(const Maze& maze, const PacMan& pacman) {
+    // Basic chase algorithm: move toward Pac-Man's current position
+    if (pacman.getX() > x) {
+        direction = 1; // Move right
+    } else if (pacman.getX() < x) {
+        direction = 2; // Move left
+    } else if (pacman.getY() > y) {
+        direction = 4; // Move down
+    } else if (pacman.getY() < y) {
+        direction = 3; // Move up
+    }
+    std::cout << "Ghost direction updated to: " << direction << std::endl;
+}
+// Scatter Mode: Move to a corner
+void Ghost::scatter(const Maze& maze) {
+    // Move towards a predefined corner (you can change the coordinates)
+    if (x < 0) {
+        direction = 1; // Move right
+    } else if (x > maze.getWidth() - 1) {
+        direction = 2; // Move left
+    } else if (y < 0) {
+        direction = 4; // Move down
+    } else if (y > maze.getHeight() - 1) {
+        direction = 3; // Move up
+    }
+}
+
+// Frightened Mode: Move randomly
+void Ghost::frightened(const Maze& maze) {
+    // Move in a random direction
+    setRandomDirection(maze);
+}
+
+// Set a random direction for the ghost
+void Ghost::setRandomDirection(const Maze& maze) {
+    std::vector<int> possibleDirections;
+
+    if (!maze.isWall(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
+    if (!maze.isWall(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
+    if (!maze.isWall(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
+    if (!maze.isWall(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+
+    if (!possibleDirections.empty()) {
+        direction = possibleDirections[rand() % possibleDirections.size()];
+    }
+}
+
+// Check collision with Pac-Man
+bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) {
+    return CheckCollisionCircles({ x, y }, radius, { pacman.getX(), pacman.getY() }, pacman.getRadius());
 }
 
 // Chooses a new direction for the ghost when a collision occurs
@@ -63,55 +167,5 @@ int Ghost::getX() const { return x; }
 int Ghost::getY() const { return y; }
 int Ghost::getRadius() const { return radius; }
 
-// Set the ghost's direction
-void Ghost::setDirection(int newDirection) {
-    direction = newDirection;
-}
-
-// Set ghost to frightened state
-void Ghost::setFrightened(bool state) {
-    frightened = state;
-}
-
-// Simple chase behavior towards Pac-Man
-void Ghost::chase(const PacMan& pacman) {
-    if (!frightened) {
-        // Implement a simple chase logic towards Pac-Man's current position
-        if (pacman.getX() > x) {
-            setDirection(1); // Move right
-        } else if (pacman.getX() < x) {
-            setDirection(2); // Move left
-        } else if (pacman.getY() > y) {
-            setDirection(4); // Move down
-        } else if (pacman.getY() < y) {
-            setDirection(3); // Move up
-        }
-    }
-}
-
-// Scatter behavior: Move to a random corner of the maze
-void Ghost::scatter() {
-    // Implement scatter logic, e.g., move to a random direction
-    setDirection(rand() % 4 + 1); // Choose a random new direction (1 to 4)
-}
 
 
-// Getter for the ghost's movement in X direction
-int Ghost::getDX() const {
-    return dx;
-}
-
-// Getter for the ghost's movement in Y direction
-int Ghost::getDY() const {
-    return dy;
-}
-
-
-// Check if the ghost is colliding with Pac-Man
-bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
-    // Calculate the distance between the ghost and Pac-Man
-    float distance = std::sqrt(std::pow(x - pacman.getX(), 2) + std::pow(y - pacman.getY(), 2));
-
-    // Check if the distance is less than the sum of the radii (indicating a collision)
-    return distance < (radius + pacman.getRadius());
-}
