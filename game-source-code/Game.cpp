@@ -47,11 +47,12 @@ void Game::run() {
         screen->render(); // Render the current state of the game
         screen->drawMaze(*maze);  // Draw the maze
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
+        screen->drawFruits(fruits);
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
 
         screen->drawInner();
         // Draw the fruits on the screen
-        screen->drawFruits(fruits);
+        
 
         // Draw each fruit on the screen
         for (const auto& fruit : fruits) {
@@ -147,7 +148,7 @@ void Game::update() {
     // Check if Pac-Man collects any fruits
     for (auto& fruit : fruits) {
         if (!fruit.isEaten() && fruit.isActive() && CheckCollisionCircles(
-                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-35,
                 { (float)fruit.getX(), (float)fruit.getY() }, fruit.getRadius())) {
             fruit.collect();
             fruit.markAsEaten();
@@ -162,10 +163,9 @@ void Game::update() {
     for (auto& ghost : ghosts) {
         int ghostDirection = ghost.move(*maze, deltaTime);
         // Draw each ghost
-        for (const auto& ghost : ghosts) {
-            screen->drawGhost(ghost, ghostDirection);
-            std::cout << ghostDirection << std::endl;
-        }
+
+        screen->drawGhost(ghost, ghostDirection);
+
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {
             // Collision detected, end the game

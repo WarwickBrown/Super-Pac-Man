@@ -164,11 +164,11 @@ void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
     Texture2D ghostPic;
     if(ghostDirection == 1)
     {
-        ghostPic = ghostPicLeft;
+        ghostPic = ghostPicRight;
     }
     else if(ghostDirection == 2)
     {
-        ghostPic = ghostPicRight;
+        ghostPic = ghostPicLeft;
     }
     else if(ghostDirection == 3)
     {
