@@ -48,16 +48,17 @@ void Game::run() {
         screen->drawMaze(*maze);  // Draw the maze
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawFruits(fruits);
+        // Draw each fruit on the screen
+        for (const auto& fruit : fruits) {
+            fruit.draw();
+        }
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
 
         screen->drawInner();
         // Draw the fruits on the screen
         
 
-        // Draw each fruit on the screen
-        for (const auto& fruit : fruits) {
-            fruit.draw();
-        }
+        
 /*
         // Draw each ghost
         for (const auto& ghost : ghosts) {
@@ -205,6 +206,10 @@ void Game::initialiseFruits() {
     Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
     // Add fruits to specific positions
+    fruits.emplace_back(40, 840, fruitTexture);
+    fruits.emplace_back(1480, 840, fruitTexture);
+    fruits.emplace_back(920, 760, fruitTexture);
+    fruits.emplace_back(600, 760, fruitTexture);
     fruits.emplace_back(440, 440, fruitTexture);
     fruits.emplace_back(1160, 440, fruitTexture);
     // Add more fruits as needed
