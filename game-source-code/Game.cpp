@@ -208,6 +208,7 @@ void Game::initialiseGameObjects() {
     ghosts.push_back(Ghost(685, 445, 150.0f));  // Ghost 1 at (200, 200) with speed 150
     ghosts.push_back(Ghost(765, 445, 150.0f));  // Ghost 2 at (400, 400) with speed 150
     ghosts.push_back(Ghost(845, 445, 150.0f));  // Ghost 3 at (600, 600) with speed 150
+    ghosts.back().switchState(GhostState::Escaping, *maze); // Set initial state to Escaping
 }
 
 // Initializes game images (like the arrow key instructions)

@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Constructor
-Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34) {
+Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34), state(GhostState::Escaping) {
     // Initialize random seed
     std::srand(std::time(0));
     // Initialize random direction
@@ -18,6 +18,9 @@ void Ghost::move(const Maze& maze, float deltaTime, const PacMan& pacman, GhostS
     updateTimers(newState, deltaTime, maze);
 
     switch (state) {
+        case GhostState::Escaping:
+            escapeBox(maze, pacman);
+            break;
         case GhostState::Chase:
             chase(maze, pacman);
             break;
@@ -53,6 +56,34 @@ void Ghost::move(const Maze& maze, float deltaTime, const PacMan& pacman, GhostS
 
 int Ghost::getGhostDirection() const {
     return direction;
+}
+
+void Ghost::escapeBox(const Maze& maze, const PacMan& pacman) {
+    // Define the boundary of the box (replace these with the actual coordinates of the box)
+    int boxTop = 400;
+    int boxBottom = 500;
+    int boxLeft = 600;
+    int boxRight = 800;
+
+    // If the ghost is outside the box, set `inBox` to false
+    if (x < boxLeft || x > boxRight || y < boxTop || y > boxBottom) {
+        inBox = false;
+        return; // Ghost has exited the box, no need to continue
+    }
+
+    // Simple logic to guide the ghost out
+    if (!maze.isWall(x, y - speed, radius)) { // Try moving up
+        direction = 3; // Move up
+    } else if (!maze.isWall(x + speed, y, radius)) { // Try moving right
+        direction = 1; // Move right
+    } else if (!maze.isWall(x - speed, y, radius)) { // Try moving left
+        direction = 2; // Move left
+    } else if (!maze.isWall(x, y + speed, radius)) { // Try moving down
+        direction = 4; // Move down
+    }
+
+    // Move the ghost in the chosen direction
+    move(maze, GetFrameTime(), pacman, GhostState::Escaping); // Pass Escaping state
 }
 
 
@@ -169,3 +200,9 @@ int Ghost::getRadius() const { return radius; }
 
 
 
+
+
+// Getter for state
+GhostState Ghost::getState() const {
+    return state;
+}

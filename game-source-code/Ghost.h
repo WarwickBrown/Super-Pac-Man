@@ -7,10 +7,12 @@
 #include "PacMan.h"
 
 enum class GhostState {
+    Escaping, // New state to help ghosts escape the box
     Chase,
     Scatter,
     Frightened
 };
+
 
 class Ghost {
 public:
@@ -21,14 +23,13 @@ public:
     bool checkCollisionWithPacMan(const PacMan& pacman);
     void switchState(GhostState newState, const Maze& maze);
     void updateTimers(GhostState newState,float deltaTime, const Maze& maze);
+    void escapeBox(const Maze& maze, const PacMan& pacman); // Method to help the ghost escape the box
 
     // Getters
     int getX() const;
     int getY() const;
     int getRadius() const;
-    GhostState getState() const{
-        return state;
-    };
+    GhostState getState() const; // Add this getter method
 
     int getGhostDirection() const;
 
@@ -42,6 +43,7 @@ private:
     int direction;
     int radius;
     GhostState state;  // Add state to represent the ghost's behavior
+    bool inBox;
 
     // Timers to manage state changes
     float chaseTime;
