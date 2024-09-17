@@ -30,7 +30,7 @@ void Game::initialise() {
 
     // Display the start screen until the player presses ENTER or closes the window
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        screen->startScreen(this); // Shows the start screen and passes the current game instance
+        screen->startScreen(this, screen, *score); // Shows the start screen and passes the current game instance
     }
 
     // Check if the window is closed by the user

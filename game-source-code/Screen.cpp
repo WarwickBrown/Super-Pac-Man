@@ -23,7 +23,7 @@ Screen::~Screen() {
 }
 
 // Function to display the start screen with game instructions
-void Screen::startScreen(const Game* game) {
+void Screen::startScreen(const Game* game, const Screen* screen, const Score& score) {
     window.BeginDrawing();   // Start drawing the screen
     window.ClearBackground(BLACK);  // Set background color to black
 
@@ -49,6 +49,12 @@ void Screen::startScreen(const Game* game) {
 
     // Draw any game images (e.g., controls) on the start screen
     drawGameImages(*game);
+
+    // Display high score
+    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+    DrawText(highScoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+             window.GetHeight() / 2 + 80, 30, WHITE);
 
     window.EndDrawing();  // Finish drawing the screen
 }
@@ -117,28 +123,6 @@ void Screen::drawKeys(const std::vector<GameKey>& keys) {
 
 
 bool Screen::endGame(const Score& score) {  // Accept score as a parameter to display
-    // Display the Game Over screen
-    window.BeginDrawing();
-    window.ClearBackground(BLACK);
-
-    // Center "Game Over!" text
-    DrawText("Game Over!", 
-             window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
-             window.GetHeight() / 3, 60, RED);  // Larger size for impact
-
-    // Display player's score
-    std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
-    DrawText(scoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
-             window.GetHeight() / 2, 30, WHITE);
-
-    // Display high score
-    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
-    DrawText(highScoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
-             window.GetHeight() / 2 + 40, 30, WHITE);
-
-    window.EndDrawing();
 
     // Display the Game Over screen for ~3 seconds or until player presses ENTER
     for (int i = 0; i < 1800; i++) {  // Show for ~3 seconds at 60 FPS
@@ -147,21 +131,19 @@ bool Screen::endGame(const Score& score) {  // Accept score as a parameter to di
         DrawText("Game Over!", 
                  window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
                  window.GetHeight() / 3, 60, RED);
+        // Display player's score
+        std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+        DrawText(scoreText.c_str(),
+                window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
+                window.GetHeight() / 2, 30, WHITE);
 
-        // DrawText(scoreText.c_str(), 
-        //          window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2, 
-        //          window.GetHeight() / 2, 30, WHITE);
-
-        // DrawText("Press ENTER to Exit", 
-        //          window.GetWidth() / 2 - MeasureText("Press ENTER to Exit", 20) / 2, 
-        //          window.GetHeight() - 100, 20, LIGHTGRAY);
+        // Display high score
+        std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+        DrawText(highScoreText.c_str(),
+                window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+                window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
-
-        // Allow the player to exit early by pressing ENTER or closing the window
-        // if (IsKeyPressed(KEY_ENTER) || window.ShouldClose()) {
-        //     break;
-        // }
     }
 
     // Close the window and exit the game properly
@@ -200,29 +182,6 @@ void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
 
 // Implement the "You Win!" screen
 bool Screen::winGame(const Score& score) {
-    // Display the "You Win!" screen
-    window.BeginDrawing();
-    window.ClearBackground(BLACK);
-
-    // Center "You Win!" text
-    DrawText("You Win!", 
-             window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
-             window.GetHeight() / 3, 60, GREEN);  // Use green color for the win message
-
-    // Display player's score
-    std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
-    DrawText(scoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
-             window.GetHeight() / 2, 30, WHITE);
-
-    // Display high score
-    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
-    DrawText(highScoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
-             window.GetHeight() / 2 + 40, 30, WHITE);
-
-
-    window.EndDrawing();
 
     // Display the "You Win!" screen for ~3 seconds or until player presses ENTER
     for (int i = 0; i < 1800; i++) {  // Show for ~3 seconds at 60 FPS
@@ -231,6 +190,18 @@ bool Screen::winGame(const Score& score) {
         DrawText("You Win!", 
                  window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
                  window.GetHeight() / 3, 60, GREEN);
+
+        // Display player's score
+        std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+        DrawText(scoreText.c_str(),
+                window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
+                window.GetHeight() / 2, 30, WHITE);
+
+        // Display high score
+        std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+        DrawText(highScoreText.c_str(),
+                window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+                window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
     }
