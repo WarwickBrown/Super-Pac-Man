@@ -9,6 +9,7 @@
 #include "Fruit.h"
 #include "Ghost.h"
 #include "GameKey.h"
+#include "Score.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
@@ -42,6 +43,7 @@ private:
     Maze* maze;  // Pointer to the maze object
     PacMan* pacMan;  // Pointer to the Pac-Man object
     Screen* screen;  // Pointer to the screen object
+    Score* score;
     std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     bool isRunning;  // Boolean to track whether the game is running or not
     int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
@@ -53,6 +55,7 @@ private:
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 
     void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
+
 };
 
 #endif // GAME_H

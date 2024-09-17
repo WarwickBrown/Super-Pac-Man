@@ -3,6 +3,7 @@
 #include "PacMan.h"
 #include "Game.h"
 #include "Fruit.h"
+#include "Score.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -115,7 +116,7 @@ void Screen::drawKeys(const std::vector<GameKey>& keys) {
 }
 
 
-bool Screen::endGame() {  // Accept score as a parameter to display
+bool Screen::endGame(const Score& score) {  // Accept score as a parameter to display
     // Display the Game Over screen
     window.BeginDrawing();
     window.ClearBackground(BLACK);
@@ -126,15 +127,16 @@ bool Screen::endGame() {  // Accept score as a parameter to display
              window.GetHeight() / 3, 60, RED);  // Larger size for impact
 
     // Display player's score
-    // std::string scoreText = "Your Score: " + std::to_string(score);
-    // DrawText(scoreText.c_str(), 
-    //          window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2, 
-    //          window.GetHeight() / 2, 30, WHITE);  // Score below the "Game Over!" text
+    std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+    DrawText(scoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
+             window.GetHeight() / 2, 30, WHITE);
 
-    // Instruction to exit the game
-    // DrawText("Press ENTER to Exit", 
-    //          window.GetWidth() / 2 - MeasureText("Press ENTER to Exit", 20) / 2, 
-    //          window.GetHeight() - 100, 20, LIGHTGRAY);  // Instruction at the bottom
+    // Display high score
+    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+    DrawText(highScoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+             window.GetHeight() / 2 + 40, 30, WHITE);
 
     window.EndDrawing();
 
@@ -197,7 +199,7 @@ void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
 }
 
 // Implement the "You Win!" screen
-bool Screen::winGame() {
+bool Screen::winGame(const Score& score) {
     // Display the "You Win!" screen
     window.BeginDrawing();
     window.ClearBackground(BLACK);
@@ -206,6 +208,19 @@ bool Screen::winGame() {
     DrawText("You Win!", 
              window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
              window.GetHeight() / 3, 60, GREEN);  // Use green color for the win message
+
+    // Display player's score
+    std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+    DrawText(scoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
+             window.GetHeight() / 2, 30, WHITE);
+
+    // Display high score
+    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+    DrawText(highScoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+             window.GetHeight() / 2 + 40, 30, WHITE);
+
 
     window.EndDrawing();
 
@@ -361,4 +376,22 @@ void Screen::drawInner(){
     DrawRectangleRec({722, 82, 86, 86}, BLACK);   // Block
     DrawRectangleRec({642, 722, 6, 6}, BLACK);   // Block
     DrawRectangleRec({882, 722, 6, 6}, BLACK);   // Block
+}
+
+void Screen::drawScores(const Score& score) {
+    // Convert scores to strings
+    std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
+    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+
+    // Set positions for the text
+    int screenWidth = window.GetWidth();
+    int fontSize = 20;
+    int padding = 10;
+
+    // Draw current score at top-left
+    DrawText(currentScoreText.c_str(), padding, padding, fontSize, WHITE);
+
+    // Draw high score at top-right
+    int highScoreWidth = MeasureText(highScoreText.c_str(), fontSize);
+    DrawText(highScoreText.c_str(), screenWidth - highScoreWidth - padding, padding, fontSize, WHITE);
 }

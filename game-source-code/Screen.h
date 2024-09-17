@@ -9,6 +9,7 @@
 #include "Ghost.h"
 #include "Fruit.h"
 #include "GameKey.h"
+#include "Score.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -25,12 +26,13 @@ public:
     void drawFruits(const std::vector<Fruit>& fruits);
     void drawMaze(const Maze& maze);    // Draws the maze on the screen
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
-    bool endGame();                     // Displays the end game screen and handles the end of the game
+    bool endGame(const Score& score);
+    bool winGame(const Score& score);
     void drawGhost(const Ghost& ghost, int ghostDirection);
-    bool winGame(); // Add a method to display the "You Win!" screen
     void drawEdges();
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
+    void drawScores(const Score& score);
 
 private:
     Maze* maze;            // Pointer to the maze
@@ -43,6 +45,7 @@ private:
     Texture2D ghostPicUp = LoadTexture("../resources/pacman-images/ghostyUp.png");
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
     bool eaten;
+
 };
 
 #endif // SCREEN_H

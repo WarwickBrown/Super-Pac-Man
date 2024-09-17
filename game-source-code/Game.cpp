@@ -7,7 +7,7 @@
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false), score(nullptr) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
@@ -15,6 +15,7 @@ Game::~Game() {
     delete maze;
     delete pacMan;
     delete screen;
+    delete score;
 }
 
 // Function to initialize the game
@@ -24,6 +25,8 @@ void Game::initialise() {
     initialiseFruits();
     initialiseKeys();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
+
+    score = new Score("highscore.txt"); // Initialize the score object
 
     // Display the start screen until the player presses ENTER or closes the window
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
@@ -59,6 +62,7 @@ void Game::run() {
 
         screen->drawInner();
         // Draw the fruits on the screen
+        screen->drawScores(*score); // Draw the scores
         
 
         
@@ -75,13 +79,16 @@ void Game::run() {
         }
     }
 
-        // If the game is won, show the win screen
-        if (gameWon) {
-            isRunning = screen->winGame();
-        } else {
-            // Otherwise, show the end game screen
-            isRunning = screen->endGame();  
-        }
+    // Save high score when the game ends
+    score->saveHighScore();
+
+    // If the game is won, show the win screen
+    if (gameWon) {
+    isRunning = screen->winGame(*score);
+    } else {
+        isRunning = screen->endGame(*score);
+    }
+
 
 }
 
@@ -156,7 +163,7 @@ void Game::update() {
                 { (float)fruit.getX(), (float)fruit.getY() }, fruit.getRadius())) {
             fruit.collect();
             fruit.markAsEaten();
-            // Increase score or trigger other game events
+            score->addPoints(10); // Add points for collecting a fruit
         }
     }
 
@@ -169,6 +176,7 @@ void Game::update() {
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
                 { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
             key.collect();
+            score->addPoints(50); // Add points for collecting a key
             // Unlock associated walls
             for (int wallIndex : key.getWallsToUnlock()) {
                 maze->getWalls()[wallIndex].active = false;
