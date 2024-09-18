@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Screen.h"
 #include "Ghost.h"
+#include "Star.h"
 #include "Fruit.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -24,6 +25,7 @@ void Game::initialise() {
     initiliseGameImages();      // Initializes game images like arrow keys
     initialiseFruits();
     initialiseKeys();
+    inputStar();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
@@ -44,6 +46,7 @@ void Game::initialise() {
 void Game::run() {
     int pixelX; // Coordinates for rendering
     int pixelY;
+    int addedFrame = 1;
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -58,8 +61,13 @@ void Game::run() {
         for (const auto& fruit : fruits) {
             fruit.draw();
         }
-        screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
 
+        // Draw each star on the screen
+        for (const auto& star : stars) {
+            star.draw(addedFrame);
+        }
+        screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+        addedFrame += frame;
         screen->drawInner();
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
@@ -198,6 +206,27 @@ void Game::update() {
             return;
         }
     }
+    for (auto& stars : stars) {
+            if(totalFrames%100000 == 0)
+            {
+                stars.markAsNotEaten();
+                stars.show();
+                totalFrames = 1;
+            }
+            else
+            {
+                totalFrames++;
+            }
+        if (!stars.isEaten() && stars.isActive() && CheckCollisionCircles(
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
+                { (float)stars.getX(), (float)stars.getY() }, stars.getRadius())) {
+            stars.collect();
+            stars.markAsEaten();
+            
+            // Increase score or trigger other game events
+        }
+    }
+    
 }
 
 
@@ -262,4 +291,15 @@ void Game::checkWinCondition() {
     // If all fruits are collected, set gameWon to true
     gameWon = true;
     isRunning = false;  // Stop the game loop
+}
+
+void Game::inputStar() {
+    // Load fruit texture (replace with the correct path)
+    std::vector<Texture2D> starImage;
+    starImage.push_back(LoadTexture("../resources/pacman-images/star1.png"));
+    starImage.push_back(LoadTexture("../resources/pacman-images/star2.png"));
+    starImage.push_back(LoadTexture("../resources/pacman-images/star3.png"));
+    // Add fruits to specific positions
+    stars.emplace_back(760, 600, starImage);
+    // Add more fruits as needed
 }

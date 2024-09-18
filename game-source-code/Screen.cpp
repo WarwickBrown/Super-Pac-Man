@@ -343,7 +343,6 @@ void Screen::drawInner(){
     DrawRectangleRec({1282, 82, 6, 244}, BLACK);  // Vertical wall
     DrawRectangleRec({1202, 82, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1122, 82, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({722, 642, 86, 86}, BLACK);   // Block
     DrawRectangleRec({722, 82, 86, 86}, BLACK);   // Block
     DrawRectangleRec({642, 722, 6, 6}, BLACK);   // Block
     DrawRectangleRec({882, 722, 6, 6}, BLACK);   // Block

@@ -9,6 +9,7 @@
 #include "Fruit.h"
 #include "Ghost.h"
 #include "GameKey.h"
+#include "Star.h"
 #include "Score.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
@@ -29,6 +30,7 @@ public:
     void render();       // Renders game objects (maze, Pac-Man, etc.) on the screen
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
+    void inputStar();
 
     std::vector<GameKey> keys;
     void initialiseKeys();
@@ -38,6 +40,7 @@ public:
 private:
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
     std::vector<Fruit> fruits;
+    std::vector<Star> stars;
     
     // Pointers to various game objects
     Maze* maze;  // Pointer to the maze object
@@ -46,11 +49,13 @@ private:
     Score* score;
     std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     bool isRunning;  // Boolean to track whether the game is running or not
+    int totalFrames = 1;
     int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
     int oldDirection = 2;
     raylib::Window window;  // The game window where the game will be rendered
     int frame;       // Current frame number (used for animation)
     bool gameWon;    // Track if the game is won
+    
     
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 
