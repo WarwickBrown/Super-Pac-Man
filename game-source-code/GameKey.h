@@ -24,6 +24,7 @@ private:
     bool active;
     // Texture2D texture;
     std::vector<int> wallsToUnlock;
+    Texture2D texture = LoadTexture("../resources/pacman-images/key.png");
 };
 
 #endif // GAMEKEY_H

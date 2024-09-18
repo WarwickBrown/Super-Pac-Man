@@ -15,7 +15,6 @@ const std::vector<int>& GameKey::getWallsToUnlock() const { return wallsToUnlock
 
 void GameKey::draw() const {
     if (active) {
-        DrawCircle(x, y, radius, YELLOW);
-        //DrawTexture(texture, x - texture.width / 2, y - texture.height / 2, WHITE);
+        DrawTexture(texture, x - texture.width / 2, y - texture.height / 2, WHITE);
     }
 }

@@ -271,13 +271,13 @@ void Game::initialiseFruits() {
 }
 
 void Game::initialiseKeys() {
-    Texture2D keyTexture = LoadTexture("../resources/pacman-images/ghostyUP.png");
+    Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
 
     // Suppose walls[5] and walls[10] are to be unlocked by the key at (500, 500)
-    keys.emplace_back(500, 500, std::vector<int>{5, 10});
+    keys.emplace_back(280, 280, std::vector<int>{116, 117});
 
     // Another key that unlocks walls[15] and walls[20]
-    keys.emplace_back(700, 300, std::vector<int>{15, 20});
+    keys.emplace_back(1240, 280, std::vector<int>{118, 119});
 }
 
 

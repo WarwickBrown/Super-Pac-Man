@@ -152,7 +152,6 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{1280, 80, 10, 250});  // Vertical wall
     walls.push_back(Rectangle{1200, 80, 10, 170});  // Vertical wall
     walls.push_back(Rectangle{1120, 80, 10, 90});  // Vertical wall
-
     walls.push_back(Rectangle{720, 560, 10, 90});  // Vertical wall
     walls.push_back(Rectangle{800, 560, 10, 90});  // Vertical wall
 
@@ -162,9 +161,11 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{880, 720, 10, 10});   // Block
 
     // Locked walls (set a different color, e.g., DARKGRAY)
-    //walls.emplace_back(Rectangle{80, 800, 90, 10}, DARKGRAY);  // Locked wall
-    //walls.emplace_back(Rectangle{240, 800, 90, 10}, DARKGRAY);  // Locked wall
-    //walls.emplace_back(Rectangle{400, 800, 90, 10}, DARKGRAY);  // Locked wall
+    walls.emplace_back(Rectangle{482, 330, 6, 70}, BROWN);  // Locked wall
+    walls.emplace_back(Rectangle{1042, 330, 6, 70}, BROWN);  // Locked wall
+
+    walls.emplace_back(Rectangle{170, 482, 70, 6}, BROWN);  // Locked wall
+    walls.emplace_back(Rectangle{1290, 482, 70, 6}, BROWN);  // Locked wall
     // Continue mapping the rest of the maze
 };
 
