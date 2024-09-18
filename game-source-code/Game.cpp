@@ -157,7 +157,7 @@ void Game::update() {
     }
     float newX = pacMan->getX()+dx;
     float newY = pacMan->getY()+dy;
-    if (!maze->isWallRec(newX, newY, 39)) {
+    if (!maze->isWallRec(newX, newY, 34)) {
         oldDirection = direction;
     }
     

@@ -195,6 +195,7 @@ void Maze::initialiseCustomWalls() {
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
     for (const auto& wall : walls) {
         if (wall.active && CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, wall.rect)) {
+            //std::cout << "THE CIRCLE WALLS" << std::endl;
             return true;
         }
     }
@@ -208,6 +209,7 @@ bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
         // CheckCollisionCircleRec checks for collision between a circle (Pac-Man) and a rectangle (wall).
         if (CheckCollisionRecs(Rectangle{(float)pacmanX-35, (float)pacmanY-35, 70, 70}, wall.rect)) {
             return true;  // Collision detected, return true.
+            std::cout << "THE RECT WALLS" << std::endl;
         }
     }
     return false;  // No collision detected, return false.
