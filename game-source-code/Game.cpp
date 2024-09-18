@@ -219,17 +219,16 @@ void Game::update() {
         }
     }
     for (auto& stars : stars) {
-            if((updatedTimer) >= 5*multi){
+            if((updatedTimer) >= 3*multi){
                 num1 = rand()%6+1;
                 num2 = rand()%6+1;
                 multi++;
-                std::cout << num1 << " " << num2 << std::endl;
+            
             }
             
-            
+            screen->symbols(num1, num2);
             if(totalFrames%50000 == 0)
             {
-                screen->symbols(num1, num2);
                 stars.markAsNotEaten();
                 stars.show();
                 screen->setSymbolActive(true);
@@ -242,7 +241,13 @@ void Game::update() {
         if (!stars.isEaten() && stars.isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
                 { (float)stars.getX(), (float)stars.getY() }, stars.getRadius())) {
-            score->addPoints(200); // Add points for collecting a key
+                    if(num1 == num2)
+                    {
+                        score->addPoints(2000); // Add points for collecting a key
+                    }
+                    else{
+                        score->addPoints(500); // Add points for collecting a key
+                    }
             stars.collect();
             stars.markAsEaten();
             screen->setSymbolActive(false);

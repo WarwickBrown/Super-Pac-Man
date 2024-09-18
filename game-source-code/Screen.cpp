@@ -295,8 +295,8 @@ void Screen::symbols(int num1, int num2)
         };
         //std::cout << sourceRec1 << std::endl;
         // Draw Pac-Man's texture at the specified location and frame
-        DrawTextureRec(texture1, sourceRec1, Vector2{645, 565}, RAYWHITE);
-        DrawTextureRec(texture2, sourceRec2, Vector2{805, 565}, RAYWHITE);
+        DrawTextureRec(texture1, sourceRec1, Vector2{650, 570}, RAYWHITE);
+        DrawTextureRec(texture2, sourceRec2, Vector2{810, 570}, RAYWHITE);
     }
 }
 
