@@ -207,7 +207,7 @@ bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
     for (const auto& wall : walls) {
         
         // CheckCollisionCircleRec checks for collision between a circle (Pac-Man) and a rectangle (wall).
-        if (CheckCollisionRecs(Rectangle{(float)pacmanX-35, (float)pacmanY-35, 70, 70}, wall.rect)) {
+        if (wall.active && CheckCollisionRecs(Rectangle{(float)pacmanX-35, (float)pacmanY-35, 70, 70}, wall.rect)) {
             return true;  // Collision detected, return true.
             std::cout << "THE RECT WALLS" << std::endl;
         }
