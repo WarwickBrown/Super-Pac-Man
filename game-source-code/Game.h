@@ -55,7 +55,10 @@ private:
     raylib::Window window;  // The game window where the game will be rendered
     int frame;       // Current frame number (used for animation)
     bool gameWon;    // Track if the game is won
-    
+    int symbolCounter = 0;
+    float timerStart = GetTime();
+    int multi = 0;
+    int num1 = 1, num2 = 1;
     
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 

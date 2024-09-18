@@ -56,7 +56,7 @@ void Star::draw(int frame) const {
                 break;
         }
         Rectangle sourceRec = {
-        (float)(picture.width) ,  // Calculate width of a single frame
+        (float)(picture.width),  // Calculate width of a single frame
         0, 
         (float)(picture.width),          // Width of a single frame
         (float)(picture.height)              // Full height of the texture

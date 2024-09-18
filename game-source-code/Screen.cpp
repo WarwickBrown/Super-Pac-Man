@@ -228,6 +228,82 @@ void Screen::drawEdges()
    // DrawCircleSector({(float)180,(float)80}, 5, 270, 360, 50, PINK);
 }
 
+void Screen::symbols(int num1, int num2)
+{
+    if(symbolActive){
+        Texture2D texture1;
+        Texture2D texture2;
+        if(num1 == 1)
+    {
+        texture1 = symbol1;
+    }
+    else if(num1 == 2)
+    {
+        texture1 = symbol2;
+    }
+    else if(num1 == 3)
+    {
+        texture1 = symbol3;
+    }
+    else if(num1 == 4)
+    {
+        texture1 = symbol4;
+    }
+    else if(num1 == 5)
+    {
+        texture1 = symbol5;
+    }
+    else if(num1 == 6)
+    {
+        texture1 = symbol6;
+    }
+        if(num2 == 1)
+    {
+        texture2 = symbol1;
+    }
+    else if(num2 == 2)
+    {
+        texture2 = symbol2;
+    }
+    else if(num2 == 3)
+    {
+        texture2 = symbol3;
+    }
+    else if(num2 == 4)
+    {
+        texture2 = symbol4;
+    }
+    else if(num2 == 5)
+    {
+        texture2 = symbol5;
+    }
+    else if(num2 == 6)
+    {
+        texture2 = symbol6;
+    }
+        Rectangle sourceRec1 = {
+            (float)(texture1.width),  // Calculate width of a single frame
+            0, 
+            (float)(texture1.width),          // Width of a single frame
+            (float)(texture1.height) 
+        };
+        Rectangle sourceRec2 = {
+            (float)texture2.width,  // Calculate width of a single frame
+            0, 
+            (float)texture2.width,         // Width of a single frame
+            (float)texture2.height
+        };
+        //std::cout << sourceRec1 << std::endl;
+        // Draw Pac-Man's texture at the specified location and frame
+        DrawTextureRec(texture1, sourceRec1, Vector2{645, 565}, RAYWHITE);
+        DrawTextureRec(texture2, sourceRec2, Vector2{805, 565}, RAYWHITE);
+    }
+}
+
+void Screen::setSymbolActive(bool status){
+    symbolActive = status;
+}
+
 void Screen::drawInner(){
 
     DrawRectangleRec(Rectangle{2, 82, 6, 806}, BLACK);     // Left wall

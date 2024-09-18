@@ -33,7 +33,8 @@ public:
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
-
+    void symbols(int num1, int num2);
+    void setSymbolActive(bool status);
 private:
     Maze* maze;            // Pointer to the maze
     bool isRunning;        // State to check if the game is running
@@ -44,8 +45,14 @@ private:
     Texture2D ghostPicLeft = LoadTexture("../resources/pacman-images/ghostyLeft.png");
     Texture2D ghostPicUp = LoadTexture("../resources/pacman-images/ghostyUp.png");
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
+    Texture2D symbol1 = LoadTexture("../resources/pacman-images/symbol1.png");
+    Texture2D symbol2 = LoadTexture("../resources/pacman-images/symbol2.png");
+    Texture2D symbol3 = LoadTexture("../resources/pacman-images/symbol3.png");
+    Texture2D symbol4 = LoadTexture("../resources/pacman-images/symbol4.png");
+    Texture2D symbol5 = LoadTexture("../resources/pacman-images/symbol5.png");
+    Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
     bool eaten;
-
+    bool symbolActive = false;
 };
 
 #endif // SCREEN_H

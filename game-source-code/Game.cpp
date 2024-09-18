@@ -6,6 +6,8 @@
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
+#include <cstdlib>
+#include <cmath>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
 Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false), score(nullptr) {}
@@ -47,6 +49,7 @@ void Game::run() {
     int pixelX; // Coordinates for rendering
     int pixelY;
     int addedFrame = 1;
+    srand(addedFrame);
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -71,6 +74,9 @@ void Game::run() {
         screen->drawInner();
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
+        
+         
+        
         
 
         
@@ -133,6 +139,9 @@ void Game::handleInput() {
 // Updates the game state (e.g., Pac-Man's position)
 void Game::update() {
     int dx, dy;
+    float newTimer = GetTime();
+    float updatedTimer = newTimer - timerStart;
+    int updateFrames = GetFrameTime();
     switch (direction) {
     case 1: 
             dx = 1; 
@@ -160,6 +169,9 @@ void Game::update() {
     if (!maze->isWallRec(newX, newY, 34)) {
         oldDirection = direction;
     }
+
+
+    
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
@@ -207,10 +219,20 @@ void Game::update() {
         }
     }
     for (auto& stars : stars) {
-            if(totalFrames%100000 == 0)
+            if((updatedTimer) >= 5*multi){
+                num1 = rand()%6+1;
+                num2 = rand()%6+1;
+                multi++;
+                std::cout << num1 << " " << num2 << std::endl;
+            }
+            
+            
+            if(totalFrames%50000 == 0)
             {
+                screen->symbols(num1, num2);
                 stars.markAsNotEaten();
                 stars.show();
+                screen->setSymbolActive(true);
                 totalFrames = 1;
             }
             else
@@ -223,6 +245,7 @@ void Game::update() {
             score->addPoints(200); // Add points for collecting a key
             stars.collect();
             stars.markAsEaten();
+            screen->setSymbolActive(false);
             
             // Increase score or trigger other game events
         }
