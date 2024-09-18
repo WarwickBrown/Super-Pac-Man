@@ -33,6 +33,7 @@ public:
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
+    void drawLives(int lives);
 
 private:
     Maze* maze;            // Pointer to the maze

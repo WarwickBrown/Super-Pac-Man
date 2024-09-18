@@ -11,6 +11,7 @@
 #include "GameKey.h"
 #include "Star.h"
 #include "Score.h"
+#include "Lives.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
@@ -47,6 +48,7 @@ private:
     PacMan* pacMan;  // Pointer to the Pac-Man object
     Screen* screen;  // Pointer to the screen object
     Score* score;
+    Lives* playerLives; // Pointer to Lives object
     std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;

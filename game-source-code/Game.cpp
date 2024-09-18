@@ -3,12 +3,13 @@
 #include "Ghost.h"
 #include "Star.h"
 #include "Fruit.h"
+#include "Lives.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false), score(nullptr) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false), score(nullptr), playerLives(nullptr) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
@@ -17,6 +18,7 @@ Game::~Game() {
     delete pacMan;
     delete screen;
     delete score;
+    delete playerLives;
 }
 
 // Function to initialize the game
@@ -29,6 +31,7 @@ void Game::initialise() {
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
+    playerLives = new Lives(3);
 
     // Display the start screen until the player presses ENTER or closes the window
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
@@ -71,6 +74,7 @@ void Game::run() {
         screen->drawInner();
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
+        screen->drawLives(playerLives->getLives());
         
 
         
@@ -201,9 +205,14 @@ void Game::update() {
 
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {
-            // Collision detected, end the game
-            isRunning = false;
-            return;
+            // Collision detected
+            playerLives->loseLife(); // Deduct a life
+
+            if (!(playerLives->isAlive())) {
+                // Reset positions
+                isRunning = false;
+                return;
+            }
         }
     }
     for (auto& stars : stars) {

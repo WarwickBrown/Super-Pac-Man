@@ -370,3 +370,24 @@ void Screen::drawScores(const Score& score) {
     // Draw the combined text
     DrawText(combinedText.c_str(), xPosition, yPosition, fontSize, WHITE);
 }
+
+void Screen::drawLives(int lives) {
+    // Parameters for drawing the lives
+    int radius = 15;                  // Radius of the life circles
+    int spacing = 10;                 // Space between circles
+    int totalLives = 3;               // Total number of lives
+    int livesToDraw = std::min(lives, totalLives); // Ensure we don't draw more than total lives
+
+    // Calculate the total width of the lives display
+    int totalWidth = totalLives * (2 * radius) + (totalLives - 1) * spacing;
+
+    // Starting position (top right of the screen)
+    int xStart = window.GetWidth() - totalWidth - 20; // 20 pixels padding from the right edge
+    int yPosition = 20;                               // 20 pixels padding from the top edge
+
+    // Draw the lives
+    for (int i = 0; i < livesToDraw; ++i) {
+        int xPosition = xStart + i * ((2 * radius) + spacing);
+        DrawCircle(xPosition + radius, yPosition + radius, radius, RED);
+    }
+}
