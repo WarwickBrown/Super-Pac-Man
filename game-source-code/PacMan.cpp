@@ -6,7 +6,7 @@
 using namespace std;
 
 // Constructor: Initializes Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
-PacMan::PacMan(int startX, int startY) : x(50), y(45), dx(0), dy(0), speed(250), radius(34) {}
+PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), speed(250), radius(34) {}
 
 // Destructor: Since there is no dynamic memory allocation, the destructor does not need to clean up any resources.
 PacMan::~PacMan() {

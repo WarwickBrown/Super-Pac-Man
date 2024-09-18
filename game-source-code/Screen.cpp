@@ -230,16 +230,16 @@ void Screen::drawEdges()
 
 void Screen::drawInner(){
 
-    DrawRectangleRec(Rectangle{2, 2, 6, 886}, BLACK);     // Left wall
-    DrawRectangleRec(Rectangle{2, 2, 1520, 6}, BLACK);    // Top wall
-    DrawRectangleRec(Rectangle{1522, 2, 6, 886}, BLACK);  // Right wall
+    DrawRectangleRec(Rectangle{2, 82, 6, 806}, BLACK);     // Left wall
+    DrawRectangleRec(Rectangle{2, 82, 1522, 6}, BLACK);    // Top wall
+    DrawRectangleRec(Rectangle{1522, 82, 6, 806}, BLACK);  // Right wall
     DrawRectangleRec(Rectangle{2, 882, 1520, 6}, BLACK);  // Bottom wall
 
     //DrawRectangleRec(Rectangle{82, 802, 82, 6}, BLACK);   // Horizontal wall
-    DrawRectangleRec({82, 82, 86, 6}, BLACK);   // Horizontal wall
+
     DrawRectangleRec({2, 722, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({242, 802, 86, 6}, BLACK);   // Horizontal wall
-    DrawRectangleRec({82, 642, 86, 6}, BLACK);   // Horizontal wall
+
     DrawRectangleRec({82, 242, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({162, 562, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({242, 322, 86, 6}, BLACK);   // Horizontal wall
@@ -258,6 +258,7 @@ void Screen::drawInner(){
     DrawRectangleRec({402, 322, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({322, 562, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 562, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({82, 642, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({802, 562, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 802, 244, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 482, 242, 6}, BLACK);   // Horizontal wall
@@ -268,7 +269,6 @@ void Screen::drawInner(){
     DrawRectangleRec({882, 322, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({962, 722, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1042, 642, 86, 6}, BLACK);   // Horizontal wall
-    DrawRectangleRec({1362, 82, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1122, 722, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1202, 802, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1202, 482, 86, 6}, BLACK);   // Horizontal wall
@@ -289,7 +289,6 @@ void Screen::drawInner(){
     DrawRectangleRec({82, 802, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1362, 242, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({1282, 162, 86, 6}, BLACK);   // Horizontal wall
-    DrawRectangleRec({1362, 82, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({962, 242, 86, 6}, BLACK);   // Horizontal wall
 
     // Vertical walls for more complexity
@@ -303,9 +302,7 @@ void Screen::drawInner(){
     DrawRectangleRec({242, 82, 6, 244}, BLACK);  // Vertical wall
     DrawRectangleRec({322, 82, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({402, 82, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({482, 2, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({402, 722, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({642, 2, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({562, 82, 6, 244}, BLACK);  // Vertical wall
     DrawRectangleRec({322, 482, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({562, 802, 6, 86}, BLACK);  // Vertical wall
@@ -325,12 +322,9 @@ void Screen::drawInner(){
     DrawRectangleRec({962, 402, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({962, 562, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({1122, 722, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({1042, 2, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1042, 402, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1442, 82, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({642, 2, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({962, 82, 6, 244}, BLACK);  // Vertical wall
-    DrawRectangleRec({882, 2, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1282, 722, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({1362, 722, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({1282, 562, 6, 86}, BLACK);  // Vertical wall
