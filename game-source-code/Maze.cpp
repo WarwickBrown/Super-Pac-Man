@@ -35,6 +35,20 @@ Maze::~Maze() {
 // }
 
 void Maze::initialiseCustomWalls() {
+    // Locked walls covers (set a different color, e.g., DARKGRAY)
+    walls.emplace_back(Rectangle{480, 330, 10, 70}, BLUE);  // Locked wall cover
+    walls.emplace_back(Rectangle{1040, 330, 10, 70}, BLUE);  // Locked wall cover
+    // Locked walls (set a different color, e.g., DARKGRAY)
+    walls.emplace_back(Rectangle{482, 330, 6, 70}, BROWN);  // Locked wall 
+    walls.emplace_back(Rectangle{1042, 330, 6, 70}, BROWN);  // Locked wall 
+    
+    // Locked walls covers (set a different color, e.g., DARKGRAY)
+    walls.emplace_back(Rectangle{170, 480, 70, 10}, BLACK);  // Locked wall cover
+    walls.emplace_back(Rectangle{1290, 480, 70, 10}, BLACK);  // Locked wall cover
+    // Locked walls (set a different color, e.g., DARKGRAY)
+    walls.emplace_back(Rectangle{170, 482, 70, 6}, BROWN);  // Locked wall 
+    walls.emplace_back(Rectangle{1290, 482, 70, 6}, BROWN);  // Locked wall 
+
     // Outer walls
     walls.push_back(Rectangle{0, 0, 10, 890});     // Left wall
     walls.push_back(Rectangle{0, 0, 1520, 10});    // Top wall
@@ -160,12 +174,7 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{640, 720, 10, 10});   // Block
     walls.push_back(Rectangle{880, 720, 10, 10});   // Block
 
-    // Locked walls (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{482, 330, 6, 70}, BROWN);  // Locked wall
-    walls.emplace_back(Rectangle{1042, 330, 6, 70}, BROWN);  // Locked wall
-
-    walls.emplace_back(Rectangle{170, 482, 70, 6}, BROWN);  // Locked wall
-    walls.emplace_back(Rectangle{1290, 482, 70, 6}, BROWN);  // Locked wall
+    
     // Continue mapping the rest of the maze
 };
 

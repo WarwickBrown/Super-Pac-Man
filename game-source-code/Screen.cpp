@@ -298,7 +298,7 @@ void Screen::drawInner(){
     DrawRectangleRec({82, 562, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({82, 322, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({82, 82, 6, 86}, BLACK);  // Vertical wall
-    DrawRectangleRec({162, 242, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({162, 242, 6, 246}, BLACK);  // Vertical wall
     DrawRectangleRec({242, 562, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({242, 82, 6, 244}, BLACK);  // Vertical wall
     DrawRectangleRec({322, 82, 6, 166}, BLACK);  // Vertical wall
@@ -339,13 +339,17 @@ void Screen::drawInner(){
     DrawRectangleRec({1202, 482, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1442, 562, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({1442, 322, 6, 166}, BLACK);  // Vertical wall
-    DrawRectangleRec({1362, 242, 6, 244}, BLACK);  // Vertical wall
+    DrawRectangleRec({1362, 242, 6, 246}, BLACK);  // Vertical wall
     DrawRectangleRec({1282, 82, 6, 244}, BLACK);  // Vertical wall
     DrawRectangleRec({1202, 82, 6, 166}, BLACK);  // Vertical wall
     DrawRectangleRec({1122, 82, 6, 86}, BLACK);  // Vertical wall
     DrawRectangleRec({722, 82, 86, 86}, BLACK);   // Block
-    DrawRectangleRec({642, 722, 6, 6}, BLACK);   // Block
-    DrawRectangleRec({882, 722, 6, 6}, BLACK);   // Block
+    DrawRectangleRec({642, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({802, 722, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({722, 562, 6, 86}, BLACK);   // Vertical wall
+    DrawRectangleRec({802, 562, 6, 86}, BLACK);   // Vertical wall
+    DrawRectangleRec({642, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({802, 642, 86, 6}, BLACK);   // Horizontal wall
 }
 
 void Screen::drawScores(const Score& score) {

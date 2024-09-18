@@ -220,6 +220,7 @@ void Game::update() {
         if (!stars.isEaten() && stars.isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
                 { (float)stars.getX(), (float)stars.getY() }, stars.getRadius())) {
+            score->addPoints(200); // Add points for collecting a key
             stars.collect();
             stars.markAsEaten();
             
@@ -274,10 +275,10 @@ void Game::initialiseKeys() {
     Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
 
     // Suppose walls[5] and walls[10] are to be unlocked by the key at (500, 500)
-    keys.emplace_back(280, 280, std::vector<int>{116, 117});
+    keys.emplace_back(280, 280, std::vector<int>{0, 1, 2, 3});
 
     // Another key that unlocks walls[15] and walls[20]
-    keys.emplace_back(1240, 280, std::vector<int>{118, 119});
+    keys.emplace_back(1240, 280, std::vector<int>{4, 5, 6, 7});
 }
 
 
