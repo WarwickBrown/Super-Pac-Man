@@ -36,8 +36,8 @@ Maze::~Maze() {
 
 void Maze::initialiseCustomWalls() {
     // Locked walls covers (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{480, 330, 10, 70}, BLUE);  // Locked wall cover
-    walls.emplace_back(Rectangle{1040, 330, 10, 70}, BLUE);  // Locked wall cover
+    walls.emplace_back(Rectangle{480, 330, 10, 70}, BLACK);  // Locked wall cover
+    walls.emplace_back(Rectangle{1040, 330, 10, 70}, BLACK);  // Locked wall cover
     // Locked walls (set a different color, e.g., DARKGRAY)
     walls.emplace_back(Rectangle{482, 330, 6, 70}, BROWN);  // Locked wall 
     walls.emplace_back(Rectangle{1042, 330, 6, 70}, BROWN);  // Locked wall 
