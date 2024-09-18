@@ -166,6 +166,8 @@ void Game::update() {
     }
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+    // Update Pac-Man's invincibility timer
+    pacMan->updateInvincibility(deltaTime);
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 
     // Check if Pac-Man collects any fruits
@@ -196,25 +198,42 @@ void Game::update() {
         }
     }
 
+    // Check collisions with ghosts only if Pac-Man is not invincible
+    if (!pacMan->isInvincible()) {
+        for (auto& ghost : ghosts) {
+            int ghostDirection = ghost.move(*maze, deltaTime);
+            // Draw each ghost
 
-    for (auto& ghost : ghosts) {
-        int ghostDirection = ghost.move(*maze, deltaTime);
-        // Draw each ghost
+            screen->drawGhost(ghost, ghostDirection);
 
-        screen->drawGhost(ghost, ghostDirection);
+            // Check for collision with Pac-Man
+            if (ghost.checkCollisionWithPacMan(*pacMan)) {
+                // Collision detected
+                playerLives->loseLife(); // Deduct a life
 
-        // Check for collision with Pac-Man
-        if (ghost.checkCollisionWithPacMan(*pacMan)) {
-            // Collision detected
-            playerLives->loseLife(); // Deduct a life
-
-            if (!(playerLives->isAlive())) {
-                // Reset positions
-                isRunning = false;
-                return;
+                if (!(playerLives->isAlive())) {
+                    // Reset positions
+                    isRunning = false;
+                    return;
+                }
+                else {
+                    // Make Pac-Man invincible for a short duration
+                    pacMan->setInvincible(true);
+                }
+                break;
             }
         }
+    } else {
+        // Even if Pac-Man is invincible, still update ghosts
+        for (auto& ghost : ghosts) {
+            int ghostDirection = ghost.move(*maze, deltaTime);
+            // Draw each ghost
+            screen->drawGhost(ghost, ghostDirection);
+        }
     }
+
+    
+
     for (auto& stars : stars) {
             if(totalFrames%100000 == 0)
             {
