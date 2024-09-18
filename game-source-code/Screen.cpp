@@ -351,15 +351,22 @@ void Screen::drawScores(const Score& score) {
     std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
     std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
 
-    // Set positions for the text
+    // Option 1: Combine both texts into one line
+    std::string combinedText = currentScoreText + "    " + highScoreText;
+
+    // Set the new, larger font size
+    int fontSize = 40;
+
+    // Measure the width of the combined text
+    int textWidth = MeasureText(combinedText.c_str(), fontSize);
+
+    // Calculate x position to center the text
     int screenWidth = window.GetWidth();
-    int fontSize = 20;
-    int padding = 10;
+    int xPosition = (screenWidth - textWidth) / 2;
 
-    // Draw current score at top-left
-    DrawText(currentScoreText.c_str(), padding, padding, fontSize, WHITE);
+    // Set y position at the top with some padding
+    int yPosition = 20; // Adjust as needed
 
-    // Draw high score at top-right
-    int highScoreWidth = MeasureText(highScoreText.c_str(), fontSize);
-    DrawText(highScoreText.c_str(), screenWidth - highScoreWidth - padding, padding, fontSize, WHITE);
+    // Draw the combined text
+    DrawText(combinedText.c_str(), xPosition, yPosition, fontSize, WHITE);
 }
