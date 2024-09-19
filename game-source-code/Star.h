@@ -23,7 +23,7 @@ public:
 
 private:
     int x, y;
-    mutable int multiple = 1, num2;           // Position of the Star
+    mutable int multiple = 1, num = 0;           // Position of the Star
     int radius;            // Radius of the Star
     bool active;           // Whether the Star is still on the screen
     Texture2D texture;     // Texture of the Star

@@ -41,18 +41,16 @@ void Star::collect() {
 // Draws the Star on the screen
 void Star::draw(int frame) const {
     float updatedTime = GetTime() - startTime;
-    srand(frame);
-    int num = rand()%3+1;
-    if(updatedTime >= multiple*0.5)
+    if(updatedTime >= multiple*0.2)
     {
         
         multiple++;
         change = true;
     }
         std::cout << "active " << num << "  change " << change <<std::endl;
-        if (change == true && num != num2) {
+        if (change == true) {
             change = false;
-            num2 = num;
+            
             switch(num){
                 case 0:
                     picture = star1;
@@ -63,6 +61,12 @@ void Star::draw(int frame) const {
                 case 2:
                     picture = star3;
                     break;
+            }
+            
+            num++;
+            if(num >= 4)
+            {
+                num = 0;
             }
         }
         if(active){
