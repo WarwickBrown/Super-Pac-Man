@@ -57,8 +57,8 @@ private:
     bool gameWon;    // Track if the game is won
     int symbolCounter = 0;
     float timerStart = GetTime();
-    int multi = 0;
-    int num1 = 1, num2 = 1;
+    int multi = 0, multi2 = 1;
+    int num1 = 1, num2 = 1, num3 = 1;
     
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 

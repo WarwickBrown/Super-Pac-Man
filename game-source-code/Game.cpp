@@ -218,21 +218,23 @@ void Game::update() {
             return;
         }
     }
+
     for (auto& stars : stars) {
-            if((updatedTimer) >= 3*multi){
+            if((updatedTimer) >= 0.5*multi){
                 num1 = rand()%6+1;
                 num2 = rand()%6+1;
+                num3 = rand()%6+1;
                 multi++;
-            
             }
             
-            screen->symbols(num1, num2);
-            if(totalFrames%50000 == 0)
+            screen->symbols(num1, num2, num3);
+            if((updatedTimer) >= 30*multi2)
             {
                 stars.markAsNotEaten();
                 stars.show();
                 screen->setSymbolActive(true);
                 totalFrames = 1;
+                multi2++;
             }
             else
             {
@@ -241,7 +243,11 @@ void Game::update() {
         if (!stars.isEaten() && stars.isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
                 { (float)stars.getX(), (float)stars.getY() }, stars.getRadius())) {
-                    if(num1 == num2)
+                    if(num1 == num2 && num2 == num3)
+                    {
+                        score->addPoints(5000); // Add points for collecting a key
+                    }
+                    else if(num1 == num2 || num2 == num3 || num1 == num3)
                     {
                         score->addPoints(2000); // Add points for collecting a key
                     }

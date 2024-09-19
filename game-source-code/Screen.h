@@ -33,7 +33,7 @@ public:
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
-    void symbols(int num1, int num2);
+    void symbols(int num1, int num2, int num3);
     void setSymbolActive(bool status);
 private:
     Maze* maze;            // Pointer to the maze
