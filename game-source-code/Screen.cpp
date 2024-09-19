@@ -286,7 +286,7 @@ void Screen::symbols(int num1, int num2, int num3)
     {
         texture3 = symbol1;
     }
-    else if(num3 == 3)
+    else if(num3 == 2)
     {
         texture3 = symbol2;
     }
@@ -451,8 +451,9 @@ void Screen::drawInner(){
     DrawRectangleRec({802, 562, 6, 86}, BLACK);   // Vertical wall
     DrawRectangleRec({642, 642, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({802, 642, 86, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 162, 6, 86}, BLACK);   // Vertical wall
+    DrawRectangleRec({882, 162, 6, 86}, BLACK);   // Vertical wall
 }
-
 void Screen::drawScores(const Score& score) {
     // Convert scores to strings
     std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
@@ -495,6 +496,14 @@ void Screen::drawLives(int lives) {
     // Draw the lives
     for (int i = 0; i < livesToDraw; ++i) {
         int xPosition = xStart + i * ((2 * radius) + spacing);
-        DrawCircle(xPosition + radius, yPosition + radius, radius, RED);
+        //DrawCircle(xPosition + radius, yPosition + radius, radius, RED);
+        Rectangle sourceRec = {
+            (float)symbolLives.width,  // Calculate width of a single frame
+            0, 
+            (float)symbolLives.width,         // Width of a single frame
+            (float)symbolLives.height
+        };
+        // Draw Pac-Man's texture at the specified location and frame
+        DrawTextureRec(symbolLives, sourceRec, Vector2{(float)(1365 + i*55), 20}, RAYWHITE);
     }
 }

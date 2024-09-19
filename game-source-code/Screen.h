@@ -54,6 +54,7 @@ private:
     Texture2D symbol4 = LoadTexture("../resources/pacman-images/symbol4.png");
     Texture2D symbol5 = LoadTexture("../resources/pacman-images/symbol5.png");
     Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
+    Texture2D symbolLives = LoadTexture("../resources/pacman-images/livesSymbol.png");
     bool eaten;
     bool symbolActive = false;
 };

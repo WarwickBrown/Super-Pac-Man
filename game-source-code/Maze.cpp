@@ -163,8 +163,9 @@ void Maze::initialiseCustomWalls() {
     walls.push_back(Rectangle{1120, 80, 10, 90});  // Vertical wall
     walls.push_back(Rectangle{720, 560, 10, 90});  // Vertical wall
     walls.push_back(Rectangle{800, 560, 10, 90});  // Vertical wall
+    walls.push_back(Rectangle{640, 160, 10, 90});  // Vertical wall
+    walls.push_back(Rectangle{880, 160, 10, 90});  // Vertical wall
 
-    //walls.push_back(Rectangle{720, 640, 90, 90});   // Block
     walls.push_back(Rectangle{720, 80, 90, 90});   // Block
     walls.push_back(Rectangle{640, 720, 10, 10});   // Block
     walls.push_back(Rectangle{880, 720, 10, 10});   // Block

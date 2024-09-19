@@ -22,11 +22,15 @@ public:
     void show();
 
 private:
-    int x, y;              // Position of the Star
+    int x, y;
+    mutable int multiple = 1, num2;           // Position of the Star
     int radius;            // Radius of the Star
     bool active;           // Whether the Star is still on the screen
     Texture2D texture;     // Texture of the Star
     bool eaten = true;
+    float startTime = GetTime();
+    mutable bool change = false;
+    mutable Texture2D picture;
     Texture2D star1 = LoadTexture("../resources/pacman-images/star1.png");
     Texture2D star2 = LoadTexture("../resources/pacman-images/star2.png");
     Texture2D star3 = LoadTexture("../resources/pacman-images/star3.png");

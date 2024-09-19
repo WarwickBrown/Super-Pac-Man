@@ -1,5 +1,7 @@
 #include "Star.h"
 #include <vector>
+#include <cstdlib>
+#include <iostream> 
 
 // Constructor that accepts position (x, y) and a texture reference
 Star::Star(int x, int y, const std::vector<Texture2D> texture) : x(x), y(y), radius(20), active(false), eaten(false) {}
@@ -38,34 +40,42 @@ void Star::collect() {
 
 // Draws the Star on the screen
 void Star::draw(int frame) const {
-    if (active) {
-        if(frame > 2)
-        {
-            frame = frame%3;
-        }
-        Texture2D picture;
-        switch(frame){
-            case 0:
-                picture = star1;
-                break;
-            case 1:
-                picture = star2;
-                break;
-            case 2:
-                picture = star3;
-                break;
-        }
-        Rectangle sourceRec = {
-        (float)(picture.width),  // Calculate width of a single frame
-        0, 
-        (float)(picture.width),          // Width of a single frame
-        (float)(picture.height)              // Full height of the texture
-    };
-
-    // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(picture, sourceRec, Vector2{(float)getX()-30, (float)getY()-32}, RAYWHITE);
-       // DrawTexture(texture, x, y, RAYWHITE); // Draw the Star if it's active
+    float updatedTime = GetTime() - startTime;
+    srand(frame);
+    int num = rand()%3+1;
+    if(updatedTime >= multiple*0.5)
+    {
+        
+        multiple++;
+        change = true;
     }
+        std::cout << "active " << num << "  change " << change <<std::endl;
+        if (change == true && num != num2) {
+            change = false;
+            num2 = num;
+            switch(num){
+                case 0:
+                    picture = star1;
+                    break;
+                case 1:
+                    picture = star2;
+                    break;
+                case 2:
+                    picture = star3;
+                    break;
+            }
+        }
+        if(active){
+            Rectangle sourceRec = {
+                (float)(picture.width),  // Calculate width of a single frame
+                0, 
+                (float)(picture.width),          // Width of a single frame
+                (float)(picture.height)              // Full height of the texture
+                };
+
+                // Draw Key texture at the specified location and frame
+                DrawTextureRec(picture, sourceRec, Vector2{(float)getX()-30, (float)getY()-32}, RAYWHITE);
+        }
 }
 
 void Star::markAsEaten() {
