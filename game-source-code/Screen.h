@@ -33,12 +33,8 @@ public:
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
-<<<<<<< HEAD
     void symbols(int num1, int num2, int num3);
-=======
     void drawLives(int lives);
-    void symbols(int num1, int num2);
->>>>>>> 805b0ee961b9881efc1157e2946e4a3abf2fdcd1
     void setSymbolActive(bool status);
 
 

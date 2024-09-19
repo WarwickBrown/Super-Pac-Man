@@ -244,11 +244,6 @@ void Game::update() {
         }
     }
 
-<<<<<<< HEAD
-=======
-    
-
->>>>>>> 805b0ee961b9881efc1157e2946e4a3abf2fdcd1
     for (auto& stars : stars) {
             if((updatedTimer) >= 0.5*multi){
                 num1 = rand()%6+1;
