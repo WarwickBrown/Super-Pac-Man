@@ -6,7 +6,7 @@
 using namespace std;
 
 // Constructor: Initializes Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
-PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), speed(250), radius(34) {}
+PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), speed(250), radius(34), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
 
 // Destructor: Since there is no dynamic memory allocation, the destructor does not need to clean up any resources.
 PacMan::~PacMan() {
@@ -94,7 +94,23 @@ void PacMan::setDirection(int direction) {
     }
 }
 
-// Checks for collisions with the maze
-// bool PacMan::checkCollision(const Maze& maze) const {
-//     return maze.isWall(x / 32, y / 32, radius);
-// }
+bool PacMan::isInvincible() const {
+    return invincible;
+}
+
+void PacMan::setInvincible(bool invincible) {
+    this->invincible = invincible;
+    if (invincible) {
+        invincibilityTime = 0.0f;
+    }
+}
+
+void PacMan::updateInvincibility(float deltaTime) {
+    if (invincible) {
+        invincibilityTime += deltaTime;
+        if (invincibilityTime >= invincibilityDuration) {
+            invincible = false;
+            invincibilityTime = 0.0f;
+        }
+    }
+}

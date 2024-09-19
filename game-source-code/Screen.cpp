@@ -458,15 +458,43 @@ void Screen::drawScores(const Score& score) {
     std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
     std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
 
-    // Set positions for the text
+    // Option 1: Combine both texts into one line
+    std::string combinedText = currentScoreText + "    " + highScoreText;
+
+    // Set the new, larger font size
+    int fontSize = 40;
+
+    // Measure the width of the combined text
+    int textWidth = MeasureText(combinedText.c_str(), fontSize);
+
+    // Calculate x position to center the text
     int screenWidth = window.GetWidth();
-    int fontSize = 20;
-    int padding = 10;
+    int xPosition = (screenWidth - textWidth) / 2;
 
-    // Draw current score at top-left
-    DrawText(currentScoreText.c_str(), padding, padding, fontSize, WHITE);
+    // Set y position at the top with some padding
+    int yPosition = 20; // Adjust as needed
 
-    // Draw high score at top-right
-    int highScoreWidth = MeasureText(highScoreText.c_str(), fontSize);
-    DrawText(highScoreText.c_str(), screenWidth - highScoreWidth - padding, padding, fontSize, WHITE);
+    // Draw the combined text
+    DrawText(combinedText.c_str(), xPosition, yPosition, fontSize, WHITE);
+}
+
+void Screen::drawLives(int lives) {
+    // Parameters for drawing the lives
+    int radius = 15;                  // Radius of the life circles
+    int spacing = 10;                 // Space between circles
+    int totalLives = 3;               // Total number of lives
+    int livesToDraw = std::min(lives, totalLives); // Ensure we don't draw more than total lives
+
+    // Calculate the total width of the lives display
+    int totalWidth = totalLives * (2 * radius) + (totalLives - 1) * spacing;
+
+    // Starting position (top right of the screen)
+    int xStart = window.GetWidth() - totalWidth - 20; // 20 pixels padding from the right edge
+    int yPosition = 20;                               // 20 pixels padding from the top edge
+
+    // Draw the lives
+    for (int i = 0; i < livesToDraw; ++i) {
+        int xPosition = xStart + i * ((2 * radius) + spacing);
+        DrawCircle(xPosition + radius, yPosition + radius, radius, RED);
+    }
 }
