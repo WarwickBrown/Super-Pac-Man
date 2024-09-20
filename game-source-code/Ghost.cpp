@@ -3,7 +3,7 @@
 #include <ctime>   // For time()
 
 // Constructor
-Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34) {
+Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34), frightened(false) {
     // Initialize random seed
     std::srand(std::time(0));
     // Initialize random direction
@@ -114,4 +114,12 @@ bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
 
     // Check if the distance is less than the sum of the radii (indicating a collision)
     return distance < (radius + pacman.getRadius());
+}
+
+void Ghost::setNormal() {
+    frightened = false;
+}
+
+bool Ghost::isFrightened() const {
+    return frightened;
 }

@@ -219,6 +219,22 @@ void Game::update() {
     for (auto& pellet : powerPellets) {
         if (pellet.checkCollisionWithPacMan(*pacMan)) {
             score->addPoints(100);  // Add 100 points for eating a power pellet
+
+            // Make ghosts frightened
+            for (auto& ghost : ghosts) {
+                ghost.setFrightened(true);
+            }
+
+            // Start a timer to end frightened mode after a certain time
+            // You can manage this with a timer or frame counting
+            powerPelletTimer = GetTime();  // Set the time when pellet is eaten
+        }
+    }
+
+    // Revert ghosts to normal if the frightened mode time has expired
+    if (GetTime() - powerPelletTimer > 5.0f) {  // For example, frightened lasts 5 seconds
+        for (auto& ghost : ghosts) {
+            ghost.setNormal();  // Switch back to normal texture and mode
         }
     }
 

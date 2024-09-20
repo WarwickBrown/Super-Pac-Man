@@ -66,6 +66,7 @@ private:
     float timerStart = GetTime();
     int multi = 0, multi2 = 1;
     int num1 = 1, num2 = 1, num3 = 1;
+    float powerPelletTimer;
     
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
 

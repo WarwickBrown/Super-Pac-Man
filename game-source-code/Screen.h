@@ -48,12 +48,20 @@ private:
     Texture2D ghostPicLeft = LoadTexture("../resources/pacman-images/ghostyLeft.png");
     Texture2D ghostPicUp = LoadTexture("../resources/pacman-images/ghostyUp.png");
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
+
+        // Frightened ghost textures
+    Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/GhostTA.png");
+    Texture2D ghostFrightenedLeft = LoadTexture("../resources/pacman-images/GhostTA.png");
+    Texture2D ghostFrightenedUp = LoadTexture("../resources/pacman-images/GhostTA.png");
+    Texture2D ghostFrightenedDown = LoadTexture("../resources/pacman-images/GhostTA.png");
+
     Texture2D symbol1 = LoadTexture("../resources/pacman-images/symbol1.png");
     Texture2D symbol2 = LoadTexture("../resources/pacman-images/symbol2.png");
     Texture2D symbol3 = LoadTexture("../resources/pacman-images/symbol3.png");
     Texture2D symbol4 = LoadTexture("../resources/pacman-images/symbol4.png");
     Texture2D symbol5 = LoadTexture("../resources/pacman-images/symbol5.png");
     Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
+
     Texture2D symbolLives = LoadTexture("../resources/pacman-images/livesSymbol.png");
     bool eaten;
     bool symbolActive = false;

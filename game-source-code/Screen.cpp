@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Fruit.h"
 #include "Score.h"
+#include "Ghost.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -152,32 +153,36 @@ bool Screen::endGame(const Score& score) {  // Accept score as a parameter to di
 }
 
 void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
-    Texture2D ghostPic;
-    if(ghostDirection == 1)
-    {
-        ghostPic = ghostPicRight;
-    }
-    else if(ghostDirection == 2)
-    {
-        ghostPic = ghostPicLeft;
-    }
-    else if(ghostDirection == 3)
-    {
-        ghostPic = ghostPicUp;
-    }
-    else if(ghostDirection == 4)
-    {
-        ghostPic = ghostPicDown;
+    Texture2D currentTexture;
+    
+    // Check if the ghost is frightened, use the appropriate frightened texture
+    if (ghost.isFrightened()) {
+        switch (ghostDirection) {
+            case 1: currentTexture = ghostFrightenedRight; break;  // Right
+            case 2: currentTexture = ghostFrightenedLeft; break;   // Left
+            case 3: currentTexture = ghostFrightenedUp; break;     // Up
+            case 4: currentTexture = ghostFrightenedDown; break;   // Down
+            default: currentTexture = ghostFrightenedRight; break; // Fallback texture
+        }
+    } else {
+        // Normal state: use the normal ghost texture based on direction
+        switch (ghostDirection) {
+            case 1: currentTexture = ghostPicRight; break;  // Right
+            case 2: currentTexture = ghostPicLeft; break;   // Left
+            case 3: currentTexture = ghostPicUp; break;     // Up
+            case 4: currentTexture = ghostPicDown; break;   // Down
+            default: currentTexture = ghostPicRight; break; // Fallback texture
+        }
     }
     Rectangle sourceRec = {
-        (float)(ghostPic.width) ,  // Calculate width of a single frame
+        (float)(currentTexture.width) ,  // Calculate width of a single frame
         0, 
-        (float)(ghostPic.width),          // Width of a single frame
-        (float)(ghostPic.height)              // Full height of the texture
+        (float)(currentTexture.width),          // Width of a single frame
+        (float)(currentTexture.height)              // Full height of the texture
     };
 
     // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(ghostPic, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
+    DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
 }
 
 // Implement the "You Win!" screen

@@ -15,6 +15,9 @@ public:
 
     int move(const Maze& maze, float deltaTime);  // Moves the ghost based on direction
     void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
+    void respawn();  // New method to handle respawn logic
+    bool isEaten() const;
+    void setEaten(bool eaten);
 
     bool checkCollisionWithPacMan(const PacMan& pacman) const;
 
@@ -30,9 +33,11 @@ public:
     int getDY() const;
 
     // Ghost behavior methods
-    void setFrightened(bool state);
+    void setFrightened(bool state);  // Set the ghost to frightened mode
+    void setNormal();  // Revert to normal mode
     void chase(const PacMan& pacman); // Simple chase behavior towards Pac-Man
     void scatter(); // Move to a random corner of the maze
+    bool isFrightened() const;
 
 private:
     float x, y;    // Current position of the ghost
@@ -41,6 +46,7 @@ private:
     int direction;
     int radius;
     bool frightened; // Whether the ghost is in a frightened state
+    bool eaten;
 };
 
 #endif // GHOST_H
