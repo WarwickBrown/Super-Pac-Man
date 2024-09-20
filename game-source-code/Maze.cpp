@@ -31,34 +31,20 @@ void Maze::initialiseCustomWalls() {
         return;
     }
 
-    struct WallData {
-        Rectangle rect;
-        Color color;
-        int priority;
-
-        // Comparator to sort by priority in descending order
-        bool operator<(const WallData& other) const {
-            return priority > other.priority;  // Sort descending by priority
-        }
-    };
-
-    std::vector<WallData> wallDataList;
-
     std::string line;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         float x, y, width, height;
         std::string colorString;
-        int priority;
         
-        // Read the rectangle coordinates, color, and priority
-        if (!(iss >> x >> y >> width >> height >> colorString >> priority)) {
+        // Read the rectangle coordinates and color
+        if (!(iss >> x >> y >> width >> height >> colorString)) {
             std::cerr << "Error parsing line: " << line << std::endl;
             continue;  // Skip to next line if there's an error
         }
         
-        // Determine the color based on the string
-        Color color = PINK;  // Default to BLACK
+        // Determine the color based on the string (assuming you have predefined constants)
+        Color color = BLACK;  // Default to BLACK
         if (colorString == "BLACK") {
             color = BLACK;
         } else if (colorString == "BROWN") {
@@ -67,20 +53,13 @@ void Maze::initialiseCustomWalls() {
             color = PINK;
         }
         // Add more colors as needed
-        // Create a WallData object and store it in the list
-        wallDataList.emplace_back(WallData{Rectangle{x, y, width, height}, color, priority});
+
+        // Emplace the wall into the vector
+        walls.emplace_back(Rectangle{x, y, width, height}, color);
     }
 
     // Close the file
     file.close();
-
-    // Sort the walls based on priority (descending)
-    std::sort(wallDataList.begin(), wallDataList.end());
-
-    // Emplace sorted walls into the main wall vector
-    for (const auto& wallData : wallDataList) {
-        walls.emplace_back(wallData.rect, wallData.color);
-    }
 }
 // Checks if Pac-Man is colliding with any wall in the custom walls.
 // Takes in Pac-Man's X, Y coordinates and his radius, and checks for collision with each wall.
