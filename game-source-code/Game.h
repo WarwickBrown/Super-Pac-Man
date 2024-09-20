@@ -13,6 +13,7 @@
 #include "Score.h"
 #include "Lives.h"
 #include "PowerPellet.h"
+#include "SuperPellet.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
@@ -28,6 +29,7 @@ public:
     void initialiseFruits();
     void initialisePowerPellets();  // Function to initialize power pellets
     void initialiseKeys();
+    void initialiseSuperPellets();
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
     void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
@@ -47,6 +49,7 @@ private:
     std::vector<Star> stars;
     std::vector<PowerPellet> powerPellets;  // Add a list of power pellets
     std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
+    std::vector<SuperPellet> superPellets;
     
     // Pointers to various game objects
     Maze* maze;  // Pointer to the maze object

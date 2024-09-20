@@ -31,6 +31,7 @@ void Game::initialise() {
     initialiseKeys();
     inputStar();
     initialisePowerPellets();
+    initialiseSuperPellets();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
@@ -77,7 +78,22 @@ void Game::run() {
         for (const auto& pellet : powerPellets) {
             pellet.draw();
         }
-        screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+                // Render and check for SuperPellet collisions
+        for (auto& superPellet : superPellets) {
+            superPellet.draw();  // Draw the super pellet
+            if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
+                superPellet.collect(); // Pac-Man collects the super pellet
+                // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
+                pacMan->activateSuperMode();
+                score->addPoints(500); // Add points for collecting a super pellet
+            }
+        }
+        if (pacMan->isSuper()) {
+            screen->drawSuperPacMan(*pacMan, frame, oldDirection);
+        }
+        else{
+            screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+        }
         addedFrame += frame;
         screen->drawInner();
         // Draw the fruits on the screen
@@ -178,12 +194,10 @@ void Game::update() {
     if (!maze->isWallRec(newX, newY, 34)) {
         oldDirection = direction;
     }
-
-
-    
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     // Update Pac-Man's invincibility timer
+    pacMan->updateSuperMode(deltaTime);
     pacMan->updateInvincibility(deltaTime);
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 
@@ -238,11 +252,38 @@ void Game::update() {
         }
     }
 
+    // If Pac-Man is in super mode, check if he's moving through any locked walls
+    if (pacMan->isSuper()) {
+        for (auto& key : keys) {
+            // Iterate through the walls that the key can unlock
+            for (int wallIndex : key.getWallsToUnlock()) {
+                Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
+
+                // Only proceed if the wall is still active (locked)
+                if (wall.active) {
+                    // Output Pac-Man and wall positions for debugging
+
+                    // Define Pac-Man's bounding circle
+                    Vector2 pacManCenter = { pacMan->getX(), pacMan->getY() };
+                    float pacManRadius = pacMan->getRadius() * 1.5;
+
+                    // Define the wall's rectangle
+                    Rectangle wallRec = wall.rect;
+
+                    // Check for a collision between Pac-Man's circle and the wall's rectangle
+                    if (CheckCollisionCircleRec(pacManCenter, pacManRadius, wallRec)) {
+                        wall.active = false;  // Unlock the wall (deactivate it)
+                    }
+                }
+            }
+        }
+    }
+
 
     if (!pacMan->isInvincible()) {
     for (auto& ghost : ghosts) {
         int ghostDirection = ghost.move(*maze, deltaTime);
-        screen->drawGhost(ghost, ghostDirection);
+        screen->drawGhost(ghost, *pacMan, ghostDirection);
 
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {
@@ -251,7 +292,11 @@ void Game::update() {
                 ghost.setEaten(true);  // Mark the ghost as eaten
                 ghost.respawn();       // Respawn the ghost at the center of the maze
                 score->addPoints(200); // Increase score for eating a ghost
-            } else {
+            } 
+            else if (pacMan->isSuper()) {
+                continue;
+            }
+            else {
                 // Pac-Man is hit by a non-frightened ghost
                 playerLives->loseLife(); // Deduct a life
 
@@ -271,7 +316,7 @@ void Game::update() {
         // Even if Pac-Man is invincible, still update ghosts
         for (auto& ghost : ghosts) {
             int ghostDirection = ghost.move(*maze, deltaTime);
-            screen->drawGhost(ghost, ghostDirection);
+            screen->drawGhost(ghost, *pacMan, ghostDirection);
         }
     }
 
@@ -403,5 +448,10 @@ void Game::initialisePowerPellets() {
     powerPellets.emplace_back(100, 100, powerPelletTexture);  // Example position (100, 100)
     powerPellets.emplace_back(300, 400, powerPelletTexture);  // Another position (300, 400)
     // Add more pellets as needed
+}
+
+void Game::initialiseSuperPellets() {
+    superPellets.emplace_back(200, 200); // Add super pellets at specific coordinates
+    superPellets.emplace_back(300, 200); // Add more as needed
 }
 

@@ -33,11 +33,19 @@ public:
     int getFrames() const { return GetFrameTime(); }  // Returns frame time for Pac-Man animations
     int getRadius() const { return radius; }  // Returns Pac-Man's radius (for collision detection)
     const std::vector<Texture2D>& getPacmanImages() const;  // Returns the vector of Pac-Man textures
-    int getSpeed() { return speed; }  // Returns Pac-Man's speed value
+    int getSpeed() { return normalSpeed; }  // Returns Pac-Man's speed value
     void initilisePacManImages();  // Loads Pac-Man's textures for different movement directions
     bool isInvincible() const;
     void setInvincible(bool invincible);
     void updateInvincibility(float deltaTime);
+    float getVisualRadius() const { return visualRadius; }
+
+    void activateSuperMode();
+    void deactivateSuperMode();
+    bool isSuper() const;
+
+    void updateSuperMode(float deltaTime);
+
 
 private:
     std::vector<Texture2D> pacManImages;  // Holds Pac-Man's textures for different directions (left, right, up, down)
@@ -45,10 +53,17 @@ private:
     float dx, dy;  // Direction of movement (change in x, change in y)
     int newDirection;
     int radius;  // Radius of Pac-Man (used for collision detection)
-    float speed;  // Movement speed of Pac-Man (pixels per second)
+    float visualRadius;
+    float normalSpeed;  // Movement speed of Pac-Man (pixels per second)
+    float superSpeed;
+    bool superModeActive;
+    float superModeDuration;
+    float superModeTimer;
     bool invincible;
     float invincibilityTime;
     float invincibilityDuration;
+
+
 };
 
 #endif // PACMAN_H

@@ -23,12 +23,13 @@ public:
     void startScreen(const Game* game, const Screen* screen, const Score& score); // Displays the start screen with game instructions
     void render();                      // Clears the screen and prepares it for rendering
     void drawPacMan(const PacMan& pacman, int frame, int dir); // Draws Pac-Man at a specific location and frame
+    void drawSuperPacMan(const PacMan& pacman, int frame, int dir);
     void drawFruits(const std::vector<Fruit>& fruits);
     void drawMaze(const Maze& maze);    // Draws the maze on the screen
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
     bool endGame(const Score& score);
     bool winGame(const Score& score);
-    void drawGhost(const Ghost& ghost, int ghostDirection);
+    void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawEdges();
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
@@ -49,12 +50,19 @@ private:
     Texture2D ghostPicUp = LoadTexture("../resources/pacman-images/ghostyUp.png");
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
 
-        // Frightened ghost textures
+     // Frightened ghost textures
     Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/GhostTA.png");
     Texture2D ghostFrightenedLeft = LoadTexture("../resources/pacman-images/GhostTA.png");
     Texture2D ghostFrightenedUp = LoadTexture("../resources/pacman-images/GhostTA.png");
     Texture2D ghostFrightenedDown = LoadTexture("../resources/pacman-images/GhostTA.png");
 
+    // Flattened ghost textures
+    Texture2D flattednedGhost = LoadTexture("../resources/pacman-images/GhostHigh.png");
+
+    // Enlarged Pacman Texture
+
+
+    // Symbol textures
     Texture2D symbol1 = LoadTexture("../resources/pacman-images/symbol1.png");
     Texture2D symbol2 = LoadTexture("../resources/pacman-images/symbol2.png");
     Texture2D symbol3 = LoadTexture("../resources/pacman-images/symbol3.png");
