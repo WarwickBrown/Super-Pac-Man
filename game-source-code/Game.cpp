@@ -256,7 +256,7 @@ void Game::update() {
     if (!pacMan->isInvincible()) {
     for (auto& ghost : ghosts) {
         int ghostDirection = ghost.move(*maze, deltaTime);
-        screen->drawGhost(ghost, ghostDirection);
+        screen->drawGhost(ghost, *pacMan, ghostDirection);
 
         // Check for collision with Pac-Man
         if (ghost.checkCollisionWithPacMan(*pacMan)) {
@@ -289,7 +289,7 @@ void Game::update() {
         // Even if Pac-Man is invincible, still update ghosts
         for (auto& ghost : ghosts) {
             int ghostDirection = ghost.move(*maze, deltaTime);
-            screen->drawGhost(ghost, ghostDirection);
+            screen->drawGhost(ghost, *pacMan, ghostDirection);
         }
     }
 

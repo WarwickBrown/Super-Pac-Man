@@ -6,7 +6,7 @@
 using namespace std;
 
 // Constructor: Initializes Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
-PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), normalSpeed(250), radius(34), superSpeed(150), superModeActive(false), superModeDuration(10), superModeTimer(0), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
+PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), normalSpeed(250), radius(34), superSpeed(400), superModeActive(false), superModeDuration(10), superModeTimer(0), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
 
 // Destructor: Since there is no dynamic memory allocation, the destructor does not need to clean up any resources.
 PacMan::~PacMan() {
@@ -119,7 +119,7 @@ void PacMan::updateInvincibility(float deltaTime) {
 void PacMan::activateSuperMode() {
     superModeActive = true;
     // Need to make the visual radius bigger
-    superModeTimer = 10.0f;
+    superModeTimer = 5.0f;
     visualRadius = radius * 1.5f;
     //speed = superSpeed;
 }

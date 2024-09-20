@@ -184,11 +184,20 @@ bool Screen::endGame(const Score& score) {  // Accept score as a parameter to di
     return false;  // Ensure the game loop stops
 }
 
-void Screen::drawGhost(const Ghost& ghost, int ghostDirection) {
+void Screen::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection) {
     Texture2D currentTexture;
     
     // Check if the ghost is frightened, use the appropriate frightened texture
-    if (ghost.isFrightened()) {
+    if (pacman.isSuper()) {
+        switch (ghostDirection) {
+            case 1: currentTexture = flattednedGhost; break;  // Right
+            case 2: currentTexture = flattednedGhost; break;   // Left
+            case 3: currentTexture = flattednedGhost; break;     // Up
+            case 4: currentTexture = flattednedGhost; break;   // Down
+            default: currentTexture = flattednedGhost; break; // Fallback texture
+        }
+
+    } else if(ghost.isFrightened()) {
         switch (ghostDirection) {
             case 1: currentTexture = ghostFrightenedRight; break;  // Right
             case 2: currentTexture = ghostFrightenedLeft; break;   // Left
