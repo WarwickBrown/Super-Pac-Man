@@ -6,7 +6,7 @@
 
 class Wall {
 public:
-    Wall(const Rectangle& rect, Color color = PINK);
+    Wall(const Rectangle& rect, Color color);
     Rectangle rect;
     bool active;
     Color color;

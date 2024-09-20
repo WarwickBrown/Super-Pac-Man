@@ -228,11 +228,6 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
     }
 }
 
-void Screen::drawEdges()
-{
-   // DrawCircleSector({(float)180,(float)80}, 5, 270, 360, 50, PINK);
-}
-
 void Screen::symbols(int num1, int num2, int num3)
 {
     if(symbolActive){
@@ -341,7 +336,7 @@ void Screen::setSymbolActive(bool status){
 }
 
 void Screen::drawInner(){
-
+    /*
     DrawRectangleRec(Rectangle{2, 82, 6, 806}, BLACK);     // Left wall
     DrawRectangleRec(Rectangle{2, 82, 1522, 6}, BLACK);    // Top wall
     DrawRectangleRec(Rectangle{1522, 82, 6, 806}, BLACK);  // Right wall
@@ -458,6 +453,7 @@ void Screen::drawInner(){
     DrawRectangleRec({802, 642, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 162, 6, 86}, BLACK);   // Vertical wall
     DrawRectangleRec({882, 162, 6, 86}, BLACK);   // Vertical wall
+    */
 }
 void Screen::drawScores(const Score& score) {
     // Convert scores to strings

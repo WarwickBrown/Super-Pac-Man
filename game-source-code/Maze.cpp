@@ -1,7 +1,13 @@
 #include "Maze.h"
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <raylib-cpp.hpp>
+#include <sstream>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 
 // Constructor
 Maze::Maze() : width(0), height(0), startX(10), startY(10) {
@@ -13,179 +19,69 @@ Maze::~Maze() {
     // Nothing to clean up for now as vector manages its own memory
 }
 
-// Initializes a default maze layout for testing
-// void Maze::initializeDefaultMaze() {
-//     // Simple 10x10 maze layout for testing purposes
-//     width = 10;
-//     height = 10;
-//     layout = std::vector<std::vector<Cell>>(height, std::vector<Cell>(width, Cell(CellType::Empty)));
-
-//     // Set maze walls
-//     for (int i = 0; i < width; i++) {
-//         layout[0][i] = Cell(CellType::Wall);
-//         layout[height - 1][i] = Cell(CellType::Wall);
-//     }
-//     for (int i = 0; i < height; i++) {
-//         layout[i][0] = Cell(CellType::Wall);
-//         layout[i][width - 1] = Cell(CellType::Wall);
-//     }
-
-//     // Make sure the start position at (1, 1) is not a wall
-//     layout[1][1] = Cell(CellType::Empty);  // Set the start position for Pac-Man to empty space
-// }
-
 void Maze::initialiseCustomWalls() {
-    // Locked walls covers (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{480, 330, 10, 70}, BLACK);  // Locked wall cover
-    walls.emplace_back(Rectangle{1040, 330, 10, 70}, BLACK);  // Locked wall cover
-    // Locked walls (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{482, 330, 6, 70}, BROWN);  // Locked wall 
-    walls.emplace_back(Rectangle{1042, 330, 6, 70}, BROWN);  // Locked wall 
+    // Path to the text file
+    std::string filePath = "../resources/walls.txt";
     
-    // Locked walls covers (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{170, 480, 70, 10}, BLACK);  // Locked wall cover
-    walls.emplace_back(Rectangle{1290, 480, 70, 10}, BLACK);  // Locked wall cover
-    // Locked walls (set a different color, e.g., DARKGRAY)
-    walls.emplace_back(Rectangle{170, 482, 70, 6}, BROWN);  // Locked wall 
-    walls.emplace_back(Rectangle{1290, 482, 70, 6}, BROWN);  // Locked wall 
+    // Open the file
+    std::ifstream file(filePath);
 
-    // Outer walls
-    walls.push_back(Rectangle{0, 80, 10, 810});     // Left wall
-    walls.push_back(Rectangle{0, 80, 1520, 10});    // Top wall
-    walls.push_back(Rectangle{1520, 80, 10, 810});  // Right wall
-    walls.push_back(Rectangle{0, 880, 1520, 10});  // Bottom wall
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filePath << std::endl;
+        return;
+    }
 
-    // Horizontal walls (mirroring top layout)
-    walls.push_back(Rectangle{0, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{240, 800, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{80, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{80, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{80, 800, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{160, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{240, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{240, 480, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{160, 160, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{160, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{320, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{320, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{320, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{480, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{400, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{480, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{560, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{400, 480, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{480, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{400, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{320, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{800, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 800, 250, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 480, 240, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{800, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{800, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{880, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{960, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1040, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1360, 80, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1120, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1200, 800, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1200, 480, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1440, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1360, 800, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1360, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{960, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1040, 480, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1040, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1120, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1120, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1200, 480, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1280, 560, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1280, 400, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1200, 320, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1120, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1360, 240, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1280, 160, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{1360, 80, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{960, 240, 90, 10});   // Horizontal wall
+    struct WallData {
+        Rectangle rect;
+        Color color;
+        int priority;
 
-    walls.push_back(Rectangle{640, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{800, 640, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{640, 720, 90, 10});   // Horizontal wall
-    walls.push_back(Rectangle{800, 720, 90, 10});   // Horizontal wall
+        // Comparator to sort by priority in descending order
+        bool operator<(const WallData& other) const {
+            return priority > other.priority;  // Sort descending by priority
+        }
+    };
 
-    // Vertical walls for more complexity
-    walls.push_back(Rectangle{160, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{240, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{80, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{80, 320, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{80, 80, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{160, 240, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{240, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{240, 80, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{320, 80, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{400, 80, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{400, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{560, 80, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{320, 480, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{560, 800, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{480, 640, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{560, 80, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{480, 400, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{560, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{400, 320, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{960, 800, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{560, 400, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{640, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{880, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{640, 400, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{880, 400, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{720, 240, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{800, 240, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{960, 400, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{960, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1120, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1040, 640, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{1440, 80, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{960, 80, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{1280, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1360, 720, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1280, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1040, 400, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{1120, 320, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1200, 480, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{1440, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{1440, 320, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{1360, 240, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{1280, 80, 10, 250});  // Vertical wall
-    walls.push_back(Rectangle{1200, 80, 10, 170});  // Vertical wall
-    walls.push_back(Rectangle{1120, 80, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{720, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{800, 560, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{640, 160, 10, 90});  // Vertical wall
-    walls.push_back(Rectangle{880, 160, 10, 90});  // Vertical wall
+    std::vector<WallData> wallDataList;
 
-    walls.push_back(Rectangle{720, 80, 90, 90});   // Block
-    walls.push_back(Rectangle{640, 720, 10, 10});   // Block
-    walls.push_back(Rectangle{880, 720, 10, 10});   // Block
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        float x, y, width, height;
+        std::string colorString;
+        int priority;
+        
+        // Read the rectangle coordinates, color, and priority
+        if (!(iss >> x >> y >> width >> height >> colorString >> priority)) {
+            std::cerr << "Error parsing line: " << line << std::endl;
+            continue;  // Skip to next line if there's an error
+        }
+        
+        // Determine the color based on the string
+        Color color = PINK;  // Default to BLACK
+        if (colorString == "BLACK") {
+            color = BLACK;
+        } else if (colorString == "BROWN") {
+            color = BROWN;
+        } else if (colorString == "PINK") {
+            color = PINK;
+        }
+        // Add more colors as needed
+        // Create a WallData object and store it in the list
+        wallDataList.emplace_back(WallData{Rectangle{x, y, width, height}, color, priority});
+    }
 
-    
-    // Continue mapping the rest of the maze
-};
+    // Close the file
+    file.close();
 
+    // Sort the walls based on priority (descending)
+    std::sort(wallDataList.begin(), wallDataList.end());
 
-// Draws the maze on the screen
-// We might need to make vertical and horizontal walls for pixel system
-// Maybe two types of wall, wall vert and wall hori
-// void Maze::draw() const {
-//     for (const auto& wall : walls) {
-//         DrawRectangleRec(wall, raylib::Color::DarkBlue());
-//     }
-// }
-
-
-
+    // Emplace sorted walls into the main wall vector
+    for (const auto& wallData : wallDataList) {
+        walls.emplace_back(wallData.rect, wallData.color);
+    }
+}
 // Checks if Pac-Man is colliding with any wall in the custom walls.
 // Takes in Pac-Man's X, Y coordinates and his radius, and checks for collision with each wall.
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
@@ -225,7 +121,6 @@ const std::vector<Wall>& Maze::getWalls() const {
 std::vector<Wall>& Maze::getWalls() {
     return walls;
 }
-
 
 // Getter function that returns the maze height.
 // Like the width, the height is not currently set explicitly but could be used for future features.
