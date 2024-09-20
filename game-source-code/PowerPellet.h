@@ -6,7 +6,7 @@
 
 class PowerPellet {
 public:
-    PowerPellet(float x, float y, Texture2D pelletTexture); // Constructor
+    PowerPellet(float x, float y); // Constructor
     ~PowerPellet(); // Destructor
 
     void draw() const;           // Render the power pellet
@@ -21,7 +21,7 @@ private:
     float x, y;                  // Position of the power pellet
     bool active;                 // Is the power pellet still active (not eaten)?
     float radius;                // Radius of the power pellet
-    Texture2D pelletTexture;     // Texture for the power pellet
+    Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png");  // Load power pellet texture
 };
 
 #endif

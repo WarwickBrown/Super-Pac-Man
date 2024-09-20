@@ -54,7 +54,6 @@ void Game::run() {
     int pixelX; // Coordinates for rendering
     int pixelY;
     int addedFrame = 1;
-    srand(addedFrame);
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -408,7 +407,7 @@ void Game::initialiseFruits() {
 }
 
 void Game::initialiseKeys() {
-    Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
+   // Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
 
     // Suppose walls[5] and walls[10] are to be unlocked by the key at (500, 500)
     keys.emplace_back(280, 280, std::vector<int>{0, 1, 2, 3});
@@ -442,16 +441,13 @@ void Game::inputStar() {
 }
 
 void Game::initialisePowerPellets() {
-    Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/Star1.png");  // Load power pellet texture
-
     // Add power pellets at specific locations
-    powerPellets.emplace_back(100, 100, powerPelletTexture);  // Example position (100, 100)
-    powerPellets.emplace_back(300, 400, powerPelletTexture);  // Another position (300, 400)
-    // Add more pellets as needed
+    powerPellets.emplace_back(120, 760); 
+    powerPellets.emplace_back(1400, 760); 
 }
 
 void Game::initialiseSuperPellets() {
-    superPellets.emplace_back(200, 200); // Add super pellets at specific coordinates
-    superPellets.emplace_back(300, 200); // Add more as needed
+    superPellets.emplace_back(120, 120); // Add super pellets at specific coordinates
+    superPellets.emplace_back(1400, 120); // Add more as needed
 }
 

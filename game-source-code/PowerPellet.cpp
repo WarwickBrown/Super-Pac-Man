@@ -1,19 +1,24 @@
 #include "PowerPellet.h"
 
 // Constructor to initialize the power pellet with position and texture
-PowerPellet::PowerPellet(float x, float y, Texture2D pelletTexture)
-    : x(x), y(y), active(true), radius(10.0f), pelletTexture(pelletTexture) {}
+PowerPellet::PowerPellet(float x, float y)
+    : x(x), y(y), active(true), radius(10.0f) {}
 
 // Destructor
 PowerPellet::~PowerPellet() {
     // Unload the texture when the power pellet is destroyed
-    UnloadTexture(pelletTexture);
 }
 
-// Draw the power pellet if it's still active
 void PowerPellet::draw() const {
     if (active) {
-        DrawTexture(pelletTexture, static_cast<int>(x) - static_cast<int>(radius), static_cast<int>(y) - static_cast<int>(radius), RAYWHITE);
+        Rectangle sourceRec = {
+        (float)(powerPelletTexture.width) ,  // Calculate width of a single frame
+        0, 
+        (float)(powerPelletTexture.width),          // Width of a single frame
+        (float)(powerPelletTexture.height)              // Full height of the texture
+    };
+
+    DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)getX()-28, (float)getY()-28}, RAYWHITE);
     }
 }
 

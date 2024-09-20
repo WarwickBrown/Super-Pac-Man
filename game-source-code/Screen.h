@@ -10,6 +10,7 @@
 #include "Fruit.h"
 #include "GameKey.h"
 #include "Score.h"
+#include "PowerPellet.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -30,6 +31,7 @@ public:
     bool endGame(const Score& score);
     bool winGame(const Score& score);
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
+    void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
     void drawEdges();
     void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
@@ -69,8 +71,8 @@ private:
     Texture2D symbol4 = LoadTexture("../resources/pacman-images/symbol4.png");
     Texture2D symbol5 = LoadTexture("../resources/pacman-images/symbol5.png");
     Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
-
     Texture2D symbolLives = LoadTexture("../resources/pacman-images/livesSymbol.png");
+
     bool eaten;
     bool symbolActive = false;
 };
