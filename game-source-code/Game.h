@@ -12,6 +12,7 @@
 #include "Star.h"
 #include "Score.h"
 #include "Lives.h"
+#include "PowerPellet.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
@@ -25,6 +26,8 @@ public:
     void initialise();   // Initializes the game (calls functions to setup game objects, loads images, etc.)
     void initiliseGameImages(); // Loads game images (like arrow keys) into a vector
     void initialiseFruits();
+    void initialisePowerPellets();  // Function to initialize power pellets
+    void initialiseKeys();
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
     void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
@@ -34,7 +37,7 @@ public:
     void inputStar();
 
     std::vector<GameKey> keys;
-    void initialiseKeys();
+
     
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
 
@@ -42,6 +45,8 @@ private:
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
     std::vector<Fruit> fruits;
     std::vector<Star> stars;
+    std::vector<PowerPellet> powerPellets;  // Add a list of power pellets
+    std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     
     // Pointers to various game objects
     Maze* maze;  // Pointer to the maze object
@@ -49,7 +54,7 @@ private:
     Screen* screen;  // Pointer to the screen object
     Score* score;
     Lives* playerLives; // Pointer to Lives object
-    std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
+
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;
     int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)

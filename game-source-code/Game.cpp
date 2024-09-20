@@ -30,6 +30,7 @@ void Game::initialise() {
     initialiseFruits();
     initialiseKeys();
     inputStar();
+    initialisePowerPellets();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
@@ -71,6 +72,10 @@ void Game::run() {
         // Draw each star on the screen
         for (const auto& star : stars) {
             star.draw(addedFrame);
+        }
+
+        for (const auto& pellet : powerPellets) {
+            pellet.draw();
         }
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
         addedFrame += frame;
@@ -209,6 +214,14 @@ void Game::update() {
             }
         }
     }
+
+    // Check if Pac-Man collects any power pellets
+    for (auto& pellet : powerPellets) {
+        if (pellet.checkCollisionWithPacMan(*pacMan)) {
+            score->addPoints(100);  // Add 100 points for eating a power pellet
+        }
+    }
+
 
     // Check collisions with ghosts only if Pac-Man is not invincible
     if (!pacMan->isInvincible()) {
@@ -363,3 +376,13 @@ void Game::inputStar() {
     stars.emplace_back(760, 600, starImage);
     // Add more fruits as needed
 }
+
+void Game::initialisePowerPellets() {
+    Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/Star1.png");  // Load power pellet texture
+
+    // Add power pellets at specific locations
+    powerPellets.emplace_back(100, 100, powerPelletTexture);  // Example position (100, 100)
+    powerPellets.emplace_back(300, 400, powerPelletTexture);  // Another position (300, 400)
+    // Add more pellets as needed
+}
+
