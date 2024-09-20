@@ -417,7 +417,7 @@ void Screen::drawInner(){
     DrawRectangleRec({642, 562, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({82, 642, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({802, 562, 86, 6}, BLACK);   // Horizontal wall
-    DrawRectangleRec({642, 802, 244, 6}, BLACK);   // Horizontal wall
+    DrawRectangleRec({642, 802, 246, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 482, 242, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({642, 402, 86, 6}, BLACK);   // Horizontal wall
     DrawRectangleRec({802, 402, 86, 6}, BLACK);   // Horizontal wall

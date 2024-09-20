@@ -87,12 +87,7 @@ void Game::run() {
                 score->addPoints(500); // Add points for collecting a super pellet
             }
         }
-        if (pacMan->isSuper()) {
-            screen->drawSuperPacMan(*pacMan, frame, oldDirection);
-        }
-        else{
-            screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
-        }
+        
         addedFrame += frame;
         screen->drawInner();
         // Draw the fruits on the screen
@@ -101,7 +96,12 @@ void Game::run() {
         
          
         
-        
+        if (pacMan->isSuper()) {
+            screen->drawSuperPacMan(*pacMan, frame, oldDirection);
+        }
+        else{
+            screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+        }
 
         
 /*
@@ -397,13 +397,29 @@ void Game::initialiseFruits() {
     Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
     // Add fruits to specific positions
-    fruits.emplace_back(40, 840, fruitTexture);
-    fruits.emplace_back(1480, 840, fruitTexture);
-    fruits.emplace_back(920, 760, fruitTexture);
-    fruits.emplace_back(600, 760, fruitTexture);
-    fruits.emplace_back(440, 440, fruitTexture);
-    fruits.emplace_back(1160, 440, fruitTexture);
-    // Add more fruits as needed
+    fruits.emplace_back(600, 840, fruitTexture);
+    fruits.emplace_back(920, 840, fruitTexture);
+    fruits.emplace_back(840, 840, fruitTexture);
+    fruits.emplace_back(760, 840, fruitTexture);
+    fruits.emplace_back(680, 840, fruitTexture);
+    
+    fruits.emplace_back(40, 280, fruitTexture);
+    fruits.emplace_back(40, 360, fruitTexture);
+    fruits.emplace_back(40, 440, fruitTexture);
+    fruits.emplace_back(40, 520, fruitTexture);
+    fruits.emplace_back(40, 600, fruitTexture);
+
+    fruits.emplace_back(600, 680, fruitTexture);
+    fruits.emplace_back(920, 680, fruitTexture);
+    fruits.emplace_back(840, 680, fruitTexture);
+    fruits.emplace_back(760, 680, fruitTexture);
+    fruits.emplace_back(680, 680, fruitTexture);
+
+    fruits.emplace_back(1480, 280, fruitTexture);
+    fruits.emplace_back(1480, 360, fruitTexture);
+    fruits.emplace_back(1480, 440, fruitTexture);
+    fruits.emplace_back(1480, 520, fruitTexture);
+    fruits.emplace_back(1480, 600, fruitTexture);
 }
 
 void Game::initialiseKeys() {
