@@ -47,6 +47,7 @@ private:
     int radius;
     bool frightened; // Whether the ghost is in a frightened state
     bool eaten;
+    float startX, startY; // Starting position of the ghost (for respawn)
 };
 
 #endif // GHOST_H

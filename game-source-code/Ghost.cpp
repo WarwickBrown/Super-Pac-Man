@@ -3,7 +3,7 @@
 #include <ctime>   // For time()
 
 // Constructor
-Ghost::Ghost(int startX, int startY, float speed) : x(startX), y(startY), speed(100), radius(34), frightened(false) {
+Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(100), radius(34), frightened(false), eaten(false) {
     // Initialize random seed
     std::srand(std::time(0));
     // Initialize random direction
@@ -15,8 +15,26 @@ Ghost::~Ghost() {
     // No dynamic memory to clean up in this class, but the definition is needed
 }
 
+void Ghost::respawn() {
+    // Reset position to the starting point and set ghost to non-frightened and non-eaten state
+    x = startX;
+    y = startY;
+    eaten = false;
+}
+
+bool Ghost::isEaten() const {
+    return eaten;
+}
+
+void Ghost::setEaten(bool state) {
+    eaten = state;
+}
 // Move ghost in a direction while avoiding walls
 int Ghost::move(const Maze& maze, float deltaTime) {
+    if (eaten) {
+        // If eaten, don't move until respawn logic is handled
+        return direction;
+    }
     float newX = x;
     float newY = y;
 
@@ -109,6 +127,9 @@ int Ghost::getDY() const {
 
 // Check if the ghost is colliding with Pac-Man
 bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
+    if (eaten) {
+        return false;
+    }
     // Calculate the distance between the ghost and Pac-Man
     float distance = std::sqrt(std::pow(x - pacman.getX(), 2) + std::pow(y - pacman.getY(), 2));
 

@@ -239,39 +239,42 @@ void Game::update() {
     }
 
 
-    // Check collisions with ghosts only if Pac-Man is not invincible
     if (!pacMan->isInvincible()) {
-        for (auto& ghost : ghosts) {
-            int ghostDirection = ghost.move(*maze, deltaTime);
-            // Draw each ghost
+    for (auto& ghost : ghosts) {
+        int ghostDirection = ghost.move(*maze, deltaTime);
+        screen->drawGhost(ghost, ghostDirection);
 
-            screen->drawGhost(ghost, ghostDirection);
-
-            // Check for collision with Pac-Man
-            if (ghost.checkCollisionWithPacMan(*pacMan)) {
-                // Collision detected
+        // Check for collision with Pac-Man
+        if (ghost.checkCollisionWithPacMan(*pacMan)) {
+            if (ghost.isFrightened()) {
+                // Pac-Man eats the ghost
+                ghost.setEaten(true);  // Mark the ghost as eaten
+                ghost.respawn();       // Respawn the ghost at the center of the maze
+                score->addPoints(200); // Increase score for eating a ghost
+            } else {
+                // Pac-Man is hit by a non-frightened ghost
                 playerLives->loseLife(); // Deduct a life
 
-                if (!(playerLives->isAlive())) {
-                    // Reset positions
+                if (!playerLives->isAlive()) {
+                    // Game over
                     isRunning = false;
                     return;
                 }
-                else {
-                    // Make Pac-Man invincible for a short duration
-                    pacMan->setInvincible(true);
-                }
-                break;
+
+                // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
+                pacMan->setInvincible(true);
+                break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
             }
         }
+    }
     } else {
         // Even if Pac-Man is invincible, still update ghosts
         for (auto& ghost : ghosts) {
             int ghostDirection = ghost.move(*maze, deltaTime);
-            // Draw each ghost
             screen->drawGhost(ghost, ghostDirection);
         }
     }
+
 
     for (auto& stars : stars) {
             if((updatedTimer) >= 0.5*multi){
@@ -325,9 +328,9 @@ void Game::initialiseGameObjects() {
     pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Create and initialize Pac-Man at the starting position
     screen = new Screen(); // Create and initialize the screen
 
-    ghosts.push_back(Ghost(685, 445, 150.0f));  // Ghost 1 at (200, 200) with speed 150
-    ghosts.push_back(Ghost(765, 445, 150.0f));  // Ghost 2 at (400, 400) with speed 150
-    ghosts.push_back(Ghost(845, 445, 150.0f));  // Ghost 3 at (600, 600) with speed 150
+    ghosts.push_back(Ghost(685, 445, 150.0f));
+    ghosts.push_back(Ghost(765, 445, 150.0f));
+    ghosts.push_back(Ghost(845, 445, 150.0f));
 }
 
 // Initializes game images (like the arrow key instructions)
