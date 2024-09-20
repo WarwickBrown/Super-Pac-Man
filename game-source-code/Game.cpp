@@ -84,11 +84,16 @@ void Game::run() {
             if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
                 superPellet.collect(); // Pac-Man collects the super pellet
                 // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
-                // pacMan->activateSuperMode();
+                pacMan->activateSuperMode();
                 score->addPoints(500); // Add points for collecting a super pellet
             }
         }
-        screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+        if (pacMan->isSuper()) {
+            screen->drawSuperPacMan(*pacMan, frame, oldDirection);
+        }
+        else{
+            screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+        }
         addedFrame += frame;
         screen->drawInner();
         // Draw the fruits on the screen
@@ -192,6 +197,7 @@ void Game::update() {
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     // Update Pac-Man's invincibility timer
+    pacMan->updateSuperMode(deltaTime);
     pacMan->updateInvincibility(deltaTime);
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 
@@ -259,7 +265,11 @@ void Game::update() {
                 ghost.setEaten(true);  // Mark the ghost as eaten
                 ghost.respawn();       // Respawn the ghost at the center of the maze
                 score->addPoints(200); // Increase score for eating a ghost
-            } else {
+            } 
+            else if (pacMan->isSuper()) {
+                continue;
+            }
+            else {
                 // Pac-Man is hit by a non-frightened ghost
                 playerLives->loseLife(); // Deduct a life
 

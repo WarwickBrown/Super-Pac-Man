@@ -23,6 +23,7 @@ public:
     void startScreen(const Game* game, const Screen* screen, const Score& score); // Displays the start screen with game instructions
     void render();                      // Clears the screen and prepares it for rendering
     void drawPacMan(const PacMan& pacman, int frame, int dir); // Draws Pac-Man at a specific location and frame
+    void drawSuperPacMan(const PacMan& pacman, int frame, int dir);
     void drawFruits(const std::vector<Fruit>& fruits);
     void drawMaze(const Maze& maze);    // Draws the maze on the screen
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen

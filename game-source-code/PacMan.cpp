@@ -6,7 +6,7 @@
 using namespace std;
 
 // Constructor: Initializes Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
-PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), speed(250), radius(34), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
+PacMan::PacMan(int startX, int startY) : x(45), y(125), dx(0), dy(0), normalSpeed(250), radius(34), superSpeed(150), superModeActive(false), superModeDuration(10), superModeTimer(0), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
 
 // Destructor: Since there is no dynamic memory allocation, the destructor does not need to clean up any resources.
 PacMan::~PacMan() {
@@ -16,6 +16,7 @@ PacMan::~PacMan() {
 // Moves Pac-Man based on the direction and checks for wall collisions.
 // If Pac-Man does not collide with a wall, his position is updated.
 void PacMan::move(const Maze& maze, float deltaTime, int direction) {
+    float speed = superModeActive ? superSpeed : normalSpeed;
    // Set the movement direction (based on input direction).
     setDirection(direction);
 
@@ -111,6 +112,34 @@ void PacMan::updateInvincibility(float deltaTime) {
         if (invincibilityTime >= invincibilityDuration) {
             invincible = false;
             invincibilityTime = 0.0f;
+        }
+    }
+}
+
+void PacMan::activateSuperMode() {
+    superModeActive = true;
+    // Need to make the visual radius bigger
+    superModeTimer = 10.0f;
+    visualRadius = radius * 1.5f;
+    //speed = superSpeed;
+}
+
+void PacMan::deactivateSuperMode() {
+    superModeActive = false;
+    visualRadius = radius;
+    //speed = normalSpeed;
+    // reset radius
+}
+
+bool PacMan::isSuper() const {
+    return superModeActive;
+}
+
+void PacMan::updateSuperMode(float deltaTime) {
+    if (superModeActive) {
+        superModeTimer -= deltaTime;    // Decrease timer based on elapsed time
+        if (superModeTimer <= 0.0f) {
+            deactivateSuperMode();      // Deactivate super mode when timer ends
         }
     }
 }
