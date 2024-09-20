@@ -47,7 +47,6 @@ void Star::draw(int frame) const {
         multiple++;
         change = true;
     }
-        std::cout << "active " << num << "  change " << change <<std::endl;
         if (change == true) {
             change = false;
             
