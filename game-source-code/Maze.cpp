@@ -244,4 +244,3 @@ int Maze::getStartX() const {
 int Maze::getStartY() const {
     return startY;
 }
-

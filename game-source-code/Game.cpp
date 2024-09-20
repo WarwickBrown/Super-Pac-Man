@@ -252,6 +252,33 @@ void Game::update() {
         }
     }
 
+    // If Pac-Man is in super mode, check if he's moving through any locked walls
+    if (pacMan->isSuper()) {
+        for (auto& key : keys) {
+            // Iterate through the walls that the key can unlock
+            for (int wallIndex : key.getWallsToUnlock()) {
+                Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
+
+                // Only proceed if the wall is still active (locked)
+                if (wall.active) {
+                    // Output Pac-Man and wall positions for debugging
+
+                    // Define Pac-Man's bounding circle
+                    Vector2 pacManCenter = { pacMan->getX(), pacMan->getY() };
+                    float pacManRadius = pacMan->getRadius() * 1.5;
+
+                    // Define the wall's rectangle
+                    Rectangle wallRec = wall.rect;
+
+                    // Check for a collision between Pac-Man's circle and the wall's rectangle
+                    if (CheckCollisionCircleRec(pacManCenter, pacManRadius, wallRec)) {
+                        wall.active = false;  // Unlock the wall (deactivate it)
+                    }
+                }
+            }
+        }
+    }
+
 
     if (!pacMan->isInvincible()) {
     for (auto& ghost : ghosts) {
