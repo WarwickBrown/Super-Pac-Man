@@ -20,6 +20,7 @@ void Ghost::respawn() {
     x = startX;
     y = startY;
     eaten = false;
+    frightened = false;
 }
 
 bool Ghost::isEaten() const {
