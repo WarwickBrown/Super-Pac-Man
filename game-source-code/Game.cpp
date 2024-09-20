@@ -31,6 +31,7 @@ void Game::initialise() {
     initialiseKeys();
     inputStar();
     initialisePowerPellets();
+    initialiseSuperPellets();
     pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
@@ -76,6 +77,16 @@ void Game::run() {
 
         for (const auto& pellet : powerPellets) {
             pellet.draw();
+        }
+                // Render and check for SuperPellet collisions
+        for (auto& superPellet : superPellets) {
+            superPellet.draw();  // Draw the super pellet
+            if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
+                superPellet.collect(); // Pac-Man collects the super pellet
+                // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
+                // pacMan->activateSuperMode();
+                score->addPoints(500); // Add points for collecting a super pellet
+            }
         }
         screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
         addedFrame += frame;
@@ -178,9 +189,6 @@ void Game::update() {
     if (!maze->isWallRec(newX, newY, 34)) {
         oldDirection = direction;
     }
-
-
-    
     
     float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
     // Update Pac-Man's invincibility timer
@@ -403,5 +411,10 @@ void Game::initialisePowerPellets() {
     powerPellets.emplace_back(100, 100, powerPelletTexture);  // Example position (100, 100)
     powerPellets.emplace_back(300, 400, powerPelletTexture);  // Another position (300, 400)
     // Add more pellets as needed
+}
+
+void Game::initialiseSuperPellets() {
+    superPellets.emplace_back(200, 200); // Add super pellets at specific coordinates
+    superPellets.emplace_back(300, 200); // Add more as needed
 }
 
