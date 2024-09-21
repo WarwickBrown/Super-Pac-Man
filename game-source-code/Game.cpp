@@ -59,14 +59,14 @@ void Game::run() {
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
+        float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
         handleInput();   // Handle user input like key presses for movement
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
         screen->drawMaze(*maze);  // Draw the maze
         screen->drawKeys(keys);
-        frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
+        frame = pacMan->location(frame, direction);
         screen->drawFruits(fruits);
-        // Draw each star on the screen
         screen->drawStars(stars);
 
         for (auto& star : stars) {
@@ -79,6 +79,11 @@ void Game::run() {
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
         screen->drawLives(playerLives->getLives());
+
+        for (auto& ghost : ghosts) {
+            int ghostDirection = ghost.move(*maze, deltaTime);
+            screen->drawGhost(ghost, *pacMan, ghostDirection);
+        }
 
         if (pacMan->isSuper()) {
             screen->drawSuperPacMan(*pacMan, frame, oldDirection);
@@ -101,8 +106,6 @@ void Game::run() {
     } else {
         isRunning = screen->endGame(*score);
     }
-
-
 }
 
 // Handles user input for controlling Pac-Man's direction
@@ -264,42 +267,33 @@ void Game::update() {
 
 
     if (!pacMan->isInvincible()) {
-    for (auto& ghost : ghosts) {
-        int ghostDirection = ghost.move(*maze, deltaTime);
-        screen->drawGhost(ghost, *pacMan, ghostDirection);
-
-        // Check for collision with Pac-Man
-        if (ghost.checkCollisionWithPacMan(*pacMan)) {
-            if (ghost.isFrightened()) {
-                // Pac-Man eats the ghost
-                ghost.setEaten(true);  // Mark the ghost as eaten
-                ghost.respawn();       // Respawn the ghost at the center of the maze
-                score->addPoints(200); // Increase score for eating a ghost
-            } 
-            else if (pacMan->isSuper()) {
-                continue;
-            }
-            else {
-                // Pac-Man is hit by a non-frightened ghost
-                playerLives->loseLife(); // Deduct a life
-
-                if (!playerLives->isAlive()) {
-                    // Game over
-                    isRunning = false;
-                    return;
-                }
-
-                // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
-                pacMan->setInvincible(true);
-                break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
-            }
-        }
-    }
-    } else {
-        // Even if Pac-Man is invincible, still update ghosts
         for (auto& ghost : ghosts) {
-            int ghostDirection = ghost.move(*maze, deltaTime);
-            screen->drawGhost(ghost, *pacMan, ghostDirection);
+            // Check for collision with Pac-Man
+            if (ghost.checkCollisionWithPacMan(*pacMan)) {
+                if (ghost.isFrightened()) {
+                    // Pac-Man eats the ghost
+                    ghost.setEaten(true);  // Mark the ghost as eaten
+                    ghost.respawn();       // Respawn the ghost at the center of the maze
+                    score->addPoints(200); // Increase score for eating a ghost
+                } 
+                else if (pacMan->isSuper()) {
+                    continue;
+                }
+                else {
+                    // Pac-Man is hit by a non-frightened ghost
+                    playerLives->loseLife(); // Deduct a life
+
+                    if (!playerLives->isAlive()) {
+                        // Game over
+                        isRunning = false;
+                        return;
+                    }
+
+                    // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
+                    pacMan->setInvincible(true);
+                    break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
+                }
+            }
         }
     }
 
