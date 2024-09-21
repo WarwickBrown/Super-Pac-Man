@@ -81,7 +81,6 @@ void Game::run() {
         screen->drawLives(playerLives->getLives());
 
         for (auto& ghost : ghosts) {
-            int ghostDirection = ghost.move(*maze, deltaTime);
             screen->drawGhost(ghost, *pacMan, ghostDirection);
         }
 
@@ -268,6 +267,7 @@ void Game::update() {
 
     if (!pacMan->isInvincible()) {
         for (auto& ghost : ghosts) {
+            int ghostDirection = ghost.move(*maze, deltaTime);
             // Check for collision with Pac-Man
             if (ghost.checkCollisionWithPacMan(*pacMan)) {
                 if (ghost.isFrightened()) {
@@ -294,6 +294,11 @@ void Game::update() {
                     break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
                 }
             }
+        }
+    }
+    else {
+        for (auto& ghost : ghosts) {
+            int ghostDirection = ghost.move(*maze, deltaTime);
         }
     }
 
