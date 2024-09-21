@@ -71,6 +71,9 @@ private:
     Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
     Texture2D symbolLives = LoadTexture("../resources/pacman-images/livesSymbol.png");
 
+    // Key Textures
+    Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
+
     // Fruit Texture
     Texture2D fruitPic = LoadTexture("../resources/pacman-images/strawberry.png");
 

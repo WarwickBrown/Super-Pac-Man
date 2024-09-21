@@ -1,20 +1,13 @@
-// GameKey.cpp
 #include "GameKey.h"
 
-GameKey::GameKey(int x, int y, const std::vector<int>& wallsToUnlock)
-    : x(x), y(y), radius(20), active(true), wallsToUnlock(wallsToUnlock) {}
+// Constructor using Collectable's constructor to initialize position, radius, and texture
+GameKey::GameKey(float x, float y, const std::vector<int>& wallsToUnlock)
+    : Collectable(x, y, 20.0f), wallsToUnlock(wallsToUnlock) {} // Assuming a fixed radius of 20 for GameKey
 
+// Destructor
 GameKey::~GameKey() {}
 
-int GameKey::getX() const { return x; }
-int GameKey::getY() const { return y; }
-int GameKey::getRadius() const { return radius; }
-bool GameKey::isActive() const { return active; }
-void GameKey::collect() { active = false; }
-const std::vector<int>& GameKey::getWallsToUnlock() const { return wallsToUnlock; }
-
-void GameKey::draw() const {
-    if (active) {
-        DrawTexture(texture, x - texture.width / 2 + 7, y - texture.height / 2 + 7, WHITE);
-    }
+// Return the list of walls that this key unlocks
+const std::vector<int>& GameKey::getWallsToUnlock() const {
+    return wallsToUnlock;
 }

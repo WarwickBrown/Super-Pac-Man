@@ -1,30 +1,19 @@
-// GameKey.h
 #ifndef GAMEKEY_H
 #define GAMEKEY_H
 
-#include <raylib-cpp.hpp>
+#include "Collectable.h"
 #include <vector>
 
-class GameKey {
+class GameKey : public Collectable {
 public:
-    GameKey(int x, int y, const std::vector<int>& wallsToUnlock);
+    // Constructor that accepts position (x, y), a texture reference, and a vector of walls to unlock
+    GameKey(float x, float y, const std::vector<int>& wallsToUnlock);
     ~GameKey();
 
-    int getX() const;
-    int getY() const;
-    int getRadius() const;
-    bool isActive() const;
-    void collect();
-    void draw() const;
-    const std::vector<int>& getWallsToUnlock() const;
+    const std::vector<int>& getWallsToUnlock() const; // Return the list of walls this key unlocks
 
 private:
-    int x, y;
-    int radius;
-    bool active;
-    // Texture2D texture;
-    std::vector<int> wallsToUnlock;
-    Texture2D texture = LoadTexture("../resources/pacman-images/key.png");
+    std::vector<int> wallsToUnlock; // Walls that this key unlocks
 };
 
 #endif // GAMEKEY_H

@@ -137,7 +137,7 @@ void Screen::drawMaze(const Maze& maze) {
 void Screen::drawKeys(const std::vector<GameKey>& keys) {
     for (const auto& key : keys) {
         if (key.isActive()) {
-            key.draw();
+            DrawTexture(keyTexture, key.getX() - keyTexture.width / 2 + 7, key.getY() - keyTexture.height / 2 + 7, WHITE);
         }
     }
 }
