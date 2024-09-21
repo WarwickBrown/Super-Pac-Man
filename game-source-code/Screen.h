@@ -35,7 +35,7 @@ public:
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
     void drawSuperPellets(const std::vector<SuperPellet>& superPellet);
-    void drawStars(const std::vector<Star>& star);
+    void drawStars(std::vector<Star>& star);
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
     void symbols(int num1, int num2, int num3);
@@ -45,7 +45,6 @@ public:
 
 private:
     Maze* maze;            // Pointer to the maze
-    Star* star;
     bool isRunning;        // State to check if the game is running
     int dir;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering

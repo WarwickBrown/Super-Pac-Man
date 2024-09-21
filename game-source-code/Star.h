@@ -20,7 +20,7 @@ public:
     void collect() override;
 
     // Select and change the current texture of the star
-    void setChange() const;
+    void determineChange();
 
     // Handle marking the star as eaten or not
     void markAsEaten();

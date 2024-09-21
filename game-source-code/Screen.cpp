@@ -387,27 +387,27 @@ void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
     }
 }
 
-void Screen::drawStars(const std::vector<Star>& stars)
+void Screen::drawStars(std::vector<Star>& stars)
 {
-    for(const auto& star : stars)
-    {
-        if (star.getChange()) {
-            star.setChange();
+    for (auto& eachStar : stars) {
+        if (eachStar.getChange()) {
+            eachStar.setChange();  // Reset the change flag
 
             // Cycle through textures
             picture = starTextures[num];
             num = (num + 1) % starTextures.size();  // Loop through the textures
         }
-        if(star.isActive()){
-            Rectangle sourceRec = {
-                (float)(picture.width),  // Calculate width of a single frame
-                0, 
-                (float)(picture.width),          // Width of a single frame
-                (float)(picture.height)              // Full height of the texture
-                };
 
-                // Draw Key texture at the specified location and frame
-                DrawTextureRec(picture, sourceRec, Vector2{(float)star.getX()-30, (float)star.getY()-32}, RAYWHITE);
+        if (eachStar.isActive()) {
+            Rectangle sourceRec = {
+                (float)(picture.width),  // Full width of the texture
+                0, 
+                (float)(picture.width),  // Width of a single frame
+                (float)(picture.height)  // Full height of the texture
+            };
+
+            // Draw Star texture at the specified location
+            DrawTextureRec(picture, sourceRec, Vector2{(float)eachStar.getX() - 30, (float)eachStar.getY() - 32}, RAYWHITE);
         }
     }
 }
