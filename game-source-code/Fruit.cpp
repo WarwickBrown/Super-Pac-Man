@@ -1,7 +1,7 @@
 #include "Fruit.h"
 
 // Constructor that accepts position (x, y) and a texture reference
-Fruit::Fruit(int x, int y, const Texture2D& texture) : x(x), y(y), radius(20), active(true), texture(texture), eaten(false) {}
+Fruit::Fruit(int x, int y) : x(x), y(y), radius(20), active(true), eaten(false) {}
 
 // Destructor
 Fruit::~Fruit() {}

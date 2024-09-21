@@ -303,7 +303,6 @@ Texture2D Screen::getTexture(int num) {
     }
 }
 
-
 void Screen::setSymbolActive(bool status){
     symbolActive = status;
 }

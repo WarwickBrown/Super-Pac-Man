@@ -374,90 +374,87 @@ const std::vector<Texture2D>& Game::getGameImages() const {
 
 // Initialize the fruits in the game
 void Game::initialiseFruits() {
-    // Load fruit texture (replace with the correct path)
-    Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
-
     //Left Long Wall
-    fruits.emplace_back(120, 360, fruitTexture);
-    fruits.emplace_back(120, 440, fruitTexture);
-    fruits.emplace_back(120, 520, fruitTexture);
-    fruits.emplace_back(120, 600, fruitTexture);
+    fruits.emplace_back(120, 360);
+    fruits.emplace_back(120, 440);
+    fruits.emplace_back(120, 520);
+    fruits.emplace_back(120, 600);
 
     //Right Long Wall
-    fruits.emplace_back(1400, 360, fruitTexture);
-    fruits.emplace_back(1400, 440, fruitTexture);
-    fruits.emplace_back(1400, 520, fruitTexture);
-    fruits.emplace_back(1400, 600, fruitTexture);
+    fruits.emplace_back(1400, 360);
+    fruits.emplace_back(1400, 440);
+    fruits.emplace_back(1400, 520);
+    fruits.emplace_back(1400, 600);
 
     //Bottom Left Small L
-    fruits.emplace_back(280, 600, fruitTexture);
-    fruits.emplace_back(360, 600, fruitTexture);
-    fruits.emplace_back(440, 600, fruitTexture);
-    fruits.emplace_back(520, 600, fruitTexture);
-    fruits.emplace_back(600, 680, fruitTexture);
+    fruits.emplace_back(280, 600);
+    fruits.emplace_back(360, 600);
+    fruits.emplace_back(440, 600);
+    fruits.emplace_back(520, 600);
+    fruits.emplace_back(600, 680);
 
     //Bottom Right Small L
-    fruits.emplace_back(1000, 600, fruitTexture);
-    fruits.emplace_back(1080, 600, fruitTexture);
-    fruits.emplace_back(1160, 600, fruitTexture);
-    fruits.emplace_back(1240, 600, fruitTexture);
-    fruits.emplace_back(920, 680, fruitTexture);
+    fruits.emplace_back(1000, 600);
+    fruits.emplace_back(1080, 600);
+    fruits.emplace_back(1160, 600);
+    fruits.emplace_back(1240, 600);
+    fruits.emplace_back(920, 680);
 
     //Bottom Left Big L
-    fruits.emplace_back(280, 200, fruitTexture);
-    fruits.emplace_back(280, 280, fruitTexture);
-    fruits.emplace_back(280, 360, fruitTexture);
-    fruits.emplace_back(280, 440, fruitTexture);
-    fruits.emplace_back(360, 440, fruitTexture);
-    fruits.emplace_back(440, 440, fruitTexture);
-    fruits.emplace_back(520, 440, fruitTexture);
+    fruits.emplace_back(280, 200);
+    fruits.emplace_back(280, 280);
+    fruits.emplace_back(280, 360);
+    fruits.emplace_back(280, 440);
+    fruits.emplace_back(360, 440);
+    fruits.emplace_back(440, 440);
+    fruits.emplace_back(520, 440);
 
     //Bottom Right Big L
-    fruits.emplace_back(1240, 200, fruitTexture);
-    fruits.emplace_back(1240, 280, fruitTexture);
-    fruits.emplace_back(1240, 360, fruitTexture);
-    fruits.emplace_back(1240, 440, fruitTexture);
-    fruits.emplace_back(1000, 440, fruitTexture);
-    fruits.emplace_back(1080, 440, fruitTexture);
-    fruits.emplace_back(1160, 440, fruitTexture);
+    fruits.emplace_back(1240, 200);
+    fruits.emplace_back(1240, 280);
+    fruits.emplace_back(1240, 360);
+    fruits.emplace_back(1240, 440);
+    fruits.emplace_back(1000, 440);
+    fruits.emplace_back(1080, 440);
+    fruits.emplace_back(1160, 440);
 
     //Top Left Small L
-    fruits.emplace_back(440, 200, fruitTexture);
-    fruits.emplace_back(440, 280, fruitTexture);
-    fruits.emplace_back(520, 280, fruitTexture);
-    fruits.emplace_back(600, 280, fruitTexture);
-    fruits.emplace_back(680, 280, fruitTexture);
+    fruits.emplace_back(440, 200);
+    fruits.emplace_back(440, 280);
+    fruits.emplace_back(520, 280);
+    fruits.emplace_back(600, 280);
+    fruits.emplace_back(680, 280);
 
     //Top Right Small L
-    fruits.emplace_back(1080, 200, fruitTexture);
-    fruits.emplace_back(1080, 280, fruitTexture);
-    fruits.emplace_back(840, 280, fruitTexture);
-    fruits.emplace_back(920, 280, fruitTexture);
-    fruits.emplace_back(1000, 280, fruitTexture);
+    fruits.emplace_back(1080, 200);
+    fruits.emplace_back(1080, 280);
+    fruits.emplace_back(840, 280);
+    fruits.emplace_back(920, 280);
+    fruits.emplace_back(1000, 280);
 
     //Upper Symbol
-    fruits.emplace_back(600, 120, fruitTexture);
-    fruits.emplace_back(680, 120, fruitTexture);
-    fruits.emplace_back(840, 120, fruitTexture);
-    fruits.emplace_back(920, 120, fruitTexture);
+    fruits.emplace_back(600, 120);
+    fruits.emplace_back(680, 120);
+    fruits.emplace_back(840, 120);
+    fruits.emplace_back(920, 120);
 
     //Bottom Left Small 
-    fruits.emplace_back(280, 760, fruitTexture);
-    fruits.emplace_back(360, 760, fruitTexture);
-    fruits.emplace_back(440, 760, fruitTexture);
+    fruits.emplace_back(280, 760);
+    fruits.emplace_back(360, 760);
+    fruits.emplace_back(440, 760);
 
     //Bottom Right Small 
-    fruits.emplace_back(1080, 760, fruitTexture);
-    fruits.emplace_back(1160, 760, fruitTexture);
-    fruits.emplace_back(1240, 760, fruitTexture);
+    fruits.emplace_back(1080, 760);
+    fruits.emplace_back(1160, 760);
+    fruits.emplace_back(1240, 760);
 
     // Bottom T
-    fruits.emplace_back(600, 840, fruitTexture);
-    fruits.emplace_back(920, 840, fruitTexture);
-    fruits.emplace_back(840, 840, fruitTexture);
-    fruits.emplace_back(760, 840, fruitTexture);
-    fruits.emplace_back(680, 840, fruitTexture);
-    fruits.emplace_back(760, 760, fruitTexture);
+    fruits.emplace_back(600, 840);
+    fruits.emplace_back(920, 840);
+    fruits.emplace_back(840, 840);
+    fruits.emplace_back(760, 840);
+    fruits.emplace_back(680, 840);
+    fruits.emplace_back(760, 760);
 }
 
 void Game::initialiseKeys() {
