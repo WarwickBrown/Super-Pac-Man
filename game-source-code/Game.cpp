@@ -6,6 +6,7 @@
 #include "Lives.h"
 #include "PowerPellet.h"
 #include "SuperPellet.h"
+#include "Star.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -67,9 +68,7 @@ void Game::run() {
         screen->drawFruits(fruits);
 
         // Draw each star on the screen
-        for (const auto& star : stars) {
-            star.draw();
-        }
+        screen->drawStars(stars);
 
         screen->drawPowerPellets(powerPellets);
         screen->drawSuperPellets(superPellets);
@@ -492,12 +491,7 @@ void Game::checkWinCondition() {
 }
 
 void Game::inputStar() {
-    // Load star texture (replace with the correct path)
-    std::vector<Texture2D> starImage;
-    starImage.push_back(LoadTexture("../resources/pacman-images/star1.png"));
-    starImage.push_back(LoadTexture("../resources/pacman-images/star2.png"));
-    starImage.push_back(LoadTexture("../resources/pacman-images/star3.png"));
-    stars.emplace_back(760, 600, starImage);
+    stars.emplace_back(760, 600);
 }
 
 void Game::initialisePowerPellets() {

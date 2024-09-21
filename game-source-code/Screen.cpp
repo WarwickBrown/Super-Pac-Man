@@ -6,6 +6,7 @@
 #include "Score.h"
 #include "Ghost.h"
 #include "SuperPellet.h"
+#include "Star.h"
 
 #include <raylib-cpp.hpp>
 #include <iostream>
@@ -384,5 +385,29 @@ void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
             DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet.getX()-25, (float)pellet.getY()-25}, RAYWHITE);
         }
     }
+}
 
+void Screen::drawStars(const std::vector<Star>& stars)
+{
+    for(const auto& star : stars)
+    {
+        if (star.getChange()) {
+            star.setChange();
+
+            // Cycle through textures
+            picture = starTextures[num];
+            num = (num + 1) % starTextures.size();  // Loop through the textures
+        }
+        if(star.isActive()){
+            Rectangle sourceRec = {
+                (float)(picture.width),  // Calculate width of a single frame
+                0, 
+                (float)(picture.width),          // Width of a single frame
+                (float)(picture.height)              // Full height of the texture
+                };
+
+                // Draw Key texture at the specified location and frame
+                DrawTextureRec(picture, sourceRec, Vector2{(float)star.getX()-30, (float)star.getY()-32}, RAYWHITE);
+        }
+    }
 }

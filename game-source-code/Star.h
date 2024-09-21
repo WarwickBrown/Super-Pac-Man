@@ -1,39 +1,42 @@
 #ifndef STAR_H
 #define STAR_H
 
-#include <raylib-cpp.hpp>
+#include "Collectable.h"
 #include <vector>
+#include <raylib-cpp.hpp>
 
-class Star {
+class Star : public Collectable {
 public:
-    // Constructor that accepts position (x, y) and a texture reference
-    Star(int x, int y, const std::vector<Texture2D> texture);
-    ~Star(); // Destructor
+    // Constructor to initialize the Star with position and textures
+    Star(int x, int y);
 
-    int getX() const;      // Getter for X position
-    int getY() const;      // Getter for Y position
-    int getRadius() const; // Getter for radius
-    bool isActive() const; // Checks if the Star is active
-    void collect();        // Collects the Star (deactivates it)
-    void draw() const;     // Draws the Star on the screen
-    void markAsEaten();
-    bool isEaten() const;
-    void markAsNotEaten();
+    // Destructor
+    ~Star();
+
+    // Show the star (activate it)
     void show();
 
+    // Override collect method to deactivate the star
+    void collect() override;
+
+    // Select and change the current texture of the star
+    void setChange() const;
+
+    // Handle marking the star as eaten or not
+    void markAsEaten();
+    void markAsNotEaten();
+    bool isEaten() const;
+    bool getChange() const;
+    void setChange();
+
 private:
-    int x, y;
-    mutable int multiple = 1, num = 0;           // Position of the Star
-    int radius;            // Radius of the Star
-    bool active;           // Whether the Star is still on the screen
-    Texture2D texture;     // Texture of the Star
-    bool eaten = true;
-    float startTime = GetTime();
-    mutable bool change = false;
-    mutable Texture2D picture;
-    Texture2D star1 = LoadTexture("../resources/pacman-images/star1.png");
-    Texture2D star2 = LoadTexture("../resources/pacman-images/star2.png");
-    Texture2D star3 = LoadTexture("../resources/pacman-images/star3.png");
+    bool eaten;                     // Whether the star is eaten
+    mutable int num = 0;            // Index of the current texture
+    mutable bool change = false;    // Tracks if a texture change is needed
+    mutable float startTime = GetTime();  // Starting time to control texture changes
+    mutable int multiple = 1;       // Multiple used to control texture changes
+    std::vector<Texture2D> textures; // Different textures for the star
+    mutable Texture2D picture;      // Current picture (texture) to draw
 };
 
 #endif // STAR_H

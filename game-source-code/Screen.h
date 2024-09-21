@@ -12,6 +12,7 @@
 #include "Score.h"
 #include "PowerPellet.h"
 #include "SuperPellet.h"
+#include "Star.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -34,6 +35,7 @@ public:
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
     void drawSuperPellets(const std::vector<SuperPellet>& superPellet);
+    void drawStars(const std::vector<Star>& star);
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
     void symbols(int num1, int num2, int num3);
@@ -43,6 +45,7 @@ public:
 
 private:
     Maze* maze;            // Pointer to the maze
+    Star* star;
     bool isRunning;        // State to check if the game is running
     int dir;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
@@ -83,7 +86,17 @@ private:
     Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png");
 
     // Super Pellet Texture
-    Texture2D superPelletTexture = LoadTexture("../resources/pacman-images/SuperPellet.png"); // Load super pellet texture
+    Texture2D superPelletTexture = LoadTexture("../resources/pacman-images/SuperPellet.png");
+
+    // Star Textures
+    std::vector<Texture2D> starTextures = {
+        LoadTexture("../resources/pacman-images/star1.png"),
+        LoadTexture("../resources/pacman-images/star2.png"),
+        LoadTexture("../resources/pacman-images/star3.png")
+    };
+
+    Texture2D picture;
+    int num = 0;  
 
     bool eaten;
     bool symbolActive = false;
