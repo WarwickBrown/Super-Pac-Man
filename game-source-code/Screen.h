@@ -35,6 +35,7 @@ public:
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
     void symbols(int num1, int num2, int num3);
+    Texture2D getTexture(int num);
     void drawLives(int lives);
     void setSymbolActive(bool status);
 
@@ -69,6 +70,9 @@ private:
     Texture2D symbol5 = LoadTexture("../resources/pacman-images/symbol5.png");
     Texture2D symbol6 = LoadTexture("../resources/pacman-images/symbol6.png");
     Texture2D symbolLives = LoadTexture("../resources/pacman-images/livesSymbol.png");
+
+    // Fruit Texture
+    Texture2D fruitPic = LoadTexture("../resources/pacman-images/strawberry.png");
 
     bool eaten;
     bool symbolActive = false;

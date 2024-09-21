@@ -258,115 +258,51 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
     for (const auto& fruit : fruits) {
         if(!fruit.isEaten())
         {
-            // Draw each fruit as a green circle
-          //  DrawCircle(fruit.getX(), fruit.getY(), fruit.getRadius(), GREEN);
+        Rectangle sourceRec = {
+        (float)(fruitPic.width) ,  // Calculate width of a single frame
+        0, 
+        (float)(fruitPic.width),          // Width of a single frame
+        (float)(fruitPic.height)              // Full height of the texture
+        };
+
+        // Draw Fruit texture at the specified location and frame
+        DrawTextureRec(fruitPic, sourceRec, Vector2{(float)fruit.getX()-28, (float)fruit.getY()-28}, RAYWHITE);
         }
-
     }
 }
 
-void Screen::symbols(int num1, int num2, int num3)
-{
-    if(symbolActive){
-        Texture2D texture1;
-        Texture2D texture2;
-        Texture2D texture3;
-        if(num1 == 1)
-    {
-        texture1 = symbol1;
-    }
-    else if(num1 == 2)
-    {
-        texture1 = symbol2;
-    }
-    else if(num1 == 3)
-    {
-        texture1 = symbol3;
-    }
-    else if(num1 == 4)
-    {
-        texture1 = symbol4;
-    }
-    else if(num1 == 5)
-    {
-        texture1 = symbol5;
-    }
-    else if(num1 == 6)
-    {
-        texture1 = symbol6;
-    }
-        if(num2 == 1)
-    {
-        texture2 = symbol1;
-    }
-    else if(num2 == 2)
-    {
-        texture2 = symbol2;
-    }
-    else if(num2 == 3)
-    {
-        texture2 = symbol3;
-    }
-    else if(num2 == 4)
-    {
-        texture2 = symbol4;
-    }
-    else if(num2 == 5)
-    {
-        texture2 = symbol5;
-    }
-    else if(num2 == 6)
-    {
-        texture2 = symbol6;
-    }
-    if(num3 == 1)
-    {
-        texture3 = symbol1;
-    }
-    else if(num3 == 2)
-    {
-        texture3 = symbol2;
-    }
-    else if(num3 == 3)
-    {
-        texture3 = symbol3;
-    }
-    else if(num3 == 4)
-    {
-        texture3 = symbol4;
-    }
-    else if(num3 == 5)
-    {
-        texture3 = symbol5;
-    }
-    else if(num3 == 6)
-    {
-        texture3 = symbol6;
-    }
-        Rectangle sourceRec1 = {
-            (float)(texture1.width),  // Calculate width of a single frame
-            0, 
-            (float)(texture1.width),          // Width of a single frame
-            (float)(texture1.height) 
-        };
-        Rectangle sourceRec2 = {
-            (float)texture2.width,  // Calculate width of a single frame
-            0, 
-            (float)texture2.width,         // Width of a single frame
-            (float)texture2.height
-        };
-        Rectangle sourceRec3 = {
-            (float)texture3.width,  // Calculate width of a single frame
-            0, 
-            (float)texture3.width,         // Width of a single frame
-            (float)texture3.height
-        };
-        // Draw Pac-Man's texture at the specified location and frame
-        DrawTextureRec(texture1, sourceRec1, Vector2{650, 570}, RAYWHITE);
-        DrawTextureRec(texture2, sourceRec2, Vector2{810, 570}, RAYWHITE);
-        DrawTextureRec(texture3, sourceRec3, Vector2{730, 90}, RAYWHITE);
+void Screen::symbols(int num1, int num2, int num3) {
+    if (symbolActive) {
+        Texture2D textures[3] = { getTexture(num1), getTexture(num2), getTexture(num3) };
+        Vector2 positions[3] = { {650, 570}, {810, 570}, {730, 90} };
+
+        // Loop through each texture to draw it
+        for (int i = 0; i < 3; ++i) {
+            Rectangle sourceRec = {
+                (float)textures[i].width,  // Calculate width of a single frame
+                0,
+                (float)textures[i].width,   // Width of a single frame
+                (float)textures[i].height
+            };
+
+            // Draw the texture at the specified location
+            DrawTextureRec(textures[i], sourceRec, positions[i], RAYWHITE);
+        }
     }
 }
+
+Texture2D Screen::getTexture(int num) {
+    switch(num) {
+        case 1: return symbol1;
+        case 2: return symbol2;
+        case 3: return symbol3;
+        case 4: return symbol4;
+        case 5: return symbol5;
+        case 6: return symbol6;
+        default: return symbol1; 
+    }
+}
+
 
 void Screen::setSymbolActive(bool status){
     symbolActive = status;

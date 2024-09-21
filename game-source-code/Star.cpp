@@ -39,11 +39,10 @@ void Star::collect() {
 }
 
 // Draws the Star on the screen
-void Star::draw(int frame) const {
+void Star::draw() const {
     float updatedTime = GetTime() - startTime;
     if(updatedTime >= multiple*0.2)
     {
-        
         multiple++;
         change = true;
     }

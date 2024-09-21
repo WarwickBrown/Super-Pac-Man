@@ -31,22 +31,6 @@ void Fruit::collect() {
     active = false;
 }
 
-// Draws the fruit on the screen
-void Fruit::draw() const {
-    if (active) {
-        Rectangle sourceRec = {
-        (float)(fruitPic.width) ,  // Calculate width of a single frame
-        0, 
-        (float)(fruitPic.width),          // Width of a single frame
-        (float)(fruitPic.height)              // Full height of the texture
-    };
-
-    // Draw Ghosts texture at the specified location and frame
-    DrawTextureRec(fruitPic, sourceRec, Vector2{(float)getX()-28, (float)getY()-28}, RAYWHITE);
-       // DrawTexture(texture, x, y, RAYWHITE); // Draw the fruit if it's active
-    }
-}
-
 void Fruit::markAsEaten() {
     eaten = true;
 }

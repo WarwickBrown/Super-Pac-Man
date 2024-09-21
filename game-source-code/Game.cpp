@@ -53,7 +53,6 @@ void Game::initialise() {
 void Game::run() {
     int pixelX; // Coordinates for rendering
     int pixelY;
-    int addedFrame = 1;
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -64,14 +63,10 @@ void Game::run() {
         screen->drawKeys(keys);
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawFruits(fruits);
-        // Draw each fruit on the screen
-        for (const auto& fruit : fruits) {
-            fruit.draw();
-        }
 
         // Draw each star on the screen
         for (const auto& star : stars) {
-            star.draw(addedFrame);
+            star.draw();
         }
 
         for (const auto& pellet : powerPellets) {
@@ -88,28 +83,16 @@ void Game::run() {
             }
         }
         
-        addedFrame += frame;
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
         screen->drawLives(playerLives->getLives());
-        
-         
-        
+
         if (pacMan->isSuper()) {
             screen->drawSuperPacMan(*pacMan, frame, oldDirection);
         }
         else{
             screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
         }
-
-        
-/*
-        // Draw each ghost
-        for (const auto& ghost : ghosts) {
-            screen->drawGhost(ghost, ghostDirection);
-            std::cout << ghostDirection << std::endl;
-        }*/
-
                 // If the game has been won, break the loop
         if (gameWon) {
             break;

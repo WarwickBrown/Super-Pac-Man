@@ -15,7 +15,7 @@ public:
     int getRadius() const; // Getter for radius
     bool isActive() const; // Checks if the Star is active
     void collect();        // Collects the Star (deactivates it)
-    void draw(int frame) const;     // Draws the Star on the screen
+    void draw() const;     // Draws the Star on the screen
     void markAsEaten();
     bool isEaten() const;
     void markAsNotEaten();
