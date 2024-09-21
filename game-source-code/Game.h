@@ -57,6 +57,7 @@ private:
     Screen* screen;  // Pointer to the screen object
     Score* score;
     Lives* playerLives; // Pointer to Lives object
+    Star* star;
 
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;

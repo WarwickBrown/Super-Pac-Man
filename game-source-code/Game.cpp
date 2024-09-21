@@ -66,9 +66,12 @@ void Game::run() {
         screen->drawKeys(keys);
         frame = pacMan->location(frame, direction);  // Update Pac-Man's frame for animation
         screen->drawFruits(fruits);
-
         // Draw each star on the screen
         screen->drawStars(stars);
+
+        for (auto& star : stars) {
+            star.determineChange();  // Use the star object directly
+        }
 
         screen->drawPowerPellets(powerPellets);
         screen->drawSuperPellets(superPellets);
@@ -245,7 +248,7 @@ void Game::update() {
 
                     // Define Pac-Man's bounding circle
                     Vector2 pacManCenter = { pacMan->getX(), pacMan->getY() };
-                    float pacManRadius = pacMan->getRadius() * 1.5;
+                    float pacManRadius = pacMan->getRadius() * 1.1;
 
                     // Define the wall's rectangle
                     Rectangle wallRec = wall.rect;
