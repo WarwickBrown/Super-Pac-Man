@@ -4,6 +4,7 @@
 #include "Star.h"
 #include "Fruit.h"
 #include "Lives.h"
+#include "PowerPellet.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -69,9 +70,7 @@ void Game::run() {
             star.draw();
         }
 
-        for (const auto& pellet : powerPellets) {
-            pellet.draw();
-        }
+        screen->drawPowerPellets(powerPellets);
                 // Render and check for SuperPellet collisions
         for (auto& superPellet : superPellets) {
             superPellet.draw();  // Draw the super pellet

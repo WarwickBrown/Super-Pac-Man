@@ -1,27 +1,20 @@
-#ifndef POWER_PELLET_H
-#define POWER_PELLET_H
+#ifndef POWERPELLET_H
+#define POWERPELLET_H
 
-#include <raylib-cpp.hpp>
+#include "Collectable.h"
 #include "PacMan.h"
+#include <raylib-cpp.hpp>
 
-class PowerPellet {
+class PowerPellet : public Collectable {
 public:
-    PowerPellet(float x, float y); // Constructor
-    ~PowerPellet(); // Destructor
+    // Constructor that accepts position (x, y) and initializes Collectable with the texture and radius
+    PowerPellet(float x, float y);
 
-    void draw() const;           // Render the power pellet
-    bool isActive() const;       // Check if the power pellet is still active
-    void collect();              // Mark the power pellet as collected
-    float getX() const;          // Get X position of the power pellet
-    float getY() const;          // Get Y position of the power pellet
-    float getRadius() const;     // Get the radius of the power pellet
-    bool checkCollisionWithPacMan(const PacMan& pacman); // Check if Pac-Man collided with the pellet
+    // Destructor
+    ~PowerPellet();
 
-private:
-    float x, y;                  // Position of the power pellet
-    bool active;                 // Is the power pellet still active (not eaten)?
-    float radius;                // Radius of the power pellet
-    Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png");  // Load power pellet texture
+    // Checks if Pac-Man collides with the Power Pellet
+    bool checkCollisionWithPacMan(const PacMan& pacman);
 };
 
-#endif
+#endif // POWERPELLET_H

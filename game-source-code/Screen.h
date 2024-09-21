@@ -77,6 +77,9 @@ private:
     // Fruit Texture
     Texture2D fruitPic = LoadTexture("../resources/pacman-images/strawberry.png");
 
+    // Power Pellet Texture
+    Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png");
+
     bool eaten;
     bool symbolActive = false;
 };

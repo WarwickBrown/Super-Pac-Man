@@ -143,9 +143,17 @@ void Screen::drawKeys(const std::vector<GameKey>& keys) {
 }
 
 void Screen::drawPowerPellets(const std::vector<PowerPellet>& powerPellet){
-    for (const auto& PowerPellet : powerPellet) {
-        if (PowerPellet.isActive()) {
-            PowerPellet.draw();
+    for (const auto& pellet : powerPellet)
+    {
+        if (pellet.isActive()) {
+            Rectangle sourceRec = {
+            (float)(powerPelletTexture.width) ,  // Calculate width of a single frame
+            0, 
+            (float)(powerPelletTexture.width),          // Width of a single frame
+            (float)(powerPelletTexture.height)              // Full height of the texture
+        };
+
+        DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet.getX()-25, (float)pellet.getY()-25}, RAYWHITE);
         }
     }
 }
