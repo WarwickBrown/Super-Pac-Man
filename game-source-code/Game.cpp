@@ -490,8 +490,16 @@ void Game::initialiseKeys() {
     keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15});
     keys.emplace_back(360, 360, std::vector<int>{16, 17, 18, 19});
     keys.emplace_back(1160, 360, std::vector<int>{20, 21, 22, 23});
-    keys.emplace_back(520, 680, std::vector<int>{24, 25, 26, 27});
-    keys.emplace_back(1000, 680, std::vector<int>{28, 29, 30, 31});
+    keys.emplace_back(280, 680, std::vector<int>{24, 25, 26, 27});
+    keys.emplace_back(1240, 680, std::vector<int>{28, 29, 30, 31});
+    keys.emplace_back(680, 760, std::vector<int>{32, 33, 34, 35});
+    keys.emplace_back(840, 760, std::vector<int>{36, 37, 38, 39});
+    keys.emplace_back(280, 520, std::vector<int>{40, 41, 42, 43});
+    keys.emplace_back(1240, 520, std::vector<int>{44, 45, 46, 47});
+    keys.emplace_back(40, 440, std::vector<int>{48, 49, 50, 51});
+    keys.emplace_back(1480, 440, std::vector<int>{52, 53, 54, 55});
+    keys.emplace_back(520, 200, std::vector<int>{56, 57, 58, 59});
+    keys.emplace_back(1000, 200, std::vector<int>{60, 61, 62, 63});
 }
 
 
