@@ -11,6 +11,7 @@
 #include "GameKey.h"
 #include "Score.h"
 #include "PowerPellet.h"
+#include "SuperPellet.h"
 
 // Forward declaration of the Game class
 class Game;
@@ -32,6 +33,7 @@ public:
     bool winGame(const Score& score);
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
+    void drawSuperPellets(const std::vector<SuperPellet>& superPellet);
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
     void symbols(int num1, int num2, int num3);
@@ -79,6 +81,9 @@ private:
 
     // Power Pellet Texture
     Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png");
+
+    // Super Pellet Texture
+    Texture2D superPelletTexture = LoadTexture("../resources/pacman-images/SuperPellet.png"); // Load super pellet texture
 
     bool eaten;
     bool symbolActive = false;

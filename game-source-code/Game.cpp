@@ -5,6 +5,7 @@
 #include "Fruit.h"
 #include "Lives.h"
 #include "PowerPellet.h"
+#include "SuperPellet.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -71,16 +72,7 @@ void Game::run() {
         }
 
         screen->drawPowerPellets(powerPellets);
-                // Render and check for SuperPellet collisions
-        for (auto& superPellet : superPellets) {
-            superPellet.draw();  // Draw the super pellet
-            if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
-                superPellet.collect(); // Pac-Man collects the super pellet
-                // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
-                pacMan->activateSuperMode();
-                score->addPoints(500); // Add points for collecting a super pellet
-            }
-        }
+        screen->drawSuperPellets(superPellets);
         
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
@@ -230,6 +222,16 @@ void Game::update() {
             ghost.setNormal();  // Switch back to normal texture and mode
         }
     }
+
+    for (auto& superPellet : superPellets) {
+        if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
+            superPellet.collect(); // Pac-Man collects the super pellet
+            // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
+            pacMan->activateSuperMode();
+            score->addPoints(500); // Add points for collecting a super pellet
+        }
+    }
+
 
     // If Pac-Man is in super mode, check if he's moving through any locked walls
     if (pacMan->isSuper()) {

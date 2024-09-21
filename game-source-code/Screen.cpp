@@ -368,3 +368,21 @@ void Screen::drawLives(int lives) {
         DrawTextureRec(symbolLives, sourceRec, Vector2{(float)(1365 + i*55), 20}, RAYWHITE);
     }
 }
+
+void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
+{
+    for(const auto& pellet : superPellets)
+    {
+        if (pellet.isActive()) {
+            Rectangle sourceRec = {
+            (float)(superPelletTexture.width) ,  // Calculate width of a single frame
+            0, 
+            (float)(superPelletTexture.width),          // Width of a single frame
+            (float)(superPelletTexture.height)              // Full height of the texture
+            };
+
+            DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet.getX()-25, (float)pellet.getY()-25}, RAYWHITE);
+        }
+    }
+
+}
