@@ -1,40 +1,18 @@
 #include "Fruit.h"
 
-// Constructor that accepts position (x, y) and a texture reference
-Fruit::Fruit(int x, int y) : x(x), y(y), radius(20), active(true), eaten(false) {}
+// Constructor using Collectable's constructor to initialize position, radius, and texture
+Fruit::Fruit(float x, float y)
+    : Collectable(x, y, 20.0f), eaten(false) {} // Assuming a fixed radius of 20 for Fruit
 
 // Destructor
 Fruit::~Fruit() {}
 
-// Getter for X position
-int Fruit::getX() const {
-    return x;
-}
-
-// Getter for Y position
-int Fruit::getY() const {
-    return y;
-}
-
-// Getter for radius
-int Fruit::getRadius() const {
-    return radius;
-}
-
-// Checks if the fruit is active
-bool Fruit::isActive() const {
-    return active;
-}
-
-// Collects the fruit (deactivates it)
-void Fruit::collect() {
-    active = false;
-}
-
+// Marks the fruit as eaten
 void Fruit::markAsEaten() {
     eaten = true;
 }
 
+// Returns whether the fruit has been eaten
 bool Fruit::isEaten() const {
     return eaten;
 }
