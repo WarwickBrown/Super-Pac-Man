@@ -32,14 +32,11 @@ public:
     bool winGame(const Score& score);
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
-    void drawEdges();
-    void drawInner();
     void drawKeys(const std::vector<GameKey>& keys);
     void drawScores(const Score& score);
     void symbols(int num1, int num2, int num3);
     void drawLives(int lives);
     void setSymbolActive(bool status);
-
 
 private:
     Maze* maze;            // Pointer to the maze
@@ -62,7 +59,7 @@ private:
     Texture2D flattednedGhost = LoadTexture("../resources/pacman-images/GhostHigh.png");
 
     // Enlarged Pacman Texture
-
+    Texture2D pacManBig = LoadTexture("../resources/pacman-images/GhostHigh.png");
 
     // Symbol textures
     Texture2D symbol1 = LoadTexture("../resources/pacman-images/symbol1.png");

@@ -105,9 +105,9 @@ Bottom T-Shaped Doors
 
 Border Walls
 0 80 10 810 PINK 1
-0 80 1520 10 PINK 1
+0 80 1530 10 PINK 1
 1520 80 10 810 PINK 1
-0 880 1520 10 PINK 1
+0 880 1530 10 PINK 1
 
 Top Left Corner Box
 80 160 10 90 PINK 1 Vertical

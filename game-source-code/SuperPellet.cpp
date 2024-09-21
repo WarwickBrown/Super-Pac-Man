@@ -17,7 +17,7 @@ void SuperPellet::draw() const {
         (float)(texture.height)              // Full height of the texture
     };
 
-    DrawTextureRec(texture, sourceRec, Vector2{(float)getX()-28, (float)getY()-28}, RAYWHITE);
+    DrawTextureRec(texture, sourceRec, Vector2{(float)getX()-25, (float)getY()-25}, RAYWHITE);
     }
 }
 bool SuperPellet::checkCollision(float pacManX, float pacManY, float pacManRadius) const {

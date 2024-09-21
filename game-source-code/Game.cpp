@@ -89,7 +89,6 @@ void Game::run() {
         }
         
         addedFrame += frame;
-        screen->drawInner();
         // Draw the fruits on the screen
         screen->drawScores(*score); // Draw the scores
         screen->drawLives(playerLives->getLives());
@@ -129,7 +128,6 @@ void Game::run() {
 
 
 }
-
 
 // Handles user input for controlling Pac-Man's direction
 void Game::handleInput() {
@@ -396,8 +394,6 @@ void Game::initialiseFruits() {
     // Load fruit texture (replace with the correct path)
     Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
-
-
     //Left Long Wall
     fruits.emplace_back(120, 360, fruitTexture);
     fruits.emplace_back(120, 440, fruitTexture);
@@ -482,8 +478,6 @@ void Game::initialiseFruits() {
 }
 
 void Game::initialiseKeys() {
-   // Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
-
     keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
     keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7});
     keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11});
@@ -500,8 +494,9 @@ void Game::initialiseKeys() {
     keys.emplace_back(1480, 440, std::vector<int>{52, 53, 54, 55});
     keys.emplace_back(520, 200, std::vector<int>{56, 57, 58, 59});
     keys.emplace_back(1000, 200, std::vector<int>{60, 61, 62, 63});
+    keys.emplace_back(520, 200, std::vector<int>{64, 65, 66, 67});
+    keys.emplace_back(1000, 200, std::vector<int>{68, 69, 70, 71});
 }
-
 
 // Implement the method to check if all fruits are collected
 void Game::checkWinCondition() {

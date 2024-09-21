@@ -18,7 +18,7 @@ void PowerPellet::draw() const {
         (float)(powerPelletTexture.height)              // Full height of the texture
     };
 
-    DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)getX()-28, (float)getY()-28}, RAYWHITE);
+    DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)getX()-25, (float)getY()-25}, RAYWHITE);
     }
 }
 
