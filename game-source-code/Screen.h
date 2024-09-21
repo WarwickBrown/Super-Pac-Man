@@ -56,13 +56,13 @@ private:
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
 
      // Frightened ghost textures
-    Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/GhostTA.png");
-    Texture2D ghostFrightenedLeft = LoadTexture("../resources/pacman-images/GhostTA.png");
-    Texture2D ghostFrightenedUp = LoadTexture("../resources/pacman-images/GhostTA.png");
-    Texture2D ghostFrightenedDown = LoadTexture("../resources/pacman-images/GhostTA.png");
+    Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/ghostyScared.png");
+    Texture2D ghostFrightenedLeft = LoadTexture("../resources/pacman-images/ghostyScared.png");
+    Texture2D ghostFrightenedUp = LoadTexture("../resources/pacman-images/ghostyScared.png");
+    Texture2D ghostFrightenedDown = LoadTexture("../resources/pacman-images/ghostyScared.png");
 
     // Flattened ghost textures
-    Texture2D flattednedGhost = LoadTexture("../resources/pacman-images/GhostHigh.png");
+    Texture2D flattednedGhost = LoadTexture("../resources/pacman-images/ghostyStreched.png");
 
     // Enlarged Pacman Texture
     Texture2D pacManBig = LoadTexture("../resources/pacman-images/GhostHigh.png");
