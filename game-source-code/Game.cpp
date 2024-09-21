@@ -396,40 +396,102 @@ void Game::initialiseFruits() {
     // Load fruit texture (replace with the correct path)
     Texture2D fruitTexture = LoadTexture("../resources/pacman-images/fruit.png");
 
-    // Add fruits to specific positions
+
+
+    //Left Long Wall
+    fruits.emplace_back(120, 360, fruitTexture);
+    fruits.emplace_back(120, 440, fruitTexture);
+    fruits.emplace_back(120, 520, fruitTexture);
+    fruits.emplace_back(120, 600, fruitTexture);
+
+    //Right Long Wall
+    fruits.emplace_back(1400, 360, fruitTexture);
+    fruits.emplace_back(1400, 440, fruitTexture);
+    fruits.emplace_back(1400, 520, fruitTexture);
+    fruits.emplace_back(1400, 600, fruitTexture);
+
+    //Bottom Left Small L
+    fruits.emplace_back(280, 600, fruitTexture);
+    fruits.emplace_back(360, 600, fruitTexture);
+    fruits.emplace_back(440, 600, fruitTexture);
+    fruits.emplace_back(520, 600, fruitTexture);
+    fruits.emplace_back(600, 680, fruitTexture);
+
+    //Bottom Right Small L
+    fruits.emplace_back(1000, 600, fruitTexture);
+    fruits.emplace_back(1080, 600, fruitTexture);
+    fruits.emplace_back(1160, 600, fruitTexture);
+    fruits.emplace_back(1240, 600, fruitTexture);
+    fruits.emplace_back(920, 680, fruitTexture);
+
+    //Bottom Left Big L
+    fruits.emplace_back(280, 200, fruitTexture);
+    fruits.emplace_back(280, 280, fruitTexture);
+    fruits.emplace_back(280, 360, fruitTexture);
+    fruits.emplace_back(280, 440, fruitTexture);
+    fruits.emplace_back(360, 440, fruitTexture);
+    fruits.emplace_back(440, 440, fruitTexture);
+    fruits.emplace_back(520, 440, fruitTexture);
+
+    //Bottom Right Big L
+    fruits.emplace_back(1240, 200, fruitTexture);
+    fruits.emplace_back(1240, 280, fruitTexture);
+    fruits.emplace_back(1240, 360, fruitTexture);
+    fruits.emplace_back(1240, 440, fruitTexture);
+    fruits.emplace_back(1000, 440, fruitTexture);
+    fruits.emplace_back(1080, 440, fruitTexture);
+    fruits.emplace_back(1160, 440, fruitTexture);
+
+    //Top Left Small L
+    fruits.emplace_back(440, 200, fruitTexture);
+    fruits.emplace_back(440, 280, fruitTexture);
+    fruits.emplace_back(520, 280, fruitTexture);
+    fruits.emplace_back(600, 280, fruitTexture);
+    fruits.emplace_back(680, 280, fruitTexture);
+
+    //Top Right Small L
+    fruits.emplace_back(1080, 200, fruitTexture);
+    fruits.emplace_back(1080, 280, fruitTexture);
+    fruits.emplace_back(840, 280, fruitTexture);
+    fruits.emplace_back(920, 280, fruitTexture);
+    fruits.emplace_back(1000, 280, fruitTexture);
+
+    //Upper Symbol
+    fruits.emplace_back(600, 120, fruitTexture);
+    fruits.emplace_back(680, 120, fruitTexture);
+    fruits.emplace_back(840, 120, fruitTexture);
+    fruits.emplace_back(920, 120, fruitTexture);
+
+    //Bottom Left Small 
+    fruits.emplace_back(280, 760, fruitTexture);
+    fruits.emplace_back(360, 760, fruitTexture);
+    fruits.emplace_back(440, 760, fruitTexture);
+
+    //Bottom Right Small 
+    fruits.emplace_back(1080, 760, fruitTexture);
+    fruits.emplace_back(1160, 760, fruitTexture);
+    fruits.emplace_back(1240, 760, fruitTexture);
+
+    // Bottom T
     fruits.emplace_back(600, 840, fruitTexture);
     fruits.emplace_back(920, 840, fruitTexture);
     fruits.emplace_back(840, 840, fruitTexture);
     fruits.emplace_back(760, 840, fruitTexture);
     fruits.emplace_back(680, 840, fruitTexture);
-    
-    fruits.emplace_back(40, 280, fruitTexture);
-    fruits.emplace_back(40, 360, fruitTexture);
-    fruits.emplace_back(40, 440, fruitTexture);
-    fruits.emplace_back(40, 520, fruitTexture);
-    fruits.emplace_back(40, 600, fruitTexture);
-
-    fruits.emplace_back(600, 680, fruitTexture);
-    fruits.emplace_back(920, 680, fruitTexture);
-    fruits.emplace_back(840, 680, fruitTexture);
-    fruits.emplace_back(760, 680, fruitTexture);
-    fruits.emplace_back(680, 680, fruitTexture);
-
-    fruits.emplace_back(1480, 280, fruitTexture);
-    fruits.emplace_back(1480, 360, fruitTexture);
-    fruits.emplace_back(1480, 440, fruitTexture);
-    fruits.emplace_back(1480, 520, fruitTexture);
-    fruits.emplace_back(1480, 600, fruitTexture);
+    fruits.emplace_back(760, 760, fruitTexture);
 }
 
 void Game::initialiseKeys() {
    // Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png");
 
-    // Suppose walls[5] and walls[10] are to be unlocked by the key at (500, 500)
-    keys.emplace_back(280, 280, std::vector<int>{0, 1, 2, 3});
-
-    // Another key that unlocks walls[15] and walls[20]
-    keys.emplace_back(1240, 280, std::vector<int>{4, 5, 6, 7});
+    keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
+    keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7});
+    keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11});
+    keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15});
+    keys.emplace_back(360, 360, std::vector<int>{16, 17, 18, 19});
+    keys.emplace_back(1160, 360, std::vector<int>{20, 21, 22, 23});
+    keys.emplace_back(520, 680, std::vector<int>{24, 25, 26, 27});
+    keys.emplace_back(1000, 680, std::vector<int>{28, 29, 30, 31});
 }
 
 
@@ -446,24 +508,24 @@ void Game::checkWinCondition() {
 }
 
 void Game::inputStar() {
-    // Load fruit texture (replace with the correct path)
+    // Load star texture (replace with the correct path)
     std::vector<Texture2D> starImage;
     starImage.push_back(LoadTexture("../resources/pacman-images/star1.png"));
     starImage.push_back(LoadTexture("../resources/pacman-images/star2.png"));
     starImage.push_back(LoadTexture("../resources/pacman-images/star3.png"));
-    // Add fruits to specific positions
     stars.emplace_back(760, 600, starImage);
-    // Add more fruits as needed
 }
 
 void Game::initialisePowerPellets() {
     // Add power pellets at specific locations
     powerPellets.emplace_back(120, 760); 
     powerPellets.emplace_back(1400, 760); 
+    powerPellets.emplace_back(120, 200); 
+    powerPellets.emplace_back(1400, 200); 
 }
 
 void Game::initialiseSuperPellets() {
-    superPellets.emplace_back(120, 120); // Add super pellets at specific coordinates
-    superPellets.emplace_back(1400, 120); // Add more as needed
+    superPellets.emplace_back(600, 600); // Add super pellets at specific coordinates
+    superPellets.emplace_back(920, 600); // Add more as needed
 }
 
