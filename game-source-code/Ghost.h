@@ -31,6 +31,7 @@ public:
     int getRadius() const;
     int getDX() const;
     int getDY() const;
+    int getDirection() const;
 
     // Ghost behavior methods
     void setFrightened(bool state);  // Set the ghost to frightened mode

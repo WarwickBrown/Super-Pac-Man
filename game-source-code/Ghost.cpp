@@ -125,6 +125,9 @@ int Ghost::getDY() const {
     return dy;
 }
 
+int Ghost::getDirection() const {
+    return direction;
+}
 
 // Check if the ghost is colliding with Pac-Man
 bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {

@@ -143,3 +143,8 @@ void PacMan::updateSuperMode(float deltaTime) {
         }
     }
 }
+
+void PacMan::setPosition(int newX, int newY) {
+    x = newX;
+    y = newY;
+}

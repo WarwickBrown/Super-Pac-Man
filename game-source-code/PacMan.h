@@ -45,6 +45,7 @@ public:
     bool isSuper() const;
 
     void updateSuperMode(float deltaTime);
+    void setPosition(int newX, int newY);
 
 
 private:
