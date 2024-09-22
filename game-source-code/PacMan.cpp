@@ -32,26 +32,6 @@ void PacMan::move(const Maze& maze, float deltaTime, int direction) {
     }
 }
 
-// Returns a constant reference to the vector of Pac-Man images (used for rendering animations).
-const std::vector<Texture2D>& PacMan::getPacmanImages() const {
-    return pacManImages;
-}
-
-// Loads the textures for Pac-Man's various directional sprites and stores them in the `pacManImages` vector.
-void PacMan::initilisePacManImages() {
-    // Load textures for Pac-Man moving in different directions.
-    Texture2D manLeft = LoadTexture("../resources/pacman-images/pacmenLeftCopy.png");
-    Texture2D manRight = LoadTexture("../resources/pacman-images/pacmenRightCopy.png");
-    Texture2D manUp = LoadTexture("../resources/pacman-images/pacmenUpCopy.png");
-    Texture2D manDown = LoadTexture("../resources/pacman-images/pacmenDownCopy.png");
-
-    // Add the textures to the vector.
-    pacManImages.push_back(manLeft);
-    pacManImages.push_back(manRight);
-    pacManImages.push_back(manUp);
-    pacManImages.push_back(manDown);
-}
-
 // Manages Pac-Man's animation frame timing and returns the appropriate frame index for rendering.
 // This method controls how quickly Pac-Man's sprite animation changes as he moves.
 int PacMan::location(int frame, int dir) const {

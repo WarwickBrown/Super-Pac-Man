@@ -49,12 +49,22 @@ private:
     int dir;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
     void initializeGameObjects(); // Initializes game objects
+
+    // PacMan Textures
+    std::vector<Texture2D> pacManTextures = {
+        LoadTexture("../resources/pacman-images/pacmenLeftCopy.png"),
+        LoadTexture("../resources/pacman-images/pacmenRightCopy.png"),
+        LoadTexture("../resources/pacman-images/pacmenUpCopy.png"),
+        LoadTexture("../resources/pacman-images/pacmenDownCopy.png")
+    };
+
+    // Ghost Textures
     Texture2D ghostPicRight = LoadTexture("../resources/pacman-images/ghosty.png");
     Texture2D ghostPicLeft = LoadTexture("../resources/pacman-images/ghostyLeft.png");
     Texture2D ghostPicUp = LoadTexture("../resources/pacman-images/ghostyUp.png");
     Texture2D ghostPicDown = LoadTexture("../resources/pacman-images/ghostyDown.png");
 
-     // Frightened ghost textures
+     // Frightened Ghost Textures
     Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/ghostyScared.png");
     Texture2D ghostFrightenedLeft = LoadTexture("../resources/pacman-images/ghostyScared.png");
     Texture2D ghostFrightenedUp = LoadTexture("../resources/pacman-images/ghostyScared.png");

@@ -35,7 +35,6 @@ void Game::initialise() {
     inputStar();
     initialisePowerPellets();
     initialiseSuperPellets();
-    pacMan->initilisePacManImages(); // Loads Pac-Man images
 
     score = new Score("highscore.txt"); // Initialize the score object
     playerLives = new Lives(3);

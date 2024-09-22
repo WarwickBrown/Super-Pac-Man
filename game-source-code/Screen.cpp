@@ -71,20 +71,18 @@ void Screen::render() {
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
-    const std::vector<Texture2D>& pacManImages = pacman.getPacmanImages();  // Get textures for Pac-Man
-
     // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
     double pixelX = pacman.getX() - 30;  // Adjust X position
     double pixelY = pacman.getY() - 30;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
-    Texture2D texture = pacManImages[0];  // Default texture is for moving left
+    Texture2D texture = pacManTextures[0];  // Default texture is for moving left
     if (dir == 1) { 
-        texture = pacManImages[1];  // Texture for moving right
+        texture = pacManTextures[1];  // Texture for moving right
     } else if (dir == 3) {
-        texture = pacManImages[2];  // Texture for moving up
+        texture = pacManTextures[2];  // Texture for moving up
     } else if (dir == 4) {
-        texture = pacManImages[3];  // Texture for moving down
+        texture = pacManTextures[3];  // Texture for moving down
     }
 
     // Determine which part of the texture to draw (based on animation frame)
@@ -167,8 +165,8 @@ bool Screen::endGame(const Score& score) {  // Accept score as a parameter to di
         window.BeginDrawing();
         window.ClearBackground(BLACK);
         DrawText("Game Over!", 
-                 window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
-                 window.GetHeight() / 3, 60, RED);
+                window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
+                window.GetHeight() / 3, 60, RED);
         // Display player's score
         std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
         DrawText(scoreText.c_str(),
@@ -239,8 +237,8 @@ bool Screen::winGame(const Score& score) {
         window.BeginDrawing();
         window.ClearBackground(BLACK);
         DrawText("You Win!", 
-                 window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
-                 window.GetHeight() / 3, 60, GREEN);
+                window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
+                window.GetHeight() / 3, 60, GREEN);
 
         // Display player's score
         std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
