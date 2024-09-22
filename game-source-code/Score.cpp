@@ -3,7 +3,7 @@
 #include <iostream>
 
 Score::Score(const std::string& filename)
-    : currentScore(0), highScore(0), scoreFile(filename) {
+    : currentScore(0), highScore(0), scoreFile("../resources/" + filename) {
     loadHighScore();
 }
 
