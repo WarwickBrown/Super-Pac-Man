@@ -32,9 +32,7 @@ public:
     int getDY() const { return dy; } // Returns Pac-Man's movement in the y direction
     int getFrames() const { return GetFrameTime(); }  // Returns frame time for Pac-Man animations
     int getRadius() const { return radius; }  // Returns Pac-Man's radius (for collision detection)
-    const std::vector<Texture2D>& getPacmanImages() const;  // Returns the vector of Pac-Man textures
     int getSpeed() { return normalSpeed; }  // Returns Pac-Man's speed value
-    void initilisePacManImages();  // Loads Pac-Man's textures for different movement directions
     bool isInvincible() const;
     void setInvincible(bool invincible);
     void updateInvincibility(float deltaTime);
