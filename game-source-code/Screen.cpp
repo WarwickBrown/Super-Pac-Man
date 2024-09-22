@@ -110,7 +110,7 @@ void Screen::drawGameImages(const Game& game) {
 }
 
 void Screen::drawMaze(const Maze& maze) {
-    const std::vector<Wall>& walls = maze.getWalls();
+    const std::vector<Maze::Wall>& walls = maze.getWalls();
     for (const auto& wall : walls) {
         if (wall.active) {
             DrawRectangleRec(wall.rect, wall.color);

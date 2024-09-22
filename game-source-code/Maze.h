@@ -4,26 +4,16 @@
 #include <vector>
 #include <string>
 #include <raylib-cpp.hpp>
-#include "Wall.h"
-
-// // Enum to define different cell types in the maze
-// enum class CellType {
-//     Empty,  // Walkable space
-//     Wall,   // Wall blocking movement
-//     Fruit,  // Fruit to be collected
-//     Key     // Key to unlock doors
-// };
-
-// // Cell structure to represent each cell in the maze
-// struct Cell {
-//     CellType type;  // Type of the cell (Empty, Wall, Fruit, Key)
-//     bool isVisited; // To keep track of visited cells if needed
-
-//     Cell(CellType type = CellType::Empty) : type(type), isVisited(false) {}
-// };
 
 class Maze {
 public:
+    struct Wall {
+        Rectangle rect;
+        bool active;
+        Color color;
+        Wall(const Rectangle& rect, Color color) : rect(rect), active(true), color(color) {}
+    };
+
     Maze();  // Constructor to initialize the maze.
     ~Maze(); // Destructor to clean up any allocated memory (if applicable).
 
@@ -57,18 +47,15 @@ public:
     //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
     bool isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const;
 
-    const std::vector<Wall>& getWalls() const;
+    const std::vector<Maze::Wall>& getWalls() const;
 
-    std::vector<Wall>& getWalls();
-
+    std::vector<Maze::Wall>& getWalls();
 
 private:
     std::vector<Wall> walls;
     int width;   // Width of the maze
     int height;  // Height of the maze
     int startX, startY;  // Starting position for Pac-Man
-    // void initializeDefaultMaze();  // Initializes a default maze layout
-    //std::vector<std::vector<Cell>> layout;  // 2D grid representing the maze
 };
 
 #endif // MAZE_H

@@ -93,11 +93,11 @@ bool Maze::isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, 
     return CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, rect);
 }
 
-const std::vector<Wall>& Maze::getWalls() const {
+const std::vector<Maze::Wall>& Maze::getWalls() const {
     return walls;
 }
 
-std::vector<Wall>& Maze::getWalls() {
+std::vector<Maze::Wall>& Maze::getWalls() {
     return walls;
 }
 

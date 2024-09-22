@@ -240,7 +240,7 @@ void Game::update() {
         for (auto& key : keys) {
             // Iterate through the walls that the key can unlock
             for (int wallIndex : key.getWallsToUnlock()) {
-                Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
+                Maze::Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
 
                 // Only proceed if the wall is still active (locked)
                 if (wall.active) {
