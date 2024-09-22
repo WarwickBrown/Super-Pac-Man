@@ -29,7 +29,6 @@ Game::~Game() {
 // Function to initialize the game
 void Game::initialise() {
     initialiseGameObjects();    // Initializes game objects (maze, pacMan, screen)
-    initiliseGameImages();      // Initializes game images like arrow keys
     initialiseFruits();
     initialiseKeys();
     inputStar();
@@ -357,20 +356,6 @@ void Game::initialiseGameObjects() {
     ghosts.push_back(Ghost(685, 445, 150.0f));
     ghosts.push_back(Ghost(765, 445, 150.0f));
     ghosts.push_back(Ghost(845, 445, 150.0f));
-}
-
-// Initializes game images (like the arrow key instructions)
-void Game::initiliseGameImages() {
-    // Load the texture for the arrow key image and store it in the gameImages vector
-    Texture2D arrowKeyImage = LoadTexture("../resources/pacman-images/inputkeys.png");
-    gameImages.push_back(arrowKeyImage);  // Add the loaded image to the vector
-    Texture2D keyTexture = LoadTexture("../resources/pacman-images/ghostyUP.png");
-    gameImages.push_back(keyTexture);
-}
-
-// Returns a reference to the vector of game images (to be used for rendering)
-const std::vector<Texture2D>& Game::getGameImages() const {
-    return gameImages;  // Return a reference to the vector containing game images
 }
 
 // Initialize the fruits in the game

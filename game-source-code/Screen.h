@@ -50,6 +50,10 @@ private:
     raylib::Window window; // Game window object for rendering
     void initializeGameObjects(); // Initializes game objects
 
+    std::vector<Texture2D> gameImages = {
+        LoadTexture("../resources/pacman-images/inputkeys.png"),
+    };
+
     // PacMan Textures
     std::vector<Texture2D> pacManTextures = {
         LoadTexture("../resources/pacman-images/pacmenLeftCopy.png"),

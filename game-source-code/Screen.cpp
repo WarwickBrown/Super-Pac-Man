@@ -105,8 +105,6 @@ void Screen::drawSuperPacMan(const PacMan& pacman, int frame, int dir) {
 
 // Function to draw additional images on the start screen (e.g., controls)
 void Screen::drawGameImages(const Game& game) {
-    const std::vector<Texture2D>& gameImages = game.getGameImages();  // Get game images
-    // Draw the image in the center of the screen with some vertical adjustment
     DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
                 window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
