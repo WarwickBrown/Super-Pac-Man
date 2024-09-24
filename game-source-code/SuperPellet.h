@@ -12,8 +12,8 @@ public:
     // Check for collision with Pac-Man
     bool checkCollision(float pacManX, float pacManY, float pacManRadius) const;
 
-    // Pac-Man collects the super pellet
-    void collect();
+    // Mark the Super Pellet as collected
+    void collect() { active = false; }
 };
 
 #endif // SUPERPELLET_H

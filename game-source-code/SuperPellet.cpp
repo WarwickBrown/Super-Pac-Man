@@ -13,8 +13,3 @@ SuperPellet::~SuperPellet() {
 bool SuperPellet::checkCollision(float pacManX, float pacManY, float pacManRadius) const {
     return active && CheckCollisionCircles({ pacManX, pacManY }, pacManRadius, { getX(), getY() }, getRadius());
 }
-
-// Mark the Super Pellet as collected
-void SuperPellet::collect() {
-    active = false;
-}

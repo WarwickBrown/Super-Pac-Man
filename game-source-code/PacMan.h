@@ -3,7 +3,6 @@
 
 #include <raylib-cpp.hpp>
 #include "Maze.h"
-#include <tuple>
 
 // Forward declaration of Screen
 

@@ -22,12 +22,12 @@ public:
     // Select and change the current texture of the star
     void determineChange();
 
-    // Handle marking the star as eaten or not
-    void markAsEaten();
-    void markAsNotEaten();
-    bool isEaten() const;
-    bool getChange() const;
-    void setChange();
+    bool getChange() const { return change; }
+    bool isEaten() const { return eaten; } // Check if the star is eaten
+
+    void markAsNotEaten() { eaten = false; } // Mark the star as not eaten
+    void setChange() { change = false; }
+    void markAsEaten() { eaten = true; } // Mark the star as eaten
 
 private:
     bool eaten;                     // Whether the star is eaten

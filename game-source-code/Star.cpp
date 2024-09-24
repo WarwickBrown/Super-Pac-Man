@@ -32,25 +32,3 @@ void Star::determineChange() {
     }
 }
 
-bool Star::getChange() const {
-    return change;
-}
-
-void Star::setChange() {
-    change = false;
-}
-
-// Mark the star as eaten
-void Star::markAsEaten() {
-    eaten = true;
-}
-
-// Mark the star as not eaten
-void Star::markAsNotEaten() {
-    eaten = false;
-}
-
-// Check if the star is eaten
-bool Star::isEaten() const {
-    return eaten;
-}
