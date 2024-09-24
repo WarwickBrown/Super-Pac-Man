@@ -391,7 +391,7 @@ void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
 
 void Screen::drawStars(std::vector<Star>& stars)
 {
-    Texture2D picture;
+    
     for (auto& eachStar : stars) {
         if (eachStar.getChange()) {
             eachStar.setChange();  // Reset the change flag

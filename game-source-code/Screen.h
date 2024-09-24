@@ -114,6 +114,7 @@ private:
     int num = 0;  
     bool eaten;
     bool symbolActive = false;
+    Texture2D picture;
 };
 
 #endif // SCREEN_H
