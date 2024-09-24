@@ -37,13 +37,33 @@ public:
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
     void inputStar();
+    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
 
-    std::vector<GameKey> keys;
+    std::vector<Fruit>& getFruits() {
+        return fruits;
+    }
 
-    
+    bool isGameWon() const {
+        return gameWon;
+    }
+
+    const std::vector<PowerPellet>& getPowerPellets() const {
+        return powerPellets;
+    }
+
+    const std::vector<Ghost>& getGhosts() const {
+        return ghosts;
+    }
+
+    Score* getScore() const {
+        return score;
+    }
+
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
+    bool isRunning;  // Boolean to track whether the game is running or not
 
 private:
+    std::vector<GameKey> keys;
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
     std::vector<Fruit> fruits;
     std::vector<Star> stars;
@@ -59,7 +79,6 @@ private:
     Lives* playerLives; // Pointer to Lives object
     Star* star;
 
-    bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;
     int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
     int oldDirection = 2;
@@ -73,9 +92,6 @@ private:
     float powerPelletTimer;
     
     Texture2D arrowKeyImage;  // Texture for the arrow key instructions
-
-    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
-
 };
 
 #endif // GAME_H
