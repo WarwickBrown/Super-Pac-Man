@@ -20,6 +20,7 @@ public:
     void setEaten(bool eaten);
 
     bool checkCollisionWithPacMan(const PacMan& pacman) const;
+    void chooseRandomDirection(const Maze& maze);
 
 
     // Method to set the ghost's direction

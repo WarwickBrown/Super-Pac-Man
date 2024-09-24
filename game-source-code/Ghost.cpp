@@ -5,7 +5,7 @@
 #include <iostream>
 
 // Constructor
-Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(100), radius(34), frightened(false), eaten(false) {
+Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(250), radius(34), frightened(false), eaten(false) {
     // Initialize random seed
     std::srand(std::time(0));
     // Initialize random direction
@@ -43,6 +43,34 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     float newY = y;
     std::vector<int> possibleDirections;
 
+    // --- Add logic for exiting the box at the start of the game ---
+    // This block checks if the ghost is inside the starting box
+    if (640 < x && x < 880 && y == 445) {
+        if (getX() == 765) {
+            direction = 3;  // Move up to exit the box
+        } else if (getX() > 765) {
+            direction = 2;  // Move left toward the center
+        } else if (getX() < 765) {
+            direction = 1;  // Move right toward the center
+        }
+
+        // Calculate new position based on direction
+        switch (direction) {
+            case 1: newX += speed * deltaTime; break;  // Move right
+            case 2: newX -= speed * deltaTime; break;  // Move left
+            case 3: newY -= speed * deltaTime; break;  // Move up (exit the box)
+        }
+
+        // Apply the movement for exiting the box
+        if (!maze.isWall(newX, newY, radius)) {
+            x = newX;
+            y = newY;
+        }
+
+        // Return immediately since this is only for exiting the box logic
+        return direction;
+    }
+
     // --- PAC-MAN's movement logic: continuous movement with directional locking ---
     
     // First, let's ensure the ghost maintains its current direction if it's not blocked.
@@ -61,6 +89,15 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     } else {
         // If there is a wall, let's choose a new direction
         chooseNewDirection(maze);
+    }
+
+    // --- Add some randomness to movement to avoid ghosts moving in predictable patterns ---
+    // Add randomness by occasionally overriding the calculated best movement
+    // For example, 1 in 5 times the ghost will pick a random direction
+    int randomChance = rand() % 5; // 1 in 5 chance
+    if (randomChance == 0) {
+        chooseRandomDirection(maze); // Pick a random valid direction
+        return direction;
     }
 
     // --- GHOST'S chasing behavior ---
@@ -100,6 +137,22 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     }
 
     return direction;
+}
+
+// Picks a random valid direction for the ghost to move
+void Ghost::chooseRandomDirection(const Maze& maze) {
+    std::vector<int> possibleDirections;
+
+    // Check all four directions and add valid ones to the possible directions
+    if (!maze.isWall(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
+    if (!maze.isWall(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
+    if (!maze.isWall(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
+    if (!maze.isWall(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+
+    // Randomly pick a new valid direction if there are possible directions
+    if (!possibleDirections.empty()) {
+        direction = possibleDirections[rand() % possibleDirections.size()];
+    }
 }
 
 // Chooses a new direction for the ghost when a collision occurs
