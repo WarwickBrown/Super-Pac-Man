@@ -47,7 +47,7 @@ public:
     void setSymbolActive(bool status);
 
 private:
-    Maze* maze;            // Pointer to the maze
+    std::unique_ptr<Maze> maze;
     bool isRunning;        // State to check if the game is running
     int direction;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering

@@ -14,15 +14,12 @@
 // Constructor for Screen class
 Screen::Screen() 
     : window(1530, 890, "Super Pac-Man"),  // Initialize window dimensions and title
-      isRunning(true),                     // Set initial game state to running
-      maze(nullptr),                       // Initialize maze pointer to nullptr
+      isRunning(true),                     // Set initial game state to running                      // Initialize maze pointer to nullptr
       direction(0)                               // Initialize direction to 0 (no direction)
-{}
+{      maze = std::make_unique<Maze>(); }
 
 // Destructor for Screen class
 Screen::~Screen() {
-    // Clean up dynamically allocated memory for the maze
-    delete maze;
 }
 
 // Function to display the start screen with game instructions
@@ -56,8 +53,8 @@ void Screen::startScreen(const Game* game, const Screen* screen, const Score& sc
     // Display high score
     std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
     DrawText(highScoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
-             window.GetHeight() / 2 + 80, 30, WHITE);
+            window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
+            window.GetHeight() / 2 + 80, 30, WHITE);
 
     window.EndDrawing();  // Finish drawing the screen
 }
