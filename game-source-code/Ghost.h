@@ -50,6 +50,7 @@ private:
     bool frightened; // Whether the ghost is in a frightened state
     bool eaten;
     float startX, startY; // Starting position of the ghost (for respawn)
+    float time = GetTime();
 };
 
 #endif // GHOST_H

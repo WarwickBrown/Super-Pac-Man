@@ -38,104 +38,99 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     if (eaten) {
         return direction; // Ghost stays in place if eaten
     }
-
+    float currentTime = GetTime() - time;
     float newX = x;
     float newY = y;
-    std::vector<int> possibleDirections;
 
     // --- Add logic for exiting the box at the start of the game ---
     // This block checks if the ghost is inside the starting box
-    if (640 < x && x < 880 && y == 445) {
-        if (getX() == 765) {
-            direction = 3;  // Move up to exit the box
-        } else if (getX() > 765) {
+    std::vector<int> possibleDirections;
+    if(x < 870 && x > 650 && y > 366 && y < 446)
+    {
+         if (getX() > 765) {
             direction = 2;  // Move left toward the center
         } else if (getX() < 765) {
             direction = 1;  // Move right toward the center
         }
-
-        // Calculate new position based on direction
+        else if (getX() == 765) {
+            direction = 3;  // Move up to exit the box
+        }
         switch (direction) {
             case 1: newX += speed * deltaTime; break;  // Move right
             case 2: newX -= speed * deltaTime; break;  // Move left
             case 3: newY -= speed * deltaTime; break;  // Move up (exit the box)
         }
-
-        // Apply the movement for exiting the box
-        if (!maze.isWallRec(newX, newY, radius)) {
-            x = newX;
-            y = newY;
-        }
-
-        // Return immediately since this is only for exiting the box logic
-        return direction;
-    }
-
-    // --- PAC-MAN's movement logic: continuous movement with directional locking ---
-    
-    // First, let's ensure the ghost maintains its current direction if it's not blocked.
-    switch (direction) {
-        case 1: newX += speed * deltaTime; break;  // Move right
-        case 2: newX -= speed * deltaTime; break;  // Move left
-        case 3: newY -= speed * deltaTime; break;  // Move up
-        case 4: newY += speed * deltaTime; break;  // Move down
-    }
-
-    // Check if the new position hits a wall
-    if (!maze.isWallRec(newX, newY, radius)) {
-        // If no collision, the ghost can continue moving in the current direction
+        
         x = newX;
         y = newY;
-    } else {
-        // If there is a wall, let's choose a new direction
-        chooseNewDirection(maze);
+      
     }
-
-    // --- Add some randomness to movement to avoid ghosts moving in predictable patterns ---
-    // Add randomness by occasionally overriding the calculated best movement
-    // For example, 1 in 5 times the ghost will pick a random direction
-    int randomChance = rand() % 5; // 1 in 5 chance
-    if (randomChance == 0) {
-        chooseRandomDirection(maze); // Pick a random valid direction
-        return direction;
-    }
-
-    // --- GHOST'S chasing behavior ---
-    // This section makes the ghost chase Pac-Man
-    float deltaX = pacman.getX() - x;
-    float deltaY = pacman.getY() - y;
-
-    // Prioritize movement direction based on Pac-Man's position
-    if (std::abs(deltaX) > std::abs(deltaY)) {
-        // Try moving horizontally first (closer to Pac-Man)
-        if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
-            setDirection(1);  // Move right
-        } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
-            setDirection(2);  // Move left
-        } else {
-            // If horizontal movement is blocked, try vertical
-            if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
-                setDirection(4);  // Move down
-            } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
-                setDirection(3);  // Move up
-            }
+    else
+    {
+        // --- PAC-MAN's movement logic: continuous movement with directional locking ---
+        // First, let's ensure the ghost maintains its current direction if it's not blocked.
+        switch (direction) {
+            case 1: newX += speed * deltaTime; break;  // Move right
+            case 2: newX -= speed * deltaTime; break;  // Move left
+            case 3: newY -= speed * deltaTime; break;  // Move up
+            case 4: newY += speed * deltaTime; break;  // Move down
         }
-    } else {
-        // Try moving vertically first (closer to Pac-Man)
-        if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
-            setDirection(4);  // Move down
-        } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
-            setDirection(3);  // Move up
+
+        // Check if the new position hits a wall
+        if (!maze.isWallRec(newX, newY, radius)) {
+            // If no collision, the ghost can continue moving in the current direction
+            x = newX;
+            y = newY;
         } else {
-            // If vertical movement is blocked, try horizontal
+            // If there is a wall, let's choose a new direction
+            chooseNewDirection(maze);
+        }
+
+        // --- Add some randomness to movement to avoid ghosts moving in predictable patterns ---
+        // Add randomness by occasionally overriding the calculated best movement
+        // For example, 1 in 5 times the ghost will pick a random direction
+        int randomChance = rand() % 5; // 1 in 5 chance
+        if (randomChance == 0) {
+            chooseRandomDirection(maze); // Pick a random valid direction
+            return direction;
+        }
+
+        // --- GHOST'S chasing behavior ---
+        // This section makes the ghost chase Pac-Man
+        float deltaX = pacman.getX() - x;
+        float deltaY = pacman.getY() - y;
+
+        // Prioritize movement direction based on Pac-Man's position
+        if (std::abs(deltaX) > std::abs(deltaY)) {
+            // Try moving horizontally first (closer to Pac-Man)
             if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
                 setDirection(1);  // Move right
             } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
                 setDirection(2);  // Move left
+            } else {
+                // If horizontal movement is blocked, try vertical
+                if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
+                    setDirection(4);  // Move down
+                } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
+                    setDirection(3);  // Move up
+                }
+            }
+        } else {
+            // Try moving vertically first (closer to Pac-Man)
+            if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
+                setDirection(4);  // Move down
+            } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
+                setDirection(3);  // Move up
+            } else {
+                // If vertical movement is blocked, try horizontal
+                if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
+                    setDirection(1);  // Move right
+                } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
+                    setDirection(2);  // Move left
+                }
             }
         }
     }
-
     return direction;
 }
 
