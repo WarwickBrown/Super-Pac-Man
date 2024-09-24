@@ -30,18 +30,18 @@ public:
     bool endGame(const Score& score);
     bool winGame(const Score& score);
 
-    void drawFruits(const std::vector<Fruit>& fruits);
+    void drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits);
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawKeys(const std::vector<GameKey>& keys);
     void drawLives(int lives);
     void drawMaze(const Maze& maze);    // Draws the maze on the screen
     void drawPacMan(const PacMan& pacman, int frame, int dir); // Draws Pac-Man at a specific location and frame
-    void drawPowerPellets(const std::vector<PowerPellet>& powerPellet);
+    void drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& powerPellets);
     void drawScores(const Score& score);
-    void drawStars(std::vector<Star>& star);
+    void drawStars(std::vector<std::unique_ptr<Star>>& star);
     void drawSuperPacMan(const PacMan& pacman, int frame, int direction);
-    void drawSuperPellets(const std::vector<SuperPellet>& superPellet);
+    void drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& superPellets);
     void drawSymbols(int num1, int num2, int num3);
     
     Texture2D getTexture(int num);

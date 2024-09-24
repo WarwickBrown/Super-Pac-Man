@@ -42,7 +42,7 @@ public:
     
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
 
-    std::vector<Fruit>& getFruits() { return fruits; }
+    std::vector<std::unique_ptr<Fruit>>& getFruits() { return fruits; }
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
@@ -50,11 +50,11 @@ public:
 private:
     std::vector<GameKey> keys;
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
-    std::vector<Fruit> fruits;
-    std::vector<Star> stars;
-    std::vector<PowerPellet> powerPellets;  // Add a list of power pellets
     std::vector<std::unique_ptr<Ghost>> ghosts;
-    std::vector<SuperPellet> superPellets;
+    std::vector<std::unique_ptr<Fruit>> fruits;
+    std::vector<std::unique_ptr<PowerPellet>> powerPellets;
+    std::vector<std::unique_ptr<SuperPellet>> superPellets;
+    std::vector<std::unique_ptr<Star>> stars;
     
     // Using smart pointers for game objects
     std::unique_ptr<Maze> maze;

@@ -144,10 +144,10 @@ void Screen::drawKeys(const std::vector<GameKey>& keys) {
     }
 }
 
-void Screen::drawPowerPellets(const std::vector<PowerPellet>& powerPellet){
-    for (const auto& pellet : powerPellet)
+void Screen::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& powerPellets) {
+    for (const auto& pellet : powerPellets)
     {
-        if (pellet.isActive()) {
+        if (pellet->isActive()) {
             Rectangle sourceRec = {
             (float)(powerPelletTexture.width) ,  // Calculate width of a single frame
             0, 
@@ -155,7 +155,7 @@ void Screen::drawPowerPellets(const std::vector<PowerPellet>& powerPellet){
             (float)(powerPelletTexture.height)              // Full height of the texture
         };
 
-        DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet.getX()-25, (float)pellet.getY()-25}, RAYWHITE);
+        DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
         }
     }
 }
@@ -263,9 +263,9 @@ bool Screen::winGame(const Score& score) {
 }
 
 // Function to draw fruits on the screen
-void Screen::drawFruits(const std::vector<Fruit>& fruits) {
+void Screen::drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits) {
     for (const auto& fruit : fruits) {
-        if(!fruit.isEaten())
+        if(!fruit->isEaten())
         {
         Rectangle sourceRec = {
         (float)(fruitPic.width) ,  // Calculate width of a single frame
@@ -275,7 +275,7 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
         };
 
         // Draw Fruit texture at the specified location and frame
-        DrawTextureRec(fruitPic, sourceRec, Vector2{(float)fruit.getX()-28, (float)fruit.getY()-28}, RAYWHITE);
+        DrawTextureRec(fruitPic, sourceRec, Vector2{(float)fruit->getX()-28, (float)fruit->getY()-28}, RAYWHITE);
         }
     }
 }
@@ -370,11 +370,10 @@ void Screen::drawLives(int lives) {
     }
 }
 
-void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
-{
+void Screen::drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& superPellets) {
     for(const auto& pellet : superPellets)
     {
-        if (pellet.isActive()) {
+        if (pellet->isActive()) {
             Rectangle sourceRec = {
             (float)(superPelletTexture.width) ,  // Calculate width of a single frame
             0, 
@@ -382,24 +381,24 @@ void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
             (float)(superPelletTexture.height)              // Full height of the texture
             };
 
-            DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet.getX()-25, (float)pellet.getY()-25}, RAYWHITE);
+            DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
         }
     }
 }
 
-void Screen::drawStars(std::vector<Star>& stars)
+void Screen::drawStars(std::vector<std::unique_ptr<Star>>& star)
 {
     
-    for (auto& eachStar : stars) {
-        if (eachStar.getChange()) {
-            eachStar.setChange();  // Reset the change flag
+    for (const auto& eachStar : star) {
+        if (eachStar->getChange()) {
+            eachStar->setChange();  // Reset the change flag
 
             // Cycle through textures
             picture = starTextures[num];
             num = (num + 1) % starTextures.size();  // Loop through the textures
         }
 
-        if (eachStar.isActive()) {
+        if (eachStar->isActive()) {
             Rectangle sourceRec = {
                 (float)(picture.width),  // Full width of the texture
                 0, 
@@ -408,7 +407,7 @@ void Screen::drawStars(std::vector<Star>& stars)
             };
 
             // Draw Star texture at the specified location
-            DrawTextureRec(picture, sourceRec, Vector2{(float)eachStar.getX() - 30, (float)eachStar.getY() - 32}, RAYWHITE);
+            DrawTextureRec(picture, sourceRec, Vector2{(float)eachStar->getX() - 30, (float)eachStar->getY() - 32}, RAYWHITE);
         }
     }
 }

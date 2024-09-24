@@ -247,9 +247,9 @@ TEST_CASE("Game ends when all fruits are collected") {
     CHECK(game.isGameRunning());
 
     // Step 2: Simulate collecting all the fruits
-    for (auto& fruit : game.getFruits()) {
-        fruit.collect();  // Mark each fruit as collected
-        fruit.markAsEaten();  // Set the fruit as eaten
+    for (const auto& fruit : game.getFruits()) {
+        fruit->collect();  // Mark each fruit as collected
+        fruit->markAsEaten();  // Set the fruit as eaten
     }
 
     // Step 3: Call the method to check for win condition

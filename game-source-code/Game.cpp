@@ -63,8 +63,8 @@ void Game::run() {
         screen->drawFruits(fruits);
         screen->drawStars(stars);
 
-        for (auto& star : stars) {
-            star.determineChange();  // Use the star object directly
+        for (const auto& star : stars) {
+            star->determineChange();  // Use the star object directly
         }
 
         screen->drawPowerPellets(powerPellets);
@@ -172,11 +172,11 @@ void Game::update() {
 
     // Check if Pac-Man collects any fruits
     for (auto& fruit : fruits) {
-        if (!fruit.isEaten() && fruit.isActive() && CheckCollisionCircles(
+        if (!fruit->isEaten() && fruit->isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-35,
-                { (float)fruit.getX(), (float)fruit.getY() }, fruit.getRadius())) {
-            fruit.collect();
-            fruit.markAsEaten();
+                { (float)fruit->getX(), (float)fruit->getY() }, fruit->getRadius())) {
+            fruit->collect();
+            fruit->markAsEaten();
             score->addPoints(10); // Add points for collecting a fruit
         }
     }
@@ -200,7 +200,7 @@ void Game::update() {
 
     // Check if Pac-Man collects any power pellets
     for (auto& pellet : powerPellets) {
-        if (pellet.checkCollisionWithPacMan(*pacMan)) {
+        if (pellet->checkCollisionWithPacMan(*pacMan)) {
             score->addPoints(100);  // Add 100 points for eating a power pellet
 
             // Make ghosts frightened
@@ -222,8 +222,8 @@ void Game::update() {
     }
 
     for (auto& superPellet : superPellets) {
-        if (superPellet.isActive() && superPellet.checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
-            superPellet.collect(); // Pac-Man collects the super pellet
+        if (superPellet->isActive() && superPellet->checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
+            superPellet->collect(); // Pac-Man collects the super pellet
             // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
             pacMan->activateSuperMode();
             score->addPoints(500); // Add points for collecting a super pellet
@@ -308,8 +308,8 @@ void Game::update() {
             screen->drawSymbols(num1, num2, num3);
             if((updatedTimer) >= 30*multi2)
             {
-                stars.markAsNotEaten();
-                stars.show();
+                stars->markAsNotEaten();
+                stars->show();
                 screen->setSymbolActive(true);
                 totalFrames = 1;
                 multi2++;
@@ -318,9 +318,9 @@ void Game::update() {
             {
                 totalFrames++;
             }
-        if (!stars.isEaten() && stars.isActive() && CheckCollisionCircles(
+        if (!stars->isEaten() && stars->isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
-                { (float)stars.getX(), (float)stars.getY() }, stars.getRadius())) {
+                { (float)stars->getX(), (float)stars->getY() }, stars->getRadius())) {
                     if(num1 == num2 && num2 == num3)
                     {
                         score->addPoints(5000); // Add points for collecting a key
@@ -332,8 +332,8 @@ void Game::update() {
                     else{
                         score->addPoints(500); // Add points for collecting a key
                     }
-            stars.collect();
-            stars.markAsEaten();
+            stars->collect();
+            stars->markAsEaten();
             screen->setSymbolActive(false);
             
             // Increase score or trigger other game events
@@ -357,86 +357,87 @@ void Game::initialiseGameObjects() {
 // Initialize the fruits in the game
 void Game::initialiseFruits() {
     //Left Long Wall
-    fruits.emplace_back(120, 360);
-    fruits.emplace_back(120, 440);
-    fruits.emplace_back(120, 520);
-    fruits.emplace_back(120, 600);
+    fruits.emplace_back(std::make_unique<Fruit>(120, 360));
+    fruits.emplace_back(std::make_unique<Fruit>(120, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(120, 520));
+    fruits.emplace_back(std::make_unique<Fruit>(120, 600));
 
     //Right Long Wall
-    fruits.emplace_back(1400, 360);
-    fruits.emplace_back(1400, 440);
-    fruits.emplace_back(1400, 520);
-    fruits.emplace_back(1400, 600);
+    fruits.emplace_back(std::make_unique<Fruit>(1400, 360));
+    fruits.emplace_back(std::make_unique<Fruit>(1400, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(1400, 520));
+    fruits.emplace_back(std::make_unique<Fruit>(1400, 600));
 
     //Bottom Left Small L
-    fruits.emplace_back(280, 600);
-    fruits.emplace_back(360, 600);
-    fruits.emplace_back(440, 600);
-    fruits.emplace_back(520, 600);
-    fruits.emplace_back(600, 680);
+    fruits.emplace_back(std::make_unique<Fruit>(280, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(360, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(440, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(520, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(600, 680));
 
     //Bottom Right Small L
-    fruits.emplace_back(1000, 600);
-    fruits.emplace_back(1080, 600);
-    fruits.emplace_back(1160, 600);
-    fruits.emplace_back(1240, 600);
-    fruits.emplace_back(920, 680);
+    fruits.emplace_back(std::make_unique<Fruit>(1000, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(1080, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(1160, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 600));
+    fruits.emplace_back(std::make_unique<Fruit>(920, 680));
 
     //Bottom Left Big L
-    fruits.emplace_back(280, 200);
-    fruits.emplace_back(280, 280);
-    fruits.emplace_back(280, 360);
-    fruits.emplace_back(280, 440);
-    fruits.emplace_back(360, 440);
-    fruits.emplace_back(440, 440);
-    fruits.emplace_back(520, 440);
+    fruits.emplace_back(std::make_unique<Fruit>(280, 200));
+    fruits.emplace_back(std::make_unique<Fruit>(280, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(280, 360));
+    fruits.emplace_back(std::make_unique<Fruit>(280, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(360, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(440, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(520, 440));
 
     //Bottom Right Big L
-    fruits.emplace_back(1240, 200);
-    fruits.emplace_back(1240, 280);
-    fruits.emplace_back(1240, 360);
-    fruits.emplace_back(1240, 440);
-    fruits.emplace_back(1000, 440);
-    fruits.emplace_back(1080, 440);
-    fruits.emplace_back(1160, 440);
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 200));
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 360));
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(1000, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(1080, 440));
+    fruits.emplace_back(std::make_unique<Fruit>(1160, 440));
 
     //Top Left Small L
-    fruits.emplace_back(440, 200);
-    fruits.emplace_back(440, 280);
-    fruits.emplace_back(520, 280);
-    fruits.emplace_back(600, 280);
-    fruits.emplace_back(680, 280);
+    fruits.emplace_back(std::make_unique<Fruit>(440, 200));
+    fruits.emplace_back(std::make_unique<Fruit>(440, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(520, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(600, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(680, 280));
 
     //Top Right Small L
-    fruits.emplace_back(1080, 200);
-    fruits.emplace_back(1080, 280);
-    fruits.emplace_back(840, 280);
-    fruits.emplace_back(920, 280);
-    fruits.emplace_back(1000, 280);
+    fruits.emplace_back(std::make_unique<Fruit>(1080, 200));
+    fruits.emplace_back(std::make_unique<Fruit>(1080, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(840, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(920, 280));
+    fruits.emplace_back(std::make_unique<Fruit>(1000, 280));
 
     //Upper Symbol
-    fruits.emplace_back(600, 120);
-    fruits.emplace_back(680, 120);
-    fruits.emplace_back(840, 120);
-    fruits.emplace_back(920, 120);
+    fruits.emplace_back(std::make_unique<Fruit>(600, 120));
+    fruits.emplace_back(std::make_unique<Fruit>(680, 120));
+    fruits.emplace_back(std::make_unique<Fruit>(840, 120));
+    fruits.emplace_back(std::make_unique<Fruit>(920, 120));
 
     //Bottom Left Small 
-    fruits.emplace_back(280, 760);
-    fruits.emplace_back(360, 760);
-    fruits.emplace_back(440, 760);
+    fruits.emplace_back(std::make_unique<Fruit>(280, 760));
+    fruits.emplace_back(std::make_unique<Fruit>(360, 760));
+    fruits.emplace_back(std::make_unique<Fruit>(440, 760));
 
     //Bottom Right Small 
-    fruits.emplace_back(1080, 760);
-    fruits.emplace_back(1160, 760);
-    fruits.emplace_back(1240, 760);
+    fruits.emplace_back(std::make_unique<Fruit>(1080, 760));
+    fruits.emplace_back(std::make_unique<Fruit>(1160, 760));
+    fruits.emplace_back(std::make_unique<Fruit>(1240, 760));
 
     // Bottom T
-    fruits.emplace_back(600, 840);
-    fruits.emplace_back(920, 840);
-    fruits.emplace_back(840, 840);
-    fruits.emplace_back(760, 840);
-    fruits.emplace_back(680, 840);
-    fruits.emplace_back(760, 760);
+    fruits.emplace_back(std::make_unique<Fruit>(600, 840));
+    fruits.emplace_back(std::make_unique<Fruit>(920, 840));
+    fruits.emplace_back(std::make_unique<Fruit>(840, 840));
+    fruits.emplace_back(std::make_unique<Fruit>(760, 840));
+    fruits.emplace_back(std::make_unique<Fruit>(680, 840));
+    fruits.emplace_back(std::make_unique<Fruit>(760, 760));
+
 }
 
 void Game::initialiseKeys() {
@@ -463,7 +464,7 @@ void Game::initialiseKeys() {
 // Implement the method to check if all fruits are collected
 void Game::checkWinCondition() {
     for (const auto& fruit : fruits) {
-        if (fruit.isActive()) {
+        if (fruit->isActive()) {
             return;  // If any fruit is still active, return early
         }
     }
@@ -473,19 +474,19 @@ void Game::checkWinCondition() {
 }
 
 void Game::inputStar() {
-    stars.emplace_back(760, 600);
+    stars.emplace_back(std::make_unique<Star>(760, 600));
 }
 
 void Game::initialisePowerPellets() {
     // Add power pellets at specific locations
-    powerPellets.emplace_back(120, 760); 
-    powerPellets.emplace_back(1400, 760); 
-    powerPellets.emplace_back(120, 200); 
-    powerPellets.emplace_back(1400, 200); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 200)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
 }
 
 void Game::initialiseSuperPellets() {
-    superPellets.emplace_back(600, 600); // Add super pellets at specific coordinates
-    superPellets.emplace_back(920, 600); // Add more as needed
+    superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600)); // Add super pellets at specific coordinates
+    superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600)); // Add more as needed
 }
 
