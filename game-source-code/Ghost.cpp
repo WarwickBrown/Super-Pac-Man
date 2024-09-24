@@ -33,32 +33,19 @@ void Ghost::setEaten(bool state) {
     eaten = state;
 }
 
-// Move ghost in a direction while avoiding walls
-int Ghost::move(const Maze& maze, float deltaTime) {
+// Move ghost towards Pac-Man using similar movement logic as Pac-Man
+int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     if (eaten) {
-        // If eaten, don't move until respawn logic is handled
-        return direction;
+        return direction; // Ghost stays in place if eaten
     }
+
     float newX = x;
     float newY = y;
+    std::vector<int> possibleDirections;
 
-    if(640 < x && x < 880 && y == 445)
-    {
-        if(getX() == 765)
-        {
-            direction = 3;
-        }
-        else if(getX() > 765)
-        {
-            direction = 2;
-        }
-        else if(getX() < 765)
-        {
-            direction = 1;
-        }
-    }
+    // --- PAC-MAN's movement logic: continuous movement with directional locking ---
     
-    // Calculate the next position based on the current direction
+    // First, let's ensure the ghost maintains its current direction if it's not blocked.
     switch (direction) {
         case 1: newX += speed * deltaTime; break;  // Move right
         case 2: newX -= speed * deltaTime; break;  // Move left
@@ -66,17 +53,52 @@ int Ghost::move(const Maze& maze, float deltaTime) {
         case 4: newY += speed * deltaTime; break;  // Move down
     }
 
-    
-
-
-    if (maze.isWall(newX, newY, radius)) {
-        
-        chooseNewDirection(maze);
-        std::cout << "dwa" << std::endl;
-    } else {
+    // Check if the new position hits a wall
+    if (!maze.isWall(newX, newY, radius)) {
+        // If no collision, the ghost can continue moving in the current direction
         x = newX;
         y = newY;
+    } else {
+        // If there is a wall, let's choose a new direction
+        chooseNewDirection(maze);
     }
+
+    // --- GHOST'S chasing behavior ---
+    // This section makes the ghost chase Pac-Man
+    float deltaX = pacman.getX() - x;
+    float deltaY = pacman.getY() - y;
+
+    // Prioritize movement direction based on Pac-Man's position
+    if (std::abs(deltaX) > std::abs(deltaY)) {
+        // Try moving horizontally first (closer to Pac-Man)
+        if (deltaX > 0 && !maze.isWall(x + speed * deltaTime, y, radius)) {
+            setDirection(1);  // Move right
+        } else if (deltaX < 0 && !maze.isWall(x - speed * deltaTime, y, radius)) {
+            setDirection(2);  // Move left
+        } else {
+            // If horizontal movement is blocked, try vertical
+            if (deltaY > 0 && !maze.isWall(x, y + speed * deltaTime, radius)) {
+                setDirection(4);  // Move down
+            } else if (deltaY < 0 && !maze.isWall(x, y - speed * deltaTime, radius)) {
+                setDirection(3);  // Move up
+            }
+        }
+    } else {
+        // Try moving vertically first (closer to Pac-Man)
+        if (deltaY > 0 && !maze.isWall(x, y + speed * deltaTime, radius)) {
+            setDirection(4);  // Move down
+        } else if (deltaY < 0 && !maze.isWall(x, y - speed * deltaTime, radius)) {
+            setDirection(3);  // Move up
+        } else {
+            // If vertical movement is blocked, try horizontal
+            if (deltaX > 0 && !maze.isWall(x + speed * deltaTime, y, radius)) {
+                setDirection(1);  // Move right
+            } else if (deltaX < 0 && !maze.isWall(x - speed * deltaTime, y, radius)) {
+                setDirection(2);  // Move left
+            }
+        }
+    }
+
     return direction;
 }
 
@@ -84,19 +106,19 @@ int Ghost::move(const Maze& maze, float deltaTime) {
 void Ghost::chooseNewDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
-    // Check all four directions and add the valid ones to the possible directions list
+    // Check if the ghost can move in each direction (up, down, left, right)
     if (!maze.isWall(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
     if (!maze.isWall(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
     if (!maze.isWall(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
     if (!maze.isWall(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
 
-    // If possible directions exist, choose one randomly
+    // Randomly pick a new valid direction if there are possible directions
     if (!possibleDirections.empty()) {
-        // Choose a random valid direction from possible directions
-        int newDirection = possibleDirections[rand() % possibleDirections.size()];
-        direction = newDirection;
+        direction = possibleDirections[rand() % possibleDirections.size()];
     }
 }
+
+
 
 // Simple chase behavior towards Pac-Man
 void Ghost::chase(const PacMan& pacman) {
