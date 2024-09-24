@@ -12,12 +12,14 @@ public:
     Collectable(float x, float y, float radius);
     virtual ~Collectable();
 
-    virtual void collect();
-    bool isActive() const;
 
-    float getX() const;
-    float getY() const;
-    float getRadius() const;
+    virtual void collect() { active = false; }
+
+    bool isActive() const { return active; }
+
+    float getX() const { return x; }
+    float getY() const { return y; }
+    float getRadius() const { return radius; }
 
     // Optionally, if collision logic is common
     virtual bool checkCollision(float otherX, float otherY, float otherRadius) const;
