@@ -1,13 +1,9 @@
 #include "Maze.h"
 #include <fstream>
-#include <iostream>
-#include <string>
 #include <raylib-cpp.hpp>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
-#include <string>
-#include <algorithm>
 
 // Constructor
 Maze::Maze() : width(0), height(0), startX(10), startY(10) {
@@ -47,12 +43,13 @@ void Maze::initialiseCustomWalls() {
         Color color = BLACK;  // Default to BLACK
         if (colorString == "BLACK") {
             color = BLACK;
-        } else if (colorString == "BROWN") {
+        } 
+        else if (colorString == "BROWN") {
             color = BROWN;
-        } else if (colorString == "PINK") {
+        } 
+        else if (colorString == "PINK") {
             color = PINK;
         }
-        // Add more colors as needed
 
         // Emplace the wall into the vector
         walls.emplace_back(Rectangle{x, y, width, height}, color);
@@ -86,35 +83,10 @@ bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
     return false;  // No collision detected, return false.
 }
 
-// Checks if Pac-Man is colliding with a given rectangle (specified by the rectangle's coordinates).
-// Takes in Pac-Man's X, Y coordinates and radius, as well as the rectangle to check against.
-bool Maze::isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const {
-    // Use Raylib's CheckCollisionCircleRec to detect a collision between Pac-Man and the rectangle.
-    return CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, rect);
-}
-
 const std::vector<Maze::Wall>& Maze::getWalls() const {
     return walls;
 }
 
 std::vector<Maze::Wall>& Maze::getWalls() {
     return walls;
-}
-
-// Getter function that returns the maze height.
-// Like the width, the height is not currently set explicitly but could be used for future features.
-int Maze::getHeight() const {
-    return height;
-}
-
-// Getter function to return the starting X position of Pac-Man in the maze.
-// This is initialized as `startX = 10` in the constructor.
-int Maze::getStartX() const {
-    return startX;
-}
-
-// Getter function to return the starting Y position of Pac-Man in the maze.
-// This is initialized as `startY = 10` in the constructor.
-int Maze::getStartY() const {
-    return startY;
 }

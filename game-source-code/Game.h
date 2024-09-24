@@ -25,7 +25,6 @@ public:
     ~Game(); // Destructor - Cleans up dynamically allocated memory
 
     void initialise();   // Initializes the game (calls functions to setup game objects, loads images, etc.)
-    void initiliseGameImages(); // Loads game images (like arrow keys) into a vector
     void initialiseFruits();
     void initialisePowerPellets();  // Function to initialize power pellets
     void initialiseKeys();

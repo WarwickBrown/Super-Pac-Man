@@ -9,8 +9,8 @@ public:
     ~Score();
 
     void addPoints(int points);
-    int getCurrentScore() const;
-    int getHighScore() const;
+    int getCurrentScore() const { return currentScore; }
+    int getHighScore() const { return highScore; }
 
     void loadHighScore();
     void saveHighScore();

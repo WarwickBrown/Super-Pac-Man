@@ -18,14 +18,6 @@ void Score::addPoints(int points) {
     }
 }
 
-int Score::getCurrentScore() const {
-    return currentScore;
-}
-
-int Score::getHighScore() const {
-    return highScore;
-}
-
 void Score::loadHighScore() {
     try {
         std::ifstream inFile(scoreFile);

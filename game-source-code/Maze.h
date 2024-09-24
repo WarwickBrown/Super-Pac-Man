@@ -2,7 +2,6 @@
 #define MAZE_H
 
 #include <vector>
-#include <string>
 #include <raylib-cpp.hpp>
 
 class Maze {
@@ -23,17 +22,15 @@ public:
     // Checks if a given position in the maze (x, y coordinates) is a wall.
     bool isWall(int x, int y) const;
 
-    // Returns the width of the maze (currently unused, but can be extended).
-    int getWidth() const;
+    int getHeight() const { return height; }
 
-    // Returns the height of the maze (currently unused, but can be extended).
-    int getHeight() const;
+    // Getter function to return the starting X position of Pac-Man in the maze.
+    // This is initialized as `startX = 10` in the constructor.
+    int getStartX() const { return startX; }
 
-    // Returns the X-coordinate of Pac-Man's starting position in the maze.
-    int getStartX() const;
-
-    // Returns the Y-coordinate of Pac-Man's starting position in the maze.
-    int getStartY() const;
+    // Getter function to return the starting Y position of Pac-Man in the maze.
+    // This is initialized as `startY = 10` in the constructor.
+    int getStartY() const { return startY; }
 
     // Initializes custom walls in the maze by creating and positioning rectangle objects.
     void initialiseCustomWalls();
