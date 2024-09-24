@@ -221,7 +221,7 @@ void Game::update() {
     // Revert ghosts to normal if the frightened mode time has expired
     if (GetTime() - powerPelletTimer > 5.0f) {  // For example, frightened lasts 5 seconds
         for (auto& ghost : ghosts) {
-            ghost.setNormal();  // Switch back to normal texture and mode
+            ghost.setFrightened(false);  // Switch back to normal texture and mode
         }
     }
 

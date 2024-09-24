@@ -198,7 +198,7 @@ TEST_CASE("Ghost Frightened Mode") {
     CHECK(ghost.isFrightened() == true);
 
     // Reset to normal mode
-    ghost.setNormal();
+    ghost.setFrightened(false);
     CHECK(ghost.isFrightened() == false);
 }
 

@@ -1,6 +1,8 @@
 #include "Ghost.h"
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For time()
+#include <cmath>   // For abs()
+#include <iostream>
 
 // Constructor
 Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(100), radius(34), frightened(false), eaten(false) {
@@ -30,6 +32,7 @@ bool Ghost::isEaten() const {
 void Ghost::setEaten(bool state) {
     eaten = state;
 }
+
 // Move ghost in a direction while avoiding walls
 int Ghost::move(const Maze& maze, float deltaTime) {
     if (eaten) {
@@ -39,6 +42,22 @@ int Ghost::move(const Maze& maze, float deltaTime) {
     float newX = x;
     float newY = y;
 
+    if(640 < x && x < 880 && y == 445)
+    {
+        if(getX() == 765)
+        {
+            direction = 3;
+        }
+        else if(getX() > 765)
+        {
+            direction = 2;
+        }
+        else if(getX() < 765)
+        {
+            direction = 1;
+        }
+    }
+    
     // Calculate the next position based on the current direction
     switch (direction) {
         case 1: newX += speed * deltaTime; break;  // Move right
@@ -47,12 +66,14 @@ int Ghost::move(const Maze& maze, float deltaTime) {
         case 4: newY += speed * deltaTime; break;  // Move down
     }
 
-    // Check if the new position collides with the maze walls
+    
+
+
     if (maze.isWall(newX, newY, radius)) {
-        // If a collision is detected, find a new direction
+        
         chooseNewDirection(maze);
+        std::cout << "dwa" << std::endl;
     } else {
-        // If no collision, update the ghost's position
         x = newX;
         y = newY;
     }
@@ -77,33 +98,28 @@ void Ghost::chooseNewDirection(const Maze& maze) {
     }
 }
 
-// Getters for ghost's current position and radius
-int Ghost::getX() const { return x; }
-int Ghost::getY() const { return y; }
-int Ghost::getRadius() const { return radius; }
-
-// Set the ghost's direction
-void Ghost::setDirection(int newDirection) {
-    direction = newDirection;
-}
-
-// Set ghost to frightened state
-void Ghost::setFrightened(bool state) {
-    frightened = state;
-}
-
 // Simple chase behavior towards Pac-Man
 void Ghost::chase(const PacMan& pacman) {
     if (!frightened) {
-        // Implement a simple chase logic towards Pac-Man's current position
-        if (pacman.getX() > x) {
-            setDirection(1); // Move right
-        } else if (pacman.getX() < x) {
-            setDirection(2); // Move left
-        } else if (pacman.getY() > y) {
-            setDirection(4); // Move down
-        } else if (pacman.getY() < y) {
-            setDirection(3); // Move up
+        // Calculate the differences in X and Y between the ghost and Pac-Man
+        float deltaX = pacman.getX() - x;
+        float deltaY = pacman.getY() - y;
+
+        // Adjust both X and Y direction to move towards Pac-Man
+        if (std::abs(deltaX) > std::abs(deltaY)) {
+            // Move horizontally
+            if (deltaX > 0) {
+                setDirection(1); // Move right
+            } else {
+                setDirection(2); // Move left
+            }
+        } else {
+            // Move vertically
+            if (deltaY > 0) {
+                setDirection(4); // Move down
+            } else {
+                setDirection(3); // Move up
+            }
         }
     }
 }
@@ -112,21 +128,6 @@ void Ghost::chase(const PacMan& pacman) {
 void Ghost::scatter() {
     // Implement scatter logic, e.g., move to a random direction
     setDirection(rand() % 4 + 1); // Choose a random new direction (1 to 4)
-}
-
-
-// Getter for the ghost's movement in X direction
-int Ghost::getDX() const {
-    return dx;
-}
-
-// Getter for the ghost's movement in Y direction
-int Ghost::getDY() const {
-    return dy;
-}
-
-int Ghost::getDirection() const {
-    return direction;
 }
 
 // Check if the ghost is colliding with Pac-Man
@@ -141,6 +142,11 @@ bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
     return distance < (radius + pacman.getRadius());
 }
 
+// Set ghost to frightened state
+void Ghost::setFrightened(bool state) {
+    frightened = state;
+}
+
 void Ghost::setNormal() {
     frightened = false;
 }
@@ -148,3 +154,11 @@ void Ghost::setNormal() {
 bool Ghost::isFrightened() const {
     return frightened;
 }
+
+int Ghost::getX() const { return x; }
+int Ghost::getY() const { return y; }
+int Ghost::getRadius() const { return radius; }
+int Ghost::getDirection() const { return direction; }
+int Ghost::getDX() const { return dx; }
+int Ghost::getDY() const { return dy; }
+void Ghost::setDirection(int newDirection) { direction = newDirection; }
