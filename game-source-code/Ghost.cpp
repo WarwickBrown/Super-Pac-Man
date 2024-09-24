@@ -62,7 +62,7 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
         }
 
         // Apply the movement for exiting the box
-        if (!maze.isWall(newX, newY, radius)) {
+        if (!maze.isWallRec(newX, newY, radius)) {
             x = newX;
             y = newY;
         }
@@ -82,7 +82,7 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     }
 
     // Check if the new position hits a wall
-    if (!maze.isWall(newX, newY, radius)) {
+    if (!maze.isWallRec(newX, newY, radius)) {
         // If no collision, the ghost can continue moving in the current direction
         x = newX;
         y = newY;
@@ -108,29 +108,29 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     // Prioritize movement direction based on Pac-Man's position
     if (std::abs(deltaX) > std::abs(deltaY)) {
         // Try moving horizontally first (closer to Pac-Man)
-        if (deltaX > 0 && !maze.isWall(x + speed * deltaTime, y, radius)) {
+        if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
             setDirection(1);  // Move right
-        } else if (deltaX < 0 && !maze.isWall(x - speed * deltaTime, y, radius)) {
+        } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
             setDirection(2);  // Move left
         } else {
             // If horizontal movement is blocked, try vertical
-            if (deltaY > 0 && !maze.isWall(x, y + speed * deltaTime, radius)) {
+            if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
                 setDirection(4);  // Move down
-            } else if (deltaY < 0 && !maze.isWall(x, y - speed * deltaTime, radius)) {
+            } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
                 setDirection(3);  // Move up
             }
         }
     } else {
         // Try moving vertically first (closer to Pac-Man)
-        if (deltaY > 0 && !maze.isWall(x, y + speed * deltaTime, radius)) {
+        if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
             setDirection(4);  // Move down
-        } else if (deltaY < 0 && !maze.isWall(x, y - speed * deltaTime, radius)) {
+        } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
             setDirection(3);  // Move up
         } else {
             // If vertical movement is blocked, try horizontal
-            if (deltaX > 0 && !maze.isWall(x + speed * deltaTime, y, radius)) {
+            if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
                 setDirection(1);  // Move right
-            } else if (deltaX < 0 && !maze.isWall(x - speed * deltaTime, y, radius)) {
+            } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
                 setDirection(2);  // Move left
             }
         }
@@ -144,10 +144,10 @@ void Ghost::chooseRandomDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
     // Check all four directions and add valid ones to the possible directions
-    if (!maze.isWall(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
-    if (!maze.isWall(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
-    if (!maze.isWall(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
-    if (!maze.isWall(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
+    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
+    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
+    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
 
     // Randomly pick a new valid direction if there are possible directions
     if (!possibleDirections.empty()) {
@@ -160,10 +160,10 @@ void Ghost::chooseNewDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
     // Check if the ghost can move in each direction (up, down, left, right)
-    if (!maze.isWall(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
-    if (!maze.isWall(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
-    if (!maze.isWall(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
-    if (!maze.isWall(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
+    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
+    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
+    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
 
     // Randomly pick a new valid direction if there are possible directions
     if (!possibleDirections.empty()) {
