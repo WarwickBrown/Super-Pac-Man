@@ -17,7 +17,7 @@ Screen::Screen()
     : window(1530, 890, "Super Pac-Man"),  // Initialize window dimensions and title
       isRunning(true),                     // Set initial game state to running                      // Initialize maze pointer to nullptr
       direction(0)                               // Initialize direction to 0 (no direction)
-{      maze = std::make_unique<Maze>(); }
+{ maze = std::make_unique<Maze>(); }
 
 // Destructor for Screen class
 Screen::~Screen() {

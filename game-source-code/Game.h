@@ -53,7 +53,7 @@ private:
     std::vector<Fruit> fruits;
     std::vector<Star> stars;
     std::vector<PowerPellet> powerPellets;  // Add a list of power pellets
-    std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
+    std::vector<std::unique_ptr<Ghost>> ghosts;
     std::vector<SuperPellet> superPellets;
     
     // Using smart pointers for game objects

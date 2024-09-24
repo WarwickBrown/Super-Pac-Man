@@ -15,11 +15,12 @@
 #include <memory>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {
+    
+}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
-Game::~Game() {
-}
+Game::~Game() = default;
 
 // Function to initialize the game
 void Game::initialise() {
@@ -73,8 +74,8 @@ void Game::run() {
         screen->drawScores(*score); // Draw the scores
         screen->drawLives(playerLives->getLives());
 
-        for (auto& ghost : ghosts) {
-            screen->drawGhost(ghost, *pacMan, ghostDirection);
+        for (const auto& ghost : ghosts) {
+            screen->drawGhost(*ghost, *pacMan, ghostDirection);
         }
 
         if (pacMan->isSuper()) {
@@ -204,7 +205,7 @@ void Game::update() {
 
             // Make ghosts frightened
             for (auto& ghost : ghosts) {
-                ghost.setFrightened(true);
+                ghost->setFrightened(true);
             }
 
             // Start a timer to end frightened mode after a certain time
@@ -216,7 +217,7 @@ void Game::update() {
     // Revert ghosts to normal if the frightened mode time has expired
     if (GetTime() - powerPelletTimer > 5.0f) {  // For example, frightened lasts 5 seconds
         for (auto& ghost : ghosts) {
-            ghost.setFrightened(false);  // Switch back to normal texture and mode
+            ghost->setFrightened(false);  // Switch back to normal texture and mode
         }
     }
 
@@ -259,14 +260,14 @@ void Game::update() {
 
 
     if (!pacMan->isInvincible()) {
-        for (auto& ghost : ghosts) {
-            int ghostDirection = ghost.move(*maze,*pacMan, deltaTime);
+        for (const auto& ghost : ghosts) {
+            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
             // Check for collision with Pac-Man
-            if (ghost.checkCollisionWithPacMan(*pacMan)) {
-                if (ghost.isFrightened()) {
+            if (ghost->checkCollisionWithPacMan(*pacMan)) {
+                if (ghost->isFrightened()) {
                     // Pac-Man eats the ghost
-                    ghost.setEaten(true);  // Mark the ghost as eaten
-                    ghost.respawn();       // Respawn the ghost at the center of the maze
+                    ghost->setEaten(true);  // Mark the ghost as eaten
+                    ghost->respawn();       // Respawn the ghost at the center of the maze
                     score->addPoints(200); // Increase score for eating a ghost
                 } 
                 else if (pacMan->isSuper()) {
@@ -290,8 +291,8 @@ void Game::update() {
         }
     }
     else {
-        for (auto& ghost : ghosts) {
-            int ghostDirection = ghost.move(*maze,*pacMan, deltaTime);
+        for (const auto& ghost : ghosts) {
+            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
         }
     }
 
@@ -348,9 +349,9 @@ void Game::initialiseGameObjects() {
     pacMan = std::make_unique<PacMan>(maze->getStartX(), maze->getStartY());
     screen = std::make_unique<Screen>();  // Initialize the screen
 
-    ghosts.push_back(Ghost(685, 445, 150.0f));
-    ghosts.push_back(Ghost(765, 445, 150.0f));
-    ghosts.push_back(Ghost(845, 445, 150.0f));
+    ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
+    ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
+    ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
 }
 
 // Initialize the fruits in the game
