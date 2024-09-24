@@ -24,15 +24,15 @@ public:
 
 
     // Method to set the ghost's direction
-    void setDirection(int direction);
+    void setDirection(int newDirection) { direction = newDirection; }
 
     // Getters for the ghost's position and radius
-    int getX() const;
-    int getY() const;
-    int getRadius() const;
-    int getDX() const;
-    int getDY() const;
-    int getDirection() const;
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getRadius() const { return radius; }
+    int getDirection() const { return direction; }
+    int getDX() const { return dx; }
+    int getDY() const { return dy; }
 
     // Ghost behavior methods
     void setFrightened(bool state);  // Set the ghost to frightened mode
@@ -50,7 +50,6 @@ private:
     bool frightened; // Whether the ghost is in a frightened state
     bool eaten;
     float startX, startY; // Starting position of the ghost (for respawn)
-    float time = GetTime();
 };
 
 #endif // GHOST_H

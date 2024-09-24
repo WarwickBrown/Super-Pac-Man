@@ -26,28 +26,26 @@ public:
     // Getters for Pac-Man's position, movement, radius, and speed
     float getX() const { return x; }
     float getY() const { return y; }
-    void setX(const float newX) {};  // Placeholder function for setting X (not used)
-    void setY(const float newY) {};  // Placeholder function for setting Y (not used)
+    float getVisualRadius() const { return visualRadius; }
     int getDX() const { return dx; } // Returns Pac-Man's movement in the x direction
     int getDY() const { return dy; } // Returns Pac-Man's movement in the y direction
     int getFrames() const { return GetFrameTime(); }  // Returns frame time for Pac-Man animations
     int getRadius() const { return radius; }  // Returns Pac-Man's radius (for collision detection)
     int getSpeed() { return normalSpeed; }  // Returns Pac-Man's speed value
-    bool isInvincible() const;
-    void setInvincible(bool invincible);
-    void updateInvincibility(float deltaTime);
-    float getVisualRadius() const { return visualRadius; }
+    bool isInvincible() const { return invincible; }
+    bool isSuper() const { return superModeActive; }
 
+    void setX(const float newX) {};  // Placeholder function for setting X (not used)
+    void setY(const float newY) {};  // Placeholder function for setting Y (not used)
+    void setInvincible(bool invincible);
+    void updateSuperMode(float deltaTime);
+    void updateInvincibility(float deltaTime);
+    void setPosition(int newX, int newY);
+    
     void activateSuperMode();
     void deactivateSuperMode();
-    bool isSuper() const;
-
-    void updateSuperMode(float deltaTime);
-    void setPosition(int newX, int newY);
-
 
 private:
-    std::vector<Texture2D> pacManImages;  // Holds Pac-Man's textures for different directions (left, right, up, down)
     float x, y;  // Pac-Man's current position on the screen (x, y)
     float dx, dy;  // Direction of movement (change in x, change in y)
     int newDirection;
@@ -61,8 +59,6 @@ private:
     bool invincible;
     float invincibilityTime;
     float invincibilityDuration;
-
-
 };
 
 #endif // PACMAN_H

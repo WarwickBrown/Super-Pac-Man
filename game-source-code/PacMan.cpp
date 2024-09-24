@@ -75,10 +75,6 @@ void PacMan::setDirection(int direction) {
     }
 }
 
-bool PacMan::isInvincible() const {
-    return invincible;
-}
-
 void PacMan::setInvincible(bool invincible) {
     this->invincible = invincible;
     if (invincible) {
@@ -98,22 +94,16 @@ void PacMan::updateInvincibility(float deltaTime) {
 
 void PacMan::activateSuperMode() {
     superModeActive = true;
-    // Need to make the visual radius bigger
     superModeTimer = 5.0f;
     visualRadius = radius * 1.5f;
-    //speed = superSpeed;
 }
 
 void PacMan::deactivateSuperMode() {
     superModeActive = false;
     visualRadius = radius;
-    //speed = normalSpeed;
-    // reset radius
 }
 
-bool PacMan::isSuper() const {
-    return superModeActive;
-}
+
 
 void PacMan::updateSuperMode(float deltaTime) {
     if (superModeActive) {

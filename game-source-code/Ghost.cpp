@@ -38,7 +38,6 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     if (eaten) {
         return direction; // Ghost stays in place if eaten
     }
-    float currentTime = GetTime() - time;
     float newX = x;
     float newY = y;
 
@@ -63,7 +62,6 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
         
         x = newX;
         y = newY;
-      
     }
     else
     {
@@ -225,10 +223,3 @@ bool Ghost::isFrightened() const {
     return frightened;
 }
 
-int Ghost::getX() const { return x; }
-int Ghost::getY() const { return y; }
-int Ghost::getRadius() const { return radius; }
-int Ghost::getDirection() const { return direction; }
-int Ghost::getDX() const { return dx; }
-int Ghost::getDY() const { return dy; }
-void Ghost::setDirection(int newDirection) { direction = newDirection; }
