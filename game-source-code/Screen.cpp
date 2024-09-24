@@ -16,7 +16,7 @@ Screen::Screen()
     : window(1530, 890, "Super Pac-Man"),  // Initialize window dimensions and title
       isRunning(true),                     // Set initial game state to running
       maze(nullptr),                       // Initialize maze pointer to nullptr
-      dir(0)                               // Initialize direction to 0 (no direction)
+      direction(0)                               // Initialize direction to 0 (no direction)
 {}
 
 // Destructor for Screen class
@@ -70,19 +70,26 @@ void Screen::render() {
 }
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
-void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
+void Screen::drawPacMan(const PacMan& pacman, int frame, int direction) {
     // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
     double pixelX = pacman.getX() - 30;  // Adjust X position
     double pixelY = pacman.getY() - 30;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     Texture2D texture = pacManTextures[0];  // Default texture is for moving left
-    if (dir == 1) { 
-        texture = pacManTextures[1];  // Texture for moving right
-    } else if (dir == 3) {
-        texture = pacManTextures[2];  // Texture for moving up
-    } else if (dir == 4) {
-        texture = pacManTextures[3];  // Texture for moving down
+    switch(direction){
+        case 1:
+            texture = pacManTextures[1];  // Texture for moving right
+            break;
+        case 2:
+            texture = pacManTextures[0];  // Texture for moving right
+            break;
+        case 3:
+            texture = pacManTextures[2];  // Texture for moving right
+            break;
+        case 4:
+            texture = pacManTextures[3];  // Texture for moving right
+            break;
     }
 
     // Determine which part of the texture to draw (based on animation frame)
@@ -98,7 +105,7 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int dir) {
 }
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
-void Screen::drawSuperPacMan(const PacMan& pacman, int frame, int dir) {
+void Screen::drawSuperPacMan(const PacMan& pacman, int frame, int direction) {
     float renderRadius = 50;
     DrawCircle(pacman.getX(), pacman.getY(), renderRadius, YELLOW);
 }
@@ -154,7 +161,6 @@ void Screen::drawPowerPellets(const std::vector<PowerPellet>& powerPellet){
         }
     }
 }
-
 
 bool Screen::endGame(const Score& score) {  // Accept score as a parameter to display
 
@@ -276,7 +282,7 @@ void Screen::drawFruits(const std::vector<Fruit>& fruits) {
     }
 }
 
-void Screen::symbols(int num1, int num2, int num3) {
+void Screen::drawSymbols(int num1, int num2, int num3) {
     if (symbolActive) {
         Texture2D textures[3] = { getTexture(num1), getTexture(num2), getTexture(num3) };
         Vector2 positions[3] = { {650, 570}, {810, 570}, {730, 90} };
@@ -385,6 +391,7 @@ void Screen::drawSuperPellets(const std::vector<SuperPellet>& superPellets)
 
 void Screen::drawStars(std::vector<Star>& stars)
 {
+    Texture2D picture;
     for (auto& eachStar : stars) {
         if (eachStar.getChange()) {
             eachStar.setChange();  // Reset the change flag

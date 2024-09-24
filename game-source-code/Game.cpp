@@ -309,7 +309,7 @@ void Game::update() {
                 multi++;
             }
             
-            screen->symbols(num1, num2, num3);
+            screen->drawSymbols(num1, num2, num3);
             if((updatedTimer) >= 30*multi2)
             {
                 stars.markAsNotEaten();
