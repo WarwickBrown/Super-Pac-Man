@@ -10,6 +10,7 @@
 
 #include <raylib-cpp.hpp>
 #include <iostream>
+#include <memory>
 
 // Constructor for Screen class
 Screen::Screen() 

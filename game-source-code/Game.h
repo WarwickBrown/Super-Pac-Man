@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <raylib-cpp.hpp>
+#include <memory>
 #include "Maze.h"
 #include "PacMan.h"
 #include "Screen.h"

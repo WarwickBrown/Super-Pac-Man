@@ -12,9 +12,10 @@
 #include <tuple>
 #include <cstdlib>
 #include <cmath>
+#include <memory>
 
 // Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false), score(nullptr), playerLives(nullptr) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
