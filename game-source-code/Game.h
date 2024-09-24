@@ -55,13 +55,12 @@ private:
     std::vector<Ghost> ghosts;  // Vector to hold multiple ghosts
     std::vector<SuperPellet> superPellets;
     
-    // Pointers to various game objects
-    Maze* maze;  // Pointer to the maze object
-    PacMan* pacMan;  // Pointer to the Pac-Man object
-    Screen* screen;  // Pointer to the screen object
-    Score* score;
-    Lives* playerLives; // Pointer to Lives object
-    Star* star;
+    // Using smart pointers for game objects
+    std::unique_ptr<Maze> maze;
+    std::unique_ptr<PacMan> pacMan;
+    std::unique_ptr<Screen> screen;
+    std::unique_ptr<Score> score;
+    std::unique_ptr<Lives> playerLives;
 
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;

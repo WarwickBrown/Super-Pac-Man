@@ -18,12 +18,6 @@ Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), fr
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() {
-    // Clean up dynamically allocated memory
-    delete maze;
-    delete pacMan;
-    delete screen;
-    delete score;
-    delete playerLives;
 }
 
 // Function to initialize the game
@@ -35,12 +29,12 @@ void Game::initialise() {
     initialisePowerPellets();
     initialiseSuperPellets();
 
-    score = new Score("highscore.txt"); // Initialize the score object
-    playerLives = new Lives(3);
+    score = std::make_unique<Score>("highscore.txt"); // Initialize the score object
+    playerLives = std::make_unique<Lives>(3);
 
     // Display the start screen until the player presses ENTER or closes the window
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        screen->startScreen(this, screen, *score); // Shows the start screen and passes the current game instance
+        screen->startScreen(this, screen.get(), *score); // Shows the start screen and passes the current game instance
     }
 
     // Check if the window is closed by the user
@@ -349,9 +343,9 @@ void Game::update() {
 
 // Initializes game objects like the maze, Pac-Man, and the screen
 void Game::initialiseGameObjects() {
-    maze = new Maze();  // Create and initialize the maze
-    pacMan = new PacMan(maze->getStartX(), maze->getStartY());  // Create and initialize Pac-Man at the starting position
-    screen = new Screen(); // Create and initialize the screen
+    maze = std::make_unique<Maze>();  // Initialize using make_unique
+    pacMan = std::make_unique<PacMan>(maze->getStartX(), maze->getStartY());
+    screen = std::make_unique<Screen>();  // Initialize the screen
 
     ghosts.push_back(Ghost(685, 445, 150.0f));
     ghosts.push_back(Ghost(765, 445, 150.0f));
