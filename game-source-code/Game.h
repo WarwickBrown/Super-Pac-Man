@@ -37,13 +37,18 @@ public:
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
     void inputStar();
-
-    std::vector<GameKey> keys;
+    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
 
     
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
 
+    std::vector<Fruit>& getFruits() { return fruits; }
+
+    bool isGameWon() const { return gameWon; }
+    bool isGameRunning() const { return isRunning; }
+
 private:
+    std::vector<GameKey> keys;
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
     std::vector<Fruit> fruits;
     std::vector<Star> stars;
@@ -71,10 +76,6 @@ private:
     int multi = 0, multi2 = 1;
     int num1 = 1, num2 = 1, num3 = 1;
     float powerPelletTimer;
-    
-    Texture2D arrowKeyImage;  // Texture for the arrow key instructions
-
-    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
 
 };
 
