@@ -66,6 +66,13 @@ private:
         LoadTexture("../resources/pacman-images/pacmenDownCopy.png")
     };
 
+     std::vector<Texture2D> pacManTexturesBig = {
+        LoadTexture("../resources/pacman-images/pacmenLeftBig.png"),
+        LoadTexture("../resources/pacman-images/pacmenRightBig.png"),
+        LoadTexture("../resources/pacman-images/pacmenUpBig.png"),
+        LoadTexture("../resources/pacman-images/pacmenDownBig.png")
+    };
+
     // Ghost Textures
     Texture2D ghostPicRight = LoadTexture("../resources/pacman-images/ghosty.png");
     Texture2D ghostPicLeft = LoadTexture("../resources/pacman-images/ghostyLeft.png");

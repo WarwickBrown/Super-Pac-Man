@@ -105,7 +105,36 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int direction) {
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Screen::drawSuperPacMan(const PacMan& pacman, int frame, int direction) {
     float renderRadius = 50;
-    DrawCircle(pacman.getX(), pacman.getY(), renderRadius, YELLOW);
+    double pixelX = pacman.getX() - 30;  // Adjust X position
+    double pixelY = pacman.getY() - 30;  // Adjust Y position
+
+    // Select the appropriate texture based on the direction Pac-Man is moving
+    Texture2D texture = pacManTexturesBig[0];  // Default texture is for moving left
+    switch(direction){
+        case 1:
+            texture = pacManTexturesBig[1];  // Texture for moving right
+            break;
+        case 2:
+            texture = pacManTexturesBig[0];  // Texture for moving right
+            break;
+        case 3:
+            texture = pacManTexturesBig[2];  // Texture for moving right
+            break;
+        case 4:
+            texture = pacManTexturesBig[3];  // Texture for moving right
+            break;
+    }
+
+    // Determine which part of the texture to draw (based on animation frame)
+    Rectangle sourceRec = {
+        (float)(texture.width / 6) * frame,  // Calculate width of a single frame
+        0, 
+        (float)(texture.width / 6),          // Width of a single frame
+        (float)(texture.height)              // Full height of the texture
+    };
+
+    // Draw Pac-Man's texture at the specified location and frame
+    DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
 }
 
 // Function to draw additional images on the start screen (e.g., controls)
