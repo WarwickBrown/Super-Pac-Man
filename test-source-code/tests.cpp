@@ -137,38 +137,63 @@ TEST_CASE("Ghost Initialization") {
     CHECK(ghost.isFrightened() == false);
 }
 
-// Test ghost movement without walls
-TEST_CASE("Ghost Movement Without Walls") {
-    Maze maze;  // Empty maze with no walls
-    PacMan pacMan(100, 100);
-    Ghost ghost(100, 100, 150.0f);
-    
-    // Simulate movement in all four directions without walls
-    float deltaTime = 1.0f;  // Assume 1 second has passed
+// Tests if Ghost has moved correctly
+TEST_CASE("Ghost Movement") {
+    Maze maze;
+    PacMan pacman(100.0f, 100.0f);
+    float deltaTime = 1.0f;
 
-    // Right movement
-    ghost.setDirection(1);
-    ghost.move(maze,pacMan, deltaTime);
-    CHECK(ghost.getX() > 100);  // Ghost should move right
-    CHECK(ghost.getY() == 100);  // Y should stay the same
+    // Subtest for right movement
+    SUBCASE("Valid right movement") {
+        Ghost ghost(100.0f, 100.0f, 150.0f);
+        float initialX = ghost.getX();
+        float initialY = ghost.getY();
+        ghost.setDirection(1);  // Right
+        ghost.move(maze, pacman, deltaTime);
+        float expectedX = initialX + ghost.getSpeed() * deltaTime; // Move right
+        float expectedY = initialY;
+        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
+        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+    }
 
-    // Left movement
-    ghost.setDirection(2);
-    ghost.move(maze,pacMan, deltaTime);
-    CHECK(ghost.getX() < 100);  // Ghost should move left
-    CHECK(ghost.getY() == 100);  // Y should stay the same
+    // Subtest for left movement
+    SUBCASE("Valid left movement") {
+        Ghost ghost(100.0f, 100.0f, 150.0f);
+        float initialX = ghost.getX();
+        float initialY = ghost.getY();
+        ghost.setDirection(2);  // Left
+        ghost.move(maze, pacman, deltaTime);
+        float expectedX = initialX - ghost.getSpeed() * deltaTime; // Move left
+        float expectedY = initialY;
+        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
+        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+    }
 
-    // Up movement
-    ghost.setDirection(3);
-    ghost.move(maze,pacMan, deltaTime);
-    CHECK(ghost.getX() == 100);  // X should stay the same
-    CHECK(ghost.getY() < 100);  // Ghost should move up
+    // Subtest for up movement
+    SUBCASE("Valid up movement") {
+        Ghost ghost(100.0f, 100.0f, 150.0f);
+        float initialX = ghost.getX();
+        float initialY = ghost.getY();
+        ghost.setDirection(3);  // Up
+        ghost.move(maze, pacman, deltaTime);
+        float expectedX = initialX;
+        float expectedY = initialY - ghost.getSpeed() * deltaTime; // Move up
+        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
+        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+    }
 
-    // Down movement
-    ghost.setDirection(4);
-    ghost.move(maze,pacMan, deltaTime);
-    CHECK(ghost.getX() == 100);  // X should stay the same
-    CHECK(ghost.getY() > 100);  // Ghost should move down
+    // Subtest for down movement
+    SUBCASE("Valid down movement") {
+        Ghost ghost(100.0f, 100.0f, 150.0f);
+        float initialX = ghost.getX();
+        float initialY = ghost.getY();
+        ghost.setDirection(4);  // Down
+        ghost.move(maze, pacman, deltaTime);
+        float expectedX = initialX;
+        float expectedY = initialY + ghost.getSpeed() * deltaTime; // Move down
+        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
+        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+    }
 }
 
 // Test ghost collision with walls

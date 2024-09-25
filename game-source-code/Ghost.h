@@ -33,6 +33,7 @@ public:
     int getDirection() const { return direction; }
     int getDX() const { return dx; }
     int getDY() const { return dy; }
+    int getSpeed() const { return speed; }
 
     // Ghost behavior methods
     void setFrightened(bool state);  // Set the ghost to frightened mode

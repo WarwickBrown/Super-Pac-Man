@@ -7,7 +7,7 @@
 
 // Constructor
 Maze::Maze() : width(0), height(0), startX(10), startY(10) {
-    initialiseCustomWalls();  // Initialize a simple default maze for testing
+
 }
 
 // Destructor

@@ -30,6 +30,7 @@ void Game::initialise() {
     inputStar();
     initialisePowerPellets();
     initialiseSuperPellets();
+    maze->initialiseCustomWalls();
 
     score = std::make_unique<Score>("highscore.txt"); // Initialize the score object
     playerLives = std::make_unique<Lives>(3);
