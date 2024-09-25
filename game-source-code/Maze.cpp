@@ -16,47 +16,40 @@ Maze::~Maze() {
 }
 
 void Maze::initialiseCustomWalls() {
-    // Path to the text file
-    std::string filePath = "../resources/walls.txt";
-    
-    // Open the file
-    std::ifstream file(filePath);
+    // Create an instance of WallReader to read the wall file
+    WallReader wallReader;
+    wallReader.readFile();  // Read the file, storing lines into `data`
 
-    if (!file.is_open()) {
-        std::cerr << "Failed to open file: " << filePath << std::endl;
-        return;
-    }
+    // Get the data from WallReader
+    const std::vector<std::string>& data = wallReader.getData();
 
-    std::string line;
-    while (std::getline(file, line)) {
+    // Now, process each line from the `data` vector
+    for (const auto& line : data) {
         std::istringstream iss(line);
         float x, y, width, height;
-        std::string colorString;
+        std::string colourString;
         
         // Read the rectangle coordinates and color
-        if (!(iss >> x >> y >> width >> height >> colorString)) {
+        if (!(iss >> x >> y >> width >> height >> colourString)) {
             std::cerr << "Error parsing line: " << line << std::endl;
             continue;  // Skip to next line if there's an error
         }
         
         // Determine the color based on the string (assuming you have predefined constants)
-        Color color = BLACK;  // Default to BLACK
-        if (colorString == "BLACK") {
-            color = BLACK;
+        Color colour = BLACK;  // Default to BLACK if no match
+        if (colourString == "BLACK") {
+            colour = BLACK;
         } 
-        else if (colorString == "BROWN") {
-            color = BROWN;
+        else if (colourString == "BROWN") {
+            colour = BROWN;
         } 
-        else if (colorString == "PINK") {
-            color = PINK;
+        else if (colourString == "PINK") {
+            colour = PINK;
         }
 
-        // Emplace the wall into the vector
-        walls.emplace_back(Rectangle{x, y, width, height}, color);
+        // Emplace the wall (Rectangle and color) into the `walls` vector
+        walls.emplace_back(Rectangle{x, y, width, height}, colour);
     }
-
-    // Close the file
-    file.close();
 }
 // Checks if Pac-Man is colliding with any wall in the custom walls.
 // Takes in Pac-Man's X, Y coordinates and his radius, and checks for collision with each wall.
