@@ -105,8 +105,8 @@ void Screen::drawPacMan(const PacMan& pacman, int frame, int direction) {
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Screen::drawSuperPacMan(const PacMan& pacman, int frame, int direction) {
     float renderRadius = 50;
-    double pixelX = pacman.getX() - 30;  // Adjust X position
-    double pixelY = pacman.getY() - 30;  // Adjust Y position
+    double pixelX = pacman.getX() - 50;  // Adjust X position
+    double pixelY = pacman.getY() - 50;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     Texture2D texture = pacManTexturesBig[0];  // Default texture is for moving left

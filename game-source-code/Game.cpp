@@ -335,11 +335,8 @@ void Game::update() {
             stars->collect();
             stars->markAsEaten();
             screen->setSymbolActive(false);
-            
-            // Increase score or trigger other game events
         }
     }
-    
 }
 
 
