@@ -2,7 +2,8 @@
 #include <iostream>
 #include "Game.h"
 
-// Entry point of the program
+using namespace raylib; // import the raylib-cpp namespace into the global namespace
+
 int main()
 {
     // Create an instance of the Game class

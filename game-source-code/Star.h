@@ -7,7 +7,7 @@
 
 class Star : public Collectable {
 public:
-    // Constructor to initialize the Star with position and textures
+    // Constructor to initialise the Star with position and textures
     Star(int x, int y);
 
     // Destructor

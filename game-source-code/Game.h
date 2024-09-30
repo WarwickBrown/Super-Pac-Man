@@ -22,14 +22,15 @@ class Ghost;
 
 class Game {
 public:
-    Game();  // Constructor - Initializes game properties and sets up the game window
+    Game();  // Constructor - Initialises game properties and sets up the game window
     ~Game(); // Destructor - Cleans up dynamically allocated memory
 
-    void initialise();   // Initializes the game (calls functions to setup game objects, loads images, etc.)
+    void initialise();   // Initialises the game (calls functions to setup game objects, loads images, etc.)
     void initialiseFruits();
     void initialisePowerPellets();  // Function to initialize power pellets
     void initialiseKeys();
     void initialiseSuperPellets();
+    void initialiseGameObjects(); // Initialises game objects like the maze, Pac-Man, and screen
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
     void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
@@ -37,7 +38,6 @@ public:
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
     void inputStar();
-    void initialiseGameObjects(); // Initializes game objects like the maze, Pac-Man, and screen
 
     
     const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
@@ -55,14 +55,14 @@ private:
     std::vector<std::unique_ptr<PowerPellet>> powerPellets;
     std::vector<std::unique_ptr<SuperPellet>> superPellets;
     std::vector<std::unique_ptr<Star>> stars;
-    
+
     // Using smart pointers for game objects
     std::unique_ptr<Maze> maze;
     std::unique_ptr<PacMan> pacMan;
     std::unique_ptr<Screen> screen;
     std::unique_ptr<Score> score;
     std::unique_ptr<Lives> playerLives;
-
+    
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;
     int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
@@ -75,7 +75,6 @@ private:
     int multi = 0, multi2 = 1;
     int num1 = 1, num2 = 1, num3 = 1;
     float powerPelletTimer;
-
 };
 
 #endif // GAME_H

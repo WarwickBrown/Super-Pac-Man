@@ -14,9 +14,9 @@
 
 // Constructor for Screen class
 Screen::Screen() 
-    : window(1530, 890, "Super Pac-Man"),  // Initialize window dimensions and title
-      isRunning(true),                     // Set initial game state to running                      // Initialize maze pointer to nullptr
-      direction(0)                               // Initialize direction to 0 (no direction)
+    : window(1530, 890, "Super Pac-Man"),  // Initialise window dimensions and title
+      isRunning(true),                     // Set initial game state to running
+      direction(0)                         // Initialise direction to 0 (no direction)
 { maze = std::make_unique<Maze>(); }
 
 // Destructor for Screen class
@@ -26,7 +26,7 @@ Screen::~Screen() {
 // Function to display the start screen with game instructions
 void Screen::startScreen(const Game* game, const Screen* screen, const Score& score) {
     window.BeginDrawing();   // Start drawing the screen
-    window.ClearBackground(BLACK);  // Set background color to black
+    window.ClearBackground(BLACK);  // Set background colour to black
 
     // Draw the title "Super Pac-Man" at the top in yellow
     DrawText("Super Pac-Man", 
@@ -143,6 +143,7 @@ void Screen::drawGameImages(const Game& game) {
                 window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
 
+// Function to draw the maze on the screen
 void Screen::drawMaze(const Maze& maze) {
     const std::vector<Maze::Wall>& walls = maze.getWalls();
     for (const auto& wall : walls) {
@@ -180,8 +181,8 @@ void Screen::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& p
             Rectangle sourceRec = {
             (float)(powerPelletTexture.width) ,  // Calculate width of a single frame
             0, 
-            (float)(powerPelletTexture.width),          // Width of a single frame
-            (float)(powerPelletTexture.height)              // Full height of the texture
+            (float)(powerPelletTexture.width),   // Width of a single frame
+            (float)(powerPelletTexture.height)   // Full height of the texture
         };
 
         DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
@@ -189,10 +190,9 @@ void Screen::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& p
     }
 }
 
-bool Screen::endGame(const Score& score) {  // Accept score as a parameter to display
-
-    // Display the Game Over screen for ~3 seconds or until player presses ENTER
-    for (int i = 0; i < 1800; i++) {  // Show for ~3 seconds at 60 FPS
+bool Screen::endGame(const Score& score) {
+    // Display the Game Over screen for a few seconds or until player presses ENTER
+    for (int i = 0; i < 1800; i++) {
         window.BeginDrawing();
         window.ClearBackground(BLACK);
         DrawText("Game Over!", 
@@ -222,22 +222,21 @@ void Screen::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirect
     Texture2D currentTexture;
     
     // Check if the ghost is frightened, use the appropriate frightened texture
-    if (pacman.isSuper()) {
-        switch (ghostDirection) {
-            case 1: currentTexture = flattednedGhost; break;  // Right
-            case 2: currentTexture = flattednedGhost; break;   // Left
-            case 3: currentTexture = flattednedGhost; break;     // Up
-            case 4: currentTexture = flattednedGhost; break;   // Down
-            default: currentTexture = flattednedGhost; break; // Fallback texture
-        }
-
-    } else if(ghost.isFrightened()) {
+    if(ghost.isFrightened()) {
         switch (ghostDirection) {
             case 1: currentTexture = ghostFrightenedRight; break;  // Right
             case 2: currentTexture = ghostFrightenedLeft; break;   // Left
             case 3: currentTexture = ghostFrightenedUp; break;     // Up
             case 4: currentTexture = ghostFrightenedDown; break;   // Down
             default: currentTexture = ghostFrightenedRight; break; // Fallback texture
+        }
+    } else if (pacman.isSuper()) {
+        switch (ghostDirection) {
+            case 1: currentTexture = flattednedGhost; break;  // Right
+            case 2: currentTexture = flattednedGhost; break;   // Left
+            case 3: currentTexture = flattednedGhost; break;     // Up
+            case 4: currentTexture = flattednedGhost; break;   // Down
+            default: currentTexture = flattednedGhost; break; // Fallback texture
         }
     } else {
         // Normal state: use the normal ghost texture based on direction
@@ -252,19 +251,18 @@ void Screen::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirect
     Rectangle sourceRec = {
         (float)(currentTexture.width) ,  // Calculate width of a single frame
         0, 
-        (float)(currentTexture.width),          // Width of a single frame
-        (float)(currentTexture.height)              // Full height of the texture
+        (float)(currentTexture.width),   // Width of a single frame
+        (float)(currentTexture.height)   // Full height of the texture
     };
 
     // Draw Ghosts texture at the specified location and frame
     DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
 }
 
-// Implement the "You Win!" screen
 bool Screen::winGame(const Score& score) {
 
-    // Display the "You Win!" screen for ~3 seconds or until player presses ENTER
-    for (int i = 0; i < 1800; i++) {  // Show for ~3 seconds at 60 FPS
+    // Display the "You Win!" screen for a few seconds or until player presses ENTER
+    for (int i = 0; i < 1800; i++) {
         window.BeginDrawing();
         window.ClearBackground(BLACK);
         DrawText("You Win!", 
@@ -292,27 +290,30 @@ bool Screen::winGame(const Score& score) {
 }
 
 // Function to draw fruits on the screen
-void Screen::drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits) {
+void Screen::drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits, int num) {
     for (const auto& fruit : fruits) {
+        Texture2D textures[3] = { getTexture(num) };
         if(!fruit->isEaten())
         {
-        Rectangle sourceRec = {
-        (float)(fruitPic.width) ,  // Calculate width of a single frame
-        0, 
-        (float)(fruitPic.width),          // Width of a single frame
-        (float)(fruitPic.height)              // Full height of the texture
-        };
+            for (int i = 0; i < 3; ++i) {
+            Rectangle sourceRec = {
+                (float)textures[i].width,  // Calculate width of a single frame
+                0,
+                (float)textures[i].width,   // Width of a single frame
+                (float)textures[i].height
+            };
 
-        // Draw Fruit texture at the specified location and frame
-        DrawTextureRec(fruitPic, sourceRec, Vector2{(float)fruit->getX()-28, (float)fruit->getY()-28}, RAYWHITE);
+            // Draw Fruit texture at the specified location and frame
+            DrawTextureRec(textures[i], sourceRec, Vector2{(float)fruit->getX()-28, (float)fruit->getY()-28}, RAYWHITE);
+        }
         }
     }
 }
 
-void Screen::drawSymbols(int num1, int num2, int num3) {
+void Screen::drawSymbols(int num1, int num2) {
     if (symbolActive) {
-        Texture2D textures[3] = { getTexture(num1), getTexture(num2), getTexture(num3) };
-        Vector2 positions[3] = { {650, 570}, {810, 570}, {730, 90} };
+        Texture2D textures[3] = { getTexture(num1), getTexture(num2) };
+        Vector2 positions[3] = { {650, 570}, {810, 570} };
 
         // Loop through each texture to draw it
         for (int i = 0; i < 3; ++i) {
@@ -349,8 +350,6 @@ void Screen::drawScores(const Score& score) {
     // Convert scores to strings
     std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
     std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
-
-    // Option 1: Combine both texts into one line
     std::string combinedText = currentScoreText + "    " + highScoreText;
 
     // Set the new, larger font size
@@ -391,7 +390,7 @@ void Screen::drawLives(int lives) {
         Rectangle sourceRec = {
             (float)symbolLives.width,  // Calculate width of a single frame
             0, 
-            (float)symbolLives.width,         // Width of a single frame
+            (float)symbolLives.width,  // Width of a single frame
             (float)symbolLives.height
         };
         // Draw Pac-Man's texture at the specified location and frame
@@ -406,8 +405,8 @@ void Screen::drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& s
             Rectangle sourceRec = {
             (float)(superPelletTexture.width) ,  // Calculate width of a single frame
             0, 
-            (float)(superPelletTexture.width),          // Width of a single frame
-            (float)(superPelletTexture.height)              // Full height of the texture
+            (float)(superPelletTexture.width),   // Width of a single frame
+            (float)(superPelletTexture.height)   // Full height of the texture
             };
 
             DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);

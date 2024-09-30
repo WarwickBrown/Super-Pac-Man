@@ -23,7 +23,7 @@ void Maze::initialiseCustomWalls() {
     // Get the data from WallReader
     const std::vector<std::string>& data = wallReader.getData();
 
-    // Now, process each line from the `data` vector
+    // Now, process each line from the data vector
     for (const auto& line : data) {
         std::istringstream iss(line);
         float x, y, width, height;
@@ -31,11 +31,10 @@ void Maze::initialiseCustomWalls() {
         
         // Read the rectangle coordinates and color
         if (!(iss >> x >> y >> width >> height >> colourString)) {
-            std::cerr << "Error parsing line: " << line << std::endl;
             continue;  // Skip to next line if there's an error
         }
         
-        // Determine the color based on the string (assuming you have predefined constants)
+        // Determine the color based on the string
         Color colour = BLACK;  // Default to BLACK if no match
         if (colourString == "BLACK") {
             colour = BLACK;
@@ -47,7 +46,7 @@ void Maze::initialiseCustomWalls() {
             colour = PINK;
         }
 
-        // Emplace the wall (Rectangle and color) into the `walls` vector
+        // Emplace the wall (Rectangle and color) into the walls vector
         walls.emplace_back(Rectangle{x, y, width, height}, colour);
     }
 }
@@ -56,7 +55,6 @@ void Maze::initialiseCustomWalls() {
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
     for (const auto& wall : walls) {
         if (wall.active && CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, wall.rect)) {
-            //std::cout << "THE CIRCLE WALLS" << std::endl;
             return true;
         }
     }
@@ -70,7 +68,6 @@ bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
         // CheckCollisionCircleRec checks for collision between a circle (Pac-Man) and a rectangle (wall).
         if (wall.active && CheckCollisionRecs(Rectangle{(float)pacmanX-35, (float)pacmanY-35, 70, 70}, wall.rect)) {
             return true;  // Collision detected, return true.
-            std::cout << "THE RECT WALLS" << std::endl;
         }
     }
     return false;  // No collision detected, return false.

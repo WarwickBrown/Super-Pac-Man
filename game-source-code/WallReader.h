@@ -20,7 +20,7 @@ class WallReader {
         }
         
     private:
-        const std::string fileName = "../resources/walls.txt";
+        const std::string fileName = "../resources/walls.txt"; // Path to the text file
 };
 
 #endif // WALLREADER_H

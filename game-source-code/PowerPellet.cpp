@@ -1,8 +1,8 @@
 #include "PowerPellet.h"
 
-// Constructor to initialize the power pellet using the Collectable constructor
+// Constructor to initialise the power pellet using the Collectable constructor
 PowerPellet::PowerPellet(float x, float y)
-    : Collectable(x, y, 10.0f) { // Set radius to 10.0f
+    : Collectable(x, y, 10.0f) {
 }
 
 // Destructor

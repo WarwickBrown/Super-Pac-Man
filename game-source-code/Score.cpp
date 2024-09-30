@@ -46,4 +46,3 @@ void Score::saveHighScore() {
         std::cerr << "Exception opening/writing high score file: " << e.what() << '\n';
     }
 }
-

@@ -5,7 +5,6 @@
 
 class Fruit : public Collectable {
 public:
-    // Constructor that accepts position (x, y), a radius, and a texture reference
     Fruit(float x, float y);
     ~Fruit(); // Destructor
 

@@ -7,24 +7,18 @@
 
 class Ghost {
 public:
-    // Constructor: Initializes the ghost's starting position and speed
+    // Constructor: Initialises the ghost's starting position and speed
     Ghost(int startX, int startY, float speed);
 
     // Destructor
     ~Ghost();
 
-    int move(const Maze& maze,const PacMan& pacman, float deltaTime);  // Moves the ghost based on direction
-    void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
     void respawn();  // New method to handle respawn logic
-    bool isEaten() const;
-    void setEaten(bool eaten);
-
-    bool checkCollisionWithPacMan(const PacMan& pacman) const;
     void chooseRandomDirection(const Maze& maze);
+    bool checkCollisionWithPacMan(const PacMan& pacman) const;
+    void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
 
-
-    // Method to set the ghost's direction
-    void setDirection(int newDirection) { direction = newDirection; }
+    int move(const Maze& maze,const PacMan& pacman, float deltaTime);  // Moves the ghost based on direction
 
     // Getters for the ghost's position and radius
     int getX() const { return x; }
@@ -35,12 +29,18 @@ public:
     int getDY() const { return dy; }
     int getSpeed() const { return speed; }
 
+    bool isEaten() const { return eaten; }
+    void setEaten(bool state) { eaten = state; }
+
+
+    // Method to set the ghost's direction
+    void setDirection(int newDirection) { direction = newDirection; }
+
     // Ghost behavior methods
-    void setFrightened(bool state);  // Set the ghost to frightened mode
-    void setNormal();  // Revert to normal mode
-    void chase(const PacMan& pacman); // Simple chase behavior towards Pac-Man
-    void scatter(); // Move to a random corner of the maze
-    bool isFrightened() const;
+    bool isFrightened() const { return frightened; }
+    void setFrightened(bool state) { frightened = state; }
+
+    void setNormal() { frightened = false; }
 
 private:
     float x, y;    // Current position of the ghost

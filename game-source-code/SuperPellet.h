@@ -7,7 +7,7 @@
 class SuperPellet : public Collectable {
 public:
     SuperPellet(float x, float y); // Constructor
-    ~SuperPellet();                // Destructor
+    ~SuperPellet(); // Destructor
 
     // Check for collision with Pac-Man
     bool checkCollision(float pacManX, float pacManY, float pacManRadius) const;
@@ -16,4 +16,4 @@ public:
     void collect() { active = false; }
 };
 
-#endif // SUPERPELLET_H
+#endif

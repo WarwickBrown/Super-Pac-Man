@@ -14,23 +14,23 @@
 #include "PowerPellet.h"
 #include "SuperPellet.h"
 #include "Star.h"
-
 // Forward declaration of the Game class
 class Game;
 
 class Screen {
 public:
-    Screen();  // Constructor: Initializes the screen/window and other variables
+    Screen();  // Constructor: Initialises the screen/window and other variables
     ~Screen(); // Destructor: Cleans up dynamically allocated memory (if any)
 
     // Functions for handling various screen-related tasks
     void startScreen(const Game* game, const Screen* screen, const Score& score); // Displays the start screen with game instructions
-    void render();                      // Clears the screen and prepares it for rendering
-    
+    void render(); // Clears the screen and prepares it for rendering
+
     bool endGame(const Score& score);
     bool winGame(const Score& score);
 
-    void drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits);
+    // Draw functions
+    void drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits, int num);
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
     void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
     void drawKeys(const std::vector<GameKey>& keys);
@@ -42,8 +42,8 @@ public:
     void drawStars(std::vector<std::unique_ptr<Star>>& star);
     void drawSuperPacMan(const PacMan& pacman, int frame, int direction);
     void drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& superPellets);
-    void drawSymbols(int num1, int num2, int num3);
-    
+    void drawSymbols(int num1, int num2);
+
     Texture2D getTexture(int num);
     void setSymbolActive(bool status);
 
@@ -52,18 +52,22 @@ private:
     bool isRunning;        // State to check if the game is running
     int direction;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
-    void initializeGameObjects(); // Initializes game objects
+    int num = 0;  
+    bool eaten;
+    bool symbolActive = false;
+    Texture2D picture;
+    void initializeGameObjects(); // Initialises game objects
 
-    std::vector<Texture2D> gameImages = {
+        std::vector<Texture2D> gameImages = {
         LoadTexture("../resources/pacman-images/inputkeys.png"),
     };
 
     // PacMan Textures
     std::vector<Texture2D> pacManTextures = {
-        LoadTexture("../resources/pacman-images/pacmenLeftCopy.png"),
-        LoadTexture("../resources/pacman-images/pacmenRightCopy.png"),
-        LoadTexture("../resources/pacman-images/pacmenUpCopy.png"),
-        LoadTexture("../resources/pacman-images/pacmenDownCopy.png")
+        LoadTexture("../resources/pacman-images/pacmenLeft.png"),
+        LoadTexture("../resources/pacman-images/pacmenRight.png"),
+        LoadTexture("../resources/pacman-images/pacmenUp.png"),
+        LoadTexture("../resources/pacman-images/pacmenDown.png")
     };
 
      std::vector<Texture2D> pacManTexturesBig = {
@@ -118,13 +122,6 @@ private:
         LoadTexture("../resources/pacman-images/star2.png"),
         LoadTexture("../resources/pacman-images/star3.png")
     };
-
-    int num = 0;  
-    bool eaten;
-    bool symbolActive = false;
-    Texture2D picture;
 };
 
 #endif // SCREEN_H
-
-

@@ -14,7 +14,7 @@ public:
         Wall(const Rectangle& rect, Color color) : rect(rect), active(true), color(color) {}
     };
 
-    Maze();  // Constructor to initialize the maze.
+    Maze();  // Constructor to initialise the maze.
     ~Maze(); // Destructor to clean up any allocated memory (if applicable).
 
     // Function to draw the maze on the screen.
@@ -26,11 +26,9 @@ public:
     int getHeight() const { return height; }
 
     // Getter function to return the starting X position of Pac-Man in the maze.
-    // This is initialized as `startX = 10` in the constructor.
     int getStartX() const { return startX; }
 
     // Getter function to return the starting Y position of Pac-Man in the maze.
-    // This is initialized as `startY = 10` in the constructor.
     int getStartY() const { return startY; }
 
     // Initializes custom walls in the maze by creating and positioning rectangle objects.

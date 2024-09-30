@@ -102,7 +102,6 @@ Bottom T-Shaped Doors
 960 810 10 70 BLACK 1 Vertical
 962 810 6 70 BROWN 2 Vertical
 
-
 Border Walls
 0 80 10 810 PINK 1
 0 80 1530 10 PINK 1
@@ -159,8 +158,6 @@ Right Top Small L Wall
 
 Upper Symbol Walls
 560 160 410  10 PINK 1 Horizontal
-720 80 10 90 PINK 1 Vertical
-800 80 10 90 PINK 1 Vertical
 
 Left Bottom Small L Wall
 240 560 170 10 PINK 1 Horizontal

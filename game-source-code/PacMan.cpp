@@ -1,11 +1,11 @@
 #include "PacMan.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
-#include <tuple>
+
 
 using namespace std;
 
-// Constructor: Initializes Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
+// Constructor: Initialises Pac-Man's starting position (x, y), movement direction (dx, dy), speed, and size (radius).
 PacMan::PacMan(int startX, int startY) : x(765), y(525), dx(0), dy(0), normalSpeed(250), radius(34), superSpeed(400), superModeActive(false), superModeDuration(10), superModeTimer(0), invincible(false), invincibilityTime(0.0f), invincibilityDuration(2.0f) {}
 
 // Destructor: Since there is no dynamic memory allocation, the destructor does not need to clean up any resources.
@@ -13,44 +13,8 @@ PacMan::~PacMan() {
     // No dynamic memory to clean up in this class
 }
 
-// Moves Pac-Man based on the direction and checks for wall collisions.
-// If Pac-Man does not collide with a wall, his position is updated.
-void PacMan::move(const Maze& maze, float deltaTime, int direction) {
-    float speed = superModeActive ? superSpeed : normalSpeed;
-   // Set the movement direction (based on input direction).
-    setDirection(direction);
-
-    // Calculate the new position.
-    float newX = x + dx;
-    float newY = y + dy;
-
-    // Check if the new position is not colliding with a wall.
-    if (!maze.isWall(newX, newY, radius)) {
-        // If no collision, update Pac-Man's position.
-        x += dx * speed * deltaTime;
-        y += dy * speed * deltaTime;
-    }
-}
-
-// Manages Pac-Man's animation frame timing and returns the appropriate frame index for rendering.
-// This method controls how quickly Pac-Man's sprite animation changes as he moves.
-int PacMan::location(int frame, int dir) const {
-    // Timer to control the speed of the frame change.
-    static float timer = 0;
-    timer += GetFrameTime();  // Add time since the last frame.
-
-    // If the timer exceeds 0.2 seconds, advance to the next frame.
-    if (timer >= 0.2f) {
-        timer = 0.0f;
-        frame = (frame + 1) % 6;  // Cycle through 6 frames (0 to 5).
-    }
-
-    // Return the updated frame number.
-    return frame;
-}
-
 // Sets the movement direction of Pac-Man based on the given direction integer.
-// This updates `dx` and `dy`, which represent movement in the x and y directions.
+// This updates dx and dy, which represent movement in the x and y directions.
 void PacMan::setDirection(int direction) {
     switch (direction) {
         case 1: 
@@ -71,7 +35,43 @@ void PacMan::setDirection(int direction) {
             break;  // Up movement
         default: 
             dx = 0; 
-            dy = 0;        // No movement (None)
+            dy = 0; // No movement (None)
+    }
+}
+
+// Manages Pac-Man's animation frame timing and returns the appropriate frame index for rendering.
+// This method controls how quickly Pac-Man's sprite animation changes as he moves.
+int PacMan::location(int frame) const {
+    // Timer to control the speed of the frame change.
+    static float timer = 0;
+    timer += GetFrameTime();  // Add time since the last frame.
+
+    // If the timer exceeds 0.2 seconds, advance to the next frame.
+    if (timer >= 0.2f) {
+        timer = 0.0f;
+        frame = (frame + 1) % 6;  // Cycle through 6 frames (0 to 5).
+    }
+
+    // Return the updated frame number.
+    return frame;
+}
+
+// Moves Pac-Man based on the direction and checks for wall collisions.
+// If Pac-Man does not collide with a wall, his position is updated.
+void PacMan::move(const Maze& maze, float deltaTime, int direction) {
+    float speed = superModeActive ? superSpeed : normalSpeed;
+   // Set the movement direction (based on input direction).
+    setDirection(direction);
+
+    // Calculate the new position.
+    float newX = x + dx;
+    float newY = y + dy;
+
+    // Check if the new position is not colliding with a wall.
+    if (!maze.isWall(newX, newY, radius)) {
+        // If no collision, update Pac-Man's position.
+        x += dx * speed * deltaTime;
+        y += dy * speed * deltaTime;
     }
 }
 
@@ -94,7 +94,7 @@ void PacMan::updateInvincibility(float deltaTime) {
 
 void PacMan::activateSuperMode() {
     superModeActive = true;
-    superModeTimer = 5.0f;
+    superModeTimer = 4.0f;
     visualRadius = radius * 1.5f;
 }
 
@@ -102,8 +102,6 @@ void PacMan::deactivateSuperMode() {
     superModeActive = false;
     visualRadius = radius;
 }
-
-
 
 void PacMan::updateSuperMode(float deltaTime) {
     if (superModeActive) {

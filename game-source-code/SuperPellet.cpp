@@ -1,8 +1,8 @@
 #include "SuperPellet.h"
 
-// Constructor that initializes using the Collectable base class
+// Constructor that initialises using the Collectable base class
 SuperPellet::SuperPellet(float x, float y)
-    : Collectable(x, y, 15.0f) { // Set radius to 15.0f
+    : Collectable(x, y, 15.0f) {
 }
 
 // Destructor

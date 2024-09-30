@@ -14,17 +14,15 @@
 #include <cmath>
 #include <memory>
 
-// Constructor - Initializes game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {
-    
-}
+// Constructor - Initialises game window, running state, and sets pointers to nullptr
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(0), frame(0), gameWon(false) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() = default;
 
-// Function to initialize the game
+// Function to initialise the game
 void Game::initialise() {
-    initialiseGameObjects();    // Initializes game objects (maze, pacMan, screen)
+    initialiseGameObjects();    // Initialises game objects (maze, pacMan, screen)
     initialiseFruits();
     initialiseKeys();
     inputStar();
@@ -32,7 +30,7 @@ void Game::initialise() {
     initialiseSuperPellets();
     maze->initialiseCustomWalls();
 
-    score = std::make_unique<Score>("highscore.txt"); // Initialize the score object
+    score = std::make_unique<Score>("highscore.txt"); // Initialise the score object
     playerLives = std::make_unique<Lives>(3);
 
     // Display the start screen until the player presses ENTER or closes the window
@@ -60,8 +58,8 @@ void Game::run() {
         screen->render(); // Render the current state of the game
         screen->drawMaze(*maze);  // Draw the maze
         screen->drawKeys(keys);
-        frame = pacMan->location(frame, direction);
-        screen->drawFruits(fruits);
+        frame = pacMan->location(frame);  // Update Pac-Man's frame for animation
+        screen->drawFruits(fruits, num3);
         screen->drawStars(stars);
 
         for (const auto& star : stars) {
@@ -85,7 +83,7 @@ void Game::run() {
         else{
             screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
         }
-                // If the game has been won, break the loop
+        // If the game has been won, break the loop
         if (gameWon) {
             break;
         }
@@ -101,6 +99,7 @@ void Game::run() {
         isRunning = screen->endGame(*score);
     }
 }
+
 
 // Handles user input for controlling Pac-Man's direction
 void Game::handleInput() {
@@ -159,6 +158,7 @@ void Game::update() {
             dy = 0; 
             break;
     }
+
     float newX = pacMan->getX()+dx;
     float newY = pacMan->getY()+dy;
     if (!maze->isWallRec(newX, newY, 34)) {
@@ -182,10 +182,10 @@ void Game::update() {
         }
     }
 
-        // Check if all fruits have been collected
+    // Check if all fruits have been collected
     checkWinCondition();
 
-        // Check if Pac-Man collects any keys
+    // Check if Pac-Man collects any keys
     for (auto& key : keys) {
         if (key.isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
@@ -231,7 +231,6 @@ void Game::update() {
         }
     }
 
-
     // If Pac-Man is in super mode, check if he's moving through any locked walls
     if (pacMan->isSuper()) {
         for (auto& key : keys) {
@@ -258,7 +257,6 @@ void Game::update() {
             }
         }
     }
-
 
     if (!pacMan->isInvincible()) {
         for (const auto& ghost : ghosts) {
@@ -297,16 +295,14 @@ void Game::update() {
         }
     }
 
-
     for (auto& stars : stars) {
-            if((updatedTimer) >= 0.5*multi){
+            if((updatedTimer) >= 3*multi){
                 num1 = rand()%6+1;
                 num2 = rand()%6+1;
-                num3 = rand()%6+1;
                 multi++;
             }
             
-            screen->drawSymbols(num1, num2, num3);
+            screen->drawSymbols(num1, num2);
             if((updatedTimer) >= 30*multi2)
             {
                 stars->markAsNotEaten();
@@ -326,7 +322,7 @@ void Game::update() {
                     {
                         score->addPoints(5000); // Add points for collecting a key
                     }
-                    else if(num1 == num2 || num2 == num3 || num1 == num3)
+                    else if(num1 == num2)
                     {
                         score->addPoints(2000); // Add points for collecting a key
                     }
@@ -341,20 +337,21 @@ void Game::update() {
 }
 
 
-// Initializes game objects like the maze, Pac-Man, and the screen
+// Initialises game objects like the maze, Pac-Man, and the screen
 void Game::initialiseGameObjects() {
-    maze = std::make_unique<Maze>();  // Initialize using make_unique
+    maze = std::make_unique<Maze>();  // initialise using make_unique
     pacMan = std::make_unique<PacMan>(maze->getStartX(), maze->getStartY());
-    screen = std::make_unique<Screen>();  // Initialize the screen
+    screen = std::make_unique<Screen>();  // initialise the screen
 
     ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
     ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
     ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
 }
 
-// Initialize the fruits in the game
+// initialise the fruits in the game
 void Game::initialiseFruits() {
     //Left Long Wall
+    num3 = rand()%6+1;
     fruits.emplace_back(std::make_unique<Fruit>(120, 360));
     fruits.emplace_back(std::make_unique<Fruit>(120, 440));
     fruits.emplace_back(std::make_unique<Fruit>(120, 520));
@@ -415,6 +412,7 @@ void Game::initialiseFruits() {
     //Upper Symbol
     fruits.emplace_back(std::make_unique<Fruit>(600, 120));
     fruits.emplace_back(std::make_unique<Fruit>(680, 120));
+    fruits.emplace_back(std::make_unique<Fruit>(760, 120));
     fruits.emplace_back(std::make_unique<Fruit>(840, 120));
     fruits.emplace_back(std::make_unique<Fruit>(920, 120));
 
@@ -435,28 +433,55 @@ void Game::initialiseFruits() {
     fruits.emplace_back(std::make_unique<Fruit>(760, 840));
     fruits.emplace_back(std::make_unique<Fruit>(680, 840));
     fruits.emplace_back(std::make_unique<Fruit>(760, 760));
+}
 
+void Game::initialisePowerPellets() {
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 200)); 
+    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
+}
+
+void Game::initialiseSuperPellets() {
+    superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600));
+    superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600));
 }
 
 void Game::initialiseKeys() {
+    // Top Left Box
     keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
+    // Top Right Box
     keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7});
+    // Bottom Left
     keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11});
+    // Bottom Right Box
     keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15});
-    keys.emplace_back(360, 360, std::vector<int>{16, 17, 18, 19});
-    keys.emplace_back(1160, 360, std::vector<int>{20, 21, 22, 23});
-    keys.emplace_back(280, 680, std::vector<int>{24, 25, 26, 27});
-    keys.emplace_back(1240, 680, std::vector<int>{28, 29, 30, 31});
-    keys.emplace_back(680, 760, std::vector<int>{32, 33, 34, 35});
-    keys.emplace_back(840, 760, std::vector<int>{36, 37, 38, 39});
-    keys.emplace_back(280, 520, std::vector<int>{40, 41, 42, 43});
-    keys.emplace_back(1240, 520, std::vector<int>{44, 45, 46, 47});
-    keys.emplace_back(40, 440, std::vector<int>{48, 49, 50, 51});
-    keys.emplace_back(1480, 440, std::vector<int>{52, 53, 54, 55});
-    keys.emplace_back(520, 200, std::vector<int>{56, 57, 58, 59});
-    keys.emplace_back(1000, 200, std::vector<int>{60, 61, 62, 63});
-    keys.emplace_back(520, 200, std::vector<int>{64, 65, 66, 67});
-    keys.emplace_back(1000, 200, std::vector<int>{68, 69, 70, 71});
+    //Left Long Wall
+    keys.emplace_back(40, 440, std::vector<int>{16, 17 , 18, 19});
+    //Right Long Wall
+    keys.emplace_back(1480, 440, std::vector<int>{20, 21, 22, 23});
+    // Big L Left
+    keys.emplace_back(360, 360, std::vector<int>{24, 25, 26, 27});
+    // Big L Right
+    keys.emplace_back(1160, 360, std::vector<int>{28, 29, 30, 31});
+    // Left Top Small L
+    keys.emplace_back(520, 200, std::vector<int>{32, 33, 34, 35});
+    // Right Top Small L
+    keys.emplace_back(1000, 200, std::vector<int>{36, 37, 38, 39});
+    // Upper Symbol
+    keys.emplace_back(760, 280, std::vector<int>{40, 41, 42, 43});
+    // Left Bottom Small L 
+    keys.emplace_back(280, 520, std::vector<int>{44, 45, 48, 49});
+    // Right Bottom Small L 
+    keys.emplace_back(1240, 520, std::vector<int>{50, 51, 54, 55});
+    // Bottom Left Short 
+    keys.emplace_back(360, 680, std::vector<int>{56, 57, 58, 59});
+    // Bottom Right Short
+    keys.emplace_back(1160, 680, std::vector<int>{60, 61, 62, 63});
+    // Bottom T-Shaped 
+    keys.emplace_back(760, 680, std::vector<int>{64, 65, 66, 67});
+    keys.emplace_back(680, 760, std::vector<int>{46, 47, 68, 69});
+    keys.emplace_back(840, 760, std::vector<int>{52, 53, 70, 71});
 }
 
 // Implement the method to check if all fruits are collected
@@ -474,17 +499,3 @@ void Game::checkWinCondition() {
 void Game::inputStar() {
     stars.emplace_back(std::make_unique<Star>(760, 600));
 }
-
-void Game::initialisePowerPellets() {
-    // Add power pellets at specific locations
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 200)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
-}
-
-void Game::initialiseSuperPellets() {
-    superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600)); // Add super pellets at specific coordinates
-    superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600)); // Add more as needed
-}
-
