@@ -94,7 +94,7 @@ void Game::run() {
 
     // If the game is won, show the win screen
     if (gameWon) {
-    isRunning = screen->winGame(*score);
+        isRunning = screen->winGame(*score);
     } else {
         isRunning = screen->endGame(*score);
     }

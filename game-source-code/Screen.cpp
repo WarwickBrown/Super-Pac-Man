@@ -214,7 +214,6 @@ bool Screen::endGame(const Score& score) {
     }
 
     // Close the window and exit the game properly
-    CloseWindow();
     return false;  // Ensure the game loop stops
 }
 
@@ -284,8 +283,9 @@ bool Screen::winGame(const Score& score) {
         window.EndDrawing();
     }
 
-    // Close the window and exit the game properly
-    CloseWindow();
+    window.Close();
+    Game game;
+    game.initialise();
     return false;  // Ensure the game loop stops
 }
 
