@@ -275,7 +275,9 @@ void Game::update() {
                 else {
                     // Pac-Man is hit by a non-frightened ghost
                     playerLives->loseLife(); // Deduct a life
-
+                    for (const auto& ghost : ghosts) {
+                        ghost->respawn();
+                    }
                     if (!playerLives->isAlive()) {
                         // Game over
                         isRunning = false;

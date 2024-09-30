@@ -77,6 +77,7 @@ void PacMan::move(const Maze& maze, float deltaTime, int direction) {
 
 void PacMan::setInvincible(bool invincible) {
     this->invincible = invincible;
+    setPosition(765, 525);
     if (invincible) {
         invincibilityTime = 0.0f;
     }
