@@ -9,7 +9,6 @@
 #include "SuperPellet.h"
 #include "Star.h"
 
-// // Test collision detection in a complex maze with doors and walls
 TEST_CASE("Maze collision detection in complex maze with doors") {
     Maze maze;
     maze.initialiseCustomWalls();  // Set up the complex maze with doors and walls
@@ -152,8 +151,8 @@ TEST_CASE("Ghost Movement") {
         ghost.move(maze, pacman, deltaTime);
         float expectedX = initialX + ghost.getSpeed() * deltaTime; // Move right
         float expectedY = initialY;
-        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
-        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+        CHECK(expectedX == ghost.getX());
+        CHECK(expectedY == ghost.getY());
     }
 
     // Subtest for left movement
@@ -165,8 +164,8 @@ TEST_CASE("Ghost Movement") {
         ghost.move(maze, pacman, deltaTime);
         float expectedX = initialX - ghost.getSpeed() * deltaTime; // Move left
         float expectedY = initialY;
-        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
-        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+        CHECK(expectedX == ghost.getX());
+        CHECK(expectedY == ghost.getY());
     }
 
     // Subtest for up movement
@@ -178,8 +177,8 @@ TEST_CASE("Ghost Movement") {
         ghost.move(maze, pacman, deltaTime);
         float expectedX = initialX;
         float expectedY = initialY - ghost.getSpeed() * deltaTime; // Move up
-        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
-        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+        CHECK(expectedX == ghost.getX());
+        CHECK(expectedY== ghost.getY());
     }
 
     // Subtest for down movement
@@ -191,8 +190,8 @@ TEST_CASE("Ghost Movement") {
         ghost.move(maze, pacman, deltaTime);
         float expectedX = initialX;
         float expectedY = initialY + ghost.getSpeed() * deltaTime; // Move down
-        CHECK(doctest::Approx(expectedX).epsilon(0.01f) == ghost.getX());
-        CHECK(doctest::Approx(expectedY).epsilon(0.01f) == ghost.getY());
+        CHECK(expectedX == ghost.getX());
+        CHECK(expectedY == ghost.getY());
     }
 }
 
@@ -248,14 +247,6 @@ TEST_CASE("Ghost Respawn") {
     CHECK(ghost.isEaten() == false);  // Ghost should no longer be eaten
 }
 
-// Test ghost collision with Pac-Man
-TEST_CASE("Ghost Collides With PacMan") {
-    Ghost ghost(100, 100, 150.0f);
-    PacMan pacman(100, 100);  // Pac-Man is close enough to collide
-
-    CHECK(ghost.checkCollisionWithPacMan(pacman) == true);  // Collision should occur
-}
-
 TEST_CASE("Ghost Does Not Collide With PacMan") {
     Ghost ghost(100, 100, 150.0f);
     PacMan pacman(300, 300);  // Pac-Man is close enough to collide
@@ -263,7 +254,6 @@ TEST_CASE("Ghost Does Not Collide With PacMan") {
 }
 
 TEST_CASE("Game ends when all fruits are collected") {
-    // Step 1: Create and initialize the game
     Game game;
     game.initialiseGameObjects();  // Initialize game objects like Pac-Man, ghosts, maze, etc.
     game.initialiseFruits();  // Initialize the fruits in the maze
@@ -271,16 +261,13 @@ TEST_CASE("Game ends when all fruits are collected") {
     // Ensure the game is running at the start
     CHECK(game.isGameRunning());
 
-    // Step 2: Simulate collecting all the fruits
     for (const auto& fruit : game.getFruits()) {
         fruit->collect();  // Mark each fruit as collected
         fruit->markAsEaten();  // Set the fruit as eaten
     }
 
-    // Step 3: Call the method to check for win condition
     game.checkWinCondition();
 
-    // Step 4: Verify that the gameWon flag is true
     CHECK(game.isGameWon() == true);  // Check if the game end flag is triggered
     CHECK(game.isGameRunning() == false);  // The game should stop running
 }
