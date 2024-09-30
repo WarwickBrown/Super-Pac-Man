@@ -17,11 +17,6 @@ void Star::show() {
     active = true;
 }
 
-// Override the collect method to deactivate the star
-void Star::collect() {
-    Collectable::collect();  // Call the base class collect method
-    active = false;          // Mark as inactive (just for clarity)
-}
 
 // Select the texture to display based on time and conditions
 void Star::determineChange() {

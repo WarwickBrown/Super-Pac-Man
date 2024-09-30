@@ -16,9 +16,6 @@ public:
     // Show the star (activate it)
     void show();
 
-    // Override collect method to deactivate the star
-    void collect() override;
-
     // Select and change the current texture of the star
     void determineChange();
 
