@@ -133,9 +133,6 @@ void Game::handleInput() {
 // Updates the game state (e.g., Pac-Man's position)
 void Game::update() {
     int dx, dy;
-    float newTimer = GetTime();
-    float updatedTimer = newTimer - timerStart;
-    int updateFrames = GetFrameTime();
     switch (direction) {
     case 1: 
             dx = 1; 
@@ -171,132 +168,18 @@ void Game::update() {
     pacMan->updateInvincibility(deltaTime);
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
 
-    // Check if Pac-Man collects any fruits
-    for (auto& fruit : fruits) {
-        if (!fruit->isEaten() && fruit->isActive() && CheckCollisionCircles(
-                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-35,
-                { (float)fruit->getX(), (float)fruit->getY() }, fruit->getRadius())) {
-            fruit->collect();
-            fruit->markAsEaten();
-            score->addPoints(10); // Add points for collecting a fruit
-        }
-    }
-
+    updateFruits();
     // Check if all fruits have been collected
     checkWinCondition();
+    updatePowerPellets();
+    updateKeys();
+    updateSuperPellets();
+    updateInvincibility(deltaTime);
+    updateStars();
+}
 
-    // Check if Pac-Man collects any keys
-    for (auto& key : keys) {
-        if (key.isActive() && CheckCollisionCircles(
-                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
-                { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
-            key.collect();
-            score->addPoints(50); // Add points for collecting a key
-            // Unlock associated walls
-            for (int wallIndex : key.getWallsToUnlock()) {
-                maze->getWalls()[wallIndex].active = false;
-            }
-        }
-    }
-
-    // Check if Pac-Man collects any power pellets
-    for (auto& pellet : powerPellets) {
-        if (pellet->checkCollisionWithPacMan(*pacMan)) {
-            score->addPoints(100);  // Add 100 points for eating a power pellet
-
-            // Make ghosts frightened
-            for (auto& ghost : ghosts) {
-                ghost->setFrightened(true);
-            }
-
-            // Start a timer to end frightened mode after a certain time
-            // You can manage this with a timer or frame counting
-            powerPelletTimer = GetTime();  // Set the time when pellet is eaten
-        }
-    }
-
-    // Revert ghosts to normal if the frightened mode time has expired
-    if (GetTime() - powerPelletTimer > 5.0f) {  // For example, frightened lasts 5 seconds
-        for (auto& ghost : ghosts) {
-            ghost->setFrightened(false);  // Switch back to normal texture and mode
-        }
-    }
-
-    for (auto& superPellet : superPellets) {
-        if (superPellet->isActive() && superPellet->checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
-            superPellet->collect(); // Pac-Man collects the super pellet
-            // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
-            pacMan->activateSuperMode();
-            score->addPoints(500); // Add points for collecting a super pellet
-        }
-    }
-
-    // If Pac-Man is in super mode, check if he's moving through any locked walls
-    if (pacMan->isSuper()) {
-        for (auto& key : keys) {
-            // Iterate through the walls that the key can unlock
-            for (int wallIndex : key.getWallsToUnlock()) {
-                Maze::Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
-
-                // Only proceed if the wall is still active (locked)
-                if (wall.active) {
-                    // Output Pac-Man and wall positions for debugging
-
-                    // Define Pac-Man's bounding circle
-                    Vector2 pacManCenter = { pacMan->getX(), pacMan->getY() };
-                    float pacManRadius = pacMan->getRadius() * 1.1;
-
-                    // Define the wall's rectangle
-                    Rectangle wallRec = wall.rect;
-
-                    // Check for a collision between Pac-Man's circle and the wall's rectangle
-                    if (CheckCollisionCircleRec(pacManCenter, pacManRadius, wallRec)) {
-                        wall.active = false;  // Unlock the wall (deactivate it)
-                    }
-                }
-            }
-        }
-    }
-
-    if (!pacMan->isInvincible()) {
-        for (const auto& ghost : ghosts) {
-            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
-            // Check for collision with Pac-Man
-            if (ghost->checkCollisionWithPacMan(*pacMan)) {
-                if (ghost->isFrightened()) {
-                    // Pac-Man eats the ghost
-                    ghost->setEaten(true);  // Mark the ghost as eaten
-                    ghost->respawn();       // Respawn the ghost at the center of the maze
-                    score->addPoints(200); // Increase score for eating a ghost
-                } 
-                else if (pacMan->isSuper()) {
-                    continue;
-                }
-                else {
-                    // Pac-Man is hit by a non-frightened ghost
-                    playerLives->loseLife(); // Deduct a life
-                    for (const auto& ghost : ghosts) {
-                        ghost->respawn();
-                    }
-                    if (!playerLives->isAlive()) {
-                        // Game over
-                        isRunning = false;
-                        return;
-                    }
-
-                    // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
-                    pacMan->setInvincible(true);
-                    break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
-                }
-            }
-        }
-    }
-    else {
-        for (const auto& ghost : ghosts) {
-            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
-        }
-    }
-
+void Game::updateStars(){
+    float updatedTimer = GetTime() - timerStart;
     for (auto& stars : stars) {
             if((updatedTimer) >= 3*multi){
                 num1 = rand()%6+1;
@@ -338,6 +221,138 @@ void Game::update() {
     }
 }
 
+void Game::updateSuperPellets(){
+    for (auto& superPellet : superPellets) {
+        if (superPellet->isActive() && superPellet->checkCollision(pacMan->getX(), pacMan->getY(), pacMan->getRadius())) {
+            superPellet->collect(); // Pac-Man collects the super pellet
+            // Trigger super mode for Pac-Man (e.g., enlarge Pac-Man, increase speed, etc.)
+            pacMan->activateSuperMode();
+            score->addPoints(500); // Add points for collecting a super pellet
+        }
+    }
+
+    // If Pac-Man is in super mode, check if he's moving through any locked walls
+    if (pacMan->isSuper()) {
+        for (auto& key : keys) {
+            // Iterate through the walls that the key can unlock
+            for (int wallIndex : key.getWallsToUnlock()) {
+                Maze::Wall& wall = maze->getWalls()[wallIndex];  // Get the wall
+
+                // Only proceed if the wall is still active (locked)
+                if (wall.active) {
+                    // Output Pac-Man and wall positions for debugging
+
+                    // Define Pac-Man's bounding circle
+                    Vector2 pacManCenter = { pacMan->getX(), pacMan->getY() };
+                    float pacManRadius = pacMan->getRadius() * 1.1;
+
+                    // Define the wall's rectangle
+                    Rectangle wallRec = wall.rect;
+
+                    // Check for a collision between Pac-Man's circle and the wall's rectangle
+                    if (CheckCollisionCircleRec(pacManCenter, pacManRadius, wallRec)) {
+                        wall.active = false;  // Unlock the wall (deactivate it)
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Game::updateFruits(){
+    // Check if Pac-Man collects any fruits
+    for (auto& fruit : fruits) {
+        if (!fruit->isEaten() && fruit->isActive() && CheckCollisionCircles(
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-35,
+                { (float)fruit->getX(), (float)fruit->getY() }, fruit->getRadius())) {
+            fruit->collect();
+            fruit->markAsEaten();
+            score->addPoints(10); // Add points for collecting a fruit
+        }
+    }
+}
+
+void Game::updateKeys(){
+    // Check if Pac-Man collects any keys
+    for (auto& key : keys) {
+        if (key.isActive() && CheckCollisionCircles(
+                { pacMan->getX(), pacMan->getY() }, pacMan->getRadius(),
+                { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
+            key.collect();
+            score->addPoints(50); // Add points for collecting a key
+            // Unlock associated walls
+            for (int wallIndex : key.getWallsToUnlock()) {
+                maze->getWalls()[wallIndex].active = false;
+            }
+        }
+    }
+}
+
+void Game::updatePowerPellets(){
+    // Check if Pac-Man collects any power pellets
+    for (auto& pellet : powerPellets) {
+        if (pellet->checkCollisionWithPacMan(*pacMan)) {
+            score->addPoints(100);  // Add 100 points for eating a power pellet
+
+            // Make ghosts frightened
+            for (auto& ghost : ghosts) {
+                ghost->setFrightened(true);
+            }
+
+            // Start a timer to end frightened mode after a certain time
+            // You can manage this with a timer or frame counting
+            powerPelletTimer = GetTime();  // Set the time when pellet is eaten
+        }
+    }
+
+    // Revert ghosts to normal if the frightened mode time has expired
+    if (GetTime() - powerPelletTimer > 5.0f) {  // For example, frightened lasts 5 seconds
+        for (auto& ghost : ghosts) {
+            ghost->setFrightened(false);  // Switch back to normal texture and mode
+        }
+    }
+}
+
+void Game::updateInvincibility(float deltaTime){
+    if (!pacMan->isInvincible()) {
+        for (const auto& ghost : ghosts) {
+            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
+            // Check for collision with Pac-Man
+            if (ghost->checkCollisionWithPacMan(*pacMan)) {
+                if (ghost->isFrightened()) {
+                    // Pac-Man eats the ghost
+                    ghost->setEaten(true);  // Mark the ghost as eaten
+                    ghost->respawn();       // Respawn the ghost at the center of the maze
+                    score->addPoints(200); // Increase score for eating a ghost
+                } 
+                else if (pacMan->isSuper()) {
+                    continue;
+                }
+                else {
+                    // Pac-Man is hit by a non-frightened ghost
+                    playerLives->loseLife(); // Deduct a life
+                    for (const auto& ghost : ghosts) {
+                        ghost->respawn();
+                    }
+                    if (!playerLives->isAlive()) {
+                        // Game over
+                        isRunning = false;
+                        return;
+                    }
+
+                    // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
+                    pacMan->setInvincible(true);
+                    break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
+                }
+            }
+        }
+    }
+    else {
+        for (const auto& ghost : ghosts) {
+            int ghostDirection = ghost->move(*maze,*pacMan, deltaTime);
+        }
+    }
+}
 
 // Initialises game objects like the maze, Pac-Man, and the screen
 void Game::initialiseGameObjects() {

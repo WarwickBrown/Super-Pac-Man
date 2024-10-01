@@ -34,6 +34,13 @@ public:
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
     void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
+    void updatePowerPellets();
+    void updateSuperPellets();
+    void updateStars();
+    void updateInvincibility(float deltaTime);
+    void updateKeys();
+    void updateFruits();
+
     void render();       // Renders game objects (maze, Pac-Man, etc.) on the screen
     void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
