@@ -50,6 +50,8 @@ TEST_CASE("Maze collision detection in complex maze with doors") {
     }
 }
 
+
+
 // Tests if direction input changes direction of PacMan
 TEST_CASE("PacMan Direction Changes") {
     PacMan pacman(0, 0);
@@ -125,6 +127,114 @@ TEST_CASE("PacMan Movement") {
         CHECK((initialY + pacman.getDY() * pacman.getFrames() * pacman.getSpeed()) == pacman.getY());
     }
 }
+
+// Helper function to create and return a Maze instance with custom walls.
+Maze createMaze() {
+    Maze maze;
+    maze.initialiseCustomWalls();  // Set up walls for collision detection
+    return maze;
+}
+
+// Test case for PacMan constructor initialization
+TEST_CASE("PacMan Constructor Initialization") {
+    PacMan pacman(100, 200);
+
+    CHECK(pacman.getX() == 765);  // Default starting X position
+    CHECK(pacman.getY() == 525);  // Default starting Y position
+    CHECK(pacman.getRadius() == 34);  // Default radius value
+    CHECK(pacman.isSuper() == false);  // Should not be in super mode initially
+    CHECK(pacman.isInvincible() == false);  // Should not be invincible initially
+}
+
+// Test case for Super Mode activation and deactivation
+TEST_CASE("PacMan Super Mode Activation and Deactivation") {
+    PacMan pacman(100, 200);
+    CHECK(pacman.isSuper() == false);  // Initially, PacMan is not in super mode
+
+    pacman.activateSuperMode();
+    CHECK(pacman.isSuper() == true);  // PacMan should be in super mode
+    CHECK(pacman.getVisualRadius() == pacman.getRadius() * 1.5f);  // Radius should increase
+
+    pacman.deactivateSuperMode();
+    CHECK(pacman.isSuper() == false);  // Super mode should be deactivated
+    CHECK(pacman.getVisualRadius() == pacman.getRadius());  // Radius should return to normal
+}
+
+// Test case for Invincibility state
+TEST_CASE("PacMan Invincibility State") {
+    PacMan pacman(100, 200);
+    Maze maze = createMaze();
+
+    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
+
+    pacman.setInvincible(true);
+    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible now
+
+    pacman.setInvincible(false);
+    CHECK(pacman.isInvincible() == false);  // PacMan should no longer be invincible
+}
+
+
+
+// Test for PacMan's speed change during Super Mode
+TEST_CASE("PacMan Speed in Super Mode") {
+    PacMan pacman(100, 200);
+    Maze maze = createMaze();
+
+    // Store initial position
+    float initialX = pacman.getX();
+    float initialY = pacman.getY();
+
+    // Move PacMan for 1 second in normal mode
+    pacman.setDirection(1);  // Move right
+    pacman.move(maze, 1.0f, 1);  // Simulate movement for 1 second in normal mode
+    float normalX = pacman.getX();
+    float normalY = pacman.getY();
+
+    // Activate Super Mode and move PacMan for 1 second
+    pacman.activateSuperMode();
+    pacman.setPosition(initialX, initialY);  // Reset position to initial
+    pacman.move(maze, 1.0f, 1);  // Simulate movement for 1 second in Super Mode
+    float superX = pacman.getX();
+    float superY = pacman.getY();
+
+    // Verify that PacMan moved further in Super Mode due to increased speed
+    CHECK(superX > normalX);
+    CHECK(superY == normalY);  // Y position should remain the same
+}
+
+// Test for Invincibility Timer
+TEST_CASE("PacMan Invincibility Timer") {
+    PacMan pacman(100, 200);
+    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
+
+    pacman.setInvincible(true);
+    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible
+
+    // Simulate update over time
+    pacman.updateInvincibility(1.0f);  // 1 second elapsed
+    CHECK(pacman.isInvincible() == true);  // Should still be invincible
+
+    pacman.updateInvincibility(1.5f);  // 1.5 more seconds elapsed (total 2.5 seconds)
+    CHECK(pacman.isInvincible() == false);  // Invincibility should have expired
+}
+
+// Test for Super Mode Timer
+TEST_CASE("PacMan Super Mode Timer") {
+    PacMan pacman(100, 200);
+    CHECK(pacman.isSuper() == false);  // Initially, not in super mode
+
+    pacman.activateSuperMode();
+    CHECK(pacman.isSuper() == true);  // Super mode should be active
+
+    // Simulate update over time
+    pacman.updateSuperMode(2.0f);  // 2 seconds elapsed
+    CHECK(pacman.isSuper() == true);  // Should still be in super mode
+
+    pacman.updateSuperMode(3.0f);  // 3 more seconds elapsed (total 5 seconds)
+    CHECK(pacman.isSuper() == false);  // Super mode should have expired
+}
+
 
 // Test ghost initialization
 TEST_CASE("Ghost Initialization") {
@@ -883,3 +993,117 @@ TEST_CASE("Screen draws the lives correctly") {
 //     screen.drawPowerPellets(game.getPowerPellets());
 //     CHECK(true);  // If no exception or error occurs, the test passes
 // }
+
+
+// Helper function to create a temporary file with given content
+void createTempFile(const std::string& fileName, const std::vector<std::string>& lines) {
+    std::ofstream outFile(fileName);
+    if (outFile.is_open()) {
+        for (const auto& line : lines) {
+            outFile << line << std::endl;
+        }
+        outFile.close();
+    }
+}
+
+// Test case for reading a valid file with content
+TEST_CASE("WallReader reads file content correctly") {
+    const std::string tempFileName = "../resources/temp_walls.txt";
+    std::vector<std::string> fileContents = {
+        "Wall 1: x=10, y=20, width=50, height=5",
+        "Wall 2: x=30, y=40, width=70, height=5",
+        "Wall 3: x=50, y=60, width=90, height=5"
+    };
+
+    // Create a temporary file with the given contents
+    createTempFile(tempFileName, fileContents);
+
+    // Create a WallReader object and read from the temporary file
+    WallReader wallReader;
+    wallReader.readFile();
+
+    // Get the data from the WallReader and check its content
+    const auto& data = wallReader.getData();
+    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
+
+    for (size_t i = 0; i < fileContents.size(); ++i) {
+        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
+    }
+
+    // Clean up the temporary file after the test
+    std::remove(tempFileName.c_str());
+}
+
+// Test case for handling an empty file
+TEST_CASE("WallReader handles an empty file correctly") {
+    const std::string tempFileName = "../resources/empty_walls.txt";
+    
+    // Create an empty file
+    std::ofstream outFile(tempFileName);
+    outFile.close();
+
+    // Create a WallReader object and read from the empty file
+    WallReader wallReader;
+    wallReader.readFile();
+
+    // Get the data from the WallReader and check its content
+    const auto& data = wallReader.getData();
+    CHECK(data.empty());  // Check if the data vector is empty
+
+    // Clean up the temporary file after the test
+    std::remove(tempFileName.c_str());
+}
+
+// Test case for handling a non-existent file
+TEST_CASE("WallReader handles non-existent file correctly") {
+    const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
+    
+    // Create a WallReader object and read from the non-existent file
+    WallReader wallReader;
+    
+    // Redirect std::cerr to capture error messages
+    std::stringstream errorBuffer;
+    std::streambuf* oldCerrBuffer = std::cerr.rdbuf(errorBuffer.rdbuf());
+
+    // Try reading the file (this should fail and print an error message)
+    wallReader.readFile();
+
+    // Check that the error message was printed to std::cerr
+    std::string expectedErrorMessage = "Error: Cannot open file " + nonExistentFileName + "\n";
+    CHECK(errorBuffer.str() == expectedErrorMessage);
+
+    // Restore std::cerr
+    std::cerr.rdbuf(oldCerrBuffer);
+
+    // Check that the data vector is empty
+    CHECK(wallReader.getData().empty());
+}
+
+// Test case for handling a file with multiple lines and special characters
+TEST_CASE("WallReader reads file with special characters correctly") {
+    const std::string tempFileName = "../resources/special_walls.txt";
+    std::vector<std::string> fileContents = {
+        "Wall #1: x=10, y=20, width=50, height=5",
+        "Wall @2: x=30, y=40, width=70, height=5",
+        "Wall &3: x=50, y=60, width=90, height=5",
+        "!Wall *4: x=70, y=80, width=110, height=5"
+    };
+
+    // Create a temporary file with the given contents
+    createTempFile(tempFileName, fileContents);
+
+    // Create a WallReader object and read from the temporary file
+    WallReader wallReader;
+    wallReader.readFile();
+
+    // Get the data from the WallReader and check its content
+    const auto& data = wallReader.getData();
+    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
+
+    for (size_t i = 0; i < fileContents.size(); ++i) {
+        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
+    }
+
+    // Clean up the temporary file after the test
+    std::remove(tempFileName.c_str());
+}
