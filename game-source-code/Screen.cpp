@@ -23,39 +23,53 @@ Screen::Screen()
 Screen::~Screen() {
 }
 
+
 // Function to display the start screen with game instructions
 void Screen::startScreen(const Game* game, const Screen* screen, const Score& score) {
     window.BeginDrawing();   // Start drawing the screen
-    window.ClearBackground(BLACK);  // Set background colour to black
-
-    // Draw the title "Super Pac-Man" at the top in yellow
+    window.ClearBackground(BLACK);  // Set background color to black
+    // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect
     DrawText("Super Pac-Man", 
-             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 60) / 2,  // Center the text horizontally
-             window.GetHeight() / 4, 60, YELLOW);  // Position text at 1/4th the window height
+             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
+             window.GetHeight() / 4 + 2, 70, GRAY);  // Shadow color
+    DrawText("Super Pac-Man", 
+             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
+             window.GetHeight() / 4, 70, YELLOW);  // Main color
 
-    // Draw "Press ENTER to Start" below the title in green
+
+    // Draw "Press ENTER to Start" below the title in green with an outline effect
     DrawText("Press ENTER to Start", 
-            window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 30) / 2, 
-            window.GetHeight() / 2 - 20, 30, GREEN);  
+             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
+             window.GetHeight() / 2 - 18 + 2, 40, DARKGREEN);  // Shadow color
+    DrawText("Press ENTER to Start", 
+             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
+             window.GetHeight() / 2 - 18, 40, GREEN);  // Main color
 
-    // Draw "Press ESC to Exit" instruction in red
+    // Draw "Press ESC to Exit" instruction in red with an outline effect
     DrawText("Press ESC to Exit", 
-            window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 20) / 2, 
-            window.GetHeight() / 2 + 30, 20, RED);
+             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
+             window.GetHeight() / 2 + 40 + 2, 30, RED);  // Shadow color
+    DrawText("Press ESC to Exit", 
+             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
+             window.GetHeight() / 2 + 40, 30, RED);  // Main color
 
     // Display arrow key instructions in light gray at the bottom of the screen
     DrawText("Use the ARROW KEYS to change direction", 
-            window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 20) / 2, 
-            window.GetHeight() - 50, 20, LIGHTGRAY);
+             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
+             window.GetHeight() - 60, 25, LIGHTGRAY);
 
-    // Draw any game images (e.g., controls) on the start screen
-    drawGameImages(*game);
-
-    // Display high score
+    // Display high score in a more prominent way
     std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
     DrawText(highScoreText.c_str(),
-            window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
-            window.GetHeight() / 2 + 80, 30, WHITE);
+             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
+             window.GetHeight() / 2 + 100 + 2, 35, DARKPURPLE);  // Shadow color
+    DrawText(highScoreText.c_str(),
+             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
+             window.GetHeight() / 2 + 100, 35, PURPLE);  // Main color
+
+
+    drawGameImages(*game);
+
 
     window.EndDrawing();  // Finish drawing the screen
 }
