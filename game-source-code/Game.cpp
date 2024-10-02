@@ -191,7 +191,6 @@ void Game::updateStars(){
             screen->drawSymbols(num1, num2);
             if((updatedTimer) >= 30*multi2)
             {
-                stars->markAsNotEaten();
                 stars->show();
                 screen->setSymbolActive(true);
                 totalFrames = 1;
@@ -201,7 +200,7 @@ void Game::updateStars(){
             {
                 totalFrames++;
             }
-        if (!stars->isEaten() && stars->isActive() && CheckCollisionCircles(
+        if (stars->isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-30,
                 { (float)stars->getX(), (float)stars->getY() }, stars->getRadius())) {
                     if(num1 == num2 && num2 == num3)
@@ -216,7 +215,6 @@ void Game::updateStars(){
                         score->addPoints(500); // Add points for collecting a key
                     }
             stars->collect();
-            stars->markAsEaten();
             screen->setSymbolActive(false);
         }
     }
@@ -263,11 +261,10 @@ void Game::updateSuperPellets(){
 void Game::updateFruits(){
     // Check if Pac-Man collects any fruits
     for (auto& fruit : fruits) {
-        if (!fruit->isEaten() && fruit->isActive() && CheckCollisionCircles(
+        if (fruit->isActive() && CheckCollisionCircles(
                 { pacMan->getX(), pacMan->getY() }, pacMan->getRadius()-35,
                 { (float)fruit->getX(), (float)fruit->getY() }, fruit->getRadius())) {
             fruit->collect();
-            fruit->markAsEaten();
             score->addPoints(10); // Add points for collecting a fruit
         }
     }

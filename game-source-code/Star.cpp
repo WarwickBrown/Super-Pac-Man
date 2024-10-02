@@ -5,7 +5,7 @@
 // Constructor that initialises the Star with position and textures
 Star::Star(int x, int y)
     : Collectable(x, y, 20.0f),  // Call the base class constructor
-    eaten(false), change(false) {active = false;}
+    change(false) {active = false;}
 
 // Destructor
 Star::~Star() {

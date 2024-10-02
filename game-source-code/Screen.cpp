@@ -307,7 +307,7 @@ bool Screen::winGame(const Score& score) {
 void Screen::drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits, int num) {
     for (const auto& fruit : fruits) {
         Texture2D textures[3] = { getTexture(num) };
-        if(!fruit->isEaten())
+        if(fruit->isActive())
         {
             for (int i = 0; i < 3; ++i) {
             Rectangle sourceRec = {

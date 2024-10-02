@@ -20,14 +20,10 @@ public:
     void determineChange();
 
     bool getChange() const { return change; }
-    bool isEaten() const { return eaten; } // Check if the star is eaten
 
-    void markAsNotEaten() { eaten = false; } // Mark the star as not eaten
     void setChange() { change = false; }
-    void markAsEaten() { eaten = true; } // Mark the star as eaten
 
 private:
-    bool eaten;                     // Whether the star is eaten
     mutable int num = 0;            // Index of the current texture
     mutable bool change = false;    // Tracks if a texture change is needed
     mutable float startTime = GetTime();  // Starting time to control texture changes

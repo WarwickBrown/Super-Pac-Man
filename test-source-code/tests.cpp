@@ -534,7 +534,6 @@ TEST_CASE("Fruit Constructor Test") {
     CHECK(fruit.getX() == 100);  // Verify initial x position
     CHECK(fruit.getY() == 200);  // Verify initial y position
     CHECK(fruit.isActive() == true);  // Fruit should be active initially
-    CHECK(fruit.isEaten() == false);  // Fruit should not be eaten initially
 }
 
 // Test that the Fruit is initialized correctly
@@ -544,7 +543,6 @@ TEST_CASE("Fruit Constructor Test") {
     CHECK(fruit.getX() == 100);  // Verify initial x position
     CHECK(fruit.getY() == 200);  // Verify initial y position
     CHECK(fruit.isActive() == true);  // Fruit should be active initially
-    CHECK(fruit.isEaten() == false);  // Fruit should not be eaten initially
     CHECK(fruit.getRadius() == 50.0f);  // Verify default radius
 }
 
@@ -553,10 +551,8 @@ TEST_CASE("Active and Eaten State Test") {
     Fruit fruit(150, 250);  // Create a fruit at position (150, 250)
 
     CHECK(fruit.isActive() == true);  // Fruit should be active initially
-    CHECK(fruit.isEaten() == false);  // Fruit should not be eaten initially
 
-    fruit.markAsEaten();  // Mark the fruit as eaten
-    CHECK(fruit.isEaten() == true);  // Fruit should now be marked as eaten
+    fruit.collect();  // Mark the fruit as eaten
     CHECK(fruit.isActive() == false);  // Fruit should no longer be active
 }
 
@@ -622,7 +618,7 @@ TEST_CASE("Boundary and Edge Cases Test") {
     CHECK(fruit5.isActive() == true);
 
     // Collect one fruit and check that the other remains active
-    fruit4.markAsEaten();
+    fruit4.collect();
     CHECK(fruit4.isActive() == false);
     CHECK(fruit5.isActive() == true);  // Fruit5 should remain active
 }
@@ -658,7 +654,6 @@ TEST_CASE("Game ends when all fruits are collected") {
 
     for (const auto& fruit : game.getFruits()) {
         fruit->collect();  // Mark each fruit as collected
-        fruit->markAsEaten();  // Set the fruit as eaten
     }
 
     game.checkWinCondition();
@@ -917,7 +912,6 @@ TEST_CASE("Star Constructor Test") {
     CHECK(testStar.getY() == 200);           // Y position should be 200
     CHECK(testStar.getRadius() == 20.0f);    // Radius should be 20.0f as defined
     CHECK(testStar.isActive() == false);     // Star should be inactive initially
-    CHECK(testStar.isEaten() == false);      // Star should not be eaten initially
 }
 
 // Test that the show method activates the Star
