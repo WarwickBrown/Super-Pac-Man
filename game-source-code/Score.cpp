@@ -1,6 +1,6 @@
 #include "Score.h"
-#include <fstream>
-#include <iostream>
+#include "WallReader.h"
+#include <sstream>
 
 Score::Score(const std::string& filename)
     : currentScore(0), highScore(0), scoreFile("../resources/" + filename) {
@@ -19,30 +19,22 @@ void Score::addPoints(int points) {
 }
 
 void Score::loadHighScore() {
-    try {
-        std::ifstream inFile(scoreFile);
-        if (inFile.is_open()) {
-            inFile >> highScore;
-            inFile.close();
-        } else {
-            highScore = 0; // No high score file exists
-        }
-    } catch (const std::ifstream::failure& e) {
-        std::cerr << "Exception opening/reading high score file: " << e.what() << '\n';
-        highScore = 0;
+    // Use WallReader to read the high score
+    WallReader reader(scoreFile);
+    reader.readFile();
+    const std::vector<std::string>& data = reader.getData();
+
+    if (!data.empty()) {
+        std::istringstream ss(data[0]);  // Assume the high score is in the first line
+        ss >> highScore;
+    } else {
+        highScore = 0;  // No high score found
     }
 }
 
 void Score::saveHighScore() {
-    try {
-        std::ofstream outFile(scoreFile);
-        if (outFile.is_open()) {
-            outFile << highScore;
-            outFile.close();
-        } else {
-            std::cerr << "Unable to open file for saving high score: " << scoreFile << std::endl;
-        }
-    } catch (const std::ofstream::failure& e) {
-        std::cerr << "Exception opening/writing high score file: " << e.what() << '\n';
-    }
+    // Use WallReader to write the high score
+    WallReader writer(scoreFile);
+    std::vector<std::string> lines = { std::to_string(highScore) };
+    writer.writeFile(lines);
 }

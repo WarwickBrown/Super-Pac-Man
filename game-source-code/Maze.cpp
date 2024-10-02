@@ -1,18 +1,15 @@
 #include "Maze.h"
-#include <fstream>
+#include <sstream>
 #include <raylib-cpp.hpp>
 #include <iostream>
-#include <sstream>
 #include <vector>
 
-// Constructor
 Maze::Maze() : width(0), height(0), startX(10), startY(10) {
-
+    // Initialization
 }
 
-// Destructor
 Maze::~Maze() {
-    // Nothing to clean up for now as vector manages its own memory
+    // Destructor
 }
 
 void Maze::initialiseCustomWalls() {
@@ -50,8 +47,7 @@ void Maze::initialiseCustomWalls() {
         walls.emplace_back(Rectangle{x, y, width, height}, colour);
     }
 }
-// Checks if Pac-Man is colliding with any wall in the custom walls.
-// Takes in Pac-Man's X, Y coordinates and his radius, and checks for collision with each wall.
+
 bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
     for (const auto& wall : walls) {
         if (wall.active && CheckCollisionCircleRec({ static_cast<float>(pacmanX), static_cast<float>(pacmanY) }, pacmanRadius, wall.rect)) {
@@ -62,15 +58,12 @@ bool Maze::isWall(int pacmanX, int pacmanY, int pacmanRadius) const {
 }
 
 bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
-    // Loop through all custom walls in the vector and check for collisions. 
     for (const auto& wall : walls) {
-        
-        // CheckCollisionCircleRec checks for collision between a circle (Pac-Man) and a rectangle (wall).
-        if (wall.active && CheckCollisionRecs(Rectangle{(float)pacmanX-35, (float)pacmanY-35, 70, 70}, wall.rect)) {
-            return true;  // Collision detected, return true.
+        if (wall.active && CheckCollisionRecs(Rectangle{(float)pacmanX - 35, (float)pacmanY - 35, 70, 70}, wall.rect)) {
+            return true;
         }
     }
-    return false;  // No collision detected, return false.
+    return false;
 }
 
 const std::vector<Maze::Wall>& Maze::getWalls() const {

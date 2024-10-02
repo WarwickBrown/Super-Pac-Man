@@ -7,20 +7,25 @@
 #include <string>
 
 class WallReader {
-    protected:
-        std::vector<std::string> data;  // Vector to store lines of text from the file
+protected:
+    std::vector<std::string> data;  // Vector to store lines of text from the file
+    std::string fileName;           // The file name is now flexible.
 
-    public:
-        // Declaration of readFile (no definition here)
-        void readFile();
+public:
+    // Constructor to accept a custom file path
+    WallReader(const std::string& filePath = "../resources/walls.txt");
 
-        // Getter for the data 
-        const std::vector<std::string>& getData() const {
-            return data;
-        }
-        
-    private:
-        const std::string fileName = "../resources/walls.txt"; // Path to the text file
+    // Read data from the file
+    void readFile();
+
+    // Write data to the file
+    void writeFile(const std::vector<std::string>& lines);
+
+    // Getter for the data 
+    const std::vector<std::string>& getData() const;
+
+    // Setter for the data 
+    void setData(const std::vector<std::string>& newData);
 };
 
 #endif // WALLREADER_H
