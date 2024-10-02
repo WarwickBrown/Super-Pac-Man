@@ -9,6 +9,7 @@
 #include "SuperPellet.h"
 #include "Star.h"
 #include "Score.h"
+#include "GameInitialiser.h"
 
 // Helper function to create a basic maze for testing purposes
 Maze createTestMaze() {
@@ -649,8 +650,8 @@ TEST_CASE("Performance and Memory Management Test") {
 
 TEST_CASE("Game ends when all fruits are collected") {
     Game game;
-    game.initialiseGameObjects();  // Initialize game objects like Pac-Man, ghosts, maze, etc.
-    game.initialiseFruits();  // Initialize the fruits in the maze
+    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects like Pac-Man, ghosts, maze, etc.
+    GameInitialiser::initialiseFruits(game);  // Initialize the fruits in the maze
 
     // Ensure the game is running at the start
     CHECK(game.isGameRunning());
@@ -1043,7 +1044,7 @@ TEST_CASE("Screen initializes and displays correctly") {
     Game game;                     // Create a Game instance
     Score score("test_screen_initialisation.txt");
 
-    game.initialiseGameObjects();  // Initialize game objects
+    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
     game.initialise();             // Initialize the game
 
     // Display start screen using Screen class method
@@ -1060,7 +1061,7 @@ TEST_CASE("Screen correctly handles end game screen") {
     Score score("test_screen_endgame.txt");
 
     // Initialize game objects and set some score
-    game.initialiseGameObjects();
+    GameInitialiser::initialiseGameObjects(game);
     game.initialise();
     score.addPoints(1000);
 
@@ -1076,7 +1077,7 @@ TEST_CASE("Screen correctly handles win game screen") {
     Score score("test_screen_wingame.txt");
 
     // Initialize game objects and set some score
-    game.initialiseGameObjects();
+    GameInitialiser::initialiseGameObjects(game);
     game.initialise();
     score.addPoints(5000);
 
@@ -1407,8 +1408,8 @@ TEST_CASE("No Interaction When PowerPellet is Inactive") {
 
 // Helper function to initialize a game with power pellets, Pac-Man, and ghosts
 void initializeGameWithPowerPellets(Game& game) {
-    game.initialiseGameObjects();
-    game.initialisePowerPellets();  // Setup power pellets
+    GameInitialiser::initialiseGameObjects(game);
+    GameInitialiser::initialisePowerPellets(game);  // Setup power pellets
 
     // Place Pac-Man near the first power pellet for testing purposes
     auto* pacMan = game.getPacMan();
@@ -1509,7 +1510,7 @@ TEST_CASE("Game handles frightened mode duration correctly") {
 // Test case for ensuring no errors when no power pellets are left
 TEST_CASE("Game handles no active power pellets gracefully") {
     Game game;
-    game.initialiseGameObjects();
+    GameInitialiser::initialiseGameObjects(game);
 
     // No power pellets should exist
     CHECK(game.getPowerPellets().empty() == true);

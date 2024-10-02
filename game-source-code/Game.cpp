@@ -7,6 +7,7 @@
 #include "PowerPellet.h"
 #include "SuperPellet.h"
 #include "Star.h"
+#include "GameInitialiser.h"
 #include <raylib-cpp.hpp>
 #include <iostream>
 #include <tuple>
@@ -22,12 +23,12 @@ Game::~Game() = default;
 
 // Function to initialise the game
 void Game::initialise() {
-    initialiseGameObjects();    // Initialises game objects (maze, pacMan, screen)
-    initialiseFruits();
-    initialiseKeys();
-    inputStar();
-    initialisePowerPellets();
-    initialiseSuperPellets();
+    GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen)
+    GameInitialiser::initialiseFruits(*this);
+    GameInitialiser::initialiseKeys(*this);
+    GameInitialiser::initialiseStars(*this);
+    GameInitialiser::initialisePowerPellets(*this);
+    GameInitialiser::initialiseSuperPellets(*this);
     maze->initialiseCustomWalls();
 
     score = std::make_unique<Score>("highscore.txt"); // Initialise the score object
@@ -354,153 +355,6 @@ void Game::updateInvincibility(float deltaTime){
     }
 }
 
-// Initialises game objects like the maze, Pac-Man, and the screen
-void Game::initialiseGameObjects() {
-    maze = std::make_unique<Maze>();  // initialise using make_unique
-    pacMan = std::make_unique<PacMan>(maze->getStartX(), maze->getStartY());
-    screen = std::make_unique<Screen>();  // initialise the screen
-
-    ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
-    ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
-    ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
-}
-
-// initialise the fruits in the game
-void Game::initialiseFruits() {
-    //Left Long Wall
-    num3 = rand()%6+1;
-    fruits.emplace_back(std::make_unique<Fruit>(120, 360));
-    fruits.emplace_back(std::make_unique<Fruit>(120, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(120, 520));
-    fruits.emplace_back(std::make_unique<Fruit>(120, 600));
-
-    //Right Long Wall
-    fruits.emplace_back(std::make_unique<Fruit>(1400, 360));
-    fruits.emplace_back(std::make_unique<Fruit>(1400, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(1400, 520));
-    fruits.emplace_back(std::make_unique<Fruit>(1400, 600));
-
-    //Bottom Left Small L
-    fruits.emplace_back(std::make_unique<Fruit>(280, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(360, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(440, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(520, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(600, 680));
-
-    //Bottom Right Small L
-    fruits.emplace_back(std::make_unique<Fruit>(1000, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(1080, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(1160, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 600));
-    fruits.emplace_back(std::make_unique<Fruit>(920, 680));
-
-    //Bottom Left Big L
-    fruits.emplace_back(std::make_unique<Fruit>(280, 200));
-    fruits.emplace_back(std::make_unique<Fruit>(280, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(280, 360));
-    fruits.emplace_back(std::make_unique<Fruit>(280, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(360, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(440, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(520, 440));
-
-    //Bottom Right Big L
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 200));
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 360));
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(1000, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(1080, 440));
-    fruits.emplace_back(std::make_unique<Fruit>(1160, 440));
-
-    //Top Left Small L
-    fruits.emplace_back(std::make_unique<Fruit>(440, 200));
-    fruits.emplace_back(std::make_unique<Fruit>(440, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(520, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(600, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(680, 280));
-
-    //Top Right Small L
-    fruits.emplace_back(std::make_unique<Fruit>(1080, 200));
-    fruits.emplace_back(std::make_unique<Fruit>(1080, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(840, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(920, 280));
-    fruits.emplace_back(std::make_unique<Fruit>(1000, 280));
-
-    //Upper Symbol
-    fruits.emplace_back(std::make_unique<Fruit>(600, 120));
-    fruits.emplace_back(std::make_unique<Fruit>(680, 120));
-    fruits.emplace_back(std::make_unique<Fruit>(760, 120));
-    fruits.emplace_back(std::make_unique<Fruit>(840, 120));
-    fruits.emplace_back(std::make_unique<Fruit>(920, 120));
-
-    //Bottom Left Small 
-    fruits.emplace_back(std::make_unique<Fruit>(280, 760));
-    fruits.emplace_back(std::make_unique<Fruit>(360, 760));
-    fruits.emplace_back(std::make_unique<Fruit>(440, 760));
-
-    //Bottom Right Small 
-    fruits.emplace_back(std::make_unique<Fruit>(1080, 760));
-    fruits.emplace_back(std::make_unique<Fruit>(1160, 760));
-    fruits.emplace_back(std::make_unique<Fruit>(1240, 760));
-
-    // Bottom T
-    fruits.emplace_back(std::make_unique<Fruit>(600, 840));
-    fruits.emplace_back(std::make_unique<Fruit>(920, 840));
-    fruits.emplace_back(std::make_unique<Fruit>(840, 840));
-    fruits.emplace_back(std::make_unique<Fruit>(760, 840));
-    fruits.emplace_back(std::make_unique<Fruit>(680, 840));
-    fruits.emplace_back(std::make_unique<Fruit>(760, 760));
-}
-
-void Game::initialisePowerPellets() {
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 200)); 
-    powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
-}
-
-void Game::initialiseSuperPellets() {
-    superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600));
-    superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600));
-}
-
-void Game::initialiseKeys() {
-    // Top Left Box
-    keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
-    // Top Right Box
-    keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7});
-    // Bottom Left
-    keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11});
-    // Bottom Right Box
-    keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15});
-    //Left Long Wall
-    keys.emplace_back(40, 440, std::vector<int>{16, 17 , 18, 19});
-    //Right Long Wall
-    keys.emplace_back(1480, 440, std::vector<int>{20, 21, 22, 23});
-    // Big L Left
-    keys.emplace_back(360, 360, std::vector<int>{24, 25, 26, 27});
-    // Big L Right
-    keys.emplace_back(1160, 360, std::vector<int>{28, 29, 30, 31});
-    // Left Top Small L
-    keys.emplace_back(520, 200, std::vector<int>{32, 33, 34, 35});
-    // Right Top Small L
-    keys.emplace_back(1000, 200, std::vector<int>{36, 37, 38, 39});
-    // Upper Symbol
-    keys.emplace_back(760, 280, std::vector<int>{40, 41, 42, 43});
-    // Left Bottom Small L 
-    keys.emplace_back(280, 520, std::vector<int>{44, 45, 48, 49});
-    // Right Bottom Small L 
-    keys.emplace_back(1240, 520, std::vector<int>{50, 51, 54, 55});
-    // Bottom Left Short 
-    keys.emplace_back(360, 680, std::vector<int>{56, 57, 58, 59});
-    // Bottom Right Short
-    keys.emplace_back(1160, 680, std::vector<int>{60, 61, 62, 63});
-    // Bottom T-Shaped 
-    keys.emplace_back(760, 680, std::vector<int>{64, 65, 66, 67});
-    keys.emplace_back(680, 760, std::vector<int>{46, 47, 68, 69});
-    keys.emplace_back(840, 760, std::vector<int>{52, 53, 70, 71});
-}
-
 // Implement the method to check if all fruits are collected
 void Game::checkWinCondition() {
     for (const auto& fruit : fruits) {
@@ -511,10 +365,6 @@ void Game::checkWinCondition() {
     // If all fruits are collected, set gameWon to true
     gameWon = true;
     isRunning = false;  // Stop the game loop
-}
-
-void Game::inputStar() {
-    stars.emplace_back(std::make_unique<Star>(760, 600));
 }
 
 // Getter for fruits, returns a vector of raw pointers

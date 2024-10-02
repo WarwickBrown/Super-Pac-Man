@@ -19,18 +19,15 @@
 // Forward declaration of the Screen class to allow Game class to reference it
 class Screen;
 class Ghost;
+class GameInitialiser;
 
 class Game {
+    friend class GameInitialiser;
 public:
     Game();  // Constructor - Initialises game properties and sets up the game window
     ~Game(); // Destructor - Cleans up dynamically allocated memory
 
     void initialise();   // Initialises the game (calls functions to setup game objects, loads images, etc.)
-    void initialiseFruits();
-    void initialisePowerPellets();  // Function to initialize power pellets
-    void initialiseKeys();
-    void initialiseSuperPellets();
-    void initialiseGameObjects(); // Initialises game objects like the maze, Pac-Man, and screen
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
     void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
@@ -62,6 +59,16 @@ public:
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
     int getDirection() const { return direction; }
+
+    void setMaze(std::unique_ptr<Maze> maze) { this->maze = std::move(maze); }
+    void setPacMan(std::unique_ptr<PacMan> pacMan) { this->pacMan = std::move(pacMan); }
+    void setScreen(std::unique_ptr<Screen> screen) { this->screen = std::move(screen); }
+    void addGhost(std::unique_ptr<Ghost> ghost) { ghosts.push_back(std::move(ghost)); }
+    void addFruit(std::unique_ptr<Fruit> fruit) { fruits.push_back(std::move(fruit)); }
+    void addPowerPellet(std::unique_ptr<PowerPellet> powerPellet) { powerPellets.push_back(std::move(powerPellet)); }
+    void addSuperPellet(std::unique_ptr<SuperPellet> superPellet) { superPellets.push_back(std::move(superPellet)); }
+    void addKey(GameKey key) { keys.push_back(std::move(key));}
+    void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
 private:
     std::vector<GameKey> keys;
