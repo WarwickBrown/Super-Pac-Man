@@ -47,12 +47,21 @@ public:
     void inputStar();
 
     
-    const std::vector<Texture2D>& getGameImages() const;  // Returns a constant reference to the game images (for rendering)
-
-    std::vector<std::unique_ptr<Fruit>>& getFruits() { return fruits; }
+// Getter functions
+    const std::vector<Texture2D>& getGameImages() const;
+    std::vector<Fruit*>& getFruits();                 // Return raw pointers to Fruit
+    std::vector<PowerPellet*>& getPowerPellets();     // Return raw pointers to PowerPellet
+    std::vector<SuperPellet*>& getSuperPellets();     // Return raw pointers to SuperPellet
+    std::vector<Ghost*>& getGhosts();                 // Return raw pointers to Ghost
+    Maze* getMaze() const;                            // Return raw pointer to Maze
+    PacMan* getPacMan() const;                        // Return raw pointer to PacMan
+    Screen* getScreen() const;                        // Return raw pointer to Screen
+    Score* getScore() const;                          // Return raw pointer to Score
+    Lives* getPlayerLives() const;                    // Return raw pointer to Lives
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
+    int getDirection() const { return direction; }
 
 private:
     std::vector<GameKey> keys;

@@ -516,3 +516,62 @@ void Game::checkWinCondition() {
 void Game::inputStar() {
     stars.emplace_back(std::make_unique<Star>(760, 600));
 }
+
+// Getter for fruits, returns a vector of raw pointers
+std::vector<Fruit*>& Game::getFruits() {
+    static std::vector<Fruit*> fruitPtrs;
+    fruitPtrs.clear();
+    for (auto& fruit : fruits) {
+        fruitPtrs.push_back(fruit.get());
+    }
+    return fruitPtrs;
+}
+
+// Similar implementations for power pellets, super pellets, and ghosts
+std::vector<PowerPellet*>& Game::getPowerPellets() {
+    static std::vector<PowerPellet*> pelletPtrs;
+    pelletPtrs.clear();
+    for (auto& pellet : powerPellets) {
+        pelletPtrs.push_back(pellet.get());
+    }
+    return pelletPtrs;
+}
+
+std::vector<SuperPellet*>& Game::getSuperPellets() {
+    static std::vector<SuperPellet*> superPelletPtrs;
+    superPelletPtrs.clear();
+    for (auto& superPellet : superPellets) {
+        superPelletPtrs.push_back(superPellet.get());
+    }
+    return superPelletPtrs;
+}
+
+std::vector<Ghost*>& Game::getGhosts() {
+    static std::vector<Ghost*> ghostPtrs;
+    ghostPtrs.clear();
+    for (auto& ghost : ghosts) {
+        ghostPtrs.push_back(ghost.get());
+    }
+    return ghostPtrs;
+}
+
+// Getter for individual game objects
+Maze* Game::getMaze() const {
+    return maze.get();
+}
+
+PacMan* Game::getPacMan() const {
+    return pacMan.get();
+}
+
+Screen* Game::getScreen() const {
+    return screen.get();
+}
+
+Score* Game::getScore() const {
+    return score.get();
+}
+
+Lives* Game::getPlayerLives() const {
+    return playerLives.get();
+}
