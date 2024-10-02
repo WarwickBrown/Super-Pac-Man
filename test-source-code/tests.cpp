@@ -1310,3 +1310,308 @@ TEST_CASE("Collectable Collision Detection When Inactive") {
     CHECK(collectable.checkCollision(100.0f, 100.0f, 30.0f) == false);  // Should not detect collision
 }
 
+
+// Test case for PowerPellet constructor
+TEST_CASE("PowerPellet Constructor Test") {
+    PowerPellet powerPellet(100.0f, 200.0f);  // Create a power pellet at position (100, 200)
+
+    CHECK(powerPellet.getX() == 100.0f);  // Verify the initial X coordinate
+    CHECK(powerPellet.getY() == 200.0f);  // Verify the initial Y coordinate
+    CHECK(powerPellet.getRadius() == 10.0f);  // Verify the radius
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
+}
+
+// Test case for collision detection with Pac-Man
+TEST_CASE("PowerPellet Collision Detection with Pac-Man") {
+    PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
+    PacMan pacman(100, 100);  // Create Pac-Man at the same position
+
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
+
+    // Check if Pac-Man collides with the power pellet
+    bool collisionDetected = powerPellet.checkCollisionWithPacMan(pacman);
+    CHECK(collisionDetected == true);  // Should detect collision
+    CHECK(powerPellet.isActive() == false);  // PowerPellet should be inactive after collection
+}
+
+// Test case for no collision when Pac-Man is far from PowerPellet
+TEST_CASE("PowerPellet No Collision Detection when Pac-Man is Far") {
+    PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
+    PacMan pacman(500, 500);  // Create Pac-Man far from the power pellet
+
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
+
+    // Check if Pac-Man collides with the power pellet (should not)
+    bool collisionDetected = powerPellet.checkCollisionWithPacMan(pacman);
+    CHECK(collisionDetected == false);  // Should not detect collision
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should remain active
+}
+
+// Test case for PowerPellet being collected and becoming inactive
+TEST_CASE("PowerPellet Collected and Inactive State Test") {
+    PowerPellet powerPellet(100.0f, 100.0f);
+    PacMan pacman(100, 100);  // Create Pac-Man at the same position to collect the PowerPellet
+
+    CHECK(powerPellet.isActive() == true);  // Should be active initially
+
+    // Check collision and collect the pellet
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Should collect
+    CHECK(powerPellet.isActive() == false);  // Should be inactive after collection
+
+    // Attempt to collect again (should not change state or collect)
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == false);  // No further collision
+    CHECK(powerPellet.isActive() == false);  // Remains inactive
+}
+
+// Test case for multiple PowerPellet objects in different positions
+TEST_CASE("Multiple PowerPellet Objects Test") {
+    // Create multiple power pellets at different positions
+    PowerPellet powerPellet1(100.0f, 100.0f);
+    PowerPellet powerPellet2(200.0f, 200.0f);
+    PowerPellet powerPellet3(300.0f, 300.0f);
+
+    PacMan pacman(100, 100);  // Create Pac-Man at the position of powerPellet1
+
+    CHECK(powerPellet1.isActive() == true);
+    CHECK(powerPellet2.isActive() == true);
+    CHECK(powerPellet3.isActive() == true);
+
+    // Collect the first power pellet
+    CHECK(powerPellet1.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet1
+    CHECK(powerPellet1.isActive() == false);  // powerPellet1 should now be inactive
+
+    // Move Pac-Man to the position of the second power pellet
+    pacman.setPosition(200, 200);
+    CHECK(powerPellet2.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet2
+    CHECK(powerPellet2.isActive() == false);  // powerPellet2 should now be inactive
+
+    // Move Pac-Man to the position of the third power pellet
+    pacman.setPosition(300, 300);
+    CHECK(powerPellet3.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet3
+    CHECK(powerPellet3.isActive() == false);  // powerPellet3 should now be inactive
+}
+
+
+// Test case for ensuring no interactions occur when PowerPellet is inactive
+TEST_CASE("No Interaction When PowerPellet is Inactive") {
+    PowerPellet powerPellet(100.0f, 100.0f);
+    PacMan pacman(100, 100);
+
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Collect pellet
+    CHECK(powerPellet.isActive() == false);  // Verify inactive state
+
+    // Pac-Man collides again with the same position (no effect)
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == false);  // No collision detected
+}
+
+
+// Helper function to initialize a game with power pellets, Pac-Man, and ghosts
+void initializeGameWithPowerPellets(Game& game) {
+    game.initialiseGameObjects();
+    game.initialisePowerPellets();  // Setup power pellets
+
+    // Place Pac-Man near the first power pellet for testing purposes
+    auto* pacMan = game.getPacMan();
+    pacMan->setPosition(100.0f, 100.0f);
+
+    // Place ghosts at initial positions
+    for (auto& ghost : game.getGhosts()) {
+        ghost->setPosition(150.0f, 150.0f);  // Set some arbitrary position
+    }
+}
+
+// Test case for Pac-Man collecting a power pellet and ghosts becoming frightened
+TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
+    Game game;
+    initializeGameWithPowerPellets(game);
+
+    // Verify initial state of game objects
+    CHECK(game.getPowerPellets().size() > 0);  // Ensure there are power pellets
+    auto& firstPellet = game.getPowerPellets().front();
+    CHECK(firstPellet->isActive() == true);  // First power pellet should be active
+
+    // Simulate Pac-Man collecting the power pellet
+    game.updatePowerPellets();
+
+    // Check that the first pellet is now inactive
+    CHECK(firstPellet->isActive() == false);
+
+    // Check that the score increased correctly
+    CHECK(game.getScore()->getCurrentScore() == 100);  // Assume 100 points per pellet
+
+    // Check that all ghosts are in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);  // All ghosts should be frightened
+    }
+
+    // Simulate waiting for the frightened mode to expire
+    float elapsedTime = 6.0f;  // Assume frightened mode lasts 5 seconds
+    game.updateInvincibility(elapsedTime);  // Mock method to update timers
+
+    // Check that all ghosts are no longer in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);  // Frightened mode should be over
+    }
+}
+
+// Test case for Pac-Man collecting multiple power pellets in sequence
+TEST_CASE("Game handles sequential power pellet collection correctly") {
+    Game game;
+    initializeGameWithPowerPellets(game);
+
+    auto& powerPellets = game.getPowerPellets();
+    CHECK(powerPellets.size() > 1);  // Ensure there are multiple power pellets
+
+    // Simulate Pac-Man collecting the first power pellet
+    game.updatePowerPellets();
+    CHECK(powerPellets[0]->isActive() == false);  // First pellet should be inactive
+
+    // Move Pac-Man to the second power pellet
+    auto* pacMan = game.getPacMan();
+    pacMan->setPosition(200.0f, 200.0f);  // Assume second pellet is at (200, 200)
+
+    // Update the game again to collect the second pellet
+    game.updatePowerPellets();
+    CHECK(powerPellets[1]->isActive() == false);  // Second pellet should be inactive
+
+    // Check that the score has increased correctly for both pellets
+    CHECK(game.getScore()->getCurrentScore() == 200);  // 100 points per pellet
+}
+
+// Test case for power pellet frightened mode duration
+TEST_CASE("Game handles frightened mode duration correctly") {
+    Game game;
+    initializeGameWithPowerPellets(game);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.updatePowerPellets();
+    CHECK(game.getScore()->getCurrentScore() == 100);  // Initial score update
+
+    // Move time forward to simulate frightened mode duration
+    float elapsedTime = 3.0f;  // Move 3 seconds forward
+    game.updateInvincibility(elapsedTime);
+
+    // Check that ghosts are still in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);
+    }
+
+    // Move time forward again to exceed frightened mode duration
+    elapsedTime = 6.0f;  // Total of 9 seconds now
+    game.updateInvincibility(elapsedTime);
+
+    // Check that ghosts are no longer in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);
+    }
+}
+
+// Test case for ensuring no errors when no power pellets are left
+TEST_CASE("Game handles no active power pellets gracefully") {
+    Game game;
+    game.initialiseGameObjects();
+
+    // No power pellets should exist
+    CHECK(game.getPowerPellets().empty() == true);
+
+    // Call updatePowerPellets() and ensure no errors or crashes
+    game.updatePowerPellets();
+    CHECK(true);  // If no exception or crash occurs, the test passes
+}
+
+// Test SuperPellet constructor
+TEST_CASE("SuperPellet Constructor Test") {
+    SuperPellet superPellet(100.0f, 200.0f);  // Create a SuperPellet at position (100, 200)
+
+    // Check initial position and radius
+    CHECK(superPellet.getX() == 100.0f);
+    CHECK(superPellet.getY() == 200.0f);
+    CHECK(superPellet.getRadius() == 15.0f);  // SuperPellet should have a radius of 15.0f
+
+    // Check that the SuperPellet is active initially
+    CHECK(superPellet.isActive() == true);
+}
+
+// Test SuperPellet collision detection
+TEST_CASE("SuperPellet Collision Detection Test") {
+    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
+
+    // Check collision with a Pac-Man positioned to collide with the SuperPellet
+    float pacManX = 300.0f;
+    float pacManY = 400.0f;
+    float pacManRadius = 30.0f;  // Pac-Man radius is greater than the SuperPellet radius
+
+    CHECK(superPellet.checkCollision(pacManX, pacManY, pacManRadius) == true);  // Collision should occur
+
+    // Move Pac-Man away from the SuperPellet
+    pacManX = 500.0f;
+    pacManY = 500.0f;
+
+    CHECK(superPellet.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should occur
+}
+
+// Test SuperPellet collection behavior
+TEST_CASE("SuperPellet Collection Test") {
+    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
+
+    // Simulate Pac-Man collecting the SuperPellet
+    superPellet.collect();
+
+    // Check that the SuperPellet is no longer active
+    CHECK(superPellet.isActive() == false);
+}
+
+// Test SuperPellet and Pac-Man interaction using the PacMan class
+TEST_CASE("SuperPellet and PacMan Interaction Test") {
+    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
+    PacMan pacMan(300.0f, 400.0f);  // Create a Pac-Man at the same position
+
+    // Check that Pac-Man initially does not have super mode activated
+    CHECK(pacMan.isSuper() == false);
+
+    // Simulate Pac-Man collecting the SuperPellet by checking for collision
+    bool collision = superPellet.checkCollision(pacMan.getX(), pacMan.getY(), pacMan.getRadius());
+
+    // If collision is detected, activate Pac-Man's super mode
+    if (collision) {
+        pacMan.activateSuperMode();
+        superPellet.collect();  // Mark the SuperPellet as collected
+    }
+
+    // Verify that the SuperPellet is no longer active and Pac-Man is in super mode
+    CHECK(superPellet.isActive() == false);
+    CHECK(pacMan.isSuper() == true);
+}
+
+// Test Pac-Man's super mode behavior over time
+TEST_CASE("PacMan Super Mode Duration Test") {
+    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
+    PacMan pacMan(300.0f, 400.0f);  // Create a Pac-Man at the same position
+
+    // Simulate Pac-Man collecting the SuperPellet and entering super mode
+    if (superPellet.checkCollision(pacMan.getX(), pacMan.getY(), pacMan.getRadius())) {
+        pacMan.activateSuperMode();
+        superPellet.collect();
+    }
+
+    CHECK(pacMan.isSuper() == true);  // Pac-Man should be in super mode
+
+    // Simulate passing time to deactivate super mode
+    pacMan.updateSuperMode(5.0f);  // Simulate 5 seconds passing
+
+    // Verify that Pac-Man is no longer in super mode after the duration ends
+    CHECK(pacMan.isSuper() == false);
+}
+
+// Test that SuperPellet does not interfere with normal Collectable behavior
+TEST_CASE("SuperPellet Collectable Base Class Behavior") {
+    SuperPellet superPellet(300.0f, 400.0f);
+
+    // Verify that SuperPellet inherits and behaves as a Collectable
+    Collectable& base = superPellet;  // Upcast to base class reference
+
+    CHECK(base.isActive() == true);  // Check initial active state
+
+    base.collect();  // Call the base class collect method
+    CHECK(base.isActive() == false);  // Check that the SuperPellet is no longer active
+}
