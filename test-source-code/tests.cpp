@@ -1265,3 +1265,48 @@ TEST_CASE("WallReader reads file with special characters correctly") {
     // Clean up the temporary file after the test
     std::remove(tempFileName.c_str());
 }
+
+
+// General collectable tests:
+
+// Test case for Collectable constructor
+TEST_CASE("Collectable Constructor Test") {
+    Collectable collectable(100.0f, 200.0f, 50.0f);  // Create a collectable at position (100, 200) with radius 50
+
+    CHECK(collectable.getX() == 100.0f);  // Verify the initial X coordinate
+    CHECK(collectable.getY() == 200.0f);  // Verify the initial Y coordinate
+    CHECK(collectable.getRadius() == 50.0f);  // Verify the radius
+    CHECK(collectable.isActive() == true);  // Collectable should be active initially
+}
+
+// Test case for Collectable state after collection
+TEST_CASE("Collectable Collection State Test") {
+    Collectable collectable(100.0f, 200.0f, 50.0f);
+
+    CHECK(collectable.isActive() == true);  // Initially active
+    collectable.collect();  // Collect the item
+    CHECK(collectable.isActive() == false);  // Should be inactive after collection
+}
+
+// Test case for collision detection with another object
+TEST_CASE("Collectable Collision Detection Test") {
+    Collectable collectable(100.0f, 100.0f, 30.0f);  // Create a collectable with radius 30
+
+    // Test collision with another object that intersects the collectable
+    CHECK(collectable.checkCollision(110.0f, 110.0f, 20.0f) == true);  // Should detect collision
+
+    // Test collision with another object far away (no collision)
+    CHECK(collectable.checkCollision(300.0f, 300.0f, 20.0f) == false);  // Should not detect collision
+}
+
+// Test case for collision detection when collectable is inactive
+TEST_CASE("Collectable Collision Detection When Inactive") {
+    Collectable collectable(100.0f, 100.0f, 30.0f);
+    
+    collectable.collect();  // Deactivate the collectable
+    CHECK(collectable.isActive() == false);  // Verify it's inactive
+
+    // Check that no collision is detected when inactive
+    CHECK(collectable.checkCollision(100.0f, 100.0f, 30.0f) == false);  // Should not detect collision
+}
+
