@@ -41,6 +41,7 @@ public:
     void setFrightened(bool state) { frightened = state; }
 
     void setNormal() { frightened = false; }
+    void setPosition(float newX, float newY) { x = newX; y = newY; }
 
 private:
     float x, y;    // Current position of the ghost

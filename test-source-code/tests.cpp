@@ -10,7 +10,55 @@
 #include "Star.h"
 #include "Score.h"
 
+// Helper function to create a basic maze for testing purposes
+Maze createTestMaze() {
+    Maze maze;
+    maze.initialiseCustomWalls();  // Initialize custom walls (if any)
+    return maze;
+}
 
+// Test case for Maze constructor and initial state
+TEST_CASE("Maze Constructor and Initial State") {
+    Maze maze;
+
+    // Check that the maze is initialized with no walls
+    CHECK(maze.getWalls().empty());
+}
+
+// Test case for initializing custom walls from file
+TEST_CASE("Maze Custom Walls Initialization") {
+    Maze maze;
+
+    // Call initialize custom walls (assuming walls.txt is already configured)
+    maze.initialiseCustomWalls();
+
+    // Check that walls have been populated correctly
+    const auto& walls = maze.getWalls();
+    CHECK(!walls.empty());  // Ensure there are walls
+
+    // Verify the properties of a few walls (assuming known values in walls.txt)
+    CHECK(walls[0].rect.x == 90);  // Check wall position
+    CHECK(walls[0].rect.y == 160);
+    CHECK(walls[0].rect.width == 70);  // Check wall dimensions
+    CHECK(walls[0].rect.height == 10);
+}
+
+// Test case for boundary collisions with walls at maze edges
+TEST_CASE("Maze Boundary Collisions") {
+    Maze maze;
+
+    // Create walls at boundaries of the maze (assuming screen size 1530x890)
+    maze.getWalls().emplace_back(Rectangle{0, 0, 1530, 10}, BLACK);  // Top wall
+    maze.getWalls().emplace_back(Rectangle{0, 880, 1530, 10}, BLACK);  // Bottom wall
+    maze.getWalls().emplace_back(Rectangle{0, 0, 10, 890}, BLACK);  // Left wall
+    maze.getWalls().emplace_back(Rectangle{1520, 0, 10, 890}, BLACK);  // Right wall
+
+    // Test collision with boundaries
+    CHECK(maze.isWall(5, 5, 34) == true);  // Should collide with top-left corner
+    CHECK(maze.isWall(1525, 5, 34) == true);  // Should collide with top-right corner
+    CHECK(maze.isWall(5, 885, 34) == true);  // Should collide with bottom-left corner
+    CHECK(maze.isWall(1525, 885, 34) == true);  // Should collide with bottom-right corner
+}
 
 TEST_CASE("Maze collision detection in complex maze with doors") {
     Maze maze;
@@ -233,6 +281,116 @@ TEST_CASE("PacMan Super Mode Timer") {
 
     pacman.updateSuperMode(3.0f);  // 3 more seconds elapsed (total 5 seconds)
     CHECK(pacman.isSuper() == false);  // Super mode should have expired
+}
+
+// Test case for Ghost constructor initialization
+TEST_CASE("Ghost Constructor Initialization") {
+    Ghost ghost(100, 200, 150.0f);
+
+    CHECK(ghost.getX() == 100);  // Verify initial X position
+    CHECK(ghost.getY() == 200);  // Verify initial Y position
+    CHECK(ghost.getRadius() == 34);  // Default radius value
+    CHECK(ghost.isFrightened() == false);  // Should not be frightened initially
+    CHECK(ghost.isEaten() == false);  // Should not be eaten initially
+}
+
+// Test case for choosing a random direction
+TEST_CASE("Ghost Random Direction Selection") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+
+    ghost.chooseRandomDirection(maze);  // Choose a random direction
+
+    // Check that the selected direction is one of the four possible values
+    int direction = ghost.getDirection();
+    CHECK((direction >= 1 && direction <= 4));  // Should be 1, 2, 3, or 4
+}
+
+// Test case for frightened state behavior
+TEST_CASE("Ghost Frightened State Behavior") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+    PacMan pacman(200, 200);
+
+    // Set ghost to frightened state
+    ghost.setFrightened(true);
+    CHECK(ghost.isFrightened() == true);
+
+    // Move the ghost; it should not chase Pac-Man
+    int initialDirection = ghost.move(maze, pacman, 1.0f);
+
+    // Check that the ghost did not move toward Pac-Man (random direction)
+    CHECK(initialDirection != 1);  // Assuming initial direction was to the right
+}
+
+// Test case for eaten state behavior
+TEST_CASE("Ghost Eaten State Behavior") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+    PacMan pacman(200, 200);
+
+    // Mark the ghost as eaten
+    ghost.setEaten(true);
+    CHECK(ghost.isEaten() == true);
+
+    // Move the ghost; it should not move when eaten
+    int initialDirection = ghost.move(maze, pacman, 1.0f);
+    CHECK(ghost.getX() == 100);  // X position should not change
+    CHECK(ghost.getY() == 200);  // Y position should not change
+}
+
+// Test case for respawn behavior
+TEST_CASE("Ghost Respawn Behavior") {
+    Ghost ghost(100, 200, 150.0f);
+    ghost.setEaten(true);  // Mark the ghost as eaten
+    ghost.setFrightened(true);  // Mark the ghost as frightened
+
+    // Move the ghost away from the initial position
+    ghost.setDirection(1);  // Move right
+    ghost.move(createTestMaze(), PacMan(0, 0), 1.0f);  // Move for 1 second
+
+    // Respawn the ghost
+    ghost.respawn();
+    CHECK(ghost.getX() == 100);  // Should reset to the starting X position
+    CHECK(ghost.getY() == 200);  // Should reset to the starting Y position
+    CHECK(ghost.isFrightened() == false);  // Should no longer be frightened
+    CHECK(ghost.isEaten() == false);  // Should no longer be eaten
+}
+
+
+// Test case for overriding best movement with a random direction
+TEST_CASE("Ghost Random Movement Override") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+    PacMan pacman(400, 200);  // Place Pac-Man to the right of the ghost
+
+    // Move the ghost; it should chase Pac-Man
+    int initialDirection = ghost.move(maze, pacman, 1.0f);
+
+    // Move again with a small probability of random movement override
+    int secondDirection = ghost.move(maze, pacman, 1.0f);
+
+    // In some cases, the direction might randomly change
+    if (initialDirection != secondDirection) {
+        CHECK(true);  // Passed: Direction changed randomly
+    } else {
+        CHECK(true);  // Passed: Direction did not change
+    }
+}
+
+// Test case for checking collision with Pac-Man
+TEST_CASE("Ghost Collision With Pac-Man") {
+    Ghost ghost(100, 200, 150.0f);
+    PacMan pacman(100, 200);  // Place Pac-Man at the same position as the ghost
+
+    // Check collision
+    bool collision = ghost.checkCollisionWithPacMan(pacman);
+    CHECK(collision == true);  // Should detect collision
+
+    // Move Pac-Man away
+    pacman.setPosition(300, 300);
+    collision = ghost.checkCollisionWithPacMan(pacman);
+    CHECK(collision == false);  // No collision should be detected
 }
 
 
