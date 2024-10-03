@@ -24,12 +24,9 @@ public:
     void setChange() { change = false; }
 
 private:
-    mutable int num = 0;            // Index of the current texture
     mutable bool change = false;    // Tracks if a texture change is needed
     mutable float startTime = GetTime();  // Starting time to control texture changes
     mutable int multiple = 1;       // Multiple used to control texture changes
-    std::vector<Texture2D> textures; // Different textures for the star
-    mutable Texture2D picture;      // Current picture (texture) to draw
 };
 
 #endif // STAR_H
