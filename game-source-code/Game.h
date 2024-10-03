@@ -40,13 +40,9 @@ public:
     void updateKeys();
     void updateFruits();
 
-    void render();       // Renders game objects (maze, Pac-Man, etc.) on the screen
-    void endGame();      // Ends the game (shows game over screen or exits)
     void checkWinCondition(); // Add this method to check the win condition
-    void inputStar();
-
     
-// Getter functions
+    // Getter functions
     const std::vector<Texture2D>& getGameImages() const;
     std::vector<Fruit*>& getFruits();                 // Return raw pointers to Fruit
     std::vector<PowerPellet*>& getPowerPellets();     // Return raw pointers to PowerPellet

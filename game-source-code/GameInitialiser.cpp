@@ -94,6 +94,7 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(840, 840));
     game.fruits.emplace_back(std::make_unique<Fruit>(760, 840));
     game.fruits.emplace_back(std::make_unique<Fruit>(680, 840));
+    game.fruits.emplace_back(std::make_unique<Fruit>(760, 760));
 }
 
 void GameInitialiser::initialisePowerPellets(Game& game) {

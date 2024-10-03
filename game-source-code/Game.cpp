@@ -31,7 +31,6 @@ void Game::initialise() {
     GameInitialiser::initialisePowerPellets(*this);
     GameInitialiser::initialiseSuperPellets(*this);
     maze->initialiseCustomWalls();
-
     score = std::make_unique<Score>("highscore.txt"); // Initialise the score object
     playerLives = std::make_unique<Lives>(3);
 
@@ -54,7 +53,6 @@ void Game::run() {
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
         float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
-        
         handleInput();   // Handle user input like key presses for movement
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
@@ -62,19 +60,15 @@ void Game::run() {
         draw->drawKeys(keys);
         frame = pacMan->location(frame);  // Update Pac-Man's frame for animation
         draw->drawFruits(fruits, num3);
-        
         draw->drawStars(stars);
+        draw->drawPowerPellets(powerPellets);
+        draw->drawSuperPellets(superPellets);
+        draw->drawScores(*score); // Draw the scores
+        draw->drawLives(playerLives->getLives());
 
         for (const auto& star : stars) {
             star->determineChange();  // Use the star object directly
         }
-
-        draw->drawPowerPellets(powerPellets);
-        draw->drawSuperPellets(superPellets);
-        
-        // Draw the fruits on the screen
-        draw->drawScores(*score); // Draw the scores
-        draw->drawLives(playerLives->getLives());
 
         for (const auto& ghost : ghosts) {
             draw->drawGhost(*ghost, *pacMan, ghostDirection);
@@ -172,7 +166,6 @@ void Game::update() {
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
     
     updateFruits();
-    // Check if all fruits have been collected
     checkWinCondition();
     updatePowerPellets();
     updateKeys();
@@ -184,7 +177,7 @@ void Game::update() {
 void Game::updateStars(){
     float updatedTimer = GetTime() - timerStart;
     for (auto& stars : stars) {
-            if((updatedTimer) >= 3*multi){
+            if((updatedTimer) >= 2*multi){
                 num1 = rand()%6+1;
                 num2 = rand()%6+1;
                 multi++;
@@ -339,7 +332,6 @@ void Game::updateInvincibility(float deltaTime){
                         isRunning = false;
                         return;
                     }
-
                     // Make Pac-Man invincible for a short time to avoid losing multiple lives instantly
                     pacMan->setInvincible(true);
                     break; // Exit the loop if Pac-Man is hit, as we don't need to check other ghosts
