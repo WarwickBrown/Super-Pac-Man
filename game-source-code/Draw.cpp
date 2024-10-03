@@ -42,12 +42,7 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, int direction) {
     }
 
     // Determine which part of the texture to draw (based on animation frame)
-    Rectangle sourceRec = {
-        (float)(texture.width / 6) * frame,  // Calculate width of a single frame
-        0, 
-        (float)(texture.width / 6),          // Width of a single frame
-        (float)(texture.height)              // Full height of the texture
-    };
+    Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};
 
     // Draw Pac-Man's texture at the specified location and frame
     DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
@@ -77,14 +72,7 @@ void Draw::drawSuperPacMan(const PacMan& pacman, int frame, int direction) {
     }
 
     // Determine which part of the texture to draw (based on animation frame)
-    Rectangle sourceRec = {
-        (float)(texture.width / 6) * frame,  // Calculate width of a single frame
-        0, 
-        (float)(texture.width / 6),          // Width of a single frame
-        (float)(texture.height)              // Full height of the texture
-    };
-
-    // Draw Pac-Man's texture at the specified location and frame
+    Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};
     DrawTextureRec(texture, sourceRec, Vector2{(float)pixelX, (float)pixelY}, RAYWHITE);
 }
 
@@ -99,13 +87,7 @@ void Draw::drawMaze(const Maze& maze) {
     for(const auto& wall : walls) {
         if (wall.color.r == PINK.r && wall.color.g == PINK.g && wall.color.b == PINK.b && wall.color.a == PINK.a) {
                 // Create the inner rectangle 2 pixels smaller in width and height
-                Rectangle innerRect = {
-                    wall.rect.x + 2,       // Move 1 pixel right
-                    wall.rect.y + 2,       // Move 1 pixel down
-                    wall.rect.width - 4,   // Reduce width by 2 pixels
-                    wall.rect.height - 4   // Reduce height by 2 pixels
-                };
-                // Draw the inner black rectangle
+                Rectangle innerRect = {wall.rect.x + 2, wall.rect.y + 2, wall.rect.width - 4, wall.rect.height - 4};
                 DrawRectangleRec(innerRect, BLACK);
             }
     }
@@ -123,21 +105,14 @@ void Draw::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& pow
     for (const auto& pellet : powerPellets)
     {
         if (pellet->isActive()) {
-            Rectangle sourceRec = {
-            (float)(powerPelletTexture.width) ,  // Calculate width of a single frame
-            0, 
-            (float)(powerPelletTexture.width),   // Width of a single frame
-            (float)(powerPelletTexture.height)   // Full height of the texture
-        };
-
-        DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
+            Rectangle sourceRec = {(float)(powerPelletTexture.width), 0, (float)(powerPelletTexture.width), (float)(powerPelletTexture.height)};
+            DrawTextureRec(powerPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
         }
     }
 }
 
 void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection) {
     Texture2D currentTexture;
-    
     // Check if the ghost is frightened, use the appropriate frightened texture
     if(ghost.isFrightened()) {
         switch (ghostDirection) {
@@ -165,14 +140,7 @@ void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirectio
             default: currentTexture = ghostPicRight; break; // Fallback texture
         }
     }
-    Rectangle sourceRec = {
-        (float)(currentTexture.width) ,  // Calculate width of a single frame
-        0, 
-        (float)(currentTexture.width),   // Width of a single frame
-        (float)(currentTexture.height)   // Full height of the texture
-    };
-
-    // Draw Ghosts texture at the specified location and frame
+    Rectangle sourceRec = {(float)(currentTexture.width), 0, (float)(currentTexture.width), (float)(currentTexture.height)};
     DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
 }
 
@@ -183,35 +151,21 @@ void Draw::drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits, int num
         if(fruit->isActive())
         {
             for (int i = 0; i < 3; ++i) {
-            Rectangle sourceRec = {
-                (float)textures[i].width,  // Calculate width of a single frame
-                0,
-                (float)textures[i].width,   // Width of a single frame
-                (float)textures[i].height
-            };
-
-            // Draw Fruit texture at the specified location and frame
+            Rectangle sourceRec = {(float)textures[i].width, 0, (float)textures[i].width, (float)textures[i].height};
             DrawTextureRec(textures[i], sourceRec, Vector2{(float)fruit->getX()-28, (float)fruit->getY()-28}, RAYWHITE);
         }
         }
     }
 }
 
-void Draw::drawSymbols(int num1, int num2, bool symbolActive) {
+void Draw::drawSymbols(int num1, int num2) {
     if (symbolActive) {
         Texture2D textures[3] = { getTexture(num1), getTexture(num2) };
         Vector2 positions[3] = { {650, 570}, {810, 570} };
 
         // Loop through each texture to draw it
         for (int i = 0; i < 3; ++i) {
-            Rectangle sourceRec = {
-                (float)textures[i].width,  // Calculate width of a single frame
-                0,
-                (float)textures[i].width,   // Width of a single frame
-                (float)textures[i].height
-            };
-
-            // Draw the texture at the specified location
+            Rectangle sourceRec = {(float)textures[i].width, 0, (float)textures[i].width, (float)textures[i].height};
             DrawTextureRec(textures[i], sourceRec, positions[i], RAYWHITE);
         }
     }
@@ -228,11 +182,11 @@ Texture2D Draw::getTexture(int num) {
         default: return symbol1; 
     }
 }
-/*
+
 void Draw::setSymbolActive(bool status){
     symbolActive = status;
 }
-*/
+
 void Draw::drawScores(const Score& score) {
     // Convert scores to strings
     std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
@@ -273,14 +227,7 @@ void Draw::drawLives(int lives) {
     // Draw the lives
     for (int i = 0; i < livesToDraw; ++i) {
         int xPosition = xStart + i * ((2 * radius) + spacing);
-        //DrawCircle(xPosition + radius, yPosition + radius, radius, RED);
-        Rectangle sourceRec = {
-            (float)symbolLives.width,  // Calculate width of a single frame
-            0, 
-            (float)symbolLives.width,  // Width of a single frame
-            (float)symbolLives.height
-        };
-        // Draw Pac-Man's texture at the specified location and frame
+        Rectangle sourceRec = {(float)symbolLives.width, 0, (float)symbolLives.width, (float)symbolLives.height};
         DrawTextureRec(symbolLives, sourceRec, Vector2{(float)(1365 + i*55), 20}, RAYWHITE);
     }
 }
@@ -289,13 +236,7 @@ void Draw::drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& sup
     for(const auto& pellet : superPellets)
     {
         if (pellet->isActive()) {
-            Rectangle sourceRec = {
-            (float)(superPelletTexture.width) ,  // Calculate width of a single frame
-            0, 
-            (float)(superPelletTexture.width),   // Width of a single frame
-            (float)(superPelletTexture.height)   // Full height of the texture
-            };
-
+            Rectangle sourceRec = {(float)(superPelletTexture.width), 0, (float)(superPelletTexture.width), (float)(superPelletTexture.height)};
             DrawTextureRec(superPelletTexture, sourceRec, Vector2{(float)pellet->getX()-25, (float)pellet->getY()-25}, RAYWHITE);
         }
     }
@@ -303,7 +244,6 @@ void Draw::drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& sup
 
 void Draw::drawStars(std::vector<std::unique_ptr<Star>>& star)
 {
-    
     for (const auto& eachStar : star) {
         if (eachStar->getChange()) {
             eachStar->setChange();  // Reset the change flag
@@ -314,14 +254,7 @@ void Draw::drawStars(std::vector<std::unique_ptr<Star>>& star)
         }
 
         if (eachStar->isActive()) {
-            Rectangle sourceRec = {
-                (float)(picture.width),  // Full width of the texture
-                0, 
-                (float)(picture.width),  // Width of a single frame
-                (float)(picture.height)  // Full height of the texture
-            };
-
-            // Draw Star texture at the specified location
+            Rectangle sourceRec = {(float)(picture.width), 0, (float)(picture.width), (float)(picture.height)};
             DrawTextureRec(picture, sourceRec, Vector2{(float)eachStar->getX() - 30, (float)eachStar->getY() - 32}, RAYWHITE);
         }
     }

@@ -61,7 +61,6 @@ public:
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
     int getDirection() const { return direction; }
-    bool symbolActive = false;
 
     void setMaze(std::unique_ptr<Maze> maze) { this->maze = std::move(maze); }
     void setPacMan(std::unique_ptr<PacMan> pacMan) { this->pacMan = std::move(pacMan); }

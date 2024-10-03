@@ -34,7 +34,7 @@ public:
     void drawStars(std::vector<std::unique_ptr<Star>>& star);
     void drawSuperPacMan(const PacMan& pacman, int frame, int direction);
     void drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& superPellets);
-    void drawSymbols(int num1, int num2, bool symbolActive);
+    void drawSymbols(int num1, int num2);
 
     Texture2D getTexture(int num);
     void setSymbolActive(bool status);
@@ -48,7 +48,7 @@ private:
     raylib::Window window; // Game window object for rendering
     int num = 0;  
     bool eaten;
-    //bool symbolActive = false;
+    bool symbolActive = false;
     Texture2D picture;
 
     // PacMan Textures

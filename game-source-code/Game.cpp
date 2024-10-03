@@ -190,12 +190,11 @@ void Game::updateStars(){
                 multi++;
             }
             
-            draw->drawSymbols(num1, num2, symbolActive); 
+            draw->drawSymbols(num1, num2); 
             if((updatedTimer) >= 30*multi2)
             {
                 stars->show();
-                //draw->setSymbolActive(true);
-                symbolActive = true;
+                draw->setSymbolActive(true);
                 totalFrames = 1;
                 multi2++;
             }
@@ -218,8 +217,7 @@ void Game::updateStars(){
                         score->addPoints(500); // Add points for collecting a key
                     }
             stars->collect();
-            //draw->setSymbolActive(false);
-            symbolActive = false;
+            draw->setSymbolActive(false);
         }
     }
 }
