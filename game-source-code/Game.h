@@ -6,17 +6,19 @@
 #include <memory>
 #include "Maze.h"
 #include "PacMan.h"
-#include "Screen.h"
+#include "Draw.h"
 #include "Fruit.h"
 #include "Ghost.h"
 #include "GameKey.h"
 #include "Star.h"
 #include "Score.h"
 #include "Lives.h"
+#include "Screen.h"
 #include "PowerPellet.h"
 #include "SuperPellet.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
+class Draw;
 class Screen;
 class Ghost;
 class GameInitialiser;
@@ -59,10 +61,11 @@ public:
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
     int getDirection() const { return direction; }
+    bool symbolActive = false;
 
     void setMaze(std::unique_ptr<Maze> maze) { this->maze = std::move(maze); }
     void setPacMan(std::unique_ptr<PacMan> pacMan) { this->pacMan = std::move(pacMan); }
-    void setScreen(std::unique_ptr<Screen> screen) { this->screen = std::move(screen); }
+    void setScreen(std::unique_ptr<Draw> draw) { this->draw = std::move(draw); }
     void addGhost(std::unique_ptr<Ghost> ghost) { ghosts.push_back(std::move(ghost)); }
     void addFruit(std::unique_ptr<Fruit> fruit) { fruits.push_back(std::move(fruit)); }
     void addPowerPellet(std::unique_ptr<PowerPellet> powerPellet) { powerPellets.push_back(std::move(powerPellet)); }
@@ -82,6 +85,7 @@ private:
     // Using smart pointers for game objects
     std::unique_ptr<Maze> maze;
     std::unique_ptr<PacMan> pacMan;
+    std::unique_ptr<Draw> draw;
     std::unique_ptr<Screen> screen;
     std::unique_ptr<Score> score;
     std::unique_ptr<Lives> playerLives;

@@ -5,6 +5,7 @@ void GameInitialiser::initialiseGameObjects(Game& game) {
     game.maze = std::make_unique<Maze>();  // initialise using make_unique
     game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());
     game.screen = std::make_unique<Screen>();  // initialise the screen
+    game.draw = std::make_unique<Draw>();  // initialise the screen
 
     game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));

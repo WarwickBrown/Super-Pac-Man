@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Screen.h"
+#include "Draw.h"
 #include "Ghost.h"
 #include "Star.h"
 #include "Fruit.h"
@@ -45,7 +46,6 @@ void Game::initialise() {
     }
 }
 
-
 // Main game loop
 void Game::run() {
     int pixelX; // Coordinates for rendering
@@ -54,35 +54,37 @@ void Game::run() {
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
         float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+        
         handleInput();   // Handle user input like key presses for movement
         update();        // Update game state (Pac-Man's position, etc.)
         screen->render(); // Render the current state of the game
-        screen->drawMaze(*maze);  // Draw the maze
-        screen->drawKeys(keys);
+        draw->drawMaze(*maze);  // Draw the maze
+        draw->drawKeys(keys);
         frame = pacMan->location(frame);  // Update Pac-Man's frame for animation
-        screen->drawFruits(fruits, num3);
-        screen->drawStars(stars);
+        draw->drawFruits(fruits, num3);
+        
+        draw->drawStars(stars);
 
         for (const auto& star : stars) {
             star->determineChange();  // Use the star object directly
         }
 
-        screen->drawPowerPellets(powerPellets);
-        screen->drawSuperPellets(superPellets);
+        draw->drawPowerPellets(powerPellets);
+        draw->drawSuperPellets(superPellets);
         
         // Draw the fruits on the screen
-        screen->drawScores(*score); // Draw the scores
-        screen->drawLives(playerLives->getLives());
+        draw->drawScores(*score); // Draw the scores
+        draw->drawLives(playerLives->getLives());
 
         for (const auto& ghost : ghosts) {
-            screen->drawGhost(*ghost, *pacMan, ghostDirection);
+            draw->drawGhost(*ghost, *pacMan, ghostDirection);
         }
 
         if (pacMan->isSuper()) {
-            screen->drawSuperPacMan(*pacMan, frame, oldDirection);
+            draw->drawSuperPacMan(*pacMan, frame, oldDirection);
         }
         else{
-            screen->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
+            draw->drawPacMan(*pacMan, frame, oldDirection);  // Draw Pac-Man with its current frame and direction
         }
         // If the game has been won, break the loop
         if (gameWon) {
@@ -168,7 +170,7 @@ void Game::update() {
     pacMan->updateSuperMode(deltaTime);
     pacMan->updateInvincibility(deltaTime);
     pacMan->move(*maze, deltaTime, oldDirection);  // Move Pac-Man based on the direction and elapsed time
-
+    
     updateFruits();
     // Check if all fruits have been collected
     checkWinCondition();
@@ -188,11 +190,12 @@ void Game::updateStars(){
                 multi++;
             }
             
-            screen->drawSymbols(num1, num2);
+            draw->drawSymbols(num1, num2, symbolActive); 
             if((updatedTimer) >= 30*multi2)
             {
                 stars->show();
-                screen->setSymbolActive(true);
+                //draw->setSymbolActive(true);
+                symbolActive = true;
                 totalFrames = 1;
                 multi2++;
             }
@@ -215,7 +218,8 @@ void Game::updateStars(){
                         score->addPoints(500); // Add points for collecting a key
                     }
             stars->collect();
-            screen->setSymbolActive(false);
+            //draw->setSymbolActive(false);
+            symbolActive = false;
         }
     }
 }
