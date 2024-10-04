@@ -47,7 +47,7 @@ void Update::updateSuperPellets() {
         for (auto& key : game.keys) {
             // Iterate through the walls that the key can unlock
             for (int wallIndex : key.getWallsToUnlock()) {
-                auto wall = game.maze->getWalls()[wallIndex];  // Get the wall
+                Maze::Wall& wall = game.maze->getWalls()[wallIndex];  // Get the wall
 
                 // Only proceed if the wall is still active (locked)
                 if (wall.active) {
@@ -158,7 +158,6 @@ void Update::updateInvincibility(float deltaTime) {
         }
     }
 }
-
 
 
 
