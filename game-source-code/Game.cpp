@@ -191,24 +191,3 @@ std::vector<Ghost*>& Game::getGhosts() {
     }
     return ghostPtrs;
 }
-
-// Getter for individual game objects
-Maze* Game::getMaze() const {
-    return maze.get();
-}
-
-PacMan* Game::getPacMan() const {
-    return pacMan.get();
-}
-
-Screen* Game::getScreen() const {
-    return screen.get();
-}
-
-Score* Game::getScore() const {
-    return score.get();
-}
-
-Lives* Game::getPlayerLives() const {
-    return playerLives.get();
-}

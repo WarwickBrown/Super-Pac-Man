@@ -53,11 +53,13 @@ public:
     std::vector<PowerPellet*>& getPowerPellets();     // Return raw pointers to PowerPellet
     std::vector<SuperPellet*>& getSuperPellets();     // Return raw pointers to SuperPellet
     std::vector<Ghost*>& getGhosts();                 // Return raw pointers to Ghost
-    Maze* getMaze() const;                            // Return raw pointer to Maze
-    PacMan* getPacMan() const;                        // Return raw pointer to PacMan
-    Screen* getScreen() const;                        // Return raw pointer to Screen
-    Score* getScore() const;                          // Return raw pointer to Score
-    Lives* getPlayerLives() const;                    // Return raw pointer to Lives
+
+    // Getter for individual game objects
+    Maze* getMaze() const { return maze.get(); }
+    PacMan* getPacMan() const { return pacMan.get(); }
+    Screen* getScreen() const { return screen.get(); }
+    Score* getScore() const { return score.get(); }
+    Lives* getPlayerLives() const { return playerLives.get(); }
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
