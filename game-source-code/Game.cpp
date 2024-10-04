@@ -73,7 +73,7 @@ void Game::run() {
         }
 
         for (const auto& ghost : ghosts) {
-            draw->drawGhost(*ghost, *pacMan, ghostDirection);
+            draw->drawGhost(*ghost, *pacMan);
         }
 
         if (pacMan->isSuper()) {

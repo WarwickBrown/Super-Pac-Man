@@ -24,7 +24,7 @@ public:
 
     // Draw functions
     void drawFruits(const std::vector<std::unique_ptr<Fruit>>& fruits, int num);
-    void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection);
+    void drawGhost(const Ghost& ghost, const PacMan& pacman);
     void drawKeys(const std::vector<GameKey>& keys);
     void drawLives(int lives);
     void drawMaze(const Maze& maze);    // Draws the maze on the Draw

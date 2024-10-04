@@ -111,7 +111,7 @@ void Draw::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& pow
     }
 }
 
-void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirection) {
+void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman) {
     Texture2D currentTexture;
     // Check if the ghost is frightened, use the appropriate frightened texture
     if(ghost.isFrightened()) {
