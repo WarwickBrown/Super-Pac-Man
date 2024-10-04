@@ -54,7 +54,7 @@ void Game::run() {
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
-        float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+        auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
         handleInput();   // Handle user input like key presses for movement
         update();
         screen->render(); // Render the current state of the game
@@ -130,7 +130,7 @@ void Game::handleInput() {
 }
 
 void Game::update() {
-    float deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+    auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
 
     // Delegate Pac-Man update logic to PacManManager
     pacManManager->updatePacMan(deltaTime);
