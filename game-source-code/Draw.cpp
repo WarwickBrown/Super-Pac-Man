@@ -115,30 +115,11 @@ void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostDirectio
     Texture2D currentTexture;
     // Check if the ghost is frightened, use the appropriate frightened texture
     if(ghost.isFrightened()) {
-        switch (ghostDirection) {
-            case 1: currentTexture = ghostFrightenedRight; break;  // Right
-            case 2: currentTexture = ghostFrightenedLeft; break;   // Left
-            case 3: currentTexture = ghostFrightenedUp; break;     // Up
-            case 4: currentTexture = ghostFrightenedDown; break;   // Down
-            default: currentTexture = ghostFrightenedRight; break; // Fallback texture
-        }
+        currentTexture = ghostFrightenedRight;
     } else if (pacman.isSuper()) {
-        switch (ghostDirection) {
-            case 1: currentTexture = flattednedGhost; break;  // Right
-            case 2: currentTexture = flattednedGhost; break;   // Left
-            case 3: currentTexture = flattednedGhost; break;     // Up
-            case 4: currentTexture = flattednedGhost; break;   // Down
-            default: currentTexture = flattednedGhost; break; // Fallback texture
-        }
+        currentTexture = flattednedGhost;
     } else {
-        // Normal state: use the normal ghost texture based on direction
-        switch (ghostDirection) {
-            case 1: currentTexture = ghostPicRight; break;  // Right
-            case 2: currentTexture = ghostPicLeft; break;   // Left
-            case 3: currentTexture = ghostPicUp; break;     // Up
-            case 4: currentTexture = ghostPicDown; break;   // Down
-            default: currentTexture = ghostPicRight; break; // Fallback texture
-        }
+        currentTexture = ghostPicRight;
     }
     Rectangle sourceRec = {(float)(currentTexture.width), 0, (float)(currentTexture.width), (float)(currentTexture.height)};
     DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
