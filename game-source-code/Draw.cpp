@@ -21,8 +21,8 @@ Draw::~Draw() {}
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Draw::drawPacMan(const PacMan& pacman, int frame, int direction) {
     // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
-    double pixelX = pacman.getX() - 30;  // Adjust X position
-    double pixelY = pacman.getY() - 30;  // Adjust Y position
+    auto pixelX = pacman.getX() - 30;  // Adjust X position
+    auto pixelY = pacman.getY() - 30;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     Texture2D texture = pacManTextures[0];  // Default texture is for moving left
@@ -50,12 +50,12 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, int direction) {
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
 void Draw::drawSuperPacMan(const PacMan& pacman, int frame, int direction) {
-    float renderRadius = 50;
-    double pixelX = pacman.getX() - 50;  // Adjust X position
-    double pixelY = pacman.getY() - 50;  // Adjust Y position
+    auto renderRadius = 50;
+    auto pixelX = pacman.getX() - 50;  // Adjust X position
+    auto pixelY = pacman.getY() - 50;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
-    Texture2D texture = pacManTexturesBig[0];  // Default texture is for moving left
+    auto texture = pacManTexturesBig[0];  // Default texture is for moving left
     switch(direction){
         case 1:
             texture = pacManTexturesBig[1];  // Texture for moving right
@@ -171,7 +171,7 @@ void Draw::drawSymbols(int num1, int num2) {
     }
 }
 
-Texture2D Draw::getTexture(int num) {
+auto Draw::getTexture(int num) -> Texture2D {
     switch(num) {
         case 1: return symbol1;
         case 2: return symbol2;
@@ -189,22 +189,22 @@ void Draw::setSymbolActive(bool status){
 
 void Draw::drawScores(const Score& score) {
     // Convert scores to strings
-    std::string currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
-    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
-    std::string combinedText = currentScoreText + "    " + highScoreText;
+    auto currentScoreText = "Score: " + std::to_string(score.getCurrentScore());
+    auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
+    auto combinedText = currentScoreText + "    " + highScoreText;
 
     // Set the new, larger font size
-    int fontSize = 40;
+    auto fontSize = 40;
 
     // Measure the width of the combined text
-    int textWidth = MeasureText(combinedText.c_str(), fontSize);
+    auto textWidth = MeasureText(combinedText.c_str(), fontSize);
 
     // Calculate x position to center the text
-    int DrawWidth = window.GetWidth();
-    int xPosition = (DrawWidth - textWidth) / 2;
+    auto DrawWidth = window.GetWidth();
+    auto xPosition = (DrawWidth - textWidth) / 2;
 
     // Set y position at the top with some padding
-    int yPosition = 20; // Adjust as needed
+    auto yPosition = 20; // Adjust as needed
 
     // Draw the combined text
     DrawText(combinedText.c_str(), xPosition, yPosition, fontSize, WHITE);
@@ -212,21 +212,21 @@ void Draw::drawScores(const Score& score) {
 
 void Draw::drawLives(int lives) {
     // Parameters for drawing the lives
-    int radius = 15;                  // Radius of the life circles
-    int spacing = 10;                 // Space between circles
-    int totalLives = 3;               // Total number of lives
-    int livesToDraw = std::min(lives, totalLives); // Ensure we don't draw more than total lives
+    auto radius = 15;                  // Radius of the life circles
+    auto spacing = 10;                 // Space between circles
+    auto totalLives = 3;               // Total number of lives
+    auto livesToDraw = std::min(lives, totalLives); // Ensure we don't draw more than total lives
 
     // Calculate the total width of the lives display
-    int totalWidth = totalLives * (2 * radius) + (totalLives - 1) * spacing;
+    auto totalWidth = totalLives * (2 * radius) + (totalLives - 1) * spacing;
 
     // Starting position (top right of the Draw)
-    int xStart = window.GetWidth() - totalWidth - 20; // 20 pixels padding from the right edge
-    int yPosition = 20;                               // 20 pixels padding from the top edge
+    auto xStart = window.GetWidth() - totalWidth - 20; // 20 pixels padding from the right edge
+    auto yPosition = 20;                               // 20 pixels padding from the top edge
 
     // Draw the lives
-    for (int i = 0; i < livesToDraw; ++i) {
-        int xPosition = xStart + i * ((2 * radius) + spacing);
+    for (auto i = 0; i < livesToDraw; ++i) {
+        auto xPosition = xStart + i * ((2 * radius) + spacing);
         Rectangle sourceRec = {(float)symbolLives.width, 0, (float)symbolLives.width, (float)symbolLives.height};
         DrawTextureRec(symbolLives, sourceRec, Vector2{(float)(1365 + i*55), 20}, RAYWHITE);
     }

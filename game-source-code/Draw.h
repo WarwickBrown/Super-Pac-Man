@@ -59,7 +59,7 @@ private:
         LoadTexture("../resources/pacman-images/pacmenDown.png")
     };
 
-     std::vector<Texture2D> pacManTexturesBig = {
+    std::vector<Texture2D> pacManTexturesBig = {
         LoadTexture("../resources/pacman-images/pacmenLeftBig.png"),
         LoadTexture("../resources/pacman-images/pacmenRightBig.png"),
         LoadTexture("../resources/pacman-images/pacmenUpBig.png"),

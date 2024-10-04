@@ -43,9 +43,10 @@ public:
     //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
     bool isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const;
 
-    const std::vector<Maze::Wall>& getWalls() const;
 
-    std::vector<Maze::Wall>& getWalls();
+    const std::vector<Maze::Wall>& getWalls() const { return walls; }
+
+    std::vector<Maze::Wall>& getWalls() { return walls; }
 
 private:
     std::vector<Wall> walls;

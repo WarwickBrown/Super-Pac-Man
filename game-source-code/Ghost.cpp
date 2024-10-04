@@ -48,8 +48,8 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     if (eaten) {
         return direction; // Ghost stays in place if eaten
     }
-    float newX = x;
-    float newY = y;
+    auto newX = x;
+    auto newY = y;
 
     // This block checks if the ghost is inside the starting box
     std::vector<int> possibleDirections;
@@ -93,15 +93,15 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
 
         // Add randomness by occasionally overriding the calculated best movement
         // For example, 1 in 5 times the ghost will pick a random direction
-        int randomChance = rand() % 5; // 1 in 5 chance
+        auto randomChance = rand() % 5; // 1 in 5 chance
         if (randomChance == 0) {
             chooseRandomDirection(maze); // Pick a random valid direction
             return direction;
         }
 
         // This section makes the ghost chase Pac-Man
-        float deltaX = pacman.getX() - x;
-        float deltaY = pacman.getY() - y;
+        auto deltaX = pacman.getX() - x;
+        auto deltaY = pacman.getY() - y;
 
         // Prioritize movement direction based on Pac-Man's position
         if (std::abs(deltaX) > std::abs(deltaY)) {
@@ -143,7 +143,7 @@ bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
         return false;
     }
     // Calculate the distance between the ghost and Pac-Man
-    float distance = std::sqrt(std::pow(x - pacman.getX(), 2) + std::pow(y - pacman.getY(), 2));
+    auto distance = std::sqrt(std::pow(x - pacman.getX(), 2) + std::pow(y - pacman.getY(), 2));
 
     // Check if the distance is less than the sum of the radii (indicating a collision)
     return distance < (radius + pacman.getRadius());

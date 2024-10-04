@@ -43,7 +43,7 @@ void PacMan::setDirection(int direction) {
 // This method controls how quickly Pac-Man's sprite animation changes as he moves.
 int PacMan::location(int frame) const {
     // Timer to control the speed of the frame change.
-    static float timer = 0;
+    static auto timer = 0;
     timer += GetFrameTime();  // Add time since the last frame.
 
     // If the timer exceeds 0.2 seconds, advance to the next frame.
@@ -59,13 +59,13 @@ int PacMan::location(int frame) const {
 // Moves Pac-Man based on the direction and checks for wall collisions.
 // If Pac-Man does not collide with a wall, his position is updated.
 void PacMan::move(const Maze& maze, float deltaTime, int direction) {
-    float speed = superModeActive ? superSpeed : normalSpeed;
-   // Set the movement direction (based on input direction).
+    auto speed = superModeActive ? superSpeed : normalSpeed;
+    // Set the movement direction (based on input direction).
     setDirection(direction);
 
     // Calculate the new position.
-    float newX = x + dx;
-    float newY = y + dy;
+    auto newX = x + dx;
+    auto newY = y + dy;
 
     // Check if the new position is not colliding with a wall.
     if (!maze.isWall(newX, newY, radius)) {

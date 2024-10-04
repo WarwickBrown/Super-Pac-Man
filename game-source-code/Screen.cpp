@@ -29,41 +29,41 @@ void Screen::startScreen(const Game* game, const Screen* screen, const Score& sc
     window.ClearBackground(BLACK);  // Set background color to black
     // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect
     DrawText("Super Pac-Man", 
-             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
-             window.GetHeight() / 4 + 2, 70, GRAY);  // Shadow color
+            window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
+            window.GetHeight() / 4 + 2, 70, GRAY);  // Shadow color
     DrawText("Super Pac-Man", 
-             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
-             window.GetHeight() / 4, 70, YELLOW);  // Main color
+            window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
+            window.GetHeight() / 4, 70, YELLOW);  // Main color
 
     // Draw "Press ENTER to Start" below the title in green with an outline effect
     DrawText("Press ENTER to Start", 
-             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
-             window.GetHeight() / 2 - 18 + 2, 40, DARKGREEN);  // Shadow color
+            window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
+            window.GetHeight() / 2 - 18 + 2, 40, DARKGREEN);  // Shadow color
     DrawText("Press ENTER to Start", 
-             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
-             window.GetHeight() / 2 - 18, 40, GREEN);  // Main color
+            window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
+            window.GetHeight() / 2 - 18, 40, GREEN);  // Main color
 
     // Draw "Press ESC to Exit" instruction in red with an outline effect
     DrawText("Press ESC to Exit", 
-             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
-             window.GetHeight() / 2 + 40 + 2, 30, RED);  // Shadow color
+            window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
+            window.GetHeight() / 2 + 40 + 2, 30, RED);  // Shadow color
     DrawText("Press ESC to Exit", 
-             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
-             window.GetHeight() / 2 + 40, 30, RED);  // Main color
+            window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
+            window.GetHeight() / 2 + 40, 30, RED);  // Main color
 
     // Display arrow key instructions in light gray at the bottom of the screen
     DrawText("Use the ARROW KEYS to change direction", 
-             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
-             window.GetHeight() - 60, 25, LIGHTGRAY);
+            window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
+            window.GetHeight() - 60, 25, LIGHTGRAY);
 
     // Display high score in a more prominent way
-    std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+    auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
     DrawText(highScoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
-             window.GetHeight() / 2 + 100 + 2, 35, DARKPURPLE);  // Shadow color
+            window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
+            window.GetHeight() / 2 + 100 + 2, 35, DARKPURPLE);  // Shadow color
     DrawText(highScoreText.c_str(),
-             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
-             window.GetHeight() / 2 + 100, 35, PURPLE);  // Main color
+            window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
+            window.GetHeight() / 2 + 100, 35, PURPLE);  // Main color
 
 
     drawGameImages(*game);
@@ -94,13 +94,13 @@ bool Screen::endGame(const Score& score) {
                 window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
                 window.GetHeight() / 3, 60, RED);
         // Display player's score
-        std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+        auto scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
         DrawText(scoreText.c_str(),
                 window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
                 window.GetHeight() / 2, 30, WHITE);
 
         // Display high score
-        std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+        auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
         DrawText(highScoreText.c_str(),
                 window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
                 window.GetHeight() / 2 + 40, 30, WHITE);
@@ -123,13 +123,13 @@ bool Screen::winGame(const Score& score) {
                 window.GetHeight() / 3, 60, GREEN);
 
         // Display player's score
-        std::string scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
+        auto scoreText = "Your Score: " + std::to_string(score.getCurrentScore());
         DrawText(scoreText.c_str(),
                 window.GetWidth() / 2 - MeasureText(scoreText.c_str(), 30) / 2,
                 window.GetHeight() / 2, 30, WHITE);
 
         // Display high score
-        std::string highScoreText = "High Score: " + std::to_string(score.getHighScore());
+        auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
         DrawText(highScoreText.c_str(),
                 window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 30) / 2,
                 window.GetHeight() / 2 + 40, 30, WHITE);

@@ -20,7 +20,7 @@ void Star::show() {
 
 // Select the texture to display based on time and conditions
 void Star::determineChange() {
-    float updatedTime = GetTime() - startTime;
+    auto updatedTime = GetTime() - startTime;
     if (updatedTime >= multiple * 0.2) {
         multiple++;
         change = true;

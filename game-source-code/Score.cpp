@@ -22,7 +22,7 @@ void Score::loadHighScore() {
     // Use WallReader to read the high score
     WallReader reader(scoreFile);
     reader.readFile();
-    const std::vector<std::string>& data = reader.getData();
+    const auto data = reader.getData();
 
     if (!data.empty()) {
         std::istringstream ss(data[0]);  // Assume the high score is in the first line
@@ -35,6 +35,6 @@ void Score::loadHighScore() {
 void Score::saveHighScore() {
     // Use WallReader to write the high score
     WallReader writer(scoreFile);
-    std::vector<std::string> lines = { std::to_string(highScore) };
+    auto lines = { std::to_string(highScore) };
     writer.writeFile(lines);
 }

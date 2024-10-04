@@ -18,7 +18,7 @@ void Maze::initialiseCustomWalls() {
     wallReader.readFile();  // Read the file, storing lines into `data`
 
     // Get the data from WallReader
-    const std::vector<std::string>& data = wallReader.getData();
+    const auto data = wallReader.getData();
 
     // Now, process each line from the data vector
     for (const auto& line : data) {
@@ -32,7 +32,7 @@ void Maze::initialiseCustomWalls() {
         }
         
         // Determine the color based on the string
-        Color colour = BLACK;  // Default to BLACK if no match
+        auto colour = BLACK;  // Default to BLACK if no match
         if (colourString == "BLACK") {
             colour = BLACK;
         } 
@@ -64,12 +64,4 @@ bool Maze::isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const {
         }
     }
     return false;
-}
-
-const std::vector<Maze::Wall>& Maze::getWalls() const {
-    return walls;
-}
-
-std::vector<Maze::Wall>& Maze::getWalls() {
-    return walls;
 }

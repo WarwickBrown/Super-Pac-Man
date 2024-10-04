@@ -45,7 +45,7 @@ private:
     Texture2D picture;
     void initializeGameObjects(); // Initialises game objects
 
-        std::vector<Texture2D> gameImages = {
+    std::vector<Texture2D> gameImages = {
         LoadTexture("../resources/pacman-images/inputkeys.png"),
     };
 };

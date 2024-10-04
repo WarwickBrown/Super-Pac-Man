@@ -47,7 +47,7 @@ void Update::updateSuperPellets() {
         for (auto& key : game.keys) {
             // Iterate through the walls that the key can unlock
             for (int wallIndex : key.getWallsToUnlock()) {
-                Maze::Wall& wall = game.maze->getWalls()[wallIndex];  // Get the wall
+                auto wall = game.maze->getWalls()[wallIndex];  // Get the wall
 
                 // Only proceed if the wall is still active (locked)
                 if (wall.active) {
@@ -55,10 +55,10 @@ void Update::updateSuperPellets() {
 
                     // Define Pac-Man's bounding circle
                     Vector2 pacManCenter = { game.pacMan->getX(), game.pacMan->getY() };
-                    float pacManRadius = game.pacMan->getRadius() * 1.1;
+                    auto pacManRadius = game.pacMan->getRadius() * 1.1;
 
                     // Define the wall's rectangle
-                    Rectangle wallRec = wall.rect;
+                    auto wallRec = wall.rect;
 
                     // Check for a collision between Pac-Man's circle and the wall's rectangle
                     if (CheckCollisionCircleRec(pacManCenter, pacManRadius, wallRec)) {
@@ -82,7 +82,7 @@ void Update::updateFruits() {
 }
 
 void Update::updateStars() {
-    float updatedTimer = GetTime() - game.timerStart;
+    auto updatedTimer = GetTime() - game.timerStart;
     for (auto& stars : game.stars) {
         if ((updatedTimer) >= 2 * game.multi) {
             game.num1 = rand() % 6 + 1;
