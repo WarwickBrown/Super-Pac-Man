@@ -18,12 +18,12 @@ void PacManManager::updatePacMan(float deltaTime) {
     float newY = game.pacMan->getY() + dy;
 
     // Check if Pac-Man can move in the new direction (no collision with walls)
-    if (!game.getMaze()->isWallRec(newX, newY, 34)) {
+    if (!game.getMaze().isWallRec(newX, newY, 34)) {
         game.oldDirection = game.getDirection();  // Update old direction if no wall collision
     }
 
     // Update Pac-Man's state and move
     game.pacMan->updateSuperMode(deltaTime);
     game.pacMan->updateInvincibility(deltaTime);
-    game.pacMan->move(*game.getMaze(), deltaTime, game.oldDirection);
+    game.pacMan->move(game.getMaze(), deltaTime, game.oldDirection);
 }

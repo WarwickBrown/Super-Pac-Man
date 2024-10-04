@@ -55,11 +55,11 @@ public:
     std::vector<Ghost*>& getGhosts();                 // Return raw pointers to Ghost
 
     // Getter for individual game objects
-    Maze* getMaze() const { return maze.get(); }
-    PacMan* getPacMan() const { return pacMan.get(); }
-    Screen* getScreen() const { return screen.get(); }
-    Score* getScore() const { return score.get(); }
-    Lives* getPlayerLives() const { return playerLives.get(); }
+    Maze& getMaze() const { return *maze; } 
+    PacMan& getPacMan() const { return *pacMan; }
+    Screen& getScreen() const { return *screen; }
+    Score& getScore() const { return *score; }
+    Lives& getPlayerLives() const { return *playerLives; }
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
@@ -76,23 +76,22 @@ public:
     void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
 private:
-    std::unique_ptr<PacManManager> pacManManager;
-    std::unique_ptr<Update> updater;  // Add updater instance
     std::vector<GameKey> keys;
-    std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
+
+    std::unique_ptr<Maze> maze;
+    std::unique_ptr<PacMan> pacMan;
+    std::unique_ptr<Screen> screen;
+    std::unique_ptr<Draw> draw;
+    std::unique_ptr<Score> score;
+    std::unique_ptr<Lives> playerLives;
+    std::unique_ptr<Update> updater;
+    std::unique_ptr<PacManManager> pacManManager;
+
     std::vector<std::unique_ptr<Ghost>> ghosts;
     std::vector<std::unique_ptr<Fruit>> fruits;
     std::vector<std::unique_ptr<PowerPellet>> powerPellets;
     std::vector<std::unique_ptr<SuperPellet>> superPellets;
     std::vector<std::unique_ptr<Star>> stars;
-
-    // Using smart pointers for game objects
-    std::unique_ptr<Maze> maze;
-    std::unique_ptr<PacMan> pacMan;
-    std::unique_ptr<Draw> draw;
-    std::unique_ptr<Screen> screen;
-    std::unique_ptr<Score> score;
-    std::unique_ptr<Lives> playerLives;
     
     bool isRunning;  // Boolean to track whether the game is running or not
     int totalFrames = 1;

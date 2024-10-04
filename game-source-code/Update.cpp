@@ -14,7 +14,7 @@ void Update::updateGame(float deltaTime) {
 void Update::updatePowerPellets() {
     for (auto& pellet : game.powerPellets) {
         if (pellet->checkCollisionWithPacMan(*game.pacMan)) {
-            game.getScore()->addPoints(100);  // Add 100 points for eating a power pellet
+            game.getScore().addPoints(100);  // Add 100 points for eating a power pellet
 
             // Make ghosts frightened
             for (auto& ghost : game.ghosts) {
@@ -39,7 +39,7 @@ void Update::updateSuperPellets() {
         if (superPellet->isActive() && superPellet->checkCollision(game.pacMan->getX(), game.pacMan->getY(), game.pacMan->getRadius())) {
             superPellet->collect(); // Pac-Man collects the super pellet
             game.pacMan->activateSuperMode();
-            game.getScore()->addPoints(500); // Add points for collecting a super pellet
+            game.getScore().addPoints(500); // Add points for collecting a super pellet
         }
     }
     // If Pac-Man is in super mode, check if he's moving through any locked walls
@@ -76,7 +76,7 @@ void Update::updateFruits() {
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius() - 35,
                 { (float)fruit->getX(), (float)fruit->getY() }, fruit->getRadius())) {
             fruit->collect();
-            game.getScore()->addPoints(10); // Add points for collecting a fruit
+            game.getScore().addPoints(10); // Add points for collecting a fruit
         }
     }
 }
@@ -100,11 +100,11 @@ void Update::updateStars() {
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius() - 30,
                 { (float)stars->getX(), (float)stars->getY() }, stars->getRadius())) {
             if (game.num1 == game.num2 && game.num2 == game.num3) {
-                game.getScore()->addPoints(5000);
+                game.getScore().addPoints(5000);
             } else if (game.num1 == game.num2) {
-                game.getScore()->addPoints(2000);
+                game.getScore().addPoints(2000);
             } else {
-                game.getScore()->addPoints(500);
+                game.getScore().addPoints(500);
             }
             stars->collect();
             draw->setSymbolActive(false);
@@ -118,9 +118,9 @@ void Update::updateKeys() {
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius(),
                 { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
             key.collect();
-            game.getScore()->addPoints(50);
+            game.getScore().addPoints(50);
             for (int wallIndex : key.getWallsToUnlock()) {
-                game.getMaze()->getWalls()[wallIndex].active = false;
+                game.getMaze().getWalls()[wallIndex].active = false;
             }
         }
     }
@@ -129,12 +129,12 @@ void Update::updateKeys() {
 void Update::updateInvincibility(float deltaTime) {
     if (!game.pacMan->isInvincible()) {
         for (const auto& ghost : game.ghosts) {
-            int ghostDirection = ghost->move(*game.getMaze(), *game.pacMan, deltaTime);
+            int ghostDirection = ghost->move(game.getMaze(), *game.pacMan, deltaTime);
             if (ghost->checkCollisionWithPacMan(*game.pacMan)) {
                 if (ghost->isFrightened()) {
                     ghost->setEaten(true);
                     ghost->respawn();
-                    game.getScore()->addPoints(200);
+                    game.getScore().addPoints(200);
                 } else if (game.pacMan->isSuper()) {
                     continue;
                 } else {
