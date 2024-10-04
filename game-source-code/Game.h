@@ -16,15 +16,21 @@
 #include "Screen.h"
 #include "PowerPellet.h"
 #include "SuperPellet.h"
+#include "Update.h"
+#include "PacManManager.h"
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Draw;
 class Screen;
 class Ghost;
 class GameInitialiser;
+class Update;
+class PacManManager;
 
 class Game {
     friend class GameInitialiser;
+    friend class PacManManager;
+    friend class Update;
 public:
     Game();  // Constructor - Initialises game properties and sets up the game window
     ~Game(); // Destructor - Cleans up dynamically allocated memory
@@ -32,15 +38,14 @@ public:
     void initialise();   // Initialises the game (calls functions to setup game objects, loads images, etc.)
     void run();          // Main game loop - Handles input, updates the game state, and renders the game
     void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
-    void update();       // Updates the game state (e.g., moves Pac-Man and updates positions)
-    void updatePowerPellets();
-    void updateSuperPellets();
-    void updateStars();
-    void updateInvincibility(float deltaTime);
-    void updateKeys();
-    void updateFruits();
+    void update();
 
     void checkWinCondition(); // Add this method to check the win condition
+
+    void setUpdater(std::unique_ptr<Update> updater) { this->updater = std::move(updater); }
+    void setPacManManager(std::unique_ptr<PacManManager> pacManManager) { this->pacManManager = std::move(pacManManager); }
+
+
     
     // Getter functions
     const std::vector<Texture2D>& getGameImages() const;
@@ -69,6 +74,8 @@ public:
     void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
 private:
+    std::unique_ptr<PacManManager> pacManManager;
+    std::unique_ptr<Update> updater;  // Add updater instance
     std::vector<GameKey> keys;
     std::vector<Texture2D> gameImages;  // Vector to hold game-related images (e.g., arrow key instructions)
     std::vector<std::unique_ptr<Ghost>> ghosts;
