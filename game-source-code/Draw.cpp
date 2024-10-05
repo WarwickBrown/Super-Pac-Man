@@ -1,16 +1,8 @@
 #include "Draw.h"
-#include "Maze.h"
 #include "PacMan.h"
 #include "Game.h"
-#include "Fruit.h"
-#include "Score.h"
-#include "Ghost.h"
-#include "SuperPellet.h"
-#include "Star.h"
 
 #include <raylib-cpp.hpp>
-#include <iostream>
-#include <memory>
 
 // Constructor for Draw class
 Draw::Draw() {}

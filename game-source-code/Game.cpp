@@ -10,8 +10,6 @@
 #include "Star.h"
 #include "GameInitialiser.h"
 #include <raylib-cpp.hpp>
-#include <iostream>
-#include <tuple>
 #include <cstdlib>
 #include <cmath>
 #include <memory>
@@ -98,7 +96,6 @@ void Game::run() {
         isRunning = screen->endGame(*score);
     }
 }
-
 
 // Handles user input for controlling Pac-Man's direction
 void Game::handleInput() {
