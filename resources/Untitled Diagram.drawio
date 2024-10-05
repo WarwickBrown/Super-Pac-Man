@@ -326,7 +326,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="Nk5dwlSrIomL0-U4kEKp-94" value="Ghost" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="30" y="-1060" width="690" height="476" as="geometry" />
+          <mxGeometry x="30" y="-1060" width="690" height="502" as="geometry" />
         </mxCell>
         <mxCell id="Nk5dwlSrIomL0-U4kEKp-95" value="- x: float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-94">
           <mxGeometry y="26" width="690" height="26" as="geometry" />
@@ -381,6 +381,9 @@
         </mxCell>
         <mxCell id="Nk5dwlSrIomL0-U4kEKp-112" value="+ ghostChasePacMan(direction: int, newX: auto, newY: auto, deltaTime: float, maze: Maze&amp;amp;, pacMan: PacMan&amp;amp;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-94">
           <mxGeometry y="450" width="690" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-113" value="+ move(maze: Maze&amp;amp;, pacMan: PacMan&amp;amp;, deltaTime: float)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-94">
+          <mxGeometry y="476" width="690" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
