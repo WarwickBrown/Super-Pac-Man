@@ -15,7 +15,7 @@
 #include <memory>
 
 // Constructor - Initialises game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(RIGHT), frame(0), gameWon(false) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(NONE), frame(0), gameWon(false) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() = default;
@@ -31,6 +31,7 @@ void Game::initialise() {
     updater = std::make_unique<Update>(*this, draw.get());
     pacManManager = std::make_unique<PacManManager>(*this);
     maze->initialiseCustomWalls();
+    pacMan->setDirection(PacMan::NONE);
     score = std::make_unique<Score>("highscore.txt"); // Initialise the score object
     playerLives = std::make_unique<Lives>(3);
 

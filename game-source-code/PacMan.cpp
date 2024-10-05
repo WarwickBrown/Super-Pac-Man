@@ -64,7 +64,7 @@ void PacMan::move(const Maze& maze, float deltaTime, Direction direction) {
     auto newY = y + dy;
 
     // Check if the new position is not colliding with a wall.
-    if (!maze.isWall(newX, newY, radius)) {
+    if ((dx != 0 || dy != 0) && !maze.isWall(newX, newY, radius)) {
         // If no collision, update Pac-Man's position.
         x += dx * speed * deltaTime;
         y += dy * speed * deltaTime;

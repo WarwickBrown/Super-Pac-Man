@@ -24,17 +24,18 @@ void PacManManager::updatePacMan(float deltaTime) {
         break;
 }
 
+    if (dx!= 0 || dy != 0) {
+        auto newX = game.pacMan->getX() + dx;
+        auto newY = game.pacMan->getY() + dy;
 
-    auto newX = game.pacMan->getX() + dx;
-    auto newY = game.pacMan->getY() + dy;
+        // Check if Pac-Man can move in the new direction (no collision with walls)
+        if (!game.getMaze().isWallRec(newX, newY, 34)) {
+            game.pacManOldDirection = game.getDirection();  // Update old direction if no wall collision
+        }
 
-    // Check if Pac-Man can move in the new direction (no collision with walls)
-    if (!game.getMaze().isWallRec(newX, newY, 34)) {
-        game.pacManOldDirection = game.getDirection();  // Update old direction if no wall collision
+        // Update Pac-Man's state and move
+        game.pacMan->updateSuperMode(deltaTime);
+        game.pacMan->updateInvincibility(deltaTime);
+        game.pacMan->move(game.getMaze(), deltaTime, static_cast<PacMan::Direction>(game.pacManOldDirection));
     }
-
-    // Update Pac-Man's state and move
-    game.pacMan->updateSuperMode(deltaTime);
-    game.pacMan->updateInvincibility(deltaTime);
-    game.pacMan->move(game.getMaze(), deltaTime, static_cast<PacMan::Direction>(game.pacManOldDirection));
 }

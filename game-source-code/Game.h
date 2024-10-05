@@ -31,7 +31,8 @@ class Game {
         RIGHT = 1,
         LEFT,
         UP,
-        DOWN
+        DOWN,
+        NONE
     };
     friend class GameInitialiser;
     friend class PacManManager;

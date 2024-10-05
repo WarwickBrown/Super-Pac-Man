@@ -9,7 +9,8 @@ public:
         RIGHT = 1,
         LEFT,
         UP,
-        DOWN
+        DOWN,
+        NONE
     };
     PacMan(int startX, int startY);  // Constructor: Initialises Pac-Man's starting position
     ~PacMan();  // Destructor: Cleans up resources if necessary (not much needed here)
