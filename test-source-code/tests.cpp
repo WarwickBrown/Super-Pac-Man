@@ -809,7 +809,7 @@ TEST_CASE("Update: Keys unlock walls") {
     // Create and add the key to the game's keys list
     std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
     GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
-    game.keys.push_back(key);  // Add the key to the game's key list
+    game.getKeys().push_back(key);  // Add the key to the game's key list
 
     // Create walls and set their initial state to active (locked)
     auto maze = std::make_unique<Maze>();
@@ -826,7 +826,7 @@ TEST_CASE("Update: Keys unlock walls") {
     updater.updateKeys();
 
     // Check if the key is now inactive (collected)
-    CHECK(game.getKeys[0].isActive() == false);
+    CHECK(game.getKeys()[0].isActive() == false);
 
     // Check that the associated walls are now deactivated (unlocked)
     CHECK(game.getMaze().getWalls()[0].active == false);  // Wall 0 should be unlocked
@@ -844,14 +844,14 @@ TEST_CASE("Update: Score increments on key collection") {
     // Create and add the key to the game's keys list
     std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
     GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
-    game.keys.push_back(key);  // Add the key to the game's key list
+    game.getKeys().push_back(key);  // Add the key to the game's key list
 
     // Create a mock maze and set it in the game to prevent errors in `updateKeys`
     auto maze = std::make_unique<Maze>();
     game.setMaze(std::move(maze));  // Set the maze in the game
 
     // Set Pac-Man's position to be at the key's location (to simulate a collision)
-    game.pacMan->setPosition(100.0f, 100.0f);
+    game.getPacMan().setPosition(100.0f, 100.0f);
 
     // Call updateKeys to simulate the key collection and score increment
     updater.updateKeys();
@@ -958,90 +958,91 @@ TEST_CASE("Star Collision Detection Test") {
 }
 
 
-
+// These two are kinda broken
 // Test that Game transitions to the correct state based on input
-// TEST_CASE("Game State Transitions Test") {
-//     Game game;
-//     game.initialise();
+TEST_CASE("Game State Transitions Test") {
+    Game game;
+    game.initialise();
 
-//     // Simulate starting the game
-//     game.handleInput(KEY_ENTER);  // Simulate ENTER key press
-//     CHECK(game.isGameRunning() == true);
+    // Simulate starting the game
+    game.handleInput(KEY_ENTER);  // Simulate ENTER key press
+    CHECK(game.isGameRunning() == true);
 
-//     // Simulate ESCAPE key press to end the game
-//     game.handleInput(KEY_ESCAPE);
-//     CHECK(game.isGameRunning() == false);
-// }
+    // Simulate ESCAPE key press to end the game
+    game.handleInput(KEY_ESCAPE);
+    CHECK(game.isGameRunning() == false);
+}
 
-// // Test handleInput for directional controls
-// TEST_CASE("Game Input Handling Test") {
-//     Game game;
-//     game.initialise();
+// Test handleInput for directional controls
+TEST_CASE("Game Input Handling Test") {
+    Game game;
+    game.initialise();
+    game.run();
+    game.handleInput(KEY_RIGHT);
+    CHECK(game.getDirection() == 1);  // Right direction
 
-//     game.handleInput(KEY_RIGHT);
-//     CHECK(game.getDirection() == 1);  // Right direction
+    game.handleInput(KEY_LEFT);
+    CHECK(game.getDirection() == 2);  // Left direction
 
-//     game.handleInput(KEY_LEFT);
-//     CHECK(game.getDirection() == 2);  // Left direction
+    game.handleInput(KEY_UP);
+    CHECK(game.getDirection() == 3);  // Up direction
 
-//     game.handleInput(KEY_UP);
-//     CHECK(game.getDirection() == 3);  // Up direction
-
-//     game.handleInput(KEY_DOWN);
-//     CHECK(game.getDirection() == 4);  // Down direction
-// }
+    game.handleInput(KEY_DOWN);
+    CHECK(game.getDirection() == 4);  // Down direction
+}
 
 // Test that Pac-Man can collect fruits correctly and updates score
-// TEST_CASE("Game Fruit Collection Test") {
-//     Game game;
-//     game.initialiseGameObjects();
-//     game.initialiseFruits();
+TEST_CASE("Game Fruit Collection Test") {
+    Game game;
+    GameInitialiser::initialiseGameObjects(game);
+    GameInitialiser::initialiseFruits(game);
 
-//     // Get initial score
-//     int initialScore = game.getScore()->getCurrentScore();
+    // Get initial score
+    int initialScore = game.getScore().getCurrentScore();
 
-//     // Simulate Pac-Man collecting the first fruit
-//     auto& fruits = game.getFruits();
-//     fruits[0]->collect();  // Directly call collect() on the first fruit
-//     game.updateFruits();   // Update game state for fruit collection
+    // Simulate Pac-Man collecting the first fruit
+    auto& fruits = game.getFruits();
+    fruits[0]->collect();  // Directly call collect() on the first fruit
 
-//     CHECK(fruits[0]->isEaten() == true);  // Fruit should be marked as eaten
-//     CHECK(game.getScore()->getCurrentScore() == initialScore + 10);  // Score should increase by 10 points
-// }
+    CHECK(fruits[0]->isActive() == false);  // Fruit should be marked as eaten
+    CHECK(game.getScore().getCurrentScore() == initialScore + 10);  // Score should increase by 10 points
+}
 
-// TEST_CASE("Game correctly handles power pellet interaction") {
-//     Game game;
-//     game.initialiseGameObjects();      // Initialize game objects
-//     game.initialisePowerPellets();     // Initialize power pellets
+TEST_CASE("Game correctly handles power pellet interaction") {
+    Game game;
+    Draw draw;
+    Update updater(game, &draw);
+    GameInitialiser::initialiseGameObjects(game);      // Initialize game objects
+    GameInitialiser::initialisePowerPellets(game);     // Initialize power pellets
 
-//     // Simulate Pac-Man eating a power pellet
-//     auto& powerPellet = game.getPowerPellets().front();
-//     CHECK(powerPellet->isActive() == true);  // Power pellet should be active
-//     powerPellet->collect();  // Pac-Man collects the power pellet
+    // Simulate Pac-Man eating a power pellet
+    auto& powerPellet = game.getPowerPellets().front();
+    CHECK(powerPellet->isActive() == true);  // Power pellet should be active
+    powerPellet->collect();  // Pac-Man collects the power pellet
 
-//     game.updatePowerPellets();  // Update the game state with the collected pellet
+    updater.updatePowerPellets();  // Update the game state with the collected pellet
 
-//     // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
-//     for (auto& ghost : game.getGhosts()) {
-//         CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
-//     }
-// }
+    // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
+    for (auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
+    }
+}
 
 // Test that the game ends when Pac-Man loses all lives
-// TEST_CASE("Game Over Condition Test") {
-//     Game game;
-//     game.initialiseGameObjects();
+TEST_CASE("Game Over Condition Test") {
+    Game game;
+    GameInitialiser::initialiseGameObjects(game);
 
-//     auto lives = game.getPlayerLives();
+    auto lives = game.getPlayerLives();
 
-//     // Simulate losing all lives
-//     while (lives->getLives() > 0) {
-//         lives->loseLife();
-//     }
+    // Simulate losing all lives
+    while (lives.getLives() > 0) {
+        lives.loseLife();
+    }
 
-//     game.update();  // Update game state for lives condition
-//     CHECK(game.isGameRunning() == false);  // Game should stop running
-// }
+    game.update();  // Update game state for lives condition
+    CHECK(game.isGameRunning() == false);  // Game should stop running
+}
 
 
 // Screen tests:

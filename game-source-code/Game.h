@@ -43,7 +43,7 @@ public:
 
     void initialise();
     void run();
-    void handleInput();
+    void handleInput(int inputKey);
     void update();
     void checkWinCondition();
 
@@ -57,6 +57,7 @@ public:
     std::vector<PowerPellet*>& getPowerPellets();
     std::vector<SuperPellet*>& getSuperPellets();
     std::vector<Ghost*>& getGhosts();
+    std::vector<GameKey>& getKeys() { return keys; }
 
     Maze& getMaze() const { return *maze; } 
     PacMan& getPacMan() const { return *pacMan; }

@@ -55,7 +55,7 @@ void Game::run() {
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
         auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
-        handleInput();   // Handle user input like key presses for movement
+        handleInput(0);   // Handle user input like key presses for movement
         update();
         screen->render(); // Render the current state of the game
         draw->drawMaze(*maze);  // Draw the maze
@@ -100,16 +100,19 @@ void Game::run() {
 }
 
 // Handles user input for controlling Pac-Man's direction
-void Game::handleInput() {
-    auto key = GetKeyPressed();
+void Game::handleInput(int inputKey) {
+    if (inputKey == 0)
+    {
+        inputKey = GetKeyPressed();
+    }
     // Check if the ESCAPE key is pressed to exit the game
-    if (key == KEY_ESCAPE) {
+    if (inputKey == KEY_ESCAPE) {
         isRunning = false;  // Stop the game loop
         return;
     }
 
     // Detect arrow key presses to update Pac-Man's direction
-    switch (key) {
+    switch (inputKey) {
     case KEY_RIGHT:
         pacManDirection = RIGHT;
         break;
