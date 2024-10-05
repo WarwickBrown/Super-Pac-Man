@@ -11,14 +11,14 @@ Draw::Draw() {}
 Draw::~Draw() {}
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
-void Draw::drawPacMan(const PacMan& pacman, int frame, Direction direction) {
+void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
     // Convert Pac-Man's tile coordinates to pixel coordinates with a slight adjustment
     auto pixelX = pacman.getX() - 30;  // Adjust X position
     auto pixelY = pacman.getY() - 30;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     Texture2D texture = pacManTextures[0];  // Default texture is for moving left
-    switch(direction){
+    switch(pacManDirection){
         case RIGHT:
             texture = pacManTextures[1];  // Texture for moving right
             break;
@@ -41,14 +41,14 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, Direction direction) {
 }
 
 // Function to draw Pac-Man at a specific location and frame, based on the current direction
-void Draw::drawSuperPacMan(const PacMan& pacman, int frame, Direction direction) {
+void Draw::drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
     auto renderRadius = 50;
     auto pixelX = pacman.getX() - 50;  // Adjust X position
     auto pixelY = pacman.getY() - 50;  // Adjust Y position
 
     // Select the appropriate texture based on the direction Pac-Man is moving
     auto texture = pacManTexturesBig[0];  // Default texture is for moving left
-    switch(direction){
+    switch(pacManDirection){
         case 1:
             texture = pacManTexturesBig[1];  // Texture for moving right
             break;

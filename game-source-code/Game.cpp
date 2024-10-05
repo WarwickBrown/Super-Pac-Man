@@ -15,7 +15,7 @@
 #include <memory>
 
 // Constructor - Initialises game window, running state, and sets pointers to nullptr
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), direction(RIGHT), frame(0), gameWon(false) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(RIGHT), frame(0), gameWon(false) {}
 
 // Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() = default;
@@ -76,10 +76,10 @@ void Game::run() {
         }
 
         if (pacMan->isSuper()) {
-            draw->drawSuperPacMan(*pacMan, frame, static_cast<Draw::Direction>(oldDirection));
+            draw->drawSuperPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));
         }
         else{
-            draw->drawPacMan(*pacMan, frame, static_cast<Draw::Direction>(oldDirection));  // Draw Pac-Man with its current frame and direction
+            draw->drawPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));  // Draw Pac-Man with its current frame and direction
         }
         // If the game has been won, break the loop
         if (gameWon) {
@@ -110,16 +110,16 @@ void Game::handleInput() {
     // Detect arrow key presses to update Pac-Man's direction
     switch (key) {
     case KEY_RIGHT:
-        direction = RIGHT;
+        pacManDirection = RIGHT;
         break;
     case KEY_LEFT:
-        direction = LEFT;
+        pacManDirection = LEFT;
         break;
     case KEY_UP:
-        direction = UP;
+        pacManDirection = UP;
         break;
     case KEY_DOWN:
-        direction = DOWN;
+        pacManDirection = DOWN;
         break;
     default:
         // No direction change

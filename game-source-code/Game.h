@@ -17,9 +17,9 @@
 #include "SuperPellet.h"
 #include "Update.h"
 #include "PacManManager.h"
-#include "Ghost.h"  // Move this include here to avoid forward declaration issues
+#include "Ghost.h"  
 
-// Forward declaration of the Screen class to allow Game class to reference it
+// Forward declaration of various classes to allow Game class to reference them
 class Draw;
 class Screen;
 class GameInitialiser;
@@ -65,7 +65,7 @@ public:
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
-    Direction getDirection() const { return direction; }
+    Direction getDirection() const { return pacManDirection; }
 
     void setMaze(std::unique_ptr<Maze> maze) { this->maze = std::move(maze); }
     void setPacMan(std::unique_ptr<PacMan> pacMan) { this->pacMan = std::move(pacMan); }
@@ -97,8 +97,7 @@ private:
     
     bool isRunning;
     int totalFrames = 1;
-    Direction direction, ghostDirection;
-    Direction oldDirection = RIGHT;
+    Direction pacManDirection, ghostDirection, pacManOldDirection = RIGHT;
     raylib::Window window;
     int frame;
     bool gameWon;

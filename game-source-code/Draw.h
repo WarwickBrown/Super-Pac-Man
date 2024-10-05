@@ -37,11 +37,11 @@ public:
     void drawKeys(const std::vector<GameKey>& keys);
     void drawLives(int lives);
     void drawMaze(const Maze& maze);    // Draws the maze on the Draw
-    void drawPacMan(const PacMan& pacman, int frame, Direction direction); // Draws Pac-Man at a specific location and frame
+    void drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection); // Draws Pac-Man at a specific location and frame
     void drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& powerPellets);
     void drawScores(const Score& score);
     void drawStars(std::vector<std::unique_ptr<Star>>& star);
-    void drawSuperPacMan(const PacMan& pacman, int frame, Direction direction);
+    void drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection);
     void drawSuperPellets(const std::vector<std::unique_ptr<SuperPellet>>& superPellets);
     void drawSymbols(int num1, int num2);
 
@@ -53,7 +53,6 @@ public:
 
 private:
     std::unique_ptr<Maze> maze;
-    Direction direction;               // Current direction for Pac-Man's movement
     raylib::Window window; // Game window object for rendering
     int num = 0;  
     bool eaten;
