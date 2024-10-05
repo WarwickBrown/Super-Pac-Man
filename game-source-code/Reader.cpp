@@ -43,3 +43,12 @@ const std::vector<std::string>& Reader::getData() const {
 void Reader::setData(const std::vector<std::string>& newData) {
     data = newData;
 }
+
+// Function to delete the file
+void Reader::deleteFile(std::string tempFileName) {
+    if (std::remove(tempFileName.c_str()) == 0) {
+        std::cout << "File " << tempFileName << " deleted successfully." << std::endl;
+    } else {
+        std::cerr << "Error: Could not delete file " << tempFileName << std::endl;
+    }
+}

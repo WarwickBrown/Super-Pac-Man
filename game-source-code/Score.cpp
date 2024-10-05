@@ -33,7 +33,7 @@ void Score::loadHighScore() {
 }
 
 void Score::saveHighScore() {
-    // Use WallReader to write the high score
+    // Use Reader to write the high score
     Reader writer(scoreFile);
     auto lines = { std::to_string(highScore) };
     writer.writeFile(lines);

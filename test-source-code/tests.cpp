@@ -485,10 +485,11 @@ TEST_CASE("GameKey Walls to Unlock Test") {
 
 // Test case for checking collision with Pac-Man
 TEST_CASE("Ghost Collision With Pac-Man") {
-    Ghost ghost(100, 200, 150.0f);
-    PacMan pacman(100, 200);  // Place Pac-Man at the same position as the ghost
+    Ghost ghost(100.0f, 200.0f, 150.0f);
+    PacMan pacman(0.0f, 0.0f);  // Place Pac-Man at the same position as the ghost
 
     // Check collision
+    pacman.setPosition(100.0f, 200.0f);
     bool collision = ghost.checkCollisionWithPacMan(pacman);
     CHECK(collision == true);  // Should detect collision
 
@@ -1193,9 +1194,118 @@ TEST_CASE("PowerPellet No Collision Detection when Pac-Man is Far") {
     CHECK(powerPellet.isActive() == true);  // PowerPellet should remain active
 }
 
+// Test case for handling an empty file
+TEST_CASE("Reader handles an empty file correctly") {
+    const std::string tempFileName = "../resources/empty_walls.txt";
+    
+    // Create an empty file
+    std::ofstream outFile(tempFileName);
+    outFile.close();  // Close the file to ensure it's saved as empty
+
+    // Create a Reader object and read from the empty file
+    Reader reader(tempFileName);
+    reader.readFile();  // Pass the file path to the reader
+
+    // Get the data from the Reader and check its content
+    const auto& data = reader.getData();
+    CHECK(data.empty());  // Check if the data vector is empty
+
+    // Clean up the temporary file after the test
+    std::remove(tempFileName.c_str());
+}
+
+
+// Test case for handling a non-existent file
+TEST_CASE("Reader handles non-existent file correctly") {
+    const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
+    
+    // Create a WallReader object and read from the non-existent file
+    Reader reader;
+    
+    // Redirect std::cerr to capture error messages
+    std::stringstream errorBuffer;
+    std::streambuf* oldCerrBuffer = std::cerr.rdbuf(errorBuffer.rdbuf());
+
+    // Try reading the file (this should fail and print an error message)
+    reader.readFile();
+
+    // Check that the error message was printed to std::cerr
+    std::string expectedErrorMessage = "Error: Cannot open file " + nonExistentFileName + "\n";
+    CHECK(errorBuffer.str() == expectedErrorMessage);
+
+    // Restore std::cerr
+    std::cerr.rdbuf(oldCerrBuffer);
+
+    // Check that the data vector is empty
+    CHECK(reader.getData().empty());
+}
+
+// Test case for reading a valid file with content
+TEST_CASE("Reader reads file content correctly") {
+    const std::string tempFileName = "../resources/temp_walls.txt";
+    std::vector<std::string> fileContents = {
+        "Wall 1: x=10, y=20, width=50, height=5",
+        "Wall 2: x=30, y=40, width=70, height=5",
+        "Wall 3: x=50, y=60, width=90, height=5"
+    };
+
+    // Create a temporary file with the given contents
+    createTempFile(tempFileName, fileContents);
+
+    // Create a WallReader object and read from the temporary file
+    Reader reader;
+    reader.readFile();
+
+    // Get the data from the WallReader and check its content
+    const auto& data = reader.getData();
+    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
+
+    for (size_t i = 0; i < fileContents.size(); ++i) {
+        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
+    }
+
+    // Clean up the temporary file after the test
+    std::remove(tempFileName.c_str());
+}
+
+// Test case for handling a file with multiple lines and special characters
+TEST_CASE("Reader reads file with special characters correctly") {
+    const std::string tempFileName = "../resources/special_walls.txt";
+    std::vector<std::string> fileContents = {
+        "Wall #1: x=10, y=20, width=50, height=5",
+        "Wall @2: x=30, y=40, width=70, height=5",
+        "Wall &3: x=50, y=60, width=90, height=5",
+        "!Wall *4: x=70, y=80, width=110, height=5"
+    };
+
+    // Create a temporary file with the given contents
+    createTempFile(tempFileName, fileContents);
+
+    // Create a WallReader object and read from the temporary file
+    Reader reader;
+    reader.readFile();
+
+    // Get the data from the WallReader and check its content
+    const auto& data = reader.getData();
+    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
+
+    for (size_t i = 0; i < fileContents.size(); ++i) {
+        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
+    }
+}
+
 // Test adding points and high score update logic
 TEST_CASE("Score Addition and High Score Update Test") {
-    Score score("test_highscore.txt");
+    const std::string tempFileName = "../resources/test_highscore.txt";
+    std::ofstream ofs;
+    // Create an empty file
+    std::ofstream outFile(tempFileName);
+    outFile.close();  // Close the file to ensure it's saved as empty
+
+    // Create a Reader object and read from the empty file
+    Reader reader(tempFileName);
+    reader.readFile();
+    Score score(tempFileName);
 
     score.addPoints(10);
     CHECK(score.getCurrentScore() == 10);  // Current score should be 10
@@ -1209,10 +1319,10 @@ TEST_CASE("Score Addition and High Score Update Test") {
     score.addPoints(-10);  // Invalid operation, subtracting points (assuming it's not allowed)
     CHECK(score.getCurrentScore() == 20);  // Score should decrease to 20
     CHECK(score.getHighScore() == 30);  // High score should remain 30
-
-    // Cleanup
-    std::remove("../resources/test_highscore.txt");
+    // Cleanup: Delete the file after the test is complete
+    std::remove(tempFileName.c_str());
 }
+
 
 // Test the Score constructor and initial values
 TEST_CASE("Score Constructor Test") {
@@ -1528,101 +1638,3 @@ TEST_CASE("Update: Score increments on key collection") {
     CHECK(game.getScore().getCurrentScore() == 50);  // Score should increase by 50 points
 }
 
-// Test case for handling an empty file
-TEST_CASE("WallReader handles an empty file correctly") {
-    const std::string tempFileName = "../resources/empty_walls.txt";
-    
-    // Create an empty file
-    std::ofstream outFile(tempFileName);
-    outFile.close();
-
-    // Create a WallReader object and read from the empty file
-    Reader reader;
-    reader.readFile();
-
-    // Get the data from the WallReader and check its content
-    const auto& data = reader.getData();
-    CHECK(data.empty());  // Check if the data vector is empty
-
-    // Clean up the temporary file after the test
-    std::remove(tempFileName.c_str());
-}
-
-// Test case for handling a non-existent file
-TEST_CASE("WallReader handles non-existent file correctly") {
-    const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
-    
-    // Create a WallReader object and read from the non-existent file
-    Reader reader;
-    
-    // Redirect std::cerr to capture error messages
-    std::stringstream errorBuffer;
-    std::streambuf* oldCerrBuffer = std::cerr.rdbuf(errorBuffer.rdbuf());
-
-    // Try reading the file (this should fail and print an error message)
-    reader.readFile();
-
-    // Check that the error message was printed to std::cerr
-    std::string expectedErrorMessage = "Error: Cannot open file " + nonExistentFileName + "\n";
-    CHECK(errorBuffer.str() == expectedErrorMessage);
-
-    // Restore std::cerr
-    std::cerr.rdbuf(oldCerrBuffer);
-
-    // Check that the data vector is empty
-    CHECK(reader.getData().empty());
-}
-
-// Test case for reading a valid file with content
-TEST_CASE("WallReader reads file content correctly") {
-    const std::string tempFileName = "../resources/temp_walls.txt";
-    std::vector<std::string> fileContents = {
-        "Wall 1: x=10, y=20, width=50, height=5",
-        "Wall 2: x=30, y=40, width=70, height=5",
-        "Wall 3: x=50, y=60, width=90, height=5"
-    };
-
-    // Create a temporary file with the given contents
-    createTempFile(tempFileName, fileContents);
-
-    // Create a WallReader object and read from the temporary file
-    Reader reader;
-    reader.readFile();
-
-    // Get the data from the WallReader and check its content
-    const auto& data = reader.getData();
-    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
-
-    for (size_t i = 0; i < fileContents.size(); ++i) {
-        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
-    }
-
-    // Clean up the temporary file after the test
-    std::remove(tempFileName.c_str());
-}
-
-// Test case for handling a file with multiple lines and special characters
-TEST_CASE("WallReader reads file with special characters correctly") {
-    const std::string tempFileName = "../resources/special_walls.txt";
-    std::vector<std::string> fileContents = {
-        "Wall #1: x=10, y=20, width=50, height=5",
-        "Wall @2: x=30, y=40, width=70, height=5",
-        "Wall &3: x=50, y=60, width=90, height=5",
-        "!Wall *4: x=70, y=80, width=110, height=5"
-    };
-
-    // Create a temporary file with the given contents
-    createTempFile(tempFileName, fileContents);
-
-    // Create a WallReader object and read from the temporary file
-    Reader reader;
-    reader.readFile();
-
-    // Get the data from the WallReader and check its content
-    const auto& data = reader.getData();
-    CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
-
-    for (size_t i = 0; i < fileContents.size(); ++i) {
-        CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
-    }
-}

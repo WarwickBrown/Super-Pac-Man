@@ -26,6 +26,8 @@ public:
 
     // Setter for the data 
     void setData(const std::vector<std::string>& newData);
+
+    void deleteFile(std::string tempFileName);
 };
 
 #endif // Reader_H
