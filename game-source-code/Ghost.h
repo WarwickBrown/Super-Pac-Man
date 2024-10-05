@@ -24,6 +24,8 @@ public:
     void chooseRandomDirection(const Maze& maze);
     bool checkCollisionWithPacMan(const PacMan& pacman) const;
     void chooseNewDirection(const Maze& maze);     // Chooses a new direction when a collision occurs
+    void ghostEscapeBox(int direction, auto newX, auto newY, float deltaTime);
+    void ghostChasePacMan(int direction, auto newX, auto newY, float deltaTime, const Maze& maze, const PacMan& pacman);
 
     int move(const Maze& maze,const PacMan& pacman, float deltaTime);  // Moves the ghost based on direction
 
