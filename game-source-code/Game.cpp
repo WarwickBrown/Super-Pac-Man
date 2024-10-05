@@ -49,7 +49,8 @@ void Game::initialise() {
 void Game::run() {
     int pixelX; // Coordinates for rendering
     int pixelY;
-
+    srand(time(0));
+    num3 = rand()%6+1;
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
         auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
