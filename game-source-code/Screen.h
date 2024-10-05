@@ -23,7 +23,7 @@ public:
     ~Screen(); // Destructor: Cleans up dynamically allocated memory (if any)
 
     // Functions for handling various Draw-related tasks
-    void startScreen(const Game* game, const Screen* Draw, const Score& score); // Displays the start Draw with game instructions
+    void startScreen(const Game* game, const Score& score); // Displays the start Draw with game instructions
     void render(); // Clears the Draw and prepares it for rendering
     void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
 

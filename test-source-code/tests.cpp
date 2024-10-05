@@ -10,7 +10,9 @@
 #include "Star.h"
 #include "Score.h"
 #include "GameInitialiser.h"
-/*
+#include "Reader.h"
+#include "Update.h"
+
 // Helper function to create a basic maze for testing purposes
 Maze createTestMaze() {
     Maze maze;
@@ -107,28 +109,28 @@ TEST_CASE("PacMan Direction Changes") {
 
     // Subtest for Pac-Man moving to the right
     SUBCASE("Pac-Man moves right") {
-        pacman.setDirection(1);  // Right
+        pacman.setDirection(PacMan::RIGHT);
         CHECK(pacman.getDX() == 1);
         CHECK(pacman.getDY() == 0);
     }
 
     // Subtest for Pac-Man moving to the left
     SUBCASE("Pac-Man moves left") {
-        pacman.setDirection(2);  // Left
+        pacman.setDirection(PacMan::LEFT);
         CHECK(pacman.getDX() == -1);
         CHECK(pacman.getDY() == 0);
     }
 
     // Subtest for Pac-Man moving down
     SUBCASE("Pac-Man moves down") {
-        pacman.setDirection(3);  // Down
+        pacman.setDirection(PacMan::DOWN);
         CHECK(pacman.getDX() == 0);
         CHECK(pacman.getDY() == -1);
     }
 
     // Subtest for Pac-Man moving up
     SUBCASE("Pac-Man moves up") {
-        pacman.setDirection(4);  // Up
+        pacman.setDirection(PacMan::UP);
         CHECK(pacman.getDX() == 0);
         CHECK(pacman.getDY() == 1);
     }
@@ -144,7 +146,7 @@ TEST_CASE("PacMan Movement") {
     SUBCASE("Valid right movement") {
         int initialX = pacman.getX();
         int initialY = pacman.getY();
-        pacman.move(maze, pacman.getFrames(), 1);  // Move right
+        pacman.move(maze, pacman.getFrames(), PacMan::RIGHT);
         CHECK((initialX + pacman.getDX() * pacman.getFrames() * pacman.getSpeed()) == pacman.getX());
         CHECK((initialY + pacman.getDY() * pacman.getFrames() * pacman.getSpeed()) == pacman.getY());
     }
@@ -153,7 +155,7 @@ TEST_CASE("PacMan Movement") {
     SUBCASE("Valid left movement") {
         int initialX = pacman.getX();
         int initialY = pacman.getY();
-        pacman.move(maze, pacman.getFrames(), 2);  // Move left
+        pacman.move(maze, pacman.getFrames(), PacMan::LEFT);
         CHECK((initialX + pacman.getDX() * pacman.getFrames() * pacman.getSpeed()) == pacman.getX());
         CHECK((initialY + pacman.getDY() * pacman.getFrames() * pacman.getSpeed()) == pacman.getY());
     }
@@ -162,7 +164,7 @@ TEST_CASE("PacMan Movement") {
     SUBCASE("Valid up movement") {
         int initialX = pacman.getX();
         int initialY = pacman.getY();
-        pacman.move(maze, pacman.getFrames(), 3);  // Move up
+        pacman.move(maze, pacman.getFrames(), PacMan::UP);
         CHECK((initialX + pacman.getDX() * pacman.getFrames() * pacman.getSpeed()) == pacman.getX());
         CHECK((initialY + pacman.getDY() * pacman.getFrames() * pacman.getSpeed()) == pacman.getY());
     }
@@ -171,7 +173,7 @@ TEST_CASE("PacMan Movement") {
     SUBCASE("Valid down movement") {
         int initialX = pacman.getX();
         int initialY = pacman.getY();
-        pacman.move(maze, pacman.getFrames(), 4);  // Move down
+        pacman.move(maze, pacman.getFrames(), PacMan::DOWN);
         CHECK((initialX + pacman.getDX() * pacman.getFrames() * pacman.getSpeed()) == pacman.getX());
         CHECK((initialY + pacman.getDY() * pacman.getFrames() * pacman.getSpeed()) == pacman.getY());
     }
@@ -235,15 +237,15 @@ TEST_CASE("PacMan Speed in Super Mode") {
     float initialY = pacman.getY();
 
     // Move PacMan for 1 second in normal mode
-    pacman.setDirection(1);  // Move right
-    pacman.move(maze, 1.0f, 1);  // Simulate movement for 1 second in normal mode
+    pacman.setDirection(PacMan::RIGHT);
+    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in normal mode
     float normalX = pacman.getX();
     float normalY = pacman.getY();
 
     // Activate Super Mode and move PacMan for 1 second
     pacman.activateSuperMode();
     pacman.setPosition(initialX, initialY);  // Reset position to initial
-    pacman.move(maze, 1.0f, 1);  // Simulate movement for 1 second in Super Mode
+    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in Super Mode
     float superX = pacman.getX();
     float superY = pacman.getY();
 
@@ -573,26 +575,16 @@ TEST_CASE("Fruit Collision Detection Test") {
     CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should be detected
 }
 
-// Test that collecting a fruit increases the score
-// TEST_CASE("Score Increment Test") {
-//     Fruit fruit(200, 300);
-//     Score score;
+//Test that collecting a fruit increases the score
+TEST_CASE("Score Increment Test") {
+    Fruit fruit(200, 300);
+    Score score("Fruit_score_test.txt");
 
-//     CHECK(score.currentScore == 0);  // Initial score should be 0
-//     fruit.collect();  // Simulate collecting the fruit
-//     score.addPoints(10);  // Assume collecting the fruit gives 10 points
-//     CHECK(score.currentScore == 10);  // Score should now be 10
-// }
-
-// // Verify that interactions with ghosts do not affect fruits
-// TEST_CASE("No Interaction with Ghosts Test") {
-//     Fruit fruit(150, 250);  // Create a fruit
-//     Ghost ghost;  // Create a ghost object (assuming a Ghost class is defined)
-
-//     fruit.markAsEaten();  // Simulate Pac-Man collecting the fruit
-//     CHECK(fruit.isEaten() == true);  // Verify fruit is marked as eaten
-//     CHECK(ghost.getPosition() == /* ghost initial position );  // Ghost properties should be unchanged
-// }
+    CHECK(score.getCurrentScore() == 0);  // Initial score should be 0
+    fruit.collect();  // Simulate collecting the fruit
+    score.addPoints(10);  // Assume collecting the fruit gives 10 points
+    CHECK(score.getCurrentScore() == 10);  // Score should now be 10
+}
 
 // Test boundary and edge cases for Fruit placement and behavior
 TEST_CASE("Boundary and Edge Cases Test") {
@@ -790,24 +782,6 @@ TEST_CASE("GameKey Walls to Unlock Test") {
 }
 
 
-// Test active state manipulation
-// TEST_CASE("GameKey Active State Test") {
-//     std::vector<int> wallsToUnlock = {1, 2};
-//     GameKey key(100.0f, 100.0f, wallsToUnlock);
-
-//     // Ensure key starts as active
-//     CHECK(key.isActive() == true);
-
-//     // Deactivate key and check status
-//     key.setActive(false);
-//     CHECK(key.isActive() == false);
-
-//     // Reactivate key and check status
-//     key.setActive(true);
-//     CHECK(key.isActive() == true);
-// }
-
-
 // Test memory management by constructing and destructing GameKey objects
 TEST_CASE("GameKey Memory Management Test") {
     std::vector<int> wallsToUnlock = {1, 2};
@@ -824,21 +798,67 @@ TEST_CASE("GameKey Memory Management Test") {
     delete key;
 }
 
-// Integration Test: Check GameKey integration with other objects (such as maze)
-// TEST_CASE("GameKey Integration Test with Maze") {
-//     std::vector<int> wallsToUnlock = {1, 2};
-//     GameKey key(100.0f, 100.0f, wallsToUnlock);
+// Integration Test: Check if keys correctly unlock walls in the maze
+TEST_CASE("Update: Keys unlock walls") {
+    // Set up game, draw, and update objects
+    Game game;
+    Draw draw;
+    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
+    Update updater(game, &draw);
 
-//     Maze maze;
-//     // Mock unlocking logic for walls in maze based on key (assuming Maze has unlockWall method)
-//     for (int wallIndex : key.getWallsToUnlock()) {
-//         maze.unlockWall(wallIndex);  // Unlock the wall associated with this key
-//     }
+    // Create and add the key to the game's keys list
+    std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
+    GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
+    game.keys.push_back(key);  // Add the key to the game's key list
 
-//     // Check that the walls have been unlocked in the maze (assuming Maze has isWallLocked method)
-//     CHECK(maze.isWallLocked(1) == false);  // Wall 1 should be unlocked
-//     CHECK(maze.isWallLocked​(2) == false);
-// }
+    // Create walls and set their initial state to active (locked)
+    auto maze = std::make_unique<Maze>();
+    maze->getWalls().emplace_back(Rectangle{0, 0, 50, 10}, BLACK);  // Wall 0
+    maze->getWalls().emplace_back(Rectangle{100, 100, 50, 10}, BLACK);  // Wall 1
+    maze->getWalls()[0].active = true;  // Mark wall 0 as locked initially
+    maze->getWalls()[1].active = true;  // Mark wall 1 as locked initially
+    game.setMaze(std::move(maze));  // Set the maze in the game
+
+    // Set Pac-Man's position to be at the key's location (to simulate a collision)
+    game.getPacMan().setPosition(100.0f, 100.0f);
+
+    // Call updateKeys to simulate the key collection and wall unlocking
+    updater.updateKeys();
+
+    // Check if the key is now inactive (collected)
+    CHECK(game.getKeys[0].isActive() == false);
+
+    // Check that the associated walls are now deactivated (unlocked)
+    CHECK(game.getMaze().getWalls()[0].active == false);  // Wall 0 should be unlocked
+    CHECK(game.getMaze().getWalls()[1].active == false);  // Wall 1 should be unlocked
+}
+
+// Integration Test: Check if score is updated correctly when key is collected
+TEST_CASE("Update: Score increments on key collection") {
+    // Set up game, draw, and update objects
+    Game game;
+    Draw draw;
+    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
+    Update updater(game, &draw);
+
+    // Create and add the key to the game's keys list
+    std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
+    GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
+    game.keys.push_back(key);  // Add the key to the game's key list
+
+    // Create a mock maze and set it in the game to prevent errors in `updateKeys`
+    auto maze = std::make_unique<Maze>();
+    game.setMaze(std::move(maze));  // Set the maze in the game
+
+    // Set Pac-Man's position to be at the key's location (to simulate a collision)
+    game.pacMan->setPosition(100.0f, 100.0f);
+
+    // Call updateKeys to simulate the key collection and score increment
+    updater.updateKeys();
+
+    // Check that the score has been updated correctly
+    CHECK(game.getScore().getCurrentScore() == 50);  // Score should increase by 50 points
+}
 
 // Lives tests
 
@@ -1034,15 +1054,14 @@ std::unique_ptr<Draw> createScreen() {
 
 // Test case for initializing and displaying the screen
 TEST_CASE("Screen initializes and displays correctly") {
-    auto screen = createScreen();  // Use unique pointer to create a Screen instance
     Game game;                     // Create a Game instance
+    Screen screen;
     Score score("test_screen_initialisation.txt");
 
     GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
     game.initialise();             // Initialize the game
 
-    // Display start screen using Screen class method
-    screen->startScreen(&game, screen.get(), score);
+    screen.startScreen(&game, score);
 
     // Check if game is running using the Game class method
     CHECK(game.isGameRunning() == true);
@@ -1050,7 +1069,7 @@ TEST_CASE("Screen initializes and displays correctly") {
 
 // Test case for verifying end game screen
 TEST_CASE("Screen correctly handles end game screen") {
-    auto screen = createScreen();  // Use unique pointer
+    auto screen = std::make_unique<Screen>(); // If Draw does not contain startScreen
     Game game;
     Score score("test_screen_endgame.txt");
 
@@ -1066,7 +1085,7 @@ TEST_CASE("Screen correctly handles end game screen") {
 
 // Test case for verifying win screen
 TEST_CASE("Screen correctly handles win game screen") {
-    auto screen = createScreen();  // Use unique pointer
+    Screen screen;
     Game game;
     Score score("test_screen_wingame.txt");
 
@@ -1076,20 +1095,21 @@ TEST_CASE("Screen correctly handles win game screen") {
     score.addPoints(5000);
 
     // Display win game screen and verify it stops the game loop
-    bool result = screen->winGame(score);
+    bool result = screen.winGame(score);
     CHECK(result == false);  // The game loop should stop
 }
 
 
 
 TEST_CASE("Screen draws Pac-Man correctly") {
-    auto screen = createScreen();  // Use unique pointer
+    Draw draw;
+    Game game;
+    GameInitialiser::initialiseGameObjects(game);
     PacMan pacman(150, 150);
     int frame = 0;
-    int direction = 1; // Moving right
 
     // Draw Pac-Man without copying Screen
-    screen->drawPacMan(pacman, frame, direction);
+    draw.drawPacMan(pacman, frame, Draw::RIGHT);
     CHECK(true);  // If no exception or error occurs, the test passes
 }
 
@@ -1109,7 +1129,7 @@ TEST_CASE("Screen draws Pac-Man correctly") {
 // }
 
 TEST_CASE("Screen draws the score correctly") {
-    Screen screen;
+    Draw draw;
     Score score("test_screen_score.txt");
 
     // Mock scores
@@ -1117,18 +1137,18 @@ TEST_CASE("Screen draws the score correctly") {
     score.addPoints(200);
 
     // Draw the score and ensure the function works correctly
-    screen.drawScores(score);
+    draw.drawScores(score);
 
     // Check if the function completes without errors.
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
 TEST_CASE("Screen draws the lives correctly") {
-    Screen screen;
+    Draw draw;
     int lives = 3;  // Simulate 3 lives
 
     // Draw the lives and ensure the function works correctly
-    screen.drawLives(lives);
+    draw.drawLives(lives);
 
     // Check if the function completes without errors.
     CHECK(true); // If no exception or error occurs, the test passes
@@ -1172,11 +1192,11 @@ TEST_CASE("WallReader reads file content correctly") {
     createTempFile(tempFileName, fileContents);
 
     // Create a WallReader object and read from the temporary file
-    WallReader wallReader;
-    wallReader.readFile();
+    Reader reader;
+    reader.readFile();
 
     // Get the data from the WallReader and check its content
-    const auto& data = wallReader.getData();
+    const auto& data = reader.getData();
     CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
 
     for (size_t i = 0; i < fileContents.size(); ++i) {
@@ -1196,11 +1216,11 @@ TEST_CASE("WallReader handles an empty file correctly") {
     outFile.close();
 
     // Create a WallReader object and read from the empty file
-    WallReader wallReader;
-    wallReader.readFile();
+    Reader reader;
+    reader.readFile();
 
     // Get the data from the WallReader and check its content
-    const auto& data = wallReader.getData();
+    const auto& data = reader.getData();
     CHECK(data.empty());  // Check if the data vector is empty
 
     // Clean up the temporary file after the test
@@ -1212,14 +1232,14 @@ TEST_CASE("WallReader handles non-existent file correctly") {
     const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
     
     // Create a WallReader object and read from the non-existent file
-    WallReader wallReader;
+    Reader reader;
     
     // Redirect std::cerr to capture error messages
     std::stringstream errorBuffer;
     std::streambuf* oldCerrBuffer = std::cerr.rdbuf(errorBuffer.rdbuf());
 
     // Try reading the file (this should fail and print an error message)
-    wallReader.readFile();
+    reader.readFile();
 
     // Check that the error message was printed to std::cerr
     std::string expectedErrorMessage = "Error: Cannot open file " + nonExistentFileName + "\n";
@@ -1229,7 +1249,7 @@ TEST_CASE("WallReader handles non-existent file correctly") {
     std::cerr.rdbuf(oldCerrBuffer);
 
     // Check that the data vector is empty
-    CHECK(wallReader.getData().empty());
+    CHECK(reader.getData().empty());
 }
 
 // Test case for handling a file with multiple lines and special characters
@@ -1246,11 +1266,11 @@ TEST_CASE("WallReader reads file with special characters correctly") {
     createTempFile(tempFileName, fileContents);
 
     // Create a WallReader object and read from the temporary file
-    WallReader wallReader;
-    wallReader.readFile();
+    Reader reader;
+    reader.readFile();
 
     // Get the data from the WallReader and check its content
-    const auto& data = wallReader.getData();
+    const auto& data = reader.getData();
     CHECK(data.size() == fileContents.size());  // Check if the number of lines matches
 
     for (size_t i = 0; i < fileContents.size(); ++i) {
@@ -1406,8 +1426,8 @@ void initializeGameWithPowerPellets(Game& game) {
     GameInitialiser::initialisePowerPellets(game);  // Setup power pellets
 
     // Place Pac-Man near the first power pellet for testing purposes
-    auto* pacMan = game.getPacMan();
-    pacMan->setPosition(100.0f, 100.0f);
+    PacMan pacMan = game.getPacMan();
+    pacMan.setPosition(100.0f, 100.0f);
 
     // Place ghosts at initial positions
     for (auto& ghost : game.getGhosts()) {
@@ -1418,6 +1438,8 @@ void initializeGameWithPowerPellets(Game& game) {
 // Test case for Pac-Man collecting a power pellet and ghosts becoming frightened
 TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     Game game;
+    Draw draw;
+    Update updater(game, &draw);
     initializeGameWithPowerPellets(game);
 
     // Verify initial state of game objects
@@ -1426,13 +1448,13 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     CHECK(firstPellet->isActive() == true);  // First power pellet should be active
 
     // Simulate Pac-Man collecting the power pellet
-    game.updatePowerPellets();
+    updater.updatePowerPellets();
 
     // Check that the first pellet is now inactive
     CHECK(firstPellet->isActive() == false);
 
     // Check that the score increased correctly
-    CHECK(game.getScore()->getCurrentScore() == 100);  // Assume 100 points per pellet
+    CHECK(game.getScore().getCurrentScore() == 100);  // Assume 100 points per pellet
 
     // Check that all ghosts are in frightened mode
     for (const auto& ghost : game.getGhosts()) {
@@ -1441,7 +1463,7 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
 
     // Simulate waiting for the frightened mode to expire
     float elapsedTime = 6.0f;  // Assume frightened mode lasts 5 seconds
-    game.updateInvincibility(elapsedTime);  // Mock method to update timers
+    updater.updateInvincibility(elapsedTime);  // Mock method to update timers
 
     // Check that all ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
@@ -1452,39 +1474,44 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
 // Test case for Pac-Man collecting multiple power pellets in sequence
 TEST_CASE("Game handles sequential power pellet collection correctly") {
     Game game;
+    Draw draw;
+    GameInitialiser::initialiseGameObjects(game);
+    Update updater(game, &draw);
     initializeGameWithPowerPellets(game);
 
     auto& powerPellets = game.getPowerPellets();
     CHECK(powerPellets.size() > 1);  // Ensure there are multiple power pellets
 
     // Simulate Pac-Man collecting the first power pellet
-    game.updatePowerPellets();
+    updater.updatePowerPellets();
     CHECK(powerPellets[0]->isActive() == false);  // First pellet should be inactive
 
     // Move Pac-Man to the second power pellet
-    auto* pacMan = game.getPacMan();
-    pacMan->setPosition(200.0f, 200.0f);  // Assume second pellet is at (200, 200)
+    PacMan pacMan = game.getPacMan();
+    pacMan.setPosition(200.0f, 200.0f);  // Assume second pellet is at (200, 200)
 
     // Update the game again to collect the second pellet
-    game.updatePowerPellets();
+    updater.updatePowerPellets();
     CHECK(powerPellets[1]->isActive() == false);  // Second pellet should be inactive
 
     // Check that the score has increased correctly for both pellets
-    CHECK(game.getScore()->getCurrentScore() == 200);  // 100 points per pellet
+    CHECK(game.getScore().getCurrentScore() == 200);  // 100 points per pellet
 }
 
 // Test case for power pellet frightened mode duration
 TEST_CASE("Game handles frightened mode duration correctly") {
     Game game;
+    Draw draw;
+    Update updater(game, &draw);
     initializeGameWithPowerPellets(game);
 
     // Simulate Pac-Man collecting a power pellet
-    game.updatePowerPellets();
-    CHECK(game.getScore()->getCurrentScore() == 100);  // Initial score update
+    updater.updatePowerPellets();
+    CHECK(game.getScore().getCurrentScore() == 100);  // Initial score update
 
     // Move time forward to simulate frightened mode duration
     float elapsedTime = 3.0f;  // Move 3 seconds forward
-    game.updateInvincibility(elapsedTime);
+    updater.updateInvincibility(elapsedTime);
 
     // Check that ghosts are still in frightened mode
     for (const auto& ghost : game.getGhosts()) {
@@ -1493,7 +1520,7 @@ TEST_CASE("Game handles frightened mode duration correctly") {
 
     // Move time forward again to exceed frightened mode duration
     elapsedTime = 6.0f;  // Total of 9 seconds now
-    game.updateInvincibility(elapsedTime);
+    updater.updateInvincibility(elapsedTime);
 
     // Check that ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
@@ -1501,16 +1528,19 @@ TEST_CASE("Game handles frightened mode duration correctly") {
     }
 }
 
+
 // Test case for ensuring no errors when no power pellets are left
-TEST_CASE("Game handles no active power pellets gracefully") {
+TEST_CASE("Game handles no active power pellets") {
     Game game;
+    Draw draw;
     GameInitialiser::initialiseGameObjects(game);
+    Update updater(game, &draw);
 
     // No power pellets should exist
     CHECK(game.getPowerPellets().empty() == true);
 
     // Call updatePowerPellets() and ensure no errors or crashes
-    game.updatePowerPellets();
+    updater.updatePowerPellets();
     CHECK(true);  // If no exception or crash occurs, the test passes
 }
 
@@ -1609,4 +1639,4 @@ TEST_CASE("SuperPellet Collectable Base Class Behavior") {
 
     base.collect();  // Call the base class collect method
     CHECK(base.isActive() == false);  // Check that the SuperPellet is no longer active
-}*/
+}

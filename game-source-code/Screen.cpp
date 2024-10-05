@@ -23,7 +23,7 @@ Screen::~Screen() {
 }
 
 // Function to display the start screen with game instructions
-void Screen::startScreen(const Game* game, const Screen* screen, const Score& score) {
+void Screen::startScreen(const Game* game, const Score& score) {
     window.BeginDrawing();   // Start drawing the screen
     window.ClearBackground(BLACK);  // Set background color to black
     // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect
