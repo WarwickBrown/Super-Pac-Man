@@ -1,4 +1,5 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+
 #include "doctest.h"
 #include "PacMan.h"
 #include "Maze.h"
@@ -9,6 +10,7 @@
 #include "SuperPellet.h"
 #include "Star.h"
 #include "Score.h"
+#include "raylib.h"
 #include "GameInitialiser.h"
 #include "Reader.h"
 #include "Update.h"
@@ -19,6 +21,7 @@ Maze createTestMaze() {
     maze.initialiseCustomWalls();  // Initialize custom walls (if any)
     return maze;
 }
+
 
 // Helper function to create and return a Maze instance with custom walls.
 Maze createMaze() {
@@ -226,13 +229,11 @@ TEST_CASE("Fruit Constructor Test") {
 TEST_CASE("Game correctly handles power pellet interaction") {
     Game game;
     Draw draw; 
-    PowerPellet powerPellets(100.0f, 100.0f);
-    Ghost ghost(100, 200, 150.0f);
     Update updater(game, &draw);
     GameInitialiser::initialiseGameObjects(game);      // Initialize game objects
     GameInitialiser::initialisePowerPellets(game);     // Initialize power pellets
 
-    // Simulate Pac-Man eating a power pellet
+    // Use game-initialized power pellet
     auto& powerPellet = game.getPowerPellets().front();
     CHECK(powerPellet->isActive() == true);  // Power pellet should be active
     powerPellet->collect();  // Pac-Man collects the power pellet
@@ -244,6 +245,7 @@ TEST_CASE("Game correctly handles power pellet interaction") {
         CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
     }
 }
+
 
 TEST_CASE("Game ends when all fruits are collected") {
     Game game;
@@ -427,7 +429,6 @@ TEST_CASE("Game Over Condition Test") {
 TEST_CASE("Game State Transitions Test") {
     Game game;
     game.initialise();
-
     // Simulate starting the game
     game.handleInput(KEY_ENTER);  // Simulate ENTER key press
     CHECK(game.isGameRunning() == true);
@@ -436,6 +437,7 @@ TEST_CASE("Game State Transitions Test") {
     game.handleInput(KEY_ESCAPE);
     CHECK(game.isGameRunning() == false);
 }
+
 
 // GameKey Tests
 
@@ -886,13 +888,15 @@ TEST_CASE("Multiple PowerPellet Objects Test") {
     PowerPellet powerPellet2(200.0f, 200.0f);
     PowerPellet powerPellet3(300.0f, 300.0f);
 
-    PacMan pacman(100, 100);  // Create Pac-Man at the position of powerPellet1
+    PacMan pacman(0.0f, 0.0f);  // Create Pac-Man at the position of powerPellet1
 
     CHECK(powerPellet1.isActive() == true);
     CHECK(powerPellet2.isActive() == true);
     CHECK(powerPellet3.isActive() == true);
 
+
     // Collect the first power pellet
+    pacman.setPosition(100.0f, 100.0f);
     CHECK(powerPellet1.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet1
     CHECK(powerPellet1.isActive() == false);  // powerPellet1 should now be inactive
 
@@ -910,8 +914,9 @@ TEST_CASE("Multiple PowerPellet Objects Test") {
 // Test case for ensuring no interactions occur when PowerPellet is inactive
 TEST_CASE("No Interaction When PowerPellet is Inactive") {
     PowerPellet powerPellet(100.0f, 100.0f);
-    PacMan pacman(100, 100);
+    PacMan pacman(0.0f, 0.0f);
 
+    pacman.setPosition(100.0f, 100.0f);
     CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Collect pellet
     CHECK(powerPellet.isActive() == false);  // Verify inactive state
 
@@ -952,14 +957,14 @@ TEST_CASE("PacMan Direction Changes") {
     SUBCASE("Pac-Man moves down") {
         pacman.setDirection(PacMan::DOWN);
         CHECK(pacman.getDX() == 0);
-        CHECK(pacman.getDY() == -1);
+        CHECK(pacman.getDY() == 1); // Map is inverted as Y increases the PacMan's direction goes down
     }
 
     // Subtest for Pac-Man moving up
     SUBCASE("Pac-Man moves up") {
         pacman.setDirection(PacMan::UP);
         CHECK(pacman.getDX() == 0);
-        CHECK(pacman.getDY() == 1);
+        CHECK(pacman.getDY() == -1); // Map is inverted as Y decreases the PacMan's direction goes up
     }
 }
 
@@ -1080,7 +1085,8 @@ TEST_CASE("PacMan Super Mode Activation and Deactivation") {
 // Test Pac-Man's super mode behavior over time
 TEST_CASE("PacMan Super Mode Duration Test") {
     SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
-    PacMan pacMan(300.0f, 400.0f);  // Create a Pac-Man at the same position
+    PacMan pacMan(0.0f, 0.0f);  // Create a Pac-Man at the same position
+    pacMan.setPosition(300.0f, 400.0f);
 
     // Simulate Pac-Man collecting the SuperPellet and entering super mode
     if (superPellet.checkCollision(pacMan.getX(), pacMan.getY(), pacMan.getRadius())) {
@@ -1136,8 +1142,9 @@ TEST_CASE("Performance and Memory Management Test") {
 // Test case for PowerPellet being collected and becoming inactive
 TEST_CASE("PowerPellet Collected and Inactive State Test") {
     PowerPellet powerPellet(100.0f, 100.0f);
-    PacMan pacman(100, 100);  // Create Pac-Man at the same position to collect the PowerPellet
+    PacMan pacman(0.0f, 0.0f);  // Create Pac-Man at the same position to collect the PowerPellet
 
+    pacman.setPosition(100.0f, 100.0f);
     CHECK(powerPellet.isActive() == true);  // Should be active initially
 
     // Check collision and collect the pellet
@@ -1152,8 +1159,9 @@ TEST_CASE("PowerPellet Collected and Inactive State Test") {
 // Test case for collision detection with Pac-Man
 TEST_CASE("PowerPellet Collision Detection with Pac-Man") {
     PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
-    PacMan pacman(100, 100);  // Create Pac-Man at the same position
+    PacMan pacman(0.0f, 0.0f);  // Create Pac-Man at the same position
 
+    pacman.setPosition(100.0f, 100.0f);
     CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
 
     // Check if Pac-Man collides with the power pellet
@@ -1208,7 +1216,7 @@ TEST_CASE("Score Addition and High Score Update Test") {
 
 // Test the Score constructor and initial values
 TEST_CASE("Score Constructor Test") {
-    Score score("test_highscore.txt");
+    Score score("test_highscoreInitial.txt");
 
     CHECK(score.getCurrentScore() == 0);  // Initial current score should be 0
     CHECK(score.getHighScore() == 0);  // Initial high score should be 0 or loaded value if file exists
@@ -1351,6 +1359,7 @@ TEST_CASE("Screen initializes and displays correctly") {
 TEST_CASE("Star Collision Detection Test") {
     Star testStar(500, 500);  // Initialize with position (500, 500)
 
+    testStar.show();
     // Check collision with a point that intersects the star
     bool collisionDetected = testStar.checkCollision(500, 500, 10.0f);
     CHECK(collisionDetected == true);  // Should detect collision
@@ -1382,9 +1391,10 @@ TEST_CASE("Star Show Test") {
 // Test SuperPellet and Pac-Man interaction using the PacMan class
 TEST_CASE("SuperPellet and PacMan Interaction Test") {
     SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
-    PacMan pacMan(300.0f, 400.0f);  // Create a Pac-Man at the same position
+    PacMan pacMan(0.0f, 0.0f);  // Create a Pac-Man at the same position
 
     // Check that Pac-Man initially does not have super mode activated
+    pacMan.setPosition(300.0f, 400.0f);
     CHECK(pacMan.isSuper() == false);
 
     // Simulate Pac-Man collecting the SuperPellet by checking for collision
