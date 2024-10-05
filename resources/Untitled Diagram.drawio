@@ -492,7 +492,7 @@
           <mxGeometry x="1640" y="-672" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Nk5dwlSrIomL0-U4kEKp-157" value="PacMan" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1250" y="-1290" width="380" height="606" as="geometry" />
+          <mxGeometry x="1260" y="-1280" width="380" height="606" as="geometry" />
         </mxCell>
         <mxCell id="Nk5dwlSrIomL0-U4kEKp-161" value="- x: float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-157">
           <mxGeometry y="26" width="380" height="26" as="geometry" />
@@ -604,6 +604,33 @@
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="1840" y="-950" as="sourcePoint" />
             <mxPoint x="2000" y="-950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-197" value="PowerPellet" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="630" width="360" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-199" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-197">
+          <mxGeometry y="26" width="360" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-200" value="+ PowerPellet(x: float, y: float)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-197">
+          <mxGeometry y="34" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-201" value="+ ~PowerPellet()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-197">
+          <mxGeometry y="60" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-202" value="+ checkCollisionWithPacMan(pacMan: PacMan&amp;amp;): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="Nk5dwlSrIomL0-U4kEKp-197">
+          <mxGeometry y="86" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-203" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=-0.005;entryY=0.038;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Nk5dwlSrIomL0-U4kEKp-197" target="Nk5dwlSrIomL0-U4kEKp-163">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="600" as="sourcePoint" />
+            <mxPoint x="600" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Nk5dwlSrIomL0-U4kEKp-204" value="Extends" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Nk5dwlSrIomL0-U4kEKp-197">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="420" y="750" as="sourcePoint" />
+            <mxPoint x="380" y="310" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
