@@ -17,12 +17,6 @@ public:
     Maze();  // Constructor to initialise the maze.
     ~Maze(); // Destructor to clean up any allocated memory (if applicable).
 
-    // Function to draw the maze on the screen.
-    void draw() const;
-
-    // Checks if a given position in the maze (x, y coordinates) is a wall.
-    bool isWall(int x, int y) const;
-
     int getHeight() const { return height; }
 
     // Getter function to return the starting X position of Pac-Man in the maze.
@@ -34,15 +28,11 @@ public:
     // Initializes custom walls in the maze by creating and positioning rectangle objects.
     void initialiseCustomWalls();
 
-    // Checks if Pac-Man is colliding with a specific rectangle in the maze.
-    bool isCollidingWithRectangle(int pacmanX, int pacmanY, int pacmanRadius, const Rectangle& rect) const;
-
     // Checks if Pac-Man is colliding with any of the custom walls in the maze.
     bool isWall(int pacmanX, int pacmanY, int pacmanRadius) const;
 
     //CellType getCellType(int x, int y) const;  // Returns the type of cell at the position
     bool isWallRec(int pacmanX, int pacmanY, int pacmanRadius) const;
-
 
     const std::vector<Maze::Wall>& getWalls() const { return walls; }
 
