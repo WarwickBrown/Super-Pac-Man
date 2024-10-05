@@ -4,9 +4,16 @@
 #include <raylib-cpp.hpp>
 #include "Maze.h"
 #include "PacMan.h"
+#include "Game.h"
 
 class Ghost {
 public:
+    enum Direction {
+        RIGHT = 1,
+        LEFT,
+        UP,
+        DOWN
+    };
     // Constructor: Initialises the ghost's starting position and speed
     Ghost(int startX, int startY, float speed);
 

@@ -15,29 +15,25 @@ PacMan::~PacMan() {
 
 // Sets the movement direction of Pac-Man based on the given direction integer.
 // This updates dx and dy, which represent movement in the x and y directions.
-void PacMan::setDirection(int direction) {
+void PacMan::setDirection(Direction direction) {
     switch (direction) {
-        case 1: 
-            dx = 1; 
-            dy = 0; 
-            break;  // Right movement
-        case 2: 
-            dx = -1; 
-            dy = 0; 
-            break; // Left movement
-        case 3: 
-            dx = 0; 
-            dy = -1; 
-            break; // Down movement
-            case 4: 
-            dx = 0; 
-            dy = 1; 
-            break;  // Up movement
+        case RIGHT: 
+            dx = 1; dy = 0;
+            break;
+        case LEFT: 
+            dx = -1; dy = 0;
+            break;
+        case UP: 
+            dx = 0; dy = -1;
+            break;
+        case DOWN: 
+            dx = 0; dy = 1;
+            break;
         default: 
-            dx = 0; 
-            dy = 0; // No movement (None)
+            dx = 0; dy = 0;
     }
 }
+
 
 // Manages Pac-Man's animation frame timing and returns the appropriate frame index for rendering.
 // This method controls how quickly Pac-Man's sprite animation changes as he moves.
@@ -58,7 +54,7 @@ int PacMan::location(int frame) const {
 
 // Moves Pac-Man based on the direction and checks for wall collisions.
 // If Pac-Man does not collide with a wall, his position is updated.
-void PacMan::move(const Maze& maze, float deltaTime, int direction) {
+void PacMan::move(const Maze& maze, float deltaTime, Direction direction) {
     auto speed = superModeActive ? superSpeed : normalSpeed;
    // Set the movement direction (based on input direction).
     setDirection(direction);

@@ -10,7 +10,7 @@
 #include "Star.h"
 #include "Score.h"
 #include "GameInitialiser.h"
-
+/*
 // Helper function to create a basic maze for testing purposes
 Maze createTestMaze() {
     Maze maze;
@@ -591,7 +591,7 @@ TEST_CASE("Fruit Collision Detection Test") {
 
 //     fruit.markAsEaten();  // Simulate Pac-Man collecting the fruit
 //     CHECK(fruit.isEaten() == true);  // Verify fruit is marked as eaten
-//     CHECK(ghost.getPosition() == /* ghost initial position */);  // Ghost properties should be unchanged
+//     CHECK(ghost.getPosition() == /* ghost initial position );  // Ghost properties should be unchanged
 // }
 
 // Test boundary and edge cases for Fruit placement and behavior
@@ -1025,7 +1025,7 @@ TEST_CASE("Star Collision Detection Test") {
 
 
 // Screen tests:
-/*
+
 
 // Helper function to initialize and return a Screen object using a unique pointer
 std::unique_ptr<Draw> createScreen() {

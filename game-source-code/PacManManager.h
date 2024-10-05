@@ -6,6 +6,13 @@
 
 class PacManManager {
 public:
+    enum Direction {
+        RIGHT = 1,
+        LEFT,
+        UP,
+        DOWN
+    };
+
     explicit PacManManager(Game& game);
 
     // Update Pac-Man's direction and movement

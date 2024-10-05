@@ -5,17 +5,23 @@
 #include "Maze.h"
 class PacMan {
 public:
+    enum Direction {
+        RIGHT = 1,
+        LEFT,
+        UP,
+        DOWN
+    };
     PacMan(int startX, int startY);  // Constructor: Initialises Pac-Man's starting position
     ~PacMan();  // Destructor: Cleans up resources if necessary (not much needed here)
 
     // Sets Pac-Man's movement direction based on the input direction (e.g., left, right, etc.)
-    void setDirection(int direction);
+    void setDirection(Direction direction);
 
     // Determines and returns the current animation frame based on direction and frame time
     int location(int frame) const;
 
     // Moves Pac-Man based on the direction and delta time, and checks for collisions with the maze
-    void move(const Maze& maze, float deltaTime, int direction);
+    void move(const Maze& maze, float deltaTime, Direction direction);
 
     // Getters for Pac-Man's position, movement, radius, and speed
     float getX() const { return x; }

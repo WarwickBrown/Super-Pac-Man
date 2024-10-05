@@ -8,7 +8,6 @@
 #include "PacMan.h"
 #include "Draw.h"
 #include "Fruit.h"
-#include "Ghost.h"
 #include "GameKey.h"
 #include "Star.h"
 #include "Score.h"
@@ -18,16 +17,22 @@
 #include "SuperPellet.h"
 #include "Update.h"
 #include "PacManManager.h"
+#include "Ghost.h"  // Move this include here to avoid forward declaration issues
 
 // Forward declaration of the Screen class to allow Game class to reference it
 class Draw;
 class Screen;
-class Ghost;
 class GameInitialiser;
 class Update;
 class PacManManager;
 
 class Game {
+    enum Direction {
+        RIGHT = 1,
+        LEFT,
+        UP,
+        DOWN
+    };
     friend class GameInitialiser;
     friend class PacManManager;
     friend class Update;
@@ -35,26 +40,23 @@ public:
     Game();  // Constructor - Initialises game properties and sets up the game window
     ~Game(); // Destructor - Cleans up dynamically allocated memory
 
-    void initialise();   // Initialises the game (calls functions to setup game objects, loads images, etc.)
-    void run();          // Main game loop - Handles input, updates the game state, and renders the game
-    void handleInput();  // Handles user input (e.g., arrow keys for controlling Pac-Man)
+    void initialise();
+    void run();
+    void handleInput();
     void update();
+    void checkWinCondition();
 
-    void checkWinCondition(); // Add this method to check the win condition
-
+    // Setter functions
     void setUpdater(std::unique_ptr<Update> updater) { this->updater = std::move(updater); }
     void setPacManManager(std::unique_ptr<PacManManager> pacManManager) { this->pacManManager = std::move(pacManManager); }
 
-
-    
     // Getter functions
     const std::vector<Texture2D>& getGameImages() const;
-    std::vector<Fruit*>& getFruits();                 // Return raw pointers to Fruit
-    std::vector<PowerPellet*>& getPowerPellets();     // Return raw pointers to PowerPellet
-    std::vector<SuperPellet*>& getSuperPellets();     // Return raw pointers to SuperPellet
-    std::vector<Ghost*>& getGhosts();                 // Return raw pointers to Ghost
+    std::vector<Fruit*>& getFruits();
+    std::vector<PowerPellet*>& getPowerPellets();
+    std::vector<SuperPellet*>& getSuperPellets();
+    std::vector<Ghost*>& getGhosts();
 
-    // Getter for individual game objects
     Maze& getMaze() const { return *maze; } 
     PacMan& getPacMan() const { return *pacMan; }
     Screen& getScreen() const { return *screen; }
@@ -63,7 +65,7 @@ public:
 
     bool isGameWon() const { return gameWon; }
     bool isGameRunning() const { return isRunning; }
-    int getDirection() const { return direction; }
+    Direction getDirection() const { return direction; }
 
     void setMaze(std::unique_ptr<Maze> maze) { this->maze = std::move(maze); }
     void setPacMan(std::unique_ptr<PacMan> pacMan) { this->pacMan = std::move(pacMan); }
@@ -72,7 +74,7 @@ public:
     void addFruit(std::unique_ptr<Fruit> fruit) { fruits.push_back(std::move(fruit)); }
     void addPowerPellet(std::unique_ptr<PowerPellet> powerPellet) { powerPellets.push_back(std::move(powerPellet)); }
     void addSuperPellet(std::unique_ptr<SuperPellet> superPellet) { superPellets.push_back(std::move(superPellet)); }
-    void addKey(GameKey key) { keys.push_back(std::move(key));}
+    void addKey(GameKey key) { keys.push_back(std::move(key)); }
     void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
 private:
@@ -93,13 +95,13 @@ private:
     std::vector<std::unique_ptr<SuperPellet>> superPellets;
     std::vector<std::unique_ptr<Star>> stars;
     
-    bool isRunning;  // Boolean to track whether the game is running or not
+    bool isRunning;
     int totalFrames = 1;
-    int direction, ghostDirection;         // Integer representing the direction Pac-Man is moving (right, left, up, down)
-    int oldDirection = 2;
-    raylib::Window window;  // The game window where the game will be rendered
-    int frame;       // Current frame number (used for animation)
-    bool gameWon;    // Track if the game is won
+    Direction direction, ghostDirection;
+    Direction oldDirection = RIGHT;
+    raylib::Window window;
+    int frame;
+    bool gameWon;
     int symbolCounter = 0;
     float timerStart = GetTime();
     int multi = 0, multi2 = 1;

@@ -7,22 +7,23 @@ void PacManManager::updatePacMan(float deltaTime) {
     auto dx = 0, dy = 0;
 
     switch (game.getDirection()) {
-        case 1: 
-            dx = 1; dy = 0; 
-            break;    // Right movement
-        case 2: 
-            dx = -1; dy = 0; 
-            break;   // Left movement
-        case 3: 
-            dx = 0; dy = -1; 
-            break;   // Up movement
-        case 4: 
-            dx = 0; dy = 1; 
-            break;    // Down movement
-        default: 
-            dx = 0; dy = 0; 
-            break;
-    }
+    case RIGHT:
+        dx = 1; dy = 0;
+        break;
+    case LEFT:
+        dx = -1; dy = 0;
+        break;
+    case UP:
+        dx = 0; dy = -1;
+        break;
+    case DOWN:
+        dx = 0; dy = 1;
+        break;
+    default:
+        dx = 0; dy = 0;
+        break;
+}
+
 
     auto newX = game.pacMan->getX() + dx;
     auto newY = game.pacMan->getY() + dy;
@@ -35,5 +36,5 @@ void PacManManager::updatePacMan(float deltaTime) {
     // Update Pac-Man's state and move
     game.pacMan->updateSuperMode(deltaTime);
     game.pacMan->updateInvincibility(deltaTime);
-    game.pacMan->move(game.getMaze(), deltaTime, game.oldDirection);
+    game.pacMan->move(game.getMaze(), deltaTime, static_cast<PacMan::Direction>(game.oldDirection));
 }

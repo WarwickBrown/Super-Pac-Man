@@ -32,14 +32,15 @@ void Ghost::chooseRandomDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
     // Check all four directions and add valid ones to the possible directions
-    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
-    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
-    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
-    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(RIGHT);
+    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(LEFT);
+    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(UP);
+    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(DOWN);
+
 
     // Randomly pick a new valid direction if there are possible directions
     if (!possibleDirections.empty()) {
-        direction = possibleDirections[rand() % possibleDirections.size()];
+        direction = static_cast<Direction>(rand() % 4 + 1);  // Random direction: RIGHT, LEFT, UP, or DOWN
     }
 }
 
