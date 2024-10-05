@@ -1,10 +1,10 @@
-#include "WallReader.h"
+#include "Reader.h"
 
 // Constructor to accept a custom file path
-WallReader::WallReader(const std::string& filePath) : fileName(filePath) {}
+Reader::Reader(const std::string& filePath) : fileName(filePath) {}
 
 // Read data from the file
-void WallReader::readFile() {
+void Reader::readFile() {
     std::ifstream file(fileName);
     if (!file) {
         std::cerr << "Error: Cannot open file " << fileName << std::endl;
@@ -20,7 +20,7 @@ void WallReader::readFile() {
 }
 
 // Write data to the file
-void WallReader::writeFile(const std::vector<std::string>& lines) {
+void Reader::writeFile(const std::vector<std::string>& lines) {
     std::ofstream file(fileName);
     if (!file) {
         std::cerr << "Error: Cannot open file " << fileName << std::endl;
@@ -35,11 +35,11 @@ void WallReader::writeFile(const std::vector<std::string>& lines) {
 }
 
 // Getter for the data 
-const std::vector<std::string>& WallReader::getData() const {
+const std::vector<std::string>& Reader::getData() const {
     return data;
 }
 
 // Setter for the data 
-void WallReader::setData(const std::vector<std::string>& newData) {
+void Reader::setData(const std::vector<std::string>& newData) {
     data = newData;
 }

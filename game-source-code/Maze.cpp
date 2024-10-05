@@ -14,7 +14,7 @@ Maze::~Maze() {
 
 void Maze::initialiseCustomWalls() {
     // Create an instance of WallReader to read the wall file
-    WallReader wallReader;
+    Reader wallReader;
     wallReader.readFile();  // Read the file, storing lines into `data`
 
     // Get the data from WallReader

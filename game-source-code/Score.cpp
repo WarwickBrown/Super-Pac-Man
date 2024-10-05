@@ -1,5 +1,5 @@
 #include "Score.h"
-#include "WallReader.h"
+#include "Reader.h"
 #include <sstream>
 
 Score::Score(const std::string& filename)
@@ -20,7 +20,7 @@ void Score::addPoints(int points) {
 
 void Score::loadHighScore() {
     // Use WallReader to read the high score
-    WallReader reader(scoreFile);
+    Reader reader(scoreFile);
     reader.readFile();
     const auto data = reader.getData();
 
@@ -34,7 +34,7 @@ void Score::loadHighScore() {
 
 void Score::saveHighScore() {
     // Use WallReader to write the high score
-    WallReader writer(scoreFile);
+    Reader writer(scoreFile);
     auto lines = { std::to_string(highScore) };
     writer.writeFile(lines);
 }

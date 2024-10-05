@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <raylib-cpp.hpp>
-#include "WallReader.h"
+#include "Reader.h"
 
-class Maze : public WallReader {
+class Maze : public Reader {
 public:
     struct Wall {
         Rectangle rect;

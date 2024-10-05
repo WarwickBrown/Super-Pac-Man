@@ -1,19 +1,19 @@
-#ifndef WALLREADER_H
-#define WALLREADER_H
+#ifndef Reader_H
+#define Reader_H
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 
-class WallReader {
+class Reader {
 protected:
     std::vector<std::string> data;  // Vector to store lines of text from the file
     std::string fileName;           // The file name is now flexible.
 
 public:
     // Constructor to accept a custom file path
-    WallReader(const std::string& filePath = "../resources/walls.txt");
+    Reader(const std::string& filePath = "../resources/walls.txt");
 
     // Read data from the file
     void readFile();
@@ -28,4 +28,4 @@ public:
     void setData(const std::vector<std::string>& newData);
 };
 
-#endif // WALLREADER_H
+#endif // Reader_H
