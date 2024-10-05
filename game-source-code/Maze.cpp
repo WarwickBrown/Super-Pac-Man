@@ -19,7 +19,6 @@ void Maze::initialiseCustomWalls() {
 
     // Get the data from WallReader
     const auto data = wallReader.getData();
-
     // Now, process each line from the data vector
     for (const auto& line : data) {
         std::istringstream iss(line);

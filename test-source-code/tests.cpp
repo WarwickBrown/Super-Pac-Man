@@ -1220,7 +1220,7 @@ TEST_CASE("Reader handles non-existent file correctly") {
     const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
     
     // Create a WallReader object and read from the non-existent file
-    Reader reader;
+    Reader reader(nonExistentFileName);
     
     // Redirect std::cerr to capture error messages
     std::stringstream errorBuffer;
@@ -1253,7 +1253,7 @@ TEST_CASE("Reader reads file content correctly") {
     createTempFile(tempFileName, fileContents);
 
     // Create a WallReader object and read from the temporary file
-    Reader reader;
+    Reader reader(tempFileName);
     reader.readFile();
 
     // Get the data from the WallReader and check its content
@@ -1282,7 +1282,7 @@ TEST_CASE("Reader reads file with special characters correctly") {
     createTempFile(tempFileName, fileContents);
 
     // Create a WallReader object and read from the temporary file
-    Reader reader;
+    Reader reader(tempFileName);
     reader.readFile();
 
     // Get the data from the WallReader and check its content
@@ -1326,13 +1326,21 @@ TEST_CASE("Score Addition and High Score Update Test") {
 
 // Test the Score constructor and initial values
 TEST_CASE("Score Constructor Test") {
-    Score score("test_highscoreInitial.txt");
+    const std::string tempFileName = "test_highscoreInitial.txt";
+    std::ofstream ofs;
+    // Create an empty file
+    std::ofstream outFile(tempFileName);
+    outFile.close();  // Close the file to ensure it's saved as empty
 
+    // Create a Reader object and read from the empty file
+    Reader reader(tempFileName);
+    reader.readFile();
+    Score score(tempFileName);
     CHECK(score.getCurrentScore() == 0);  // Initial current score should be 0
     CHECK(score.getHighScore() == 0);  // Initial high score should be 0 or loaded value if file exists
 
     // Cleanup: remove test file if created
-    std::remove("../resources/test_highscore.txt");
+    std::remove(tempFileName.c_str());
 }
 
 //Test that collecting a fruit increases the score
