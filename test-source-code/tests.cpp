@@ -1114,20 +1114,17 @@ TEST_CASE("Screen draws Pac-Man correctly") {
     CHECK(true);  // If no exception or error occurs, the test passes
 }
 
-// TEST_CASE("Screen correctly draws the maze") {
-//     Screen screen;
-//     Maze maze;
+TEST_CASE("Screen correctly draws the maze") {
+    Screen screen;
+    Maze maze;
+    Draw draw;
 
-//     // Initialize a few walls for testing
-//     maze.addWall({100, 100, 50, 50}, RED, true);  // Add a wall
-//     maze.addWall({200, 100, 50, 50}, GREEN, true);
+    // Draw the maze
+    draw.drawMaze(maze);
 
-//     // Draw the maze
-//     screen.drawMaze(maze);
-
-//     // Check if the function completes without errors.
-//     CHECK(true); // If no exception or error occurs, the test passes
-// }
+    // Check if the function completes without errors.
+    CHECK(true); // If no exception or error occurs, the test passes
+}
 
 TEST_CASE("Screen draws the score correctly") {
     Draw draw;
@@ -1155,18 +1152,25 @@ TEST_CASE("Screen draws the lives correctly") {
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
-// TEST_CASE("Screen correctly handles power pellet drawing") {
-//     Screen screen;
-//     Game game;
-//     game.initialisePowerPellets();  // Initialize power pellets
+TEST_CASE("Screen correctly handles power pellet drawing") {
+    Screen screen;
+    Game game;
+    Draw draw;
+    GameInitialiser::initialisePowerPellets(game);  // Initialize power pellets
 
-//     // Check if there are power pellets to draw
-//     CHECK(!game.getPowerPellets().empty());
+    // Check if there are power pellets to draw
+    CHECK(!game.getPowerPellets().empty());
 
-//     // Draw power pellets and ensure it works correctly
-//     screen.drawPowerPellets(game.getPowerPellets());
-//     CHECK(true);  // If no exception or error occurs, the test passes
-// }
+    // Convert PowerPellet* vector to unique_ptr vector
+    std::vector<std::unique_ptr<PowerPellet>> powerPellets;
+    for (auto pellet : game.getPowerPellets()) {
+        powerPellets.push_back(std::unique_ptr<PowerPellet>(pellet));  // Transfer ownership
+    }
+
+    // Draw power pellets using the converted vector
+    draw.drawPowerPellets(powerPellets);
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
 
 
 // Helper function to create a temporary file with given content
