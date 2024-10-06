@@ -35,7 +35,7 @@ Game::~Game() = default;
  * This function uses the `GameInitialiser` class to set up the game objects, displays the start screen,
  * and waits for the player to start the game by pressing ENTER.
  */
-void Game::initialise() {
+void Game::initialise(bool skipStartScreen) {
     GameInitialiser::initialiseGameObjects(*this);  // Initializes game objects (maze, Pac-Man, screen)
     GameInitialiser::initialiseFruits(*this);       // Initializes fruit collectables
     GameInitialiser::initialiseKeys(*this);         // Initializes keys
@@ -51,9 +51,10 @@ void Game::initialise() {
     score = std::make_unique<Score>("highscore.txt"); // Initializes the score object
     playerLives = std::make_unique<Lives>(3);      // Initializes player lives
 
-    // Display the start screen until the player presses ENTER or closes the window
-    while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        screen->startScreen(this, *score);         // Shows the start screen and passes the current game instance
+    if (!skipStartScreen) {
+        while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
+            screen->startScreen(this, *score);
+        }
     }
 
     // Check if the window is closed by the user

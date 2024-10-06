@@ -69,7 +69,7 @@ public:
     /**
      * @brief Initializes game objects, such as Pac-Man, ghosts, maze, and collectables.
      */
-    void initialise();
+    void initialise(bool skipStartScreen);
 
     /**
      * @brief Runs the main game loop, handling input, updating, and rendering game elements.
