@@ -1,3 +1,8 @@
+/**
+ * @file Ghost.cpp
+ * @brief Implements the Ghost class, which represents a ghost character in the game.
+ */
+
 #include "Ghost.h"
 #include <cstdlib>
 #include <ctime>
@@ -5,7 +10,15 @@
 #include <iostream>
 
 
-// Constructor
+/**
+ * @brief Constructs a Ghost object with a specified starting position and speed.
+ * 
+ * @param startX The initial x-coordinate of the ghost.
+ * @param startY The initial y-coordinate of the ghost.
+ * @param speed The speed at which the ghost moves (pixels per second).
+ * 
+ * Initializes the ghost's state, including position, speed, and initial direction.
+ */
 Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(250), radius(34), frightened(false), eaten(false) {
     // Initialize random seed
     std::srand(std::time(0));
@@ -14,11 +27,20 @@ Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(start
 }
 
 
-// Destructor
+/**
+ * @brief Destructor for the Ghost class.
+ * 
+ * This destructor does not perform any specific actions but is defined for completeness.
+ */
 Ghost::~Ghost() {
     // No dynamic memory to clean up in this class, but the definition is needed
 }
 
+/**
+ * @brief Resets the ghost's position and state to its initial values.
+ * 
+ * This method is used to respawn the ghost at its starting position and reset its state.
+ */
 void Ghost::respawn() {
     // Reset position to the starting point and set ghost to non-frightened and non-eaten state
     x = startX;
@@ -27,7 +49,11 @@ void Ghost::respawn() {
     frightened = false;
 }
 
-// Picks a random valid direction for the ghost to move
+/**
+ * @brief Chooses a random valid direction for the ghost to move.
+ * 
+ * @param maze The maze object used to check for wall collisions.
+ */
 void Ghost::chooseRandomDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
@@ -44,7 +70,14 @@ void Ghost::chooseRandomDirection(const Maze& maze) {
     }
 }
 
-// Move ghost towards Pac-Man using similar movement logic as Pac-Man
+/**
+ * @brief Moves the ghost based on its current direction and state.
+ * 
+ * @param maze The maze object used to check for wall collisions.
+ * @param pacman The Pac-Man object used to determine chase behavior.
+ * @param deltaTime The time elapsed since the last frame (for smooth movement).
+ * @return The direction in which the ghost is moving.
+ */
 int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     if (eaten) {
         return direction; // Ghost stays in place if eaten
@@ -72,7 +105,12 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
     return direction;
 }
 
-// Check if the ghost is colliding with Pac-Man
+/**
+ * @brief Checks if the ghost collides with Pac-Man.
+ * 
+ * @param pacman The Pac-Man object to check for collisions.
+ * @return true if the ghost collides with Pac-Man, false otherwise.
+ */
 bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
     if (eaten) {
         return false;
@@ -84,7 +122,11 @@ bool Ghost::checkCollisionWithPacMan(const PacMan& pacman) const {
     return distance < (radius + pacman.getRadius());
 }
 
-// Chooses a new direction for the ghost when a collision occurs
+/**
+ * @brief Chooses a new direction for the ghost when a collision occurs.
+ * 
+ * @param maze The maze object used to check for wall collisions.
+ */
 void Ghost::chooseNewDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
@@ -100,6 +142,14 @@ void Ghost::chooseNewDirection(const Maze& maze) {
     }
 }
 
+/**
+ * @brief Handles the ghost's movement to escape the starting box.
+ * 
+ * @param direction The current direction of the ghost.
+ * @param newX The new x-coordinate to move the ghost to.
+ * @param newY The new y-coordinate to move the ghost to.
+ * @param deltaTime The time elapsed since the last frame (for smooth movement).
+ */
 void Ghost::ghostEscapeBox(int direction, auto newX, auto newY, float deltaTime)
 {
     if (getX() > 765) {
@@ -118,6 +168,16 @@ void Ghost::ghostEscapeBox(int direction, auto newX, auto newY, float deltaTime)
     y = newY;
 }
 
+/**
+ * @brief Handles the ghost's movement to chase Pac-Man.
+ * 
+ * @param direction The current direction of the ghost.
+ * @param newX The new x-coordinate to move the ghost to.
+ * @param newY The new y-coordinate to move the ghost to.
+ * @param deltaTime The time elapsed since the last frame (for smooth movement).
+ * @param maze The maze object used to check for wall collisions.
+ * @param pacman The Pac-Man object used to determine chase behavior.
+ */
 void Ghost::ghostChasePacMan(int direction, auto newX, auto newY, float deltaTime, const Maze& maze, const PacMan& pacman)
 {
     switch (direction) {
@@ -138,7 +198,6 @@ void Ghost::ghostChasePacMan(int direction, auto newX, auto newY, float deltaTim
     }
 
     
-
     // This section makes the ghost chase Pac-Man
     auto deltaX = pacman.getX() - x;
     auto deltaY = pacman.getY() - y;
