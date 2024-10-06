@@ -48,9 +48,6 @@ public:
     Texture2D getTexture(int num);
     void setSymbolActive(bool status);
 
-    void DrawPixelatedGradient(int DrawWidth, int DrawHeight);  // Draws a pixelated gradient background
-    Color InterpolateColor(Color start, Color end, float t);  // Interpolates between two colors based on 't'
-
 private:
     std::unique_ptr<Maze> maze;
     raylib::Window window; // Game window object for rendering

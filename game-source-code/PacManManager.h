@@ -20,9 +20,6 @@ public:
 
 private:
     Game& game;  // Reference to the game object to access maze, Pac-Man, etc.
-
-    // Helper function to update direction and movement
-    void updateDirection();
 };
 
 #endif // PACMANMANAGER_H

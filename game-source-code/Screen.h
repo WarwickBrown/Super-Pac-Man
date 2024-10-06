@@ -30,10 +30,6 @@ public:
     bool endGame(const Score& score);
     bool winGame(const Score& score);
 
-    Texture2D getTexture(int num);
-
-    void DrawPixelatedGradient(int DrawWidth, int DrawHeight);  // Draws a pixelated gradient background
-    Color InterpolateColor(Color start, Color end, float t);  // Interpolates between two colors based on 't'
 
 private:
     std::unique_ptr<Maze> maze;
@@ -43,7 +39,6 @@ private:
     int num = 0;  
     bool eaten;
     Texture2D picture;
-    void initializeGameObjects(); // Initialises game objects
 
     std::vector<Texture2D> gameImages = {
         LoadTexture("../resources/pacman-images/inputkeys.png"),
