@@ -393,7 +393,7 @@ TEST_CASE("Game handles sequential power pellet collection correctly") {
 // Test handleInput for directional controls
 TEST_CASE("Game Input Handling Test") {
     Game game;
-    game.initialise(false);
+    game.initialise(true);
     game.run();
     game.handleInput(KEY_RIGHT);
     CHECK(game.getDirection() == 1);  // Right direction
@@ -428,7 +428,7 @@ TEST_CASE("Game Over Condition Test") {
 // Test that Game transitions to the correct state based on input
 TEST_CASE("Game State Transitions Test") {
     Game game;
-    game.initialise(false);
+    game.initialise(true);
     // Simulate starting the game
     game.handleInput(KEY_ENTER);  // Simulate ENTER key press
     CHECK(game.isGameRunning() == true);
@@ -1368,23 +1368,26 @@ TEST_CASE("Screen correctly draws the maze") {
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
+// Test case for verifying end game screen
 TEST_CASE("Screen correctly handles end game screen") {
+    auto screen = std::make_unique<Screen>(); // If Draw does not contain startScreen
     Game game;
-    game.initialise(true);  // Skip the start screen
-    game.getScore().addPoints(1000);
+    Score score("test_screen_endgame.txt");
 
-    bool result = game.getScreen().endGame(game.getScore());
-    CHECK(result == false);
+    // Initialize game objects and set some score
+    game.initialise(true);
+    score.addPoints(1000);
 
-    CloseWindow();
+    // Display end game screen and verify it stops the game loop
+    
+    bool result = screen->endGame(score);
+    CHECK(result == false);  // The game loop should stop
 }
 
-
 TEST_CASE("Screen correctly handles power pellet drawing") {
-    Screen screen;
     Game game;
     Draw draw;
-    GameInitialiser::initialisePowerPellets(game);  // Initialize power pellets
+    game.initialise(true);
 
     // Check if there are power pellets to draw
     CHECK(!game.getPowerPellets().empty());
@@ -1405,10 +1408,8 @@ TEST_CASE("Screen correctly handles win game screen") {
     Screen screen;
     Game game;
     Score score("test_screen_wingame.txt");
-
-    // Initialize game objects and set some score
-    GameInitialiser::initialiseGameObjects(game);
-    game.initialise(false);
+ 
+    game.initialise(true);
     score.addPoints(5000);
 
     // Display win game screen and verify it stops the game loop
@@ -1419,7 +1420,7 @@ TEST_CASE("Screen correctly handles win game screen") {
 TEST_CASE("Screen draws Pac-Man correctly") {
     Draw draw;
     Game game;
-    GameInitialiser::initialiseGameObjects(game);
+    game.initialise(true);
     PacMan pacman(150, 150);
     int frame = 0;
 
@@ -1430,6 +1431,8 @@ TEST_CASE("Screen draws Pac-Man correctly") {
 
 TEST_CASE("Screen draws the lives correctly") {
     Draw draw;
+    Game game;
+    game.initialise(true);
     int lives = 3;  // Simulate 3 lives
 
     // Draw the lives and ensure the function works correctly
@@ -1454,13 +1457,13 @@ TEST_CASE("Screen draws the score correctly") {
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
-TEST_CASE("Screen initialises and displays correctly") {
+// Test case for initializing and displaying the screen
+TEST_CASE("Screen initializes and displays correctly") {
     Game game;                     // Create a Game instance
     Screen screen;
     Score score("test_screen_initialisation.txt");
 
-    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
-    game.initialise(false);             // Initialize the game
+    game.initialise(true);             // Initialize the game
 
     screen.startScreen(&game, score);
 
@@ -1619,7 +1622,7 @@ TEST_CASE("Update: Score increments on key collection") {
     // Set up game, draw, and update objects
     Game game;
     Draw draw;
-    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
+    game.initialise(true);
     Update updater(game, &draw);
 
     // Create and add the key to the game's keys list

@@ -179,7 +179,5 @@ bool Screen::winGame(const Score& score) {
     }
 
     window.Close();  ///< Close the window when the game is won.
-    Game game;
-    game.initialise(false);
     return false;  ///< Ensure the game loop stops.
 }
