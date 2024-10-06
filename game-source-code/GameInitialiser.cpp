@@ -1,17 +1,37 @@
+/**
+ * @file GameInitialiser.cpp
+ * @brief Implements the GameInitialiser class, which handles the initialization of various game objects and collectables.
+ */
+
 #include "GameInitialiser.h"
 #include "Game.h"
 
+/**
+ * @brief Initializes the primary game objects such as the maze, Pac-Man, screen, and ghosts.
+ * 
+ * @param game The Game instance to which the objects are added.
+ * 
+ * This function sets up the main game objects using `std::make_unique` for memory management.
+ */
 void GameInitialiser::initialiseGameObjects(Game& game) {
-    game.maze = std::make_unique<Maze>();  // initialise using make_unique
-    game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());
-    game.screen = std::make_unique<Screen>();  // initialise the screen
-    game.draw = std::make_unique<Draw>();  // initialise the screen
+    game.maze = std::make_unique<Maze>();  ///< Initialize the maze object.
+    game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());  ///< Initialize Pac-Man at the start position.
+    game.screen = std::make_unique<Screen>();  ///< Initialize the screen object.
+    game.draw = std::make_unique<Draw>();  ///< Initialize the draw object.
 
+    // Initialize the ghosts at specific positions
     game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
 }
 
+/**
+ * @brief Initializes the fruits at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the fruits are added.
+ * 
+ * This function places fruits at various locations in a structured manner to form patterns or paths.
+ */
 void GameInitialiser::initialiseFruits(Game& game) {
     //Left Long Wall
     game.fruits.emplace_back(std::make_unique<Fruit>(120, 360));
@@ -97,6 +117,13 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(760, 760));
 }
 
+/**
+ * @brief Initializes the power pellets at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the power pellets are added.
+ * 
+ * Power pellets provide special abilities or effects when collected by Pac-Man.
+ */
 void GameInitialiser::initialisePowerPellets(Game& game) {
     game.powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
     game.powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
@@ -104,11 +131,25 @@ void GameInitialiser::initialisePowerPellets(Game& game) {
     game.powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
 }
 
+/**
+ * @brief Initializes the super pellets at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the super pellets are added.
+ * 
+ * Super pellets grant Pac-Man additional abilities such as invincibility or enhanced speed.
+ */
 void GameInitialiser::initialiseSuperPellets(Game& game) {
     game.superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600));
     game.superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600));
 }
 
+/**
+ * @brief Initializes the game keys at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the keys are added.
+ * 
+ * Keys can be used to unlock certain sections of the maze, providing new pathways or access to collectables.
+ */
 void GameInitialiser::initialiseKeys(Game& game) {
     // Top Left Box
     game.keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
@@ -146,6 +187,13 @@ void GameInitialiser::initialiseKeys(Game& game) {
     game.keys.emplace_back(840, 760, std::vector<int>{52, 53, 70, 71});
 }
 
+/**
+ * @brief Initializes the stars at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the stars are added.
+ * 
+ * Stars are special objects that may provide additional points or effects when collected.
+ */
 void GameInitialiser::initialiseStars(Game& game) {
     game.stars.emplace_back(std::make_unique<Star>(760, 600));
 }
