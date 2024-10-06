@@ -91,14 +91,14 @@ public:
      * 
      * @return A constant reference to the vector of Wall objects.
      */
-    const std::vector<Maze::Wall>& getWalls() const;
+    const std::vector<Maze::Wall>& getWalls() const { return walls; };
 
     /**
      * @brief Gets a reference to the list of walls in the maze.
      * 
      * @return A reference to the vector of Wall objects.
      */
-    std::vector<Maze::Wall>& getWalls();
+    std::vector<Maze::Wall>& getWalls() { return walls; };
 
     /**
      * @brief Gets the height of the maze.
