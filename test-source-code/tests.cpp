@@ -1636,3 +1636,4 @@ TEST_CASE("Update: Score increments on key collection") {
     CHECK(game.getScore().getCurrentScore() == 50);  // Score should increase by 50 points
 }
 
+
