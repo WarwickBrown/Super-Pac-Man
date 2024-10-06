@@ -18,11 +18,24 @@ void GameInitialiser::initialiseGameObjects(Game& game) {
     game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());  ///< Initialise Pac-Man at the start position.
     game.screen = std::make_unique<Screen>();  ///< Initialise the screen object.
     game.draw = std::make_unique<Draw>();  ///< Initialise the draw object.
+    game.updater = std::make_unique<Update>(game, game.draw.get());
+    game.pacManManager = std::make_unique<PacManManager>(game);
+
+    game.maze->initialiseCustomWalls();                 // Sets up custom walls for the maze
+    game.pacMan->setDirection(PacMan::NONE);            // Sets Pac-Man's initial direction to none
+    game.score = std::make_unique<Score>("highscore.txt"); // Initialises the score object
+    game.playerLives = std::make_unique<Lives>(3);      // Initialises player lives
 
     // Initialise the ghosts at specific positions
     game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
+
+    initialiseFruits(game);       // Initialises fruit collectables
+    initialiseKeys(game);         // Initialises keys
+    initialiseStars(game);        // Initialises stars
+    initialisePowerPellets(game); // Initialises power pellets
+    initialiseSuperPellets(game); // Initialises super pellets
 }
 
 /**

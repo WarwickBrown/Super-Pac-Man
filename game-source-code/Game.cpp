@@ -36,20 +36,7 @@ Game::~Game() = default;
  * and waits for the player to start the game by pressing ENTER.
  */
 void Game::initialise(bool skipStartScreen) {
-    GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen)
-    GameInitialiser::initialiseFruits(*this);       // Initialises fruit collectables
-    GameInitialiser::initialiseKeys(*this);         // Initialises keys
-    GameInitialiser::initialiseStars(*this);        // Initialises stars
-    GameInitialiser::initialisePowerPellets(*this); // Initialises power pellets
-    GameInitialiser::initialiseSuperPellets(*this); // Initialises super pellets
-
-    updater = std::make_unique<Update>(*this, draw.get());
-    pacManManager = std::make_unique<PacManManager>(*this);
-
-    maze->initialiseCustomWalls();                 // Sets up custom walls for the maze
-    pacMan->setDirection(PacMan::NONE);            // Sets Pac-Man's initial direction to none
-    score = std::make_unique<Score>("highscore.txt"); // Initialises the score object
-    playerLives = std::make_unique<Lives>(3);      // Initialises player lives
+    GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen, etc)
 
     if (!skipStartScreen) {
         while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {

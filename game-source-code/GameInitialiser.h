@@ -8,6 +8,9 @@
 #include "Game.h"
 #include <memory>
 
+class Update;
+class PacManManager;
+
 /**
  * @class GameInitialiser
  * @brief A helper class responsible for initialising game objects such as the maze, Pac-Man, ghosts, and collectables.
@@ -15,6 +18,7 @@
  * The GameInitialiser class provides static methods to set up various game components, ensuring that all necessary objects
  * are properly initialised before the game starts. This includes creating fruits, power pellets, super pellets, keys, and stars.
  */
+
 class GameInitialiser {
 public:
     /**
