@@ -390,6 +390,8 @@ TEST_CASE("Game Input Handling Test") {
 // Test that the game ends when Pac-Man loses all lives
 TEST_CASE("Game Over Condition Test") {
     Game game;
+    Ghost ghost(760.0f, 440.0f, 150.0f);
+    PacMan pacman(0.0f, 0.0f);  // Place Pac-Man at the same position as the ghost
     game.initialise(true);
 
     auto lives = game.getPlayerLives();
@@ -398,9 +400,10 @@ TEST_CASE("Game Over Condition Test") {
     while (lives.getLives() > 0) {
         lives.loseLife();
     }
-
-    game.getUpdater()->updateInvincibility(1000);
-    game.checkWinCondition();  // Update game state for lives condition
+    game.getUpdater()->updateGame(1);
+    game.getPacMan().setPosition(760, 440);
+    game.getUpdater()->updateGame(1);
+   CHECK(lives.getLives() == 123);  // Game should stop running
     CHECK(game.isGameRunning() == false);  // Game should stop running
 }
 
