@@ -73,7 +73,7 @@ public:
      * 
      * This method sets the `change` flag to false, indicating that no texture change is needed.
      */
-    void setChange();
+    void setChange() { change = false; };
 
 private:
     mutable bool change = false;    ///< Tracks if a texture change is needed for the star.
