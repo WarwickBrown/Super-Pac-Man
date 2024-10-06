@@ -261,6 +261,13 @@ public:
      */
     void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
+    /**
+     * @brief Retrieves the updater object for the game.
+     * 
+     * @return A pointer to the `Update` class instance managing game updates.
+     */
+    Update* getUpdater() const { return updater.get(); }
+
 private:
     std::vector<GameKey> keys; ///< A vector of GameKey objects representing keys in the game.
     std::unique_ptr<Maze> maze; ///< Unique pointer to the Maze object.
