@@ -318,8 +318,9 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     CHECK(firstPellet->isActive() == true);  // First power pellet should be active
 
     // Simulate Pac-Man collecting the power pellet
+    game.getPacMan().setPosition(120, 760);
     game.getUpdater()->updatePowerPellets();
-    
+
     // Check that the first pellet is now inactive
     CHECK(firstPellet->isActive() == false);
 
