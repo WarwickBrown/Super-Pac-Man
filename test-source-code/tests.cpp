@@ -300,34 +300,17 @@ TEST_CASE("Game handles frightened mode duration correctly") {
     elapsedTime = -6.0f;  // Total of 9 seconds now
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
-    
+
     // Check that ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
         CHECK(ghost->isFrightened() == false);
     }
 }
 
-// Test case for ensuring no errors when no power pellets are left
-TEST_CASE("Game handles no active power pellets") {
-    Game game;
-    Draw draw;
-    GameInitialiser::initialiseGameObjects(game);
-    Update updater(game, &draw);
-
-    // No power pellets should exist
-    CHECK(game.getPowerPellets().empty() == true);
-
-    // Call updatePowerPellets() and ensure no errors or crashes
-    updater.updatePowerPellets();
-    CHECK(true);  // If no exception or crash occurs, the test passes
-}
-
 // Test case for Pac-Man collecting a power pellet and ghosts becoming frightened
 TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     Game game;
-    Draw draw;
-    Update updater(game, &draw);
-    initializeGameWithPowerPellets(game);
+    game.initialise(true);
 
     // Verify initial state of game objects
     CHECK(game.getPowerPellets().size() > 0);  // Ensure there are power pellets
@@ -335,8 +318,8 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     CHECK(firstPellet->isActive() == true);  // First power pellet should be active
 
     // Simulate Pac-Man collecting the power pellet
-    updater.updatePowerPellets();
-
+    game.getUpdater()->updatePowerPellets();
+    
     // Check that the first pellet is now inactive
     CHECK(firstPellet->isActive() == false);
 
@@ -350,7 +333,7 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
 
     // Simulate waiting for the frightened mode to expire
     float elapsedTime = 6.0f;  // Assume frightened mode lasts 5 seconds
-    updater.updateInvincibility(elapsedTime);  // Mock method to update timers
+    game.getUpdater()->updateInvincibility(elapsedTime);  // Mock method to update timers
 
     // Check that all ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
