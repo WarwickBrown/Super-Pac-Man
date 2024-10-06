@@ -268,6 +268,13 @@ public:
      */
     Update* getUpdater() const { return updater.get(); }
 
+    /**
+     * @brief Sets the Pac-Man manager object for managing Pac-Man-specific updates.
+     * 
+     * @param powerPelletTimer A unique pointer to the PacManManager object to be set.
+     */
+    void setPowerPelletTimer(float powerPelletTimerNew) { this->powerPelletTimer = powerPelletTimerNew; }
+
 private:
     std::vector<GameKey> keys; ///< A vector of GameKey objects representing keys in the game.
     std::unique_ptr<Maze> maze; ///< Unique pointer to the Maze object.
