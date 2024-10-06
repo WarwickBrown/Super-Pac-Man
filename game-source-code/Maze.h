@@ -3,7 +3,7 @@
  * @brief Defines the Maze class, which represents the game environment and handles wall collisions.
  * 
  * The Maze class stores the structure of the game environment, including walls and their properties,
- * and provides methods to initialize and check collisions with the walls.
+ * and provides methods to initialise and check collisions with the walls.
  */
 
 #ifndef MAZE_H
@@ -18,7 +18,7 @@
  * @brief Represents the maze structure in the game, including walls and collision detection.
  * 
  * The Maze class is responsible for managing the custom walls and collision detection within the game.
- * It reads wall data from a file and initializes the maze layout. It provides methods to check if Pac-Man
+ * It reads wall data from a file and initialises the maze layout. It provides methods to check if Pac-Man
  * is colliding with any walls and to retrieve wall properties.
  */
 class Maze : public Reader {
@@ -45,9 +45,9 @@ public:
     };
 
     /**
-     * @brief Constructs a Maze object and initializes default values.
+     * @brief Constructs a Maze object and initialises default values.
      * 
-     * The constructor sets the default starting positions and initializes the maze's dimensions.
+     * The constructor sets the default starting positions and initialises the maze's dimensions.
      */
     Maze();
 
@@ -59,7 +59,7 @@ public:
     ~Maze();
 
     /**
-     * @brief Initializes custom walls in the maze by reading data from a file.
+     * @brief initialises custom walls in the maze by reading data from a file.
      * 
      * This method reads wall data from a file using the Reader class and sets up custom walls
      * with specific positions, sizes, and colors based on the file content.

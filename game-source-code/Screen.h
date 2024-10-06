@@ -36,9 +36,9 @@ class Game;
 class Screen {
 public:
     /**
-     * @brief Constructs a Screen object and initializes the game window.
+     * @brief Constructs a Screen object and initialises the game window.
      * 
-     * Initializes the window with specified dimensions and title. Sets up the initial state of the game.
+     * Initialises the window with specified dimensions and title. Sets up the initial state of the game.
      */
     Screen();
 

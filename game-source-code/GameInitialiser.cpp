@@ -1,32 +1,32 @@
 /**
  * @file GameInitialiser.cpp
- * @brief Implements the GameInitialiser class, which handles the initialization of various game objects and collectables.
+ * @brief Implements the GameInitialiser class, which handles the initialisation of various game objects and collectables.
  */
 
 #include "GameInitialiser.h"
 #include "Game.h"
 
 /**
- * @brief Initializes the primary game objects such as the maze, Pac-Man, screen, and ghosts.
+ * @brief Initialises the primary game objects such as the maze, Pac-Man, screen, and ghosts.
  * 
  * @param game The Game instance to which the objects are added.
  * 
  * This function sets up the main game objects using `std::make_unique` for memory management.
  */
 void GameInitialiser::initialiseGameObjects(Game& game) {
-    game.maze = std::make_unique<Maze>();  ///< Initialize the maze object.
-    game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());  ///< Initialize Pac-Man at the start position.
-    game.screen = std::make_unique<Screen>();  ///< Initialize the screen object.
-    game.draw = std::make_unique<Draw>();  ///< Initialize the draw object.
+    game.maze = std::make_unique<Maze>();  ///< Initialise the maze object.
+    game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());  ///< Initialise Pac-Man at the start position.
+    game.screen = std::make_unique<Screen>();  ///< Initialise the screen object.
+    game.draw = std::make_unique<Draw>();  ///< Initialise the draw object.
 
-    // Initialize the ghosts at specific positions
+    // Initialise the ghosts at specific positions
     game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
 }
 
 /**
- * @brief Initializes the fruits at specific positions on the game map.
+ * @brief Initialises the fruits at specific positions on the game map.
  * 
  * @param game The Game instance to which the fruits are added.
  * 
@@ -118,7 +118,7 @@ void GameInitialiser::initialiseFruits(Game& game) {
 }
 
 /**
- * @brief Initializes the power pellets at specific positions on the game map.
+ * @brief Initialises the power pellets at specific positions on the game map.
  * 
  * @param game The Game instance to which the power pellets are added.
  * 
@@ -132,7 +132,7 @@ void GameInitialiser::initialisePowerPellets(Game& game) {
 }
 
 /**
- * @brief Initializes the super pellets at specific positions on the game map.
+ * @brief Initialises the super pellets at specific positions on the game map.
  * 
  * @param game The Game instance to which the super pellets are added.
  * 
@@ -144,7 +144,7 @@ void GameInitialiser::initialiseSuperPellets(Game& game) {
 }
 
 /**
- * @brief Initializes the game keys at specific positions on the game map.
+ * @brief Initialises the game keys at specific positions on the game map.
  * 
  * @param game The Game instance to which the keys are added.
  * 
@@ -188,7 +188,7 @@ void GameInitialiser::initialiseKeys(Game& game) {
 }
 
 /**
- * @brief Initializes the stars at specific positions on the game map.
+ * @brief Initialises the stars at specific positions on the game map.
  * 
  * @param game The Game instance to which the stars are added.
  * 

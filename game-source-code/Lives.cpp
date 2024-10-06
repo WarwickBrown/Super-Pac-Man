@@ -10,7 +10,7 @@
  * 
  * @param initialLives The initial number of lives the player starts with.
  * 
- * Initializes the lives attribute with the given initial number of lives.
+ * Initialises the lives attribute with the given initial number of lives.
  */
 Lives::Lives(int initialLives) : lives(initialLives) {}
 

@@ -12,7 +12,7 @@
 /**
  * @brief Constructs an Update object using a reference to the Game instance and a pointer to the Draw instance.
  * 
- * Initializes the Update class with references to the main Game and Draw instances, allowing
+ * Initialises the Update class with references to the main Game and Draw instances, allowing
  * it to access and modify game components during each frame update.
  * 
  * @param game Reference to the Game instance.

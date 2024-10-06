@@ -10,7 +10,7 @@
 #include <vector>
 
 /**
- * @brief Constructs a Maze object and initializes default values.
+ * @brief Constructs a Maze object and initialises default values.
  * 
  * Sets the default width and height of the maze to zero and the starting position of Pac-Man to (10, 10).
  */
@@ -26,7 +26,7 @@ Maze::Maze() : width(0), height(0), startX(10), startY(10) {
 Maze::~Maze() {}
 
 /**
- * @brief Initializes custom walls in the maze by reading data from a file.
+ * @brief initialises custom walls in the maze by reading data from a file.
  * 
  * This method uses the `Reader` class to read wall data from a file. Each line of the file
  * is parsed to create rectangle-shaped walls with specific positions, sizes, and colors,

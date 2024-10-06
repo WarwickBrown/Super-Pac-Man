@@ -15,7 +15,7 @@ using namespace std;
 /**
  * @brief Constructs a PacMan object with a specified starting position.
  * 
- * Initializes Pac-Man's starting position, movement speed, radius, and various states, such as
+ * Initialises Pac-Man's starting position, movement speed, radius, and various states, such as
  * invincibility and super mode. The initial direction is set to no movement.
  * 
  * @param startX The initial x-coordinate of Pac-Man's position.

@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief Entry point for the Pac-Man game.
  * 
- * This file contains the main function, which initializes and starts the game loop.
+ * This file contains the main function, which initialises and starts the game loop.
  */
 
 #include <raylib-cpp.hpp>
@@ -12,7 +12,7 @@
 /**
  * @brief The main function that serves as the entry point for the game.
  * 
- * The function creates an instance of the Game class, initializes the game, and starts the main game loop.
+ * The function creates an instance of the Game class, initialises the game, and starts the main game loop.
  * It continues to run until the player exits the game.
  * 
  * @return An integer value indicating the status of the program upon termination (0 = successful).

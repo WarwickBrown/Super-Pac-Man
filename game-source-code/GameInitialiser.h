@@ -1,6 +1,6 @@
 /**
  * @file GameInitialiser.h
- * @brief Defines the GameInitialiser class, which handles the initialization of various game objects and collectables.
+ * @brief Defines the GameInitialiser class, which handles the initialisation of various game objects and collectables.
  */
 
 #pragma once
@@ -10,22 +10,22 @@
 
 /**
  * @class GameInitialiser
- * @brief A helper class responsible for initializing game objects such as the maze, Pac-Man, ghosts, and collectables.
+ * @brief A helper class responsible for initialising game objects such as the maze, Pac-Man, ghosts, and collectables.
  * 
  * The GameInitialiser class provides static methods to set up various game components, ensuring that all necessary objects
- * are properly initialized before the game starts. This includes creating fruits, power pellets, super pellets, keys, and stars.
+ * are properly initialised before the game starts. This includes creating fruits, power pellets, super pellets, keys, and stars.
  */
 class GameInitialiser {
 public:
     /**
-     * @brief Initializes the primary game objects such as the maze, Pac-Man, screen, and ghosts.
+     * @brief Initialises the primary game objects such as the maze, Pac-Man, screen, and ghosts.
      * 
      * @param game The Game instance to which the objects are added.
      */
     static void initialiseGameObjects(Game& game);
 
     /**
-     * @brief Initializes the fruits at specific positions on the game map.
+     * @brief Initialises the fruits at specific positions on the game map.
      * 
      * @param game The Game instance to which the fruits are added.
      * 
@@ -34,7 +34,7 @@ public:
     static void initialiseFruits(Game& game);
 
     /**
-     * @brief Initializes the power pellets at specific positions on the game map.
+     * @brief Initialises the power pellets at specific positions on the game map.
      * 
      * @param game The Game instance to which the power pellets are added.
      * 
@@ -43,7 +43,7 @@ public:
     static void initialisePowerPellets(Game& game);
 
     /**
-     * @brief Initializes the super pellets at specific positions on the game map.
+     * @brief Initialises the super pellets at specific positions on the game map.
      * 
      * @param game The Game instance to which the super pellets are added.
      * 
@@ -52,7 +52,7 @@ public:
     static void initialiseSuperPellets(Game& game);
 
     /**
-     * @brief Initializes the game keys at specific positions on the game map.
+     * @brief Initialises the game keys at specific positions on the game map.
      * 
      * @param game The Game instance to which the keys are added.
      * 
@@ -61,7 +61,7 @@ public:
     static void initialiseKeys(Game& game);
 
     /**
-     * @brief Initializes the stars at specific positions on the game map.
+     * @brief Initialises the stars at specific positions on the game map.
      * 
      * @param game The Game instance to which the stars are added.
      * 

@@ -12,7 +12,7 @@
  * @param y The y-coordinate of the key's position.
  * @param wallsToUnlock A vector of integers representing the indices of walls that this key can unlock.
  * 
- * The constructor uses the base class Collectable's constructor to initialize the position and radius of the key.
+ * The constructor uses the base class Collectable's constructor to initialise the position and radius of the key.
  * The radius of the key is set to a fixed value of 10.0f.
  */
 GameKey::GameKey(float x, float y, const std::vector<int>& wallsToUnlock)

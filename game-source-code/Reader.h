@@ -33,7 +33,7 @@ public:
     /**
      * @brief Constructs a Reader object with a specified file path.
      * 
-     * This constructor initializes the Reader with a given file path or uses a default path
+     * This constructor initialises the Reader with a given file path or uses a default path
      * if none is specified.
      * 
      * @param filePath The path of the file to be read or written (default is "../resources/walls.txt").

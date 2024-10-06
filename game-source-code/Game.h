@@ -28,7 +28,7 @@
  * @class Game
  * @brief Manages the entire game flow, state, and rendering of various elements in the Pac-Man game.
  * 
- * This class is responsible for initializing, updating, and running the game loop. It handles
+ * This class is responsible for initialising, updating, and running the game loop. It handles
  * user inputs, updates game objects, checks win conditions, and renders the game elements on the screen.
  */
 
@@ -57,7 +57,7 @@ class Game {
 
 public:
     /**
-     * @brief Constructs a Game object, initializing the game window and other variables.
+     * @brief Constructs a Game object, initialising the game window and other variables.
      */
     Game();
 
@@ -67,7 +67,7 @@ public:
     ~Game();
 
     /**
-     * @brief Initializes game objects, such as Pac-Man, ghosts, maze, and collectables.
+     * @brief Initialises game objects, such as Pac-Man, ghosts, maze, and collectables.
      */
     void initialise(bool skipStartScreen);
 

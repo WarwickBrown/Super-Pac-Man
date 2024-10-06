@@ -21,12 +21,12 @@
 #include <memory>
 
 /**
- * @brief Constructs a Screen object and initializes the game window.
+ * @brief Constructs a Screen object and initialises the game window.
  * 
- * Initializes the window with specified dimensions and title. Sets up the initial state of the game.
+ * Initialises the window with specified dimensions and title. Sets up the initial state of the game.
  */
 Screen::Screen() 
-    : window(1530, 890, "Super Pac-Man"),  ///< Initialize window dimensions and title.
+    : window(1530, 890, "Super Pac-Man"),  ///< initialise window dimensions and title.
       isRunning(true)                      ///< Set initial game state to running.
 { 
     maze = std::make_unique<Maze>();       ///< Allocate memory for Maze object.

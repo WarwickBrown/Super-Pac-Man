@@ -25,7 +25,7 @@ PacManManager::PacManManager(Game& game) : game(game) {}
  * @param deltaTime The time elapsed since the last frame (for smooth movement and state updates).
  */
 void PacManManager::updatePacMan(float deltaTime) {
-    // Initialize movement deltas (dx, dy) to zero.
+    // initialise movement deltas (dx, dy) to zero.
     auto dx = 0, dy = 0;
 
     // Determine movement direction based on the game's current direction state.

@@ -25,9 +25,9 @@
 class Star : public Collectable {
 public:
     /**
-     * @brief Constructs a Star object with a specified position and initializes it.
+     * @brief Constructs a Star object with a specified position and initialises it.
      * 
-     * This constructor initializes the Star object using the base class Collectable's constructor
+     * This constructor initialises the Star object using the base class Collectable's constructor
      * and sets its position, radius, and active state. The star is initially inactive.
      * 
      * @param x The x-coordinate of the star's position.
