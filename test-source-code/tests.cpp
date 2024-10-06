@@ -1579,38 +1579,38 @@ TEST_CASE("SuperPellet Constructor Test") {
 
 // Integration Test: Check if keys correctly unlock walls in the maze
 TEST_CASE("Update: Keys unlock walls") {
-    // Set up game, draw, and update objects
+    // Set up the game and initialise without showing the start screen
     Game game;
-    Draw draw;
-    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects
-    Update updater(game, &draw);
+    game.initialise(true);  // Initialise game objects
 
-    // Create and add the key to the game's keys list
-    std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
-    GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
-    game.getKeys().push_back(key);  // Add the key to the game's key list
+    // Ensure keys are initialized properly
+    REQUIRE_FALSE(game.getKeys().empty());  // Ensure there are keys to test with
 
-    // Create walls and set their initial state to active (locked)
-    auto maze = std::make_unique<Maze>();
-    maze->getWalls().emplace_back(Rectangle{0, 0, 50, 10}, BLACK);  // Wall 0
-    maze->getWalls().emplace_back(Rectangle{100, 100, 50, 10}, BLACK);  // Wall 1
-    maze->getWalls()[0].active = true;  // Mark wall 0 as locked initially
-    maze->getWalls()[1].active = true;  // Mark wall 1 as locked initially
-    game.setMaze(std::move(maze));  // Set the maze in the game
+    // Use the first key in the game's keys list
+    auto& existingKey = game.getKeys().front();  // Use the first key
+    auto keyX = static_cast<float>(existingKey.getX());
+    auto keyY = static_cast<float>(existingKey.getY());
 
-    // Set Pac-Man's position to be at the key's location (to simulate a collision)
-    game.getPacMan().setPosition(100.0f, 100.0f);
+    // Set Pac-Man's position to be at the key's location (simulate a collision)
+    game.getPacMan().setPosition(keyX, keyY);
 
-    // Call updateKeys to simulate the key collection and wall unlocking
-    updater.updateKeys();
+    // Check that the associated walls are initially locked
+    for (int wallIndex : existingKey.getWallsToUnlock()) {
+        CHECK(game.getMaze().getWalls()[wallIndex].active == true);  // Wall should be locked
+    }
+
+    // Call updateKeys to simulate key collection and wall unlocking
+    game.getUpdater()->updateKeys();
 
     // Check if the key is now inactive (collected)
-    CHECK(game.getKeys()[0].isActive() == false);
+    CHECK(existingKey.isActive() == false);
 
     // Check that the associated walls are now deactivated (unlocked)
-    CHECK(game.getMaze().getWalls()[0].active == false);  // Wall 0 should be unlocked
-    CHECK(game.getMaze().getWalls()[1].active == false);  // Wall 1 should be unlocked
+    for (int wallIndex : existingKey.getWallsToUnlock()) {
+        CHECK(game.getMaze().getWalls()[wallIndex].active == false);  // Wall should be unlocked
+    }
 }
+
 
 // Integration Test: Check if score is updated correctly when a key is collected
 TEST_CASE("Update: Score increments on key collection") {
