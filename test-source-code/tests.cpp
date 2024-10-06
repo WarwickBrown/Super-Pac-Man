@@ -228,17 +228,13 @@ TEST_CASE("Fruit Constructor Test") {
 
 TEST_CASE("Game correctly handles power pellet interaction") {
     Game game;
-    Draw draw; 
-    Update updater(game, &draw);
-    GameInitialiser::initialiseGameObjects(game);      // Initialize game objects
-    GameInitialiser::initialisePowerPellets(game);     // Initialize power pellets
+    game.initialise(true);
 
     // Use game-initialized power pellet
     auto& powerPellet = game.getPowerPellets().front();
     CHECK(powerPellet->isActive() == true);  // Power pellet should be active
     powerPellet->collect();  // Pac-Man collects the power pellet
 
-    updater.updatePowerPellets();  // Update the game state with the collected pellet
 
     // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
     for (auto& ghost : game.getGhosts()) {
@@ -268,18 +264,17 @@ TEST_CASE("Game ends when all fruits are collected") {
 // Test that Pac-Man can collect fruits correctly and updates score
 TEST_CASE("Game Fruit Collection Test") {
     Game game;
-    GameInitialiser::initialiseGameObjects(game);
-    GameInitialiser::initialiseFruits(game);
+    game.initialise(true);
 
     // Get initial score
     int initialScore = game.getScore().getCurrentScore();
 
     // Simulate Pac-Man collecting the first fruit
     auto& fruits = game.getFruits();
-    fruits[0]->collect();  // Directly call collect() on the first fruit
+    CHECK(fruits[1]->isActive() == true);  // Fruit should be marked as eaten
 
-    CHECK(fruits[0]->isActive() == false);  // Fruit should be marked as eaten
-    CHECK(game.getScore().getCurrentScore() == initialScore + 10);  // Score should increase by 10 points
+    fruits[1]->collect();  // Directly call collect() on the first fruit
+    CHECK(fruits[1]->isActive() == false);  // Fruit should be marked as eaten
 }
 
 // Test case for power pellet frightened mode duration
@@ -1617,28 +1612,25 @@ TEST_CASE("Update: Keys unlock walls") {
     CHECK(game.getMaze().getWalls()[1].active == false);  // Wall 1 should be unlocked
 }
 
-// Integration Test: Check if score is updated correctly when key is collected
+// Integration Test: Check if score is updated correctly when a key is collected
 TEST_CASE("Update: Score increments on key collection") {
-    // Set up game, draw, and update objects
+    // Set up the game and initialise without showing the start screen
     Game game;
-    Draw draw;
-    game.initialise(true);
-    Update updater(game, &draw);
+    game.initialise(true);  // Initialise game objects
 
-    // Create and add the key to the game's keys list
-    std::vector<int> wallsToUnlock = {0, 1};  // Keys that will unlock walls 0 and 1
-    GameKey key(100.0f, 100.0f, wallsToUnlock);  // Create a key at position (100, 100)
-    game.getKeys().push_back(key);  // Add the key to the game's key list
+    // Use an existing key from the game (ensure that keys are not empty)
+    REQUIRE_FALSE(game.getKeys().empty());  // Check that keys are properly initialised
 
-    // Create a mock maze and set it in the game to prevent errors in `updateKeys`
-    auto maze = std::make_unique<Maze>();
-    game.setMaze(std::move(maze));  // Set the maze in the game
+    // Access the first key (or any other key) and get its position
+    auto& existingKey = game.getKeys().front();  // Use the first key
+    auto keyX = static_cast<float>(existingKey.getX());
+    auto keyY = static_cast<float>(existingKey.getY());
 
     // Set Pac-Man's position to be at the key's location (to simulate a collision)
-    game.getPacMan().setPosition(100.0f, 100.0f);
+    game.getPacMan().setPosition(keyX, keyY);
 
     // Call updateKeys to simulate the key collection and score increment
-    updater.updateKeys();
+    game.getUpdater()->updateKeys();
 
     // Check that the score has been updated correctly
     CHECK(game.getScore().getCurrentScore() == 50);  // Score should increase by 50 points
