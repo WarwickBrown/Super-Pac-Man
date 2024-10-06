@@ -8,9 +8,6 @@
 #include "Game.h"
 #include <memory>
 
-class Update;
-class PacManManager;
-
 /**
  * @class GameInitialiser
  * @brief A helper class responsible for initialising game objects such as the maze, Pac-Man, ghosts, and collectables.
