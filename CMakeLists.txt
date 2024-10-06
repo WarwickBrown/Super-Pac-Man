@@ -56,7 +56,7 @@ if (NOT raylib_cpp_FOUND)
     FetchContent_MakeAvailable(raylib_cpp)
 endif()
 
-# doctest - modified doctest.h in the test-source-code directory is used for testing. This is to enable test discovery by CTest.
+# doctest - modified doctest.h in the test-source-code directory is used for testing. This is purely to enable test discovery by CTest.
 find_package(doctest QUIET)
 if (NOT doctest_FOUND)
     FetchContent_Declare(
@@ -141,6 +141,22 @@ if (APPLE)
     )
 endif()
 
+# ====================================== Doxygen ==========================================
+
+# Extract Doxygen documentation from the game source code
+# Documentation is placed in a folder called "doxygen" in the "upload" directory.
+# Open the index.html file in a browser to view the documentation.
+# NB: Doxygen is not a dependency of the project, it is assumed that it is already installed on your system
+find_package(Doxygen REQUIRED doxygen)
+
+# Doxygen options: see https://www.doxygen.nl/manual/config.html
+set(DOXYGEN_GENERATE_TREEVIEW YES)
+
+doxygen_add_docs(doxygen_docs
+    "${SRC_PATH}"
+    ALL
+    COMMENT "Generate HTML documentation")
+
 # ===================== Create Upload Directory for GitHub Release =========================
 
 add_custom_target(
@@ -148,6 +164,8 @@ add_custom_target(
     COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_CURRENT_SOURCE_DIR}/resources ${CMAKE_BINARY_DIR}/upload/resources
     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:game> ${CMAKE_BINARY_DIR}/upload/bin/$<TARGET_FILE_NAME:game>
     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:tests> ${CMAKE_BINARY_DIR}/upload/bin/$<TARGET_FILE_NAME:tests>
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_BINARY_DIR}/html ${CMAKE_BINARY_DIR}/upload/doxygen
+
 )
 
 # ======================================== CTest ============================================
@@ -157,3 +175,5 @@ enable_testing()
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 # automatically add doctest tests to CTest; specify WORKING_DIRECTORY to ensure that relative paths are correct for CTest
 doctest_discover_tests(${TESTS_EXE} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+
