@@ -117,11 +117,11 @@ public:
     const std::vector<std::unique_ptr<SuperPellet>>& getSuperPellets() const { return superPellets; }
 
     /**
-     * @brief Retrieves a list of ghost pointers for accessing and modifying ghost objects.
+     * @brief Retrieves a reference to the internal vector of ghost unique pointers.
      * 
-     * @return A vector of pointers to Ghost objects.
+     * @return A reference to the vector of unique pointers to Ghost objects.
      */
-    std::vector<Ghost*>& getGhosts();
+    const std::vector<std::unique_ptr<Ghost>>& getGhosts() const { return ghosts; }
 
     /**
      * @brief Retrieves a list of game keys for accessing and modifying key objects.

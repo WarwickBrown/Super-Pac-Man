@@ -356,10 +356,6 @@ TEST_CASE("Game handles sequential power pellet collection correctly") {
     game.getUpdater()->updatePowerPellets();
     CHECK(powerPellets[0]->isActive() == false);  // First pellet should be inactive
 
-    // Move Pac-Man to the second power pellet
-    
-    
-
     // Update the game again to collect the second pellet
     game.getPacMan().setPosition(1400.0f, 760.0f);  // Assume second pellet is at (1400, 760)
     game.getUpdater()->updatePowerPellets();
@@ -389,22 +385,25 @@ TEST_CASE("Game Input Handling Test") {
 // Test that the game ends when Pac-Man loses all lives
 TEST_CASE("Game Over Condition Test") {
     Game game;
-    Ghost ghost(760.0f, 440.0f, 150.0f);
-    PacMan pacman(0.0f, 0.0f);  // Place Pac-Man at the same position as the ghost
     game.initialise(true);
 
-    auto lives = game.getPlayerLives();
 
-    // Simulate losing all lives
-    while (lives.getLives() > 0) {
-        lives.loseLife();
+    // Continue simulating collisions until all lives are lost
+    while (game.getPlayerLives().getLives() > 0) {
+        game.getPlayerLives().loseLife();
     }
-    game.getUpdater()->updateGame(1);
-    game.getPacMan().setPosition(760, 440);
-    game.getUpdater()->updateGame(1);
-    CHECK(lives.getLives() == 123);  // Game should stop running
-    CHECK(game.isGameRunning() == false);  // Game should stop running
+
+    // Check collision
+    game.getPacMan().setPosition(685, 445);
+    bool collision = game.getGhosts().at(0)->checkCollisionWithPacMan(game.getPacMan());
+    CHECK(collision == true);  // Should detect collision
+
+    // The game should have ended because Pac-Man lost all lives
+    CHECK(game.getPlayerLives().getLives() == 0);  // Check that Pac-Man has no remaining lives
+    game.update();
+    CHECK(game.isGameRunning() == false);  // The game should stop running
 }
+
 
 // These two are kinda broken
 // Test that Game transitions to the correct state based on input

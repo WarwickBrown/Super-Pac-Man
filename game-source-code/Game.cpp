@@ -206,17 +206,3 @@ std::vector<Fruit*>& Game::getFruits() {
     }
     return fruitPtrs;
 }
-
-/**
- * @brief Retrieves a list of ghost pointers for accessing and modifying ghost objects.
- * 
- * @return A vector of raw pointers to Ghost objects.
- */
-std::vector<Ghost*>& Game::getGhosts() {
-    static std::vector<Ghost*> ghostPtrs;
-    ghostPtrs.clear();
-    for (auto& ghost : ghosts) {
-        ghostPtrs.push_back(ghost.get());
-    }
-    return ghostPtrs;
-}
