@@ -68,6 +68,8 @@ public:
 
     /**
      * @brief Initialises game objects, such as Pac-Man, ghosts, maze, and collectables.
+     * 
+     * @param skipStartScreen Allows for the skipping of the start screen when set to true.
      */
     void initialise(bool skipStartScreen);
 

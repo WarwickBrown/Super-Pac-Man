@@ -373,7 +373,6 @@ TEST_CASE("Game handles sequential power pellet collection correctly") {
 TEST_CASE("Game Input Handling Test") {
     Game game;
     game.initialise(true);
-    game.run();
     game.handleInput(KEY_RIGHT);
     CHECK(game.getDirection() == 1);  // Right direction
 
@@ -403,7 +402,7 @@ TEST_CASE("Game Over Condition Test") {
     game.getUpdater()->updateGame(1);
     game.getPacMan().setPosition(760, 440);
     game.getUpdater()->updateGame(1);
-   CHECK(lives.getLives() == 123);  // Game should stop running
+    CHECK(lives.getLives() == 123);  // Game should stop running
     CHECK(game.isGameRunning() == false);  // Game should stop running
 }
 
