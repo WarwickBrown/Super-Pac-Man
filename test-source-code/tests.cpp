@@ -233,8 +233,8 @@ TEST_CASE("Game correctly handles power pellet interaction") {
     // Use game-initialized power pellet
     auto& powerPellet = game.getPowerPellets().front();
     CHECK(powerPellet->isActive() == true);  // Power pellet should be active
-    powerPellet->collect();  // Pac-Man collects the power pellet
-
+    game.getPacMan().setPosition(120, 720);
+    game.getUpdater()->updatePowerPellets();
 
     // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
     for (auto& ghost : game.getGhosts()) {
@@ -398,7 +398,8 @@ TEST_CASE("Game Over Condition Test") {
     while (lives.getLives() > 0) {
         lives.loseLife();
     }
-    game.getUpdater()->updateGame(1000);
+
+    game.getUpdater()->updateInvincibility(1000);
     game.checkWinCondition();  // Update game state for lives condition
     CHECK(game.isGameRunning() == false);  // Game should stop running
 }
