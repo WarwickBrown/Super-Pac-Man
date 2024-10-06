@@ -208,34 +208,6 @@ std::vector<Fruit*>& Game::getFruits() {
 }
 
 /**
- * @brief Retrieves a list of power pellet pointers for accessing and modifying power pellet objects.
- * 
- * @return A vector of raw pointers to PowerPellet objects.
- */
-std::vector<PowerPellet*>& Game::getPowerPellets() {
-    static std::vector<PowerPellet*> pelletPtrs;
-    pelletPtrs.clear();
-    for (auto& pellet : powerPellets) {
-        pelletPtrs.push_back(pellet.get());
-    }
-    return pelletPtrs;
-}
-
-/**
- * @brief Retrieves a list of super pellet pointers for accessing and modifying super pellet objects.
- * 
- * @return A vector of raw pointers to SuperPellet objects.
- */
-std::vector<SuperPellet*>& Game::getSuperPellets() {
-    static std::vector<SuperPellet*> superPelletPtrs;
-    superPelletPtrs.clear();
-    for (auto& superPellet : superPellets) {
-        superPelletPtrs.push_back(superPellet.get());
-    }
-    return superPelletPtrs;
-}
-
-/**
  * @brief Retrieves a list of ghost pointers for accessing and modifying ghost objects.
  * 
  * @return A vector of raw pointers to Ghost objects.

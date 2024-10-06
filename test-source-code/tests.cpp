@@ -1364,29 +1364,39 @@ TEST_CASE("Screen correctly handles end game screen") {
 
 TEST_CASE("Screen correctly handles power pellet drawing") {
     Game game;
-    Draw draw;
-    game.initialise(true);
+    game.initialise(true);  // Initialise the game without showing the start screen
 
     // Check if there are power pellets to draw
     CHECK(!game.getPowerPellets().empty());
 
-    // Convert PowerPellet* vector to unique_ptr vector
-    std::vector<std::unique_ptr<PowerPellet>> powerPellets;
-    for (auto pellet : game.getPowerPellets()) {
-        powerPellets.push_back(std::unique_ptr<PowerPellet>(pellet));  // Transfer ownership
-    }
+    // Use the existing power pellets to draw
+    game.getDraw().drawPowerPellets(game.getPowerPellets()); 
 
-    // Draw power pellets using the converted vector
-    draw.drawPowerPellets(powerPellets);
+    // Check if the test completes without any errors
     CHECK(true);  // If no exception or error occurs, the test passes
 }
+
+TEST_CASE("Screen correctly handles super pellet drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are power pellets to draw
+    CHECK(!game.getSuperPellets().empty());
+
+    // Use the existing power pellets to draw
+    game.getDraw().drawSuperPellets(game.getSuperPellets()); 
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
 
 // Test case for verifying win screen
 TEST_CASE("Screen correctly handles win game screen") {
     Screen screen;
     Game game;
     Score score("test_screen_wingame.txt");
- 
+
     game.initialise(true);
     score.addPoints(5000);
 
@@ -1396,40 +1406,36 @@ TEST_CASE("Screen correctly handles win game screen") {
 }
 
 TEST_CASE("Screen draws Pac-Man correctly") {
-    Draw draw;
     Game game;
     game.initialise(true);
-    PacMan pacman(150, 150);
     int frame = 0;
 
     // Draw Pac-Man without copying Screen
-    draw.drawPacMan(pacman, frame, Draw::RIGHT);
+    game.getDraw().drawPacMan(game.getPacMan(), frame, Draw::RIGHT);
     CHECK(true);  // If no exception or error occurs, the test passes
 }
 
 TEST_CASE("Screen draws the lives correctly") {
-    Draw draw;
     Game game;
     game.initialise(true);
     int lives = 3;  // Simulate 3 lives
 
     // Draw the lives and ensure the function works correctly
-    draw.drawLives(lives);
+    game.getDraw().drawLives(lives);
 
     // Check if the function completes without errors.
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
 TEST_CASE("Screen draws the score correctly") {
-    Draw draw;
-    Score score("test_screen_score.txt");
-
+    Game game;
+    game.initialise(true);             // Initialize the game
     // Mock scores
-    score.addPoints(100);
-    score.addPoints(200);
+    game.getScore().addPoints(100);
+    game.getScore().addPoints(200);
 
     // Draw the score and ensure the function works correctly
-    draw.drawScores(score);
+    game.getDraw().drawScores(game.getScore());
 
     // Check if the function completes without errors.
     CHECK(true); // If no exception or error occurs, the test passes

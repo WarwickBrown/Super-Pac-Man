@@ -101,18 +101,18 @@ public:
     std::vector<Fruit*>& getFruits();
 
     /**
-     * @brief Retrieves a list of power pellet pointers for accessing and modifying power pellet objects.
+     * @brief Retrieves a reference to the internal vector of power pellet unique pointers.
      * 
-     * @return A vector of pointers to PowerPellet objects.
+     * @return A reference to the vector of unique pointers to PowerPellet objects.
      */
-    std::vector<PowerPellet*>& getPowerPellets();
+    const std::vector<std::unique_ptr<PowerPellet>>& getPowerPellets() const { return powerPellets; }
 
     /**
-     * @brief Retrieves a list of super pellet pointers for accessing and modifying super pellet objects.
+     * @brief Retrieves a reference to the internal vector of super pellet unique pointers.
      * 
-     * @return A vector of pointers to SuperPellet objects.
+     * @return A reference to the vector of unique pointers to SuperPellet objects.
      */
-    std::vector<SuperPellet*>& getSuperPellets();
+    const std::vector<std::unique_ptr<SuperPellet>>& getSuperPellets() const { return superPellets; }
 
     /**
      * @brief Retrieves a list of ghost pointers for accessing and modifying ghost objects.
@@ -274,6 +274,13 @@ public:
      * @param powerPelletTimer A unique pointer to the PacManManager object to be set.
      */
     void setPowerPelletTimer(float powerPelletTimerNew) { this->powerPelletTimer = powerPelletTimerNew; }
+
+    /**
+     * @brief Retrieves the draw object for the game.
+     * 
+     * @return A reference to the `Draw` class instance managing game drawing.
+     */
+    Draw& getDraw() const { return *draw; } ///< Getter for the Draw object
 
 private:
     std::vector<GameKey> keys; ///< A vector of GameKey objects representing keys in the game.
