@@ -1,3 +1,11 @@
+/**
+ * @file Screen.h
+ * @brief Defines the Screen class, which handles rendering and displaying different screens in the game.
+ * 
+ * The Screen class provides methods to display the start screen, the game over screen, and the win screen.
+ * It manages drawing various game elements on the screen and handles window-related operations.
+ */
+
 #ifndef SCREEN_H
 #define SCREEN_H
 
@@ -14,35 +22,97 @@
 #include "PowerPellet.h"
 #include "SuperPellet.h"
 #include "Star.h"
-// Forward declaration of the Game class
+
+// Forward declaration of the Game class.
 class Game;
 
+/**
+ * @class Screen
+ * @brief Manages rendering and displaying different screens in the game.
+ * 
+ * The Screen class provides functionality to render the start screen, the game over screen,
+ * and the win screen. It also handles drawing game elements and managing the game window.
+ */
 class Screen {
 public:
-    Screen();  // Constructor: Initialises the screen/window and other variables
-    ~Screen(); // Destructor: Cleans up dynamically allocated memory (if any)
+    /**
+     * @brief Constructs a Screen object and initializes the game window.
+     * 
+     * Initializes the window with specified dimensions and title. Sets up the initial state of the game.
+     */
+    Screen();
 
-    // Functions for handling various Draw-related tasks
-    void startScreen(const Game* game, const Score& score); // Displays the start Draw with game instructions
-    void render(); // Clears the Draw and prepares it for rendering
-    void drawGameImages(const Game& game); // Draws additional game images, like controls, on the screen
+    /**
+     * @brief Destructor for the Screen class.
+     * 
+     * Cleans up any dynamically allocated memory or resources (if applicable).
+     */
+    ~Screen();
 
+    /**
+     * @brief Displays the start screen with game instructions and high score.
+     * 
+     * This method displays the game title, instructions for starting the game, and high score information.
+     * It waits for the player to press ENTER to begin the game.
+     * 
+     * @param game Pointer to the current Game instance.
+     * @param score Reference to the Score object to display the high score.
+     */
+    void startScreen(const Game* game, const Score& score);
+
+    /**
+     * @brief Clears the screen and prepares it for rendering.
+     * 
+     * This method is used to reset the screen and draw a new frame, setting a black background.
+     */
+    void render();
+
+    /**
+     * @brief Draws additional game images (e.g., controls) on the start screen.
+     * 
+     * This method displays controls and other images on the start screen, such as input keys and game hints.
+     * 
+     * @param game Reference to the Game object to access the necessary textures.
+     */
+    void drawGameImages(const Game& game);
+
+    /**
+     * @brief Displays the game over screen and waits for user input to exit.
+     * 
+     * This method displays the game over message, the player's score, and the high score. It waits
+     * for a few seconds before closing the window and exiting the game.
+     * 
+     * @param score Reference to the Score object to display the current score and high score.
+     * @return false Always returns false to ensure the game loop stops.
+     */
     bool endGame(const Score& score);
+
+    /**
+     * @brief Displays the win screen and waits for user input to exit.
+     * 
+     * This method displays the win message, the player's score, and the high score. It waits
+     * for a few seconds before restarting the game.
+     * 
+     * @param score Reference to the Score object to display the current score and high score.
+     * @return false Always returns false to ensure the game loop stops.
+     */
     bool winGame(const Score& score);
 
-
 private:
-    std::unique_ptr<Maze> maze;
-    bool isRunning;        // State to check if the game is running
-    int direction;               // Current direction for Pac-Man's movement
-    raylib::Window window; // Game window object for rendering
-    int num = 0;  
-    bool eaten;
-    Texture2D picture;
+    std::unique_ptr<Maze> maze;     ///< Pointer to the Maze object for managing maze-related operations.
+    bool isRunning;                 ///< State to check if the game is running.
+    int direction;                  ///< Current direction for Pac-Man's movement.
+    raylib::Window window;          ///< Game window object for rendering.
+    int num = 0;                    ///< Variable used for various counters and operations.
+    bool eaten;                     ///< Flag to track if a certain object is eaten.
+    Texture2D picture;              ///< Texture object to hold the picture to be drawn on the screen.
 
+    /**
+     * @brief Textures for various game images such as control keys and other hints.
+     */
     std::vector<Texture2D> gameImages = {
-        LoadTexture("../resources/pacman-images/inputkeys.png"),
+        LoadTexture("../resources/pacman-images/inputkeys.png"),  ///< Image showing the input keys.
     };
 };
 
-#endif // Draw_H
+#endif // SCREEN_H
