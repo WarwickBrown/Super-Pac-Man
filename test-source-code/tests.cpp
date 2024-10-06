@@ -333,8 +333,9 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
     }
 
     // Simulate waiting for the frightened mode to expire
-    float elapsedTime = 6.0f;  // Assume frightened mode lasts 5 seconds
-    game.getUpdater()->updateInvincibility(elapsedTime);  // Mock method to update timers
+    float elapsedTime = -6.0f;  // Total of 6 seconds 
+    game.setPowerPelletTimer(elapsedTime);
+    game.getUpdater()->updatePowerPellets();
 
     // Check that all ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
@@ -345,24 +346,23 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode") {
 // Test case for Pac-Man collecting multiple power pellets in sequence
 TEST_CASE("Game handles sequential power pellet collection correctly") {
     Game game;
-    Draw draw;
-    GameInitialiser::initialiseGameObjects(game);
-    Update updater(game, &draw);
-    initializeGameWithPowerPellets(game);
+    game.initialise(true);
 
     auto& powerPellets = game.getPowerPellets();
     CHECK(powerPellets.size() > 1);  // Ensure there are multiple power pellets
 
     // Simulate Pac-Man collecting the first power pellet
-    updater.updatePowerPellets();
+    game.getPacMan().setPosition(120.0f, 760.0f);  // Assume second pellet is at (120, 760)
+    game.getUpdater()->updatePowerPellets();
     CHECK(powerPellets[0]->isActive() == false);  // First pellet should be inactive
 
     // Move Pac-Man to the second power pellet
-    PacMan pacMan = game.getPacMan();
-    pacMan.setPosition(200.0f, 200.0f);  // Assume second pellet is at (200, 200)
+    
+    
 
     // Update the game again to collect the second pellet
-    updater.updatePowerPellets();
+    game.getPacMan().setPosition(1400.0f, 760.0f);  // Assume second pellet is at (1400, 760)
+    game.getUpdater()->updatePowerPellets();
     CHECK(powerPellets[1]->isActive() == false);  // Second pellet should be inactive
 
     // Check that the score has increased correctly for both pellets
@@ -390,7 +390,7 @@ TEST_CASE("Game Input Handling Test") {
 // Test that the game ends when Pac-Man loses all lives
 TEST_CASE("Game Over Condition Test") {
     Game game;
-    GameInitialiser::initialiseGameObjects(game);
+    game.initialise(true);
 
     auto lives = game.getPlayerLives();
 
@@ -398,8 +398,8 @@ TEST_CASE("Game Over Condition Test") {
     while (lives.getLives() > 0) {
         lives.loseLife();
     }
-
-    game.update();  // Update game state for lives condition
+    game.getUpdater()->updateGame(1000);
+    game.checkWinCondition();  // Update game state for lives condition
     CHECK(game.isGameRunning() == false);  // Game should stop running
 }
 
