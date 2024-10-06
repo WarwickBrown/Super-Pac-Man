@@ -1,3 +1,8 @@
+/**
+ * @file Game.cpp
+ * @brief Implementation of the Game class, which manages the entire game flow and logic.
+ */
+
 #include "Game.h"
 #include "Screen.h"
 #include "Draw.h"
@@ -14,30 +19,41 @@
 #include <cmath>
 #include <memory>
 
-// Constructor - Initialises game window, running state, and sets pointers to nullptr
+/**
+ * @brief Constructs a Game object, initializing the game window, running state, and other game elements.
+ */
 Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(NONE), frame(0), gameWon(false) {}
 
-// Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
+/**
+ * @brief Destructor for the Game class, releasing dynamically allocated resources for the maze, Pac-Man, and other objects.
+ */
 Game::~Game() = default;
 
-// Function to initialise the game
+/**
+ * @brief Initializes the game objects such as maze, Pac-Man, and various collectables.
+ * 
+ * This function uses the `GameInitialiser` class to set up the game objects, displays the start screen,
+ * and waits for the player to start the game by pressing ENTER.
+ */
 void Game::initialise() {
-    GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen)
-    GameInitialiser::initialiseFruits(*this);
-    GameInitialiser::initialiseKeys(*this);
-    GameInitialiser::initialiseStars(*this);
-    GameInitialiser::initialisePowerPellets(*this);
-    GameInitialiser::initialiseSuperPellets(*this);
+    GameInitialiser::initialiseGameObjects(*this);  // Initializes game objects (maze, Pac-Man, screen)
+    GameInitialiser::initialiseFruits(*this);       // Initializes fruit collectables
+    GameInitialiser::initialiseKeys(*this);         // Initializes keys
+    GameInitialiser::initialiseStars(*this);        // Initializes stars
+    GameInitialiser::initialisePowerPellets(*this); // Initializes power pellets
+    GameInitialiser::initialiseSuperPellets(*this); // Initializes super pellets
+
     updater = std::make_unique<Update>(*this, draw.get());
     pacManManager = std::make_unique<PacManManager>(*this);
-    maze->initialiseCustomWalls();
-    pacMan->setDirection(PacMan::NONE);
-    score = std::make_unique<Score>("highscore.txt"); // Initialise the score object
-    playerLives = std::make_unique<Lives>(3);
+
+    maze->initialiseCustomWalls();                 // Sets up custom walls for the maze
+    pacMan->setDirection(PacMan::NONE);            // Sets Pac-Man's initial direction to none
+    score = std::make_unique<Score>("highscore.txt"); // Initializes the score object
+    playerLives = std::make_unique<Lives>(3);      // Initializes player lives
 
     // Display the start screen until the player presses ENTER or closes the window
     while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-        screen->startScreen(this, *score); // Shows the start screen and passes the current game instance
+        screen->startScreen(this, *score);         // Shows the start screen and passes the current game instance
     }
 
     // Check if the window is closed by the user
@@ -46,42 +62,49 @@ void Game::initialise() {
     }
 }
 
-// Main game loop
+/**
+ * @brief Main game loop that handles input, updates game state, and renders game elements.
+ * 
+ * This function contains the primary game loop, which continues until the game is won or the window is closed.
+ * It renders all game elements such as the maze, Pac-Man, ghosts, collectables, and updates their states accordingly.
+ */
 void Game::run() {
-    int pixelX; // Coordinates for rendering
-    int pixelY;
+    int pixelX, pixelY;                          // Coordinates for rendering
     srand(time(0));
-    num3 = rand()%6+1;
+    num3 = rand() % 6 + 1;                       // Randomize a number for drawing fruits
+
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
-        auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
-        handleInput(0);   // Handle user input like key presses for movement
-        update();
-        screen->render(); // Render the current state of the game
-        draw->drawMaze(*maze);  // Draw the maze
-        draw->drawKeys(keys);
-        frame = pacMan->location(frame);  // Update Pac-Man's frame for animation
-        draw->drawFruits(fruits, num3);
-        draw->drawStars(stars);
-        draw->drawPowerPellets(powerPellets);
-        draw->drawSuperPellets(superPellets);
-        draw->drawScores(*score); // Draw the scores
-        draw->drawLives(playerLives->getLives());
+        auto deltaTime = GetFrameTime();         // Get the time elapsed since the last frame
+        handleInput(0);                          // Handle user input like key presses for movement
+        update();                                // Update the game state
+        screen->render();                        // Render the current state of the game
+
+        draw->drawMaze(*maze);                   // Draw the maze
+        draw->drawKeys(keys);                    // Draw the keys
+        frame = pacMan->location(frame);         // Update Pac-Man's frame for animation
+        draw->drawFruits(fruits, num3);          // Draw the fruits
+        draw->drawStars(stars);                  // Draw the stars
+        draw->drawPowerPellets(powerPellets);    // Draw the power pellets
+        draw->drawSuperPellets(superPellets);    // Draw the super pellets
+        draw->drawScores(*score);                // Draw the scores
+        draw->drawLives(playerLives->getLives());// Draw the player lives
 
         for (const auto& star : stars) {
-            star->determineChange();  // Use the star object directly
+            star->determineChange();             // Determine star state changes
         }
 
         for (const auto& ghost : ghosts) {
-            draw->drawGhost(*ghost, *pacMan);
+            draw->drawGhost(*ghost, *pacMan);    // Draw each ghost
         }
 
+        // Draw Pac-Man based on his current state (regular or super)
         if (pacMan->isSuper()) {
             draw->drawSuperPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));
+        } else {
+            draw->drawPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));
         }
-        else{
-            draw->drawPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));  // Draw Pac-Man with its current frame and direction
-        }
+
         // If the game has been won, break the loop
         if (gameWon) {
             break;
@@ -91,7 +114,7 @@ void Game::run() {
     // Save high score when the game ends
     score->saveHighScore();
 
-    // If the game is won, show the win screen
+    // If the game is won, show the win screen, otherwise show the end game screen
     if (gameWon) {
         isRunning = screen->winGame(*score);
     } else {
@@ -99,15 +122,21 @@ void Game::run() {
     }
 }
 
-// Handles user input for controlling Pac-Man's direction
+/**
+ * @brief Handles user input for controlling Pac-Man's direction and other game controls.
+ * 
+ * @param inputKey The key input for controlling movement (optional).
+ * 
+ * This function checks for arrow key presses to update Pac-Man's direction and ESCAPE to exit the game.
+ */
 void Game::handleInput(int inputKey) {
-    if (inputKey == 0)
-    {
-        inputKey = GetKeyPressed();
+    if (inputKey == 0) {
+        inputKey = GetKeyPressed();              // Get the key that was pressed
     }
+
     // Check if the ESCAPE key is pressed to exit the game
     if (inputKey == KEY_ESCAPE) {
-        isRunning = false;  // Stop the game loop
+        isRunning = false;                       // Stop the game loop
         return;
     }
 
@@ -126,13 +155,17 @@ void Game::handleInput(int inputKey) {
         pacManDirection = DOWN;
         break;
     default:
-        // No direction change
         break;
     }
 }
 
+/**
+ * @brief Updates the state of the game elements, such as Pac-Man, ghosts, and collectables.
+ * 
+ * This function delegates the update logic to the `PacManManager` and `Update` classes and checks if the game has been won.
+ */
 void Game::update() {
-    auto deltaTime = GetFrameTime();  // Get the time elapsed since the last frame
+    auto deltaTime = GetFrameTime();             // Get the time elapsed since the last frame
 
     // Delegate Pac-Man update logic to PacManManager
     pacManManager->updatePacMan(deltaTime);
@@ -144,19 +177,26 @@ void Game::update() {
     checkWinCondition();
 }
 
-// Implement the method to check if all fruits are collected
+/**
+ * @brief Checks if all the fruits have been collected to determine if the game has been won.
+ * 
+ * If all fruits are collected, the game is marked as won, and the game loop is stopped.
+ */
 void Game::checkWinCondition() {
     for (const auto& fruit : fruits) {
         if (fruit->isActive()) {
             return;  // If any fruit is still active, return early
         }
     }
-    // If all fruits are collected, set gameWon to true
-    gameWon = true;
-    isRunning = false;  // Stop the game loop
+    gameWon = true;                              // If all fruits are collected, set gameWon to true
+    isRunning = false;                           // Stop the game loop
 }
 
-// Getter for fruits, returns a vector of raw pointers
+/**
+ * @brief Retrieves a list of fruit pointers for accessing and modifying fruit objects.
+ * 
+ * @return A vector of raw pointers to Fruit objects.
+ */
 std::vector<Fruit*>& Game::getFruits() {
     static std::vector<Fruit*> fruitPtrs;
     fruitPtrs.clear();
@@ -166,7 +206,11 @@ std::vector<Fruit*>& Game::getFruits() {
     return fruitPtrs;
 }
 
-// Similar implementations for power pellets, super pellets, and ghosts
+/**
+ * @brief Retrieves a list of power pellet pointers for accessing and modifying power pellet objects.
+ * 
+ * @return A vector of raw pointers to PowerPellet objects.
+ */
 std::vector<PowerPellet*>& Game::getPowerPellets() {
     static std::vector<PowerPellet*> pelletPtrs;
     pelletPtrs.clear();
@@ -176,6 +220,11 @@ std::vector<PowerPellet*>& Game::getPowerPellets() {
     return pelletPtrs;
 }
 
+/**
+ * @brief Retrieves a list of super pellet pointers for accessing and modifying super pellet objects.
+ * 
+ * @return A vector of raw pointers to SuperPellet objects.
+ */
 std::vector<SuperPellet*>& Game::getSuperPellets() {
     static std::vector<SuperPellet*> superPelletPtrs;
     superPelletPtrs.clear();
@@ -185,6 +234,11 @@ std::vector<SuperPellet*>& Game::getSuperPellets() {
     return superPelletPtrs;
 }
 
+/**
+ * @brief Retrieves a list of ghost pointers for accessing and modifying ghost objects.
+ * 
+ * @return A vector of raw pointers to Ghost objects.
+ */
 std::vector<Ghost*>& Game::getGhosts() {
     static std::vector<Ghost*> ghostPtrs;
     ghostPtrs.clear();
