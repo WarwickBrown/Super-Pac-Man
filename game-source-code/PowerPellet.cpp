@@ -11,7 +11,7 @@
 /**
  * @brief Constructs a PowerPellet object with a specified position.
  * 
- * This constructor initializes the PowerPellet using the Collectable class's constructor
+ * This constructor initialises the PowerPellet using the Collectable class's constructor
  * and sets its position and radius.
  * 
  * @param x The x-coordinate of the power pellet.

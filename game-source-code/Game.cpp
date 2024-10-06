@@ -20,7 +20,7 @@
 #include <memory>
 
 /**
- * @brief Constructs a Game object, initializing the game window, running state, and other game elements.
+ * @brief Constructs a Game object, initialising the game window, running state, and other game elements.
  */
 Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(NONE), frame(0), gameWon(false) {}
 
@@ -30,26 +30,26 @@ Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(
 Game::~Game() = default;
 
 /**
- * @brief Initializes the game objects such as maze, Pac-Man, and various collectables.
+ * @brief Initialises the game objects such as maze, Pac-Man, and various collectables.
  * 
  * This function uses the `GameInitialiser` class to set up the game objects, displays the start screen,
  * and waits for the player to start the game by pressing ENTER.
  */
 void Game::initialise(bool skipStartScreen) {
-    GameInitialiser::initialiseGameObjects(*this);  // Initializes game objects (maze, Pac-Man, screen)
-    GameInitialiser::initialiseFruits(*this);       // Initializes fruit collectables
-    GameInitialiser::initialiseKeys(*this);         // Initializes keys
-    GameInitialiser::initialiseStars(*this);        // Initializes stars
-    GameInitialiser::initialisePowerPellets(*this); // Initializes power pellets
-    GameInitialiser::initialiseSuperPellets(*this); // Initializes super pellets
+    GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen)
+    GameInitialiser::initialiseFruits(*this);       // Initialises fruit collectables
+    GameInitialiser::initialiseKeys(*this);         // Initialises keys
+    GameInitialiser::initialiseStars(*this);        // Initialises stars
+    GameInitialiser::initialisePowerPellets(*this); // Initialises power pellets
+    GameInitialiser::initialiseSuperPellets(*this); // Initialises super pellets
 
     updater = std::make_unique<Update>(*this, draw.get());
     pacManManager = std::make_unique<PacManManager>(*this);
 
     maze->initialiseCustomWalls();                 // Sets up custom walls for the maze
     pacMan->setDirection(PacMan::NONE);            // Sets Pac-Man's initial direction to none
-    score = std::make_unique<Score>("highscore.txt"); // Initializes the score object
-    playerLives = std::make_unique<Lives>(3);      // Initializes player lives
+    score = std::make_unique<Score>("highscore.txt"); // Initialises the score object
+    playerLives = std::make_unique<Lives>(3);      // Initialises player lives
 
     if (!skipStartScreen) {
         while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
@@ -72,7 +72,7 @@ void Game::initialise(bool skipStartScreen) {
 void Game::run() {
     int pixelX, pixelY;                          // Coordinates for rendering
     srand(time(0));
-    num3 = rand() % 6 + 1;                       // Randomize a number for drawing fruits
+    num3 = rand() % 6 + 1;                       // Randomise a number for drawing fruits
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {

@@ -11,14 +11,14 @@
 /**
  * @brief Constructs a SuperPellet object with a specified position.
  * 
- * Initializes the SuperPellet object using the base class Collectable's constructor,
+ * Initialises the SuperPellet object using the base class Collectable's constructor,
  * setting its position and radius. The super pellet is initially active.
  * 
  * @param x The x-coordinate of the super pellet's position.
  * @param y The y-coordinate of the super pellet's position.
  */
 SuperPellet::SuperPellet(float x, float y)
-    : Collectable(x, y, 15.0f) {  ///< Initialize using the Collectable base class with position and radius.
+    : Collectable(x, y, 15.0f) {  ///< initialise using the Collectable base class with position and radius.
 }
 
 /**

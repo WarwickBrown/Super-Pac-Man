@@ -24,7 +24,7 @@ public:
     /**
      * @brief Constructs a Score object and loads the high score from a file.
      * 
-     * This constructor initializes the Score object with the given filename, sets
+     * This constructor initialises the Score object with the given filename, sets
      * the current and high scores to zero, and loads the high score from the specified
      * file.
      * 

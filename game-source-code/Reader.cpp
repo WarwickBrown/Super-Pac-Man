@@ -13,7 +13,7 @@
 /**
  * @brief Constructs a Reader object with a specified file path.
  * 
- * This constructor initializes the Reader object and sets the file path to be used
+ * This constructor initialises the Reader object and sets the file path to be used
  * for reading and writing operations.
  * 
  * @param filePath The path of the file to be read or written.

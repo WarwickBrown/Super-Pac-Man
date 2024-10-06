@@ -17,12 +17,12 @@
  * @param startY The initial y-coordinate of the ghost.
  * @param speed The speed at which the ghost moves (pixels per second).
  * 
- * Initializes the ghost's state, including position, speed, and initial direction.
+ * Initialises the ghost's state, including position, speed, and initial direction.
  */
 Ghost::Ghost(int startX, int startY, float speed) : startX(startX), startY(startY), x(startX), y(startY), speed(250), radius(34), frightened(false), eaten(false) {
-    // Initialize random seed
+    // initialise random seed
     std::srand(std::time(0));
-    // Initialize random direction
+    // initialise random direction
     direction = rand() % 4 + 1; // Randomly set to 1 (right), 2 (left), 3 (up), or 4 (down)
 }
 

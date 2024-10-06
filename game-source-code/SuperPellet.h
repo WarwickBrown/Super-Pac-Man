@@ -27,7 +27,7 @@ public:
     /**
      * @brief Constructs a SuperPellet object with a specified position.
      * 
-     * Initializes the SuperPellet object using the base class Collectable's constructor,
+     * Initialises the SuperPellet object using the base class Collectable's constructor,
      * setting its position and radius. The super pellet is initially active.
      * 
      * @param x The x-coordinate of the super pellet's position.

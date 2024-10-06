@@ -13,7 +13,7 @@
 /**
  * @brief Constructs a Score object and loads the high score from a file.
  * 
- * Initializes the Score object, setting the current score and high score to zero.
+ * Initialises the Score object, setting the current score and high score to zero.
  * It then loads the high score from the specified file.
  * 
  * @param filename The name of the file to read/write the high score.

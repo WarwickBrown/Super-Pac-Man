@@ -42,7 +42,7 @@ public:
     };
 
     /**
-     * @brief Constructor: Initializes the Draw class and associated resources.
+     * @brief Constructor: Initialises the Draw class and associated resources.
      */
     Draw();
 
