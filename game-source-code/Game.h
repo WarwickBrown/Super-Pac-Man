@@ -269,6 +269,13 @@ public:
     Update* getUpdater() const { return updater.get(); }
 
     /**
+     * @brief Sets the Pac-Man manager object for managing Pac-Man-specific updates.
+     * 
+     * @param powerPelletTimer A unique pointer to the PacManManager object to be set.
+     */
+    void setPowerPelletTimer(float powerPelletTimerNew) { this->powerPelletTimer = powerPelletTimerNew; }
+
+    /**
      * @brief Retrieves the draw object for the game.
      * 
      * @return A reference to the `Draw` class instance managing game drawing.

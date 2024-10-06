@@ -280,27 +280,27 @@ TEST_CASE("Game Fruit Collection Test") {
 // Test case for power pellet frightened mode duration
 TEST_CASE("Game handles frightened mode duration correctly") {
     Game game;
-    Draw draw;
-    Update updater(game, &draw);
-    initializeGameWithPowerPellets(game);
-
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
     // Simulate Pac-Man collecting a power pellet
-    updater.updatePowerPellets();
+    game.getUpdater()->updatePowerPellets();
     CHECK(game.getScore().getCurrentScore() == 100);  // Initial score update
 
     // Move time forward to simulate frightened mode duration
-    float elapsedTime = 3.0f;  // Move 3 seconds forward
-    updater.updateInvincibility(elapsedTime);
-
+    float elapsedTime = -3.0f;  // Move 3 seconds forward
+    game.setPowerPelletTimer(elapsedTime);
+    game.getUpdater()->updatePowerPellets();
+    
     // Check that ghosts are still in frightened mode
     for (const auto& ghost : game.getGhosts()) {
         CHECK(ghost->isFrightened() == true);
     }
 
     // Move time forward again to exceed frightened mode duration
-    elapsedTime = 6.0f;  // Total of 9 seconds now
-    updater.updateInvincibility(elapsedTime);
-
+    elapsedTime = -6.0f;  // Total of 9 seconds now
+    game.setPowerPelletTimer(elapsedTime);
+    game.getUpdater()->updatePowerPellets();
+    
     // Check that ghosts are no longer in frightened mode
     for (const auto& ghost : game.getGhosts()) {
         CHECK(ghost->isFrightened() == false);
