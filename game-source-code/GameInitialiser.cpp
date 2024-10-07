@@ -62,11 +62,9 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(280, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(360, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(440, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(520, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(600, 680));
 
     //Bottom Right Small L
-    game.fruits.emplace_back(std::make_unique<Fruit>(1000, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(1080, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(1160, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(1240, 600));
@@ -75,25 +73,18 @@ void GameInitialiser::initialiseFruits(Game& game) {
     //Bottom Left Big L
     game.fruits.emplace_back(std::make_unique<Fruit>(280, 200));
     game.fruits.emplace_back(std::make_unique<Fruit>(280, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 360));
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(360, 440));
     game.fruits.emplace_back(std::make_unique<Fruit>(440, 440));
     game.fruits.emplace_back(std::make_unique<Fruit>(520, 440));
 
     //Bottom Right Big L
     game.fruits.emplace_back(std::make_unique<Fruit>(1240, 200));
     game.fruits.emplace_back(std::make_unique<Fruit>(1240, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 360));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 440));
     game.fruits.emplace_back(std::make_unique<Fruit>(1000, 440));
     game.fruits.emplace_back(std::make_unique<Fruit>(1080, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1160, 440));
 
     //Top Left Small L
     game.fruits.emplace_back(std::make_unique<Fruit>(440, 200));
     game.fruits.emplace_back(std::make_unique<Fruit>(440, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(520, 280));
     game.fruits.emplace_back(std::make_unique<Fruit>(600, 280));
     game.fruits.emplace_back(std::make_unique<Fruit>(680, 280));
 
@@ -102,12 +93,10 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(1080, 280));
     game.fruits.emplace_back(std::make_unique<Fruit>(840, 280));
     game.fruits.emplace_back(std::make_unique<Fruit>(920, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1000, 280));
 
     //Upper Symbol
     game.fruits.emplace_back(std::make_unique<Fruit>(600, 120));
     game.fruits.emplace_back(std::make_unique<Fruit>(680, 120));
-    game.fruits.emplace_back(std::make_unique<Fruit>(760, 120));
     game.fruits.emplace_back(std::make_unique<Fruit>(840, 120));
     game.fruits.emplace_back(std::make_unique<Fruit>(920, 120));
 
@@ -154,6 +143,8 @@ void GameInitialiser::initialisePowerPellets(Game& game) {
 void GameInitialiser::initialiseSuperPellets(Game& game) {
     game.superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600));
     game.superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600));
+    game.superPellets.emplace_back(std::make_unique<SuperPellet>(280, 440));
+    game.superPellets.emplace_back(std::make_unique<SuperPellet>(1240, 440));
 }
 
 /**
@@ -165,39 +156,57 @@ void GameInitialiser::initialiseSuperPellets(Game& game) {
  */
 void GameInitialiser::initialiseKeys(Game& game) {
     // Top Left Box
-    game.keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3});
+    game.keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3}); //
     // Top Right Box
-    game.keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7});
+    game.keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7}); //
     // Bottom Left
-    game.keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11});
+    game.keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11}); //
     // Bottom Right Box
-    game.keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15});
-    //Left Long Wall
-    game.keys.emplace_back(40, 440, std::vector<int>{16, 17 , 18, 19});
+    game.keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15}); //
+    //Left Long Wall 
+    game.keys.emplace_back(40, 440, std::vector<int>{16, 17 , 18, 19}); //
     //Right Long Wall
-    game.keys.emplace_back(1480, 440, std::vector<int>{20, 21, 22, 23});
-    // Big L Left
-    game.keys.emplace_back(360, 360, std::vector<int>{24, 25, 26, 27});
-    // Big L Right
-    game.keys.emplace_back(1160, 360, std::vector<int>{28, 29, 30, 31});
-    // Left Top Small L
-    game.keys.emplace_back(520, 200, std::vector<int>{32, 33, 34, 35});
-    // Right Top Small L
-    game.keys.emplace_back(1000, 200, std::vector<int>{36, 37, 38, 39});
-    // Upper Symbol
-    game.keys.emplace_back(760, 280, std::vector<int>{40, 41, 42, 43});
-    // Left Bottom Small L 
-    game.keys.emplace_back(280, 520, std::vector<int>{44, 45, 48, 49});
-    // Right Bottom Small L 
-    game.keys.emplace_back(1240, 520, std::vector<int>{50, 51, 54, 55});
-    // Bottom Left Short 
-    game.keys.emplace_back(360, 680, std::vector<int>{56, 57, 58, 59});
-    // Bottom Right Short
-    game.keys.emplace_back(1160, 680, std::vector<int>{60, 61, 62, 63});
-    // Bottom T-Shaped 
-    game.keys.emplace_back(760, 680, std::vector<int>{64, 65, 66, 67});
-    game.keys.emplace_back(680, 760, std::vector<int>{46, 47, 68, 69});
-    game.keys.emplace_back(840, 760, std::vector<int>{52, 53, 70, 71});
+    game.keys.emplace_back(1480, 440, std::vector<int>{20, 21, 22, 23}); //
+
+    game.keys.emplace_back(360, 200, std::vector<int>{48, 49, 50, 51}); //
+
+    game.keys.emplace_back(1160, 200, std::vector<int>{56, 57, 58, 59}); //
+
+    game.keys.emplace_back(600, 200, std::vector<int>{64, 65, 66, 67}); //
+
+    game.keys.emplace_back(920, 200, std::vector<int>{68, 69, 70, 71}); //
+
+    game.keys.emplace_back(600, 360, std::vector<int>{52, 53, 54, 55}); //
+
+    game.keys.emplace_back(920, 360, std::vector<int>{60, 61, 62, 63}); //
+
+    game.keys.emplace_back(1320, 520, std::vector<int>{40, 41, 42, 43}); //
+
+    game.keys.emplace_back(360, 680, std::vector<int>{72, 73, 74, 75}); //
+
+    game.keys.emplace_back(1160, 680, std::vector<int>{80, 81, 82, 83}); //
+
+    game.keys.emplace_back(680, 680, std::vector<int>{76, 77, 78, 79}); //
+
+    game.keys.emplace_back(600, 760, std::vector<int>{96, 97, 100, 101}); //
+
+    game.keys.emplace_back(920, 760, std::vector<int>{98, 99, 102, 103}); //
+
+    game.keys.emplace_back(1320, 280, std::vector<int>{36, 37, 38, 39}); //
+
+    game.keys.emplace_back(200, 280, std::vector<int>{24, 25, 26, 27}); //
+
+    game.keys.emplace_back(520, 520, std::vector<int>{32, 33, 34, 35}); //
+
+    game.keys.emplace_back(1000, 520, std::vector<int>{44, 45, 46, 47}); //
+
+    game.keys.emplace_back(840, 680, std::vector<int>{84, 85, 86, 87}); //
+
+    game.keys.emplace_back(200, 520, std::vector<int>{28, 29, 30, 31}); //
+
+    game.keys.emplace_back(360, 840, std::vector<int>{88, 89, 90, 91}); //
+
+    game.keys.emplace_back(1160, 840, std::vector<int>{92, 93, 94, 95}); //
 }
 
 /**

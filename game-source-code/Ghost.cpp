@@ -96,7 +96,7 @@ int Ghost::move(const Maze& maze, const PacMan& pacman, float deltaTime) {
         ghostChasePacMan(direction, newX, newY, deltaTime, maze, pacman);
         // Add randomness by occasionally overriding the calculated best movement
         // For example, 1 in 5 times the ghost will pick a random direction
-        auto randomChance = rand() % 4; // 1 in 5 chance
+        auto randomChance = rand() % 4; // 1 in 4 chance
         if (randomChance == 0) {
             chooseRandomDirection(maze); // Pick a random valid direction
             return direction;
