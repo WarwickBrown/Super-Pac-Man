@@ -62,7 +62,7 @@ void initializeGameWithPowerPellets(Game& game) {
 }
 
 // Test for state changes when a fruit is collected
-TEST_CASE("Active and Eaten State Test") {
+TEST_CASE("Fruit states change from active to eaten when collected") {
     Fruit fruit(150, 250);  // Create a fruit at position (150, 250)
 
     CHECK(fruit.isActive() == true);  // Fruit should be active initially
@@ -72,7 +72,7 @@ TEST_CASE("Active and Eaten State Test") {
 }
 
 // Test boundary and edge cases for Fruit placement and behavior
-TEST_CASE("Boundary and Edge Cases Test") {
+TEST_CASE("Fruit can be in various locations in maze") {
     // Fruit at extreme coordinates (top-left and bottom-right corners)
     Fruit fruit1(0, 0);  // Top-left corner
     Fruit fruit2(1920, 1080);  // Bottom-right corner (assuming screen size)
@@ -102,7 +102,7 @@ TEST_CASE("Boundary and Edge Cases Test") {
 
 // General collectable tests:
 // Test case for Collectable state after collection
-TEST_CASE("Collectable Collection State Test") {
+TEST_CASE("Collectable objects collection can go from active to inactive when collected") {
     Collectable collectable(100.0f, 200.0f, 50.0f);
 
     CHECK(collectable.isActive() == true);  // Initially active
@@ -111,7 +111,7 @@ TEST_CASE("Collectable Collection State Test") {
 }
 
 // Test case for collision detection with another object
-TEST_CASE("Collectable Collision Detection Test") {
+TEST_CASE("Collectable objects have collision detection") {
     Collectable collectable(100.0f, 100.0f, 30.0f);  // Create a collectable with radius 30
 
     // Test collision with another object that intersects the collectable
@@ -122,7 +122,7 @@ TEST_CASE("Collectable Collision Detection Test") {
 }
 
 // Test case for collision detection when collectable is inactive
-TEST_CASE("Collectable Collision Detection When Inactive") {
+TEST_CASE("Collectable objects do not have collision when inactive") {
     Collectable collectable(100.0f, 100.0f, 30.0f);
     
     collectable.collect();  // Deactivate the collectable
@@ -133,7 +133,7 @@ TEST_CASE("Collectable Collision Detection When Inactive") {
 }
 
 // Test case for Collectable constructor
-TEST_CASE("Collectable Constructor Test") {
+TEST_CASE("Collectable class constructor is built correctly") {
     Collectable collectable(100.0f, 200.0f, 50.0f);  // Create a collectable at position (100, 200) with radius 50
 
     CHECK(collectable.getX() == 100.0f);  // Verify the initial X coordinate
@@ -143,7 +143,7 @@ TEST_CASE("Collectable Constructor Test") {
 }
 
 // Test with negative or zero point increments
-TEST_CASE("Edge Case Test - Negative and Zero Points") {
+TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
     Score score("test_edge_cases.txt");
 
     score.addPoints(0);  // Adding zero points
@@ -160,7 +160,7 @@ TEST_CASE("Edge Case Test - Negative and Zero Points") {
 
 
 // Test exception handling by simulating file-related errors
-TEST_CASE("Exception Handling Test") {
+TEST_CASE("Exceptions are handled correctly in the program") {
     Score score("test_exception_handling.txt");
 
     // Simulate file I/O errors
@@ -177,7 +177,7 @@ TEST_CASE("Exception Handling Test") {
 }
 
 // Test file handling and exception safety
-TEST_CASE("File Handling Test") {
+TEST_CASE("File paths which are invalid do not crash the program") {
     const std::string invalidFilePath = "/invalid/path/highscore.txt";
     Score invalidScore(invalidFilePath);  // This should trigger an exception or fail to open
 
@@ -191,7 +191,7 @@ TEST_CASE("File Handling Test") {
 // Fruit tests
 
 // Test collision detection with Pac-Man
-TEST_CASE("Fruit Collision Detection Test") {
+TEST_CASE("Fruits have working collision with PacMan") {
     Fruit fruit(300, 400);  // Create a fruit at position (300, 400)
 
     // Simulate Pac-Man's position and radius
@@ -207,16 +207,7 @@ TEST_CASE("Fruit Collision Detection Test") {
     CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should be detected
 }
 
-// Test that the Fruit is initialized correctly
-TEST_CASE("Fruit Constructor Test") {
-    Fruit fruit(100, 200);  // Create a fruit at position (100, 200)
-
-    CHECK(fruit.getX() == 100);  // Verify initial x position
-    CHECK(fruit.getY() == 200);  // Verify initial y position
-    CHECK(fruit.isActive() == true);  // Fruit should be active initially
-}
-
-// Test that the Fruit is initialized correctly
+// Test that the Fruit is initialised correctly
 TEST_CASE("Fruit Constructor Test") {
     Fruit fruit(100, 200);  // Create a fruit at position (100, 200)
 
@@ -226,11 +217,11 @@ TEST_CASE("Fruit Constructor Test") {
     CHECK(fruit.getRadius() == 50.0f);  // Verify default radius
 }
 
-TEST_CASE("Game correctly handles power pellet interaction") {
+TEST_CASE("Game correctly handles power pellet interaction with PacMan") {
     Game game;
     game.initialise(true);
 
-    // Use game-initialized power pellet
+    // Use game-initialised power pellet
     auto& powerPellet = game.getPowerPellets().front();
     CHECK(powerPellet->isActive() == true);  // Power pellet should be active
     game.getPacMan().setPosition(120, 720);
@@ -241,7 +232,6 @@ TEST_CASE("Game correctly handles power pellet interaction") {
         CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
     }
 }
-
 
 TEST_CASE("Game ends when all fruits are collected") {
     Game game;
@@ -422,7 +412,7 @@ TEST_CASE("Game State Transitions Test") {
 
 // GameKey Tests
 
-// Constructor Test: Verify that GameKey is initialized with correct values
+// Constructor Test: Verify that GameKey is initialised with correct values
 TEST_CASE("GameKey Constructor Test") {
     std::vector<int> wallsToUnlock = {1, 2, 3};
     GameKey key(100.0f, 200.0f, wallsToUnlock);
@@ -567,7 +557,7 @@ TEST_CASE("Ghost Frightened State Behavior") {
 TEST_CASE("Ghost Initialization") {
     Ghost ghost(100, 100, 150.0f);
 
-    // Check if ghost is initialized at the correct position
+    // Check if ghost is initialised at the correct position
     CHECK(ghost.getX() == 100);
     CHECK(ghost.getY() == 100);
     
@@ -737,7 +727,7 @@ TEST_CASE("Lives Boundary Condition Test") {
     CHECK(playerLives.getLives() == 1);  // Should be 1
 }
 
-// Test that Lives is initialized correctly
+// Test that Lives is initialised correctly
 TEST_CASE("Lives Constructor Test") {
     Lives playerLives(3);  // Initialize with 3 lives
     CHECK(playerLives.getLives() == 3);  // Lives should be 3
@@ -841,7 +831,7 @@ TEST_CASE("Maze collision detection in complex maze with doors") {
 TEST_CASE("Maze Constructor and Initial State") {
     Maze maze;
 
-    // Check that the maze is initialized with no walls
+    // Check that the maze is initialised with no walls
     CHECK(maze.getWalls().empty());
 }
 
@@ -1472,7 +1462,7 @@ TEST_CASE("Star Collision Detection Test") {
     CHECK(collisionDetected == false);  // Should not detect collision
 }
 
-// Test that Star is initialized correctly with given parameters
+// Test that Star is initialised correctly with given parameters
 TEST_CASE("Star Constructor Test") {
     Star testStar(100, 200);  // Initialize with position (100, 200)
 
@@ -1575,7 +1565,7 @@ TEST_CASE("Update: Keys unlock walls") {
     Game game;
     game.initialise(true);  // Initialise game objects
 
-    // Ensure keys are initialized properly
+    // Ensure keys are initialised properly
     REQUIRE_FALSE(game.getKeys().empty());  // Ensure there are keys to test with
 
     // Use the first key in the game's keys list
