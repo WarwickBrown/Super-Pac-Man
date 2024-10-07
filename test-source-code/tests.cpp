@@ -272,31 +272,49 @@ TEST_CASE("Fruits are collected correctly") {
 TEST_CASE("Game handles frightened mode duration correctly") {
     Game game;
     game.initialise(true);
+    
+    // Ensure initial state
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);  // Ghosts should not be frightened initially
+    }
+
     game.getPacMan().setPosition(120, 760);
+
     // Simulate Pac-Man collecting a power pellet
     game.getUpdater()->updatePowerPellets();
-    CHECK(game.getScore().getCurrentScore() == 100);  // Initial score update
+    CHECK(game.getScore().getCurrentScore() == 100);  // Verify initial score update
 
     // Move time forward to simulate frightened mode duration
     float elapsedTime = -3.0f;  // Move 3 seconds forward
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
-    
+
     // Check that ghosts are still in frightened mode
+    bool anyGhostNotFrightened = false;
     for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == true);
+        if (!ghost->isFrightened()) {
+            anyGhostNotFrightened = true;
+            break;
+        }
     }
+    CHECK(anyGhostNotFrightened == false);  // Ensure all ghosts are still frightened
 
     // Move time forward again to exceed frightened mode duration
-    elapsedTime = -6.0f;  // Total of 9 seconds now
+    elapsedTime = -6.0f;  // Total of 9 seconds now (simulate the power pellet duration ending)
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
 
     // Check that ghosts are no longer in frightened mode
+    bool allGhostsNormal = true;
     for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);
+        if (ghost->isFrightened()) {
+            allGhostsNormal = false;
+            break;
+        }
     }
+    CHECK(allGhostsNormal == true);  // Ensure all ghosts have exited frightened mode
 }
+
 
 // Test case for Pac-Man collecting a power pellet and ghosts becoming frightened
 TEST_CASE("Game handles power pellet collection and ghost frightened mode duration") {
