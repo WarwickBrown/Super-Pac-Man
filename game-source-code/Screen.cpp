@@ -122,9 +122,10 @@ void Screen::drawGameImages(const Game& game) {
  * for a few seconds before closing the window and exiting the game.
  * 
  * @param score Reference to the Score object to display the current score and high score.
+ * @param skipDelay Boolean that allows the function to skip the 3 second delay.
  * @return false Always returns false to ensure the game loop stops.
  */
-bool Screen::endGame(const Score& score) {
+bool Screen::endGame(const Score& score, bool skipDelay) {
     for (int i = 0; i < 1800; i++) {
         window.BeginDrawing();
         window.ClearBackground(BLACK);
@@ -143,6 +144,8 @@ bool Screen::endGame(const Score& score) {
                 window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
+
+        if(skipDelay) break;
     }
 
     return false;  ///< Ensure the game loop stops.
@@ -155,9 +158,10 @@ bool Screen::endGame(const Score& score) {
  * for a few seconds before restarting the game.
  * 
  * @param score Reference to the Score object to display the current score and high score.
+ * @param skipDelay Boolean that allows the function to skip the 3 second delay.
  * @return false Always returns false to ensure the game loop stops.
  */
-bool Screen::winGame(const Score& score) {
+bool Screen::winGame(const Score& score, bool skipDelay) {
     for (int i = 0; i < 1800; i++) {
         window.BeginDrawing();
         window.ClearBackground(BLACK);
@@ -176,6 +180,7 @@ bool Screen::winGame(const Score& score) {
                 window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
+        if(skipDelay) break;
     }
 
     window.Close();  ///< Close the window when the game is won.

@@ -18,7 +18,7 @@
 // Helper function to create a basic maze for testing purposes
 Maze createTestMaze() {
     Maze maze;
-    maze.initialiseCustomWalls();  // Initialize custom walls (if any)
+    maze.initialiseCustomWalls();  // initialise custom walls (if any)
     return maze;
 }
 
@@ -30,7 +30,7 @@ Maze createMaze() {
     return maze;
 }
 
-// Helper function to initialize and return a Screen object using a unique pointer
+// Helper function to initialise and return a Screen object using a unique pointer
 std::unique_ptr<Draw> createScreen() {
     return std::make_unique<Draw>();
 }
@@ -46,8 +46,8 @@ void createTempFile(const std::string& fileName, const std::vector<std::string>&
     }
 }
 
-// Helper function to initialize a game with power pellets, Pac-Man, and ghosts
-void initializeGameWithPowerPellets(Game& game) {
+// Helper function to initialise a game with power pellets, Pac-Man, and ghosts
+void initialiseGameWithPowerPellets(Game& game) {
     GameInitialiser::initialiseGameObjects(game);
     GameInitialiser::initialisePowerPellets(game);  // Setup power pellets
 
@@ -235,8 +235,8 @@ TEST_CASE("Game correctly handles power pellet interaction with PacMan") {
 
 TEST_CASE("Game ends when all fruits are collected") {
     Game game;
-    GameInitialiser::initialiseGameObjects(game);  // Initialize game objects like Pac-Man, ghosts, maze, etc.
-    GameInitialiser::initialiseFruits(game);  // Initialize the fruits in the maze
+    GameInitialiser::initialiseGameObjects(game);  // initialise game objects like Pac-Man, ghosts, maze, etc.
+    GameInitialiser::initialiseFruits(game);  // initialise the fruits in the maze
 
     // Ensure the game is running at the start
     CHECK(game.isGameRunning());
@@ -471,7 +471,7 @@ TEST_CASE("Ghost objects have collision detection with PacMan") {
 // Test ghost collision with walls
 TEST_CASE("Ghost objects have collision detection with the walls") {
     Maze maze;
-    maze.initialiseCustomWalls();  // Initialize maze with custom walls
+    maze.initialiseCustomWalls();  // initialise maze with custom walls
     Ghost ghost(100, 100, 150.0f);
     PacMan pacMan(100, 100);
 
@@ -711,7 +711,7 @@ TEST_CASE("High score from previous game loads when a new game is played") {
 
 // Test that lives do not go below 0
 TEST_CASE("Lives increment properly and do not go below 0") {
-    Lives playerLives(1);  // Initialize with 1 life
+    Lives playerLives(1);  // initialise with 1 life
 
     // Lose all lives and try losing more lives
     playerLives.loseLife();  // Should reach 0 lives
@@ -727,13 +727,13 @@ TEST_CASE("Lives increment properly and do not go below 0") {
 
 // Test that Lives is initialised correctly
 TEST_CASE("Lives class is constructed correctly") {
-    Lives playerLives(3);  // Initialize with 3 lives
+    Lives playerLives(3);  // initialise with 3 lives
     CHECK(playerLives.getLives() == 3);  // Lives should be 3
 }
 
 // Test that gaining a life increases the life count
 TEST_CASE("Lives increment correctly") {
-    Lives playerLives(2);  // Initialize with 2 lives
+    Lives playerLives(2);  // initialise with 2 lives
     playerLives.gainLife();  // Gain one life
     CHECK(playerLives.getLives() == 3);  // Lives should be 3
 
@@ -743,7 +743,7 @@ TEST_CASE("Lives increment correctly") {
 
 // Test that isAlive returns correct value based on number of lives
 TEST_CASE("Lives reflects the players alive status correctly") {
-    Lives playerLives(1);  // Initialize with 1 life
+    Lives playerLives(1);  // initialise with 1 life
     CHECK(playerLives.isAlive() == true);  // Should be alive
 
     playerLives.loseLife();  // Lose the only life
@@ -755,7 +755,7 @@ TEST_CASE("Lives reflects the players alive status correctly") {
 
 // Test that losing a life decreases the life count
 TEST_CASE("Lives decrement is handled correctly") {
-    Lives playerLives(3);  // Initialize with 3 lives
+    Lives playerLives(3);  // initialise with 3 lives
     playerLives.loseLife();  // Lose one life
     CHECK(playerLives.getLives() == 2);  // Lives should be 2
 
@@ -837,7 +837,7 @@ TEST_CASE("Maze class is constructed and initialises correctly") {
 TEST_CASE("Maze class initialises custom walls correctly") {
     Maze maze;
 
-    // Call initialize custom walls (assuming walls.txt is already configured)
+    // Call initialise custom walls (assuming walls.txt is already configured)
     maze.initialiseCustomWalls();
 
     // Check that walls have been populated correctly
@@ -1239,7 +1239,7 @@ TEST_CASE("Reader reads file content correctly") {
 
 // Test case for handling a file with multiple lines and special characters
 TEST_CASE("Reader reads file with special characters correctly") {
-    const std::string tempFileName = "../resources/special_walls.txt";
+    const std::string tempFileName = "../resources/test_special_walls.txt";
     std::vector<std::string> fileContents = {
         "Wall #1: x=10, y=20, width=50, height=5",
         "Wall @2: x=30, y=40, width=70, height=5",
@@ -1315,7 +1315,7 @@ TEST_CASE("Score class is constructed correctly") {
 //Test that collecting a fruit increases the score
 TEST_CASE("Score is incremented correctly") {
     Fruit fruit(200, 300);
-    Score score("Fruit_score_test.txt");
+    Score score("test_fruit_score.txt");
 
     CHECK(score.getCurrentScore() == 0);  // Initial score should be 0
     fruit.collect();  // Simulate collecting the fruit
@@ -1343,13 +1343,13 @@ TEST_CASE("Screen correctly handles end game screen") {
     Game game;
     Score score("test_screen_endgame.txt");
 
-    // Initialize game objects and set some score
+    // initialise game objects and set some score
     game.initialise(true);
     score.addPoints(1000);
 
     // Display end game screen and verify it stops the game loop
     
-    bool result = screen->endGame(score);
+    bool result = screen->endGame(score, true);
     CHECK(result == false);  // The game loop should stop
 }
 
@@ -1392,7 +1392,7 @@ TEST_CASE("Screen correctly handles win game screen") {
     score.addPoints(5000);
 
     // Display win game screen and verify it stops the game loop
-    bool result = screen.winGame(score);
+    bool result = screen.winGame(score, true);
     CHECK(result == false);  // The game loop should stop
 }
 
@@ -1420,7 +1420,7 @@ TEST_CASE("Screen draws the lives correctly") {
 
 TEST_CASE("Screen draws the score correctly") {
     Game game;
-    game.initialise(true);             // Initialize the game
+    game.initialise(true);             // initialise the game
     // Mock scores
     game.getScore().addPoints(100);
     game.getScore().addPoints(200);
@@ -1433,12 +1433,12 @@ TEST_CASE("Screen draws the score correctly") {
 }
 
 // Test case for initializing and displaying the screen
-TEST_CASE("Screen initializes and displays correctly") {
+TEST_CASE("Screen initialises and displays correctly") {
     Game game;                     // Create a Game instance
     Screen screen;
     Score score("test_screen_initialisation.txt");
 
-    game.initialise(true);             // Initialize the game
+    game.initialise(true);             // initialise the game
 
     screen.startScreen(&game, score);
 
@@ -1448,7 +1448,7 @@ TEST_CASE("Screen initializes and displays correctly") {
 
 // Test that collision detection works as expected
 TEST_CASE("Star objects have working collision detection") {
-    Star testStar(500, 500);  // Initialize with position (500, 500)
+    Star testStar(500, 500);  // initialise with position (500, 500)
 
     testStar.show();
     // Check collision with a point that intersects the star
@@ -1462,7 +1462,7 @@ TEST_CASE("Star objects have working collision detection") {
 
 // Test that Star is initialised correctly with given parameters
 TEST_CASE("Star class is constructed correctly") {
-    Star testStar(100, 200);  // Initialize with position (100, 200)
+    Star testStar(100, 200);  // initialise with position (100, 200)
 
     CHECK(testStar.getX() == 100);           // X position should be 100
     CHECK(testStar.getY() == 200);           // Y position should be 200
@@ -1472,7 +1472,7 @@ TEST_CASE("Star class is constructed correctly") {
 
 // Test that the show method activates the Star
 TEST_CASE("Star objects only show after an appropriate duration") {
-    Star testStar(150, 250);  // Initialize with position (150, 250)
+    Star testStar(150, 250);  // initialise with position (150, 250)
     
     CHECK(testStar.isActive() == false);  // Star should be inactive initially
     testStar.show();                     // Activate the star

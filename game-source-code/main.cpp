@@ -23,7 +23,7 @@ int main()
     Game game;
 
     // Call the initialise method to set up the game objects, load images, and get ready for the game to start.
-    game.initialise(false);
+    game.initialise();
 
     // Enter the main game loop, where the game is run until the player exits.
     game.run();

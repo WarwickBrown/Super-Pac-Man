@@ -83,9 +83,10 @@ public:
      * for a few seconds before closing the window and exiting the game.
      * 
      * @param score Reference to the Score object to display the current score and high score.
+     * @param skipDelay Boolean that allows the function to skip the 3 second delay.
      * @return false Always returns false to ensure the game loop stops.
      */
-    bool endGame(const Score& score);
+    bool endGame(const Score& score, bool skipDelay = false);
 
     /**
      * @brief Displays the win screen and waits for user input to exit.
@@ -94,9 +95,10 @@ public:
      * for a few seconds before restarting the game.
      * 
      * @param score Reference to the Score object to display the current score and high score.
+     * @param skipDelay Boolean that allows the function to skip the 3 second delay.
      * @return false Always returns false to ensure the game loop stops.
      */
-    bool winGame(const Score& score);
+    bool winGame(const Score& score, bool skipDelay = false);
 
 private:
     std::unique_ptr<Maze> maze;     ///< Pointer to the Maze object for managing maze-related operations.

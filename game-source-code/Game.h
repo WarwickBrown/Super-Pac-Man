@@ -71,7 +71,7 @@ public:
      * 
      * @param skipStartScreen Allows for the skipping of the start screen when set to true.
      */
-    void initialise(bool skipStartScreen);
+    void initialise(bool skipStartScreen = false);
 
     /**
      * @brief Runs the main game loop, handling input, updating, and rendering game elements.
