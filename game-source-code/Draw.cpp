@@ -118,8 +118,11 @@ void Draw::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& pow
  * @param pacman The Pac-Man object used to determine if the ghost should be drawn in a frightened state.
  */
 void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman) {
-    Texture2D currentTexture = ghost.isFrightened() ? ghostFrightenedRight : ghostPicRight;
-    if (pacman.isSuper()) {
+    Texture2D currentTexture = ghostPicRight;
+    if (ghost.isFrightened()) {
+        currentTexture = ghostFrightenedRight;
+    }
+    else if (pacman.isSuper()) {
         currentTexture = ghostFlattenedTexture;
     }
     Rectangle sourceRec = {(float)(currentTexture.width), 0, (float)(currentTexture.width), (float)(currentTexture.height)};
