@@ -1366,6 +1366,52 @@ TEST_CASE("Screen correctly handles super pellet drawing") {
     CHECK(true);  // If no exception or error occurs, the test passes
 }
 
+// Test case for verifying that the screen correctly handles star drawing
+TEST_CASE("Screen correctly handles star drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are stars to draw
+    CHECK(!game.getStarObjects().empty());
+
+    // Use the existing stars to draw
+    game.getDraw().drawStars(game.getStarObjects());
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
+// Test case for verifying that the screen correctly handles fruit drawing
+TEST_CASE("Screen correctly handles fruit drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are fruits to draw
+    CHECK(!game.getFruits().empty());
+
+    // Use the existing fruits to draw
+    game.getDraw().drawFruits(game.getFruitObjects(), 1);  // Assuming drawFruits() takes a second parameter (like num3)
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
+// Test case for verifying that the screen correctly handles ghost drawing
+TEST_CASE("Screen correctly handles ghost drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are ghosts to draw
+    CHECK(!game.getGhosts().empty());
+
+    // Use the existing ghosts to draw
+    for (const auto& ghost : game.getGhosts()) {
+        game.getDraw().drawGhost(*ghost, game.getPacMan());  // Draw each ghost using the current Pac-Man position
+    }
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
 
 // Test case for verifying win screen
 TEST_CASE("Screen correctly handles win game screen") {

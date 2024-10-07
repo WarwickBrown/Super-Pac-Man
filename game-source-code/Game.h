@@ -103,6 +103,16 @@ public:
     std::vector<Fruit*>& getFruits();
 
     /**
+     * @brief Retrieves a list of pointers to the Star objects for accessing and modifying star objects.
+     * 
+     * This method returns a vector of pointers to the Star objects currently in the game. It can be used
+     * to access and modify properties of the Star objects, such as their position, state, or appearance.
+     * 
+     * @return A vector of raw pointers to Star objects in the game.
+     */
+    std::vector<Star*>& getStars();
+
+    /**
      * @brief Retrieves a reference to the internal vector of power pellet unique pointers.
      * 
      * @return A reference to the vector of unique pointers to PowerPellet objects.
@@ -283,6 +293,21 @@ public:
      * @return A reference to the `Draw` class instance managing game drawing.
      */
     Draw& getDraw() const { return *draw; } ///< Getter for the Draw object
+
+    /**
+     * @brief Retrieves a reference to the original vector of Star objects.
+     * 
+     * @return A reference to the vector of std::unique_ptr<Star> objects.
+     */
+    std::vector<std::unique_ptr<Star>>& getStarObjects();
+
+    /**
+     * @brief Retrieves a reference to the original vector of Fruit objects.
+     * 
+     * @return A reference to the vector of std::unique_ptr<Fruit> objects.
+     */
+    std::vector<std::unique_ptr<Fruit>>& getFruitObjects();
+
 
 private:
     std::vector<GameKey> keys; ///< A vector of GameKey objects representing keys in the game.

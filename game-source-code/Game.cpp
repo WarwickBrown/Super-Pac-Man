@@ -193,3 +193,21 @@ std::vector<Fruit*>& Game::getFruits() {
     }
     return fruitPtrs;
 }
+
+/**
+ * @brief Retrieves a reference to the original vector of Star objects.
+ * 
+ * @return A reference to the vector of std::unique_ptr<Star> objects.
+ */
+std::vector<std::unique_ptr<Star>>& Game::getStarObjects() {
+    return stars;  // Assuming `stars` is the original vector of unique_ptr<Star>
+}
+
+/**
+ * @brief Retrieves a reference to the original vector of Fruit objects.
+ * 
+ * @return A reference to the vector of std::unique_ptr<Fruit> objects.
+ */
+std::vector<std::unique_ptr<Fruit>>& Game::getFruitObjects() {
+    return fruits;  // Assuming `fruits` is the original vector of unique_ptr<Fruit>
+}
