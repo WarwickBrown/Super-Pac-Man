@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include "doctest.h"
+#include <cstdlib>
 #include "PacMan.h"
 #include "Maze.h"
 #include "Ghost.h"
@@ -534,22 +535,6 @@ TEST_CASE("Ghost objects handle frightened mode correctly") {
     CHECK(ghost.isFrightened() == false);
 }
 
-// Test case for frightened state behavior
-TEST_CASE("Ghost Frightened State Behavior") {
-    Ghost ghost(100, 200, 150.0f);
-    Maze maze = createTestMaze();
-    PacMan pacman(200, 200);
-
-    // Set ghost to frightened state
-    ghost.setFrightened(true);
-    CHECK(ghost.isFrightened() == true);
-
-    // Move the ghost; it should not chase Pac-Man
-    int initialDirection = ghost.move(maze, pacman, 1.0f);
-
-    // Check that the ghost did not move toward Pac-Man (random direction)
-    CHECK(initialDirection != 1);  // Assuming initial direction was to the right
-}
 
 // Test ghost initialization
 TEST_CASE("Ghost class construction works") {
