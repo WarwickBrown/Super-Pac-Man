@@ -1,177 +1,214 @@
 Top Left Corner Box Doors
-90 160 70 10 BLACK 2 Horizontal
-90 162 70 6 BROWN 2 Horizontal
-90 240 70 10 BLACK 1 Horizontal
-90 242 70 6 BROWN 2 Horizontal
+90 160 70 10 BLACK 0 Horizontal
+90 162 70 6 BROWN 1 Horizontal
+90 240 70 10 BLACK 2 Horizontal
+90 242 70 6 BROWN 3 Horizontal
 
 Top Right Corner Box Doors
-1370 160 70 10 BLACK 1 Horizontal
-1370 162 70 6 BROWN 2 Horizontal
-1370 240 70 10 BLACK 1 Horizontal
-1370 242 70 6 BROWN 2 Horizontal
+1370 160 70 10 BLACK 4 Horizontal
+1370 162 70 6 BROWN 5 Horizontal
+1370 240 70 10 BLACK 6 Horizontal
+1370 242 70 6 BROWN 7 Horizontal
 
 Bottom Left Corner Box Doors
-90 720 70 10 BLACK 2 Horizontal
-90 722 70 6 BROWN 2 Horizontal
-90 800 70 10 BLACK 1 Horizontal
-90 802 70 6 BROWN 2 Horizontal
+90 720 70 10 BLACK 8 Horizontal
+90 722 70 6 BROWN 9 Horizontal
+90 800 70 10 BLACK 10 Horizontal
+90 802 70 6 BROWN 11 Horizontal
 
 Bottom Right Corner Box Doors
-1370 720 70 10 BLACK 2 Horizontal
-1370 722 70 6 BROWN 2 Horizontal
-1370 800 70 10 BLACK 1 Horizontal
-1370 802 70 6 BROWN 2 Horizontal
+1370 720 70 10 BLACK 12 Horizontal
+1370 722 70 6 BROWN 13 Horizontal
+1370 800 70 10 BLACK 14 Horizontal
+1370 802 70 6 BROWN 15 Horizontal
 
 Left Long Wall Doors 
-90 320 70 10 BLACK 2 Horizontal
-90 322 70 6 BROWN 2 Horizontal
-90 640 70 10 BLACK 1 Horizontal
-90 642 70 6 BROWN 2 Horizontal
+90 320 70 10 BLACK 16 Horizontal
+90 322 70 6 BROWN 17 Horizontal
+90 640 70 10 BLACK 18 Horizontal
+90 642 70 6 BROWN 19 Horizontal
 
 Right Long Wall Doors 
-1370 320 70 10 BLACK 2 Horizontal
-1370 322 70 6 BROWN 2 Horizontal
-1370 640 70 10 BLACK 1 Horizontal
-1370 642 70 6 BROWN 2 Horizontal
+1370 320 70 10 BLACK 20 Horizontal
+1370 322 70 6 BROWN 21 Horizontal
+1370 640 70 10 BLACK 22 Horizontal
+1370 642 70 6 BROWN 23 Horizontal
 
 Left Big L Doors 
-250 160 70 10 BLACK 2 Horizontal
-250 162 70 6 BROWN 2 Horizontal
-560 410 10 70 BLACK 1 Vertical
-562 410 6 70 BROWN 2 Vertical
+250 160 70 10 BLACK 24 Horizontal
+250 162 70 6 BROWN 25 Horizontal
+250 320 70 10 BLACK 26 Horizontal
+250 322 70 6 BROWN 27 Horizontal
+250 400 70 10 BLACK 28 Horizontal
+250 402 70 6 BROWN 29 Horizontal
+250 480 70 10 BLACK 30 Horizontal
+250 482 70 6 BROWN 31 Horizontal
+400 400 10 70 BLACK 32 Vertical
+402 410 6 70 BROWN 33 Vertical
+560 410 10 70 BLACK 34 Vertical
+562 410 6 70 BROWN 35 Vertical
 
 Right Big L Doors 
 1210 160 70 10 BLACK 2 Horizontal
 1210 162 70 6 BROWN 2 Horizontal
-960 410 10 70 BLACK 1 Vertical
-962 410 6 70 BROWN 2 Vertical
+1210 320 70 10 BLACK 26 Horizontal
+1210 322 70 6 BROWN 27 Horizontal
+1210 400 70 10 BLACK 28 Horizontal
+1210 402 70 6 BROWN 29 Horizontal
+1210 480 70 10 BLACK 30 Horizontal
+1210 482 70 6 BROWN 31 Horizontal
+960 410 10 70 BLACK 32 Vertical
+962 410 6 70 BROWN 33 Vertical
+1120 410 10 70 BLACK 34 Vertical
+1122 410 6 70 BROWN 35 Vertical
 
 Left Top Small L Doors
-410 160 70 10 BLACK 2 Horizontal
-410 162 70 6 BROWN 2 Horizontal
-720 250 10 70 BLACK 1 Vertical
-722 250 6 70 BROWN 2 Vertical
+410 160 70 10 BLACK 36 Horizontal
+410 162 70 6 BROWN 37 Horizontal
+410 320 70 10 BLACK 38 Horizontal
+410 322 70 6 BROWN 39 Horizontal
+720 250 10 70 BLACK 40 Vertical
+722 250 6 70 BROWN 41 Vertical
+560 250 10 70 BLACK 42 Vertical
+562 250 6 70 BROWN 43 Vertical
 
 Right Top Small L Doors
-1050 160 70 10 BLACK 2 Horizontal
-1050 162 70 6 BROWN 2 Horizontal
-800 250 10 70 BLACK 1 Vertical
-802 250 6 70 BROWN 2 Vertical
+1050 160 70 10 BLACK 44 Horizontal
+1050 162 70 6 BROWN 45 Horizontal
+1050 320 70 10 BLACK 46 Horizontal
+1050 322 70 6 BROWN 47 Horizontal
+800 250 10 70 BLACK 48 Vertical
+802 250 6 70 BROWN 49 Vertical
+960 250 10 70 BLACK 50 Vertical
+962 250 6 70 BROWN 51 Vertical
 
 Upper Symbol Doors
-560 90 10 70 BLACK 1 Vertical
-562 90 6 70 BROWN 2 Vertical
-960 90 10 70 BLACK 1 Vertical
-962 90 6 70 BROWN 2 Vertical
+560 90 10 70 BLACK 52 Vertical
+562 90 6 70 BROWN 53 Vertical
+960 90 10 70 BLACK 54 Vertical
+962 90 6 70 BROWN 55 Vertical
+720 90 10 70 BLACK 56 Vertical
+722 90 6 70 BROWN 57 Vertical
+800 90 10 70 BLACK 58 Vertical
+802 90 6 70 BROWN 59 Vertical
 
 Left Bottom Small L Doors
-410 560 70 10 BLACK 2 Horizontal
-410 562 70 6 BROWN 2 Horizontal
-570 720 70 10 BLACK 2 Horizontal
-570 722 70 6 BROWN 2 Horizontal
-240 570 10 70 BLACK 1 Vertical
-242 570 6 70 BROWN 2 Vertical
+240 570 10 70 BLACK 60 Vertical
+242 570 6 70 BROWN 61 Vertical
+480 570 10 70 BLACK 62 Vertical
+482 570 6 70 BROWN 63 Vertical
+560 570 10 70 BLACK 64 Vertical
+562 570 6 70 BROWN 65 Vertical
+570 720 70 10 BLACK 66 Horizontal
+570 722 70 6 BROWN 67 Horizontal
 
 Right Bottom Small L Doors
-1050 560 70 10 BLACK 2 Horizontal
-1050 562 70 6 BROWN 2 Horizontal
-890 720 70 10 BLACK 2 Horizontal
-890 722 70 6 BROWN 2 Horizontal
-1280 570 10 70 BLACK 1 Vertical
-1282 570 6 70 BROWN 2 Vertical
+1280 570 10 70 BLACK 68 Vertical
+1282 570 6 70 BROWN 69 Vertical
+1040 570 10 70 BLACK 70 Vertical
+1042 570 6 70 BROWN 71 Vertical
+960 570 10 70 BLACK 72 Vertical
+962 570 6 70 BROWN 73 Vertical
+890 720 70 10 BLACK 74 Horizontal
+890 722 70 6 BROWN 75 Horizontal
 
 Bottom Left Short Doors
-240 730 10 70 BLACK 1 Vertical
-242 730 6 70 BROWN 2 Vertical
-480 730 10 70 BLACK 1 Vertical
-482 730 6 70 BROWN 2 Vertical
+240 730 10 70 BLACK 76 Vertical
+242 730 6 70 BROWN 77 Vertical
+480 730 10 70 BLACK 78 Vertical
+482 730 6 70 BROWN 79 Vertical
 
 Bottom Right Short Doors
-1040 730 10 70 BLACK 1 Vertical
-1042 730 6 70 BROWN 2 Vertical
-1280 730 10 70 BLACK 1 Vertical
-1282 730 6 70 BROWN 2 Vertical
+1040 730 10 70 BLACK 80 Vertical
+1042 730 6 70 BROWN 81 Vertical
+1280 730 10 70 BLACK 82 Vertical
+1282 730 6 70 BROWN 83 Vertical
 
 Bottom T-Shaped Doors
-720 730 10 70 BLACK 1 Vertical
-722 730 6 70 BROWN 2 Vertical
-800 730 10 70 BLACK 1 Vertical
-802 730 6 70 BROWN 2 Vertical
-560 810 10 70 BLACK 1 Vertical
-562 810 6 70 BROWN 2 Vertical
-960 810 10 70 BLACK 1 Vertical
-962 810 6 70 BROWN 2 Vertical
+720 730 10 70 BLACK 84 Vertical
+722 730 6 70 BROWN 85 Vertical
+800 730 10 70 BLACK 86 Vertical
+802 730 6 70 BROWN 87 Vertical
+560 810 10 70 BLACK 88 Vertical
+562 810 6 70 BROWN 89 Vertical
+960 810 10 70 BLACK 90 Vertical
+962 810 6 70 BROWN 91 Vertical
 
 Border Walls
-0 80 10 810 PINK 1
-0 80 1530 10 PINK 1
-1520 80 10 810 PINK 1
-0 880 1530 10 PINK 1
+0 80 10 810 PINK 
+0 80 1530 10 PINK 
+1520 80 10 810 PINK 
+0 880 1530 10 PINK 
 
 Top Left Corner Box
-80 160 10 90 PINK 1 Vertical
-160 160 10 90 PINK 1 Vertical
+80 160 10 90 PINK Vertical
+160 160 10 90 PINK Vertical
 
 Top Right Corner Box
-1360 160 10 90 PINK 1 Vertical
-1440 160 10 90 PINK 1 Vertical
+1360 160 10 90 PINK Vertical
+1440 160 10 90 PINK Vertical
 
 Bottom Left Corner Box
-80 720 10 90 PINK 1 Vertical
-160 720 10 90 PINK 1 Vertical
+80 720 10 90 PINK Vertical
+160 720 10 90 PINK Vertical
 
 Bottom Right Corner Box
-1360 720 10 90 PINK 1 Vertical
-1440 720 10 90 PINK 1 Vertical
+1360 720 10 90 PINK Vertical
+1440 720 10 90 PINK Vertical
 
 Left Long Wall
-80 320 10 330 PINK 1 Vertical
-160 320 10 330 PINK 1 Vertical
+80 320 10 330 PINK Vertical
+160 320 10 330 PINK Vertical
 
 Right Long Wall
-1360 320 10 330 PINK 1 Vertical
-1440 320 10 330 PINK 1 Vertical
+1360 320 10 330 PINK Vertical
+1440 320 10 330 PINK Vertical
 
 Left Big L Wall
-240 160 10 330 PINK 1 Vertical
-240 480 330 10 PINK 1 Horizontal
-320 160 10 250 PINK 1 Vertical
-320 400 250 10 PINK 1 Horizontal
+240 160 10 170 PINK Vertical
+320 160 10 170 PINK Vertical
+240 400 10 90 PINK Vertical
+320 400 10 90 PINK Vertical
+400 400 170 10 PINK Horizontal
+400 480 170 10 PINK Horizontal
 
 Right Big L Wall
-1280 160 10 330 PINK 1 Vertical
-960 480 330 10 PINK 1 Horizontal
-1200 160 10 250 PINK 1 Vertical
-960 400 250 10 PINK 1 Horizontal
+1280 160 10 170 PINK Vertical
+1200 160 10 170 PINK Vertical
+1280 400 10 90 PINK Vertical
+1200 400 10 90 PINK Vertical
+960 400 170 10 PINK Horizontal
+960 480 170 10 PINK Horizontal
 
 Left Top Small L Wall
-400 160 10 170 PINK 1 Vertical
-400 320 330 10 PINK 1 Horizontal
-480 160 10 90 PINK 1 Vertical
-480 240 250 10 PINK 1 Horizontal
+400 160 10 170 PINK Vertical
+480 160 10 170 PINK Vertical
+560 240 170 10 PINK Horizontal
+560 320 170 10 PINK Horizontal
 
 Right Top Small L Wall
-1120 160 10 170 PINK 1 Vertical
-800 320 330 10 PINK 1 Horizontal
-1040 160 10 90 PINK 1 Vertical
-800 240 250 10 PINK 1 Horizontal
+1040 160 10 170 PINK Vertical
+1120 160 10 170 PINK Vertical
+800 240 170 10 PINK Horizontal
+800 320 170 10 PINK Horizontal
 
 Upper Symbol Walls
-560 160 410  10 PINK 1 Horizontal
+560 160 170 10 PINK Horizontal
+800 160 170 10 PINK Horizontal
 
 Left Bottom Small L Wall
-240 560 170 10 PINK 1 Horizontal
-480 560 170 10 PINK 1 Horizontal
-240 640 330 10 PINK 1 Horizontal
-640 560 10 170 PINK 1 Vertical
-560 640 10 90 PINK 1 Vertical
+240 560 250 10 PINK Horizontal
+240 640 250 10 PINK Horizontal
+560 560 90 10 PINK Horizontal
+640 560 10 170 PINK Vertical
+560 640 10 90 PINK Vertical
 
 Right Bottom Small L Wall
-880 560 170 10 PINK 1 Horizontal
-1120 560 170 10 PINK 1 Horizontal
-960 640 330 10 PINK 1 Horizontal
-880 560 10 170 PINK 1 Vertical
-960 640 10 90 PINK 1 Vertical
+1040 560 250 10 PINK Horizontal
+1040 640 250 10 PINK Horizontal
+880 560 90 10 PINK Horizontal
+880 560 10 170 PINK Vertical
+960 640 10 90 PINK Vertical
 
 Bottom Symbol Boxes
 640 560 90 10 PINK 1 Horizontal
