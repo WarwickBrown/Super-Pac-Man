@@ -120,7 +120,7 @@ void Draw::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& pow
 void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman) {
     Texture2D currentTexture = ghost.isFrightened() ? ghostFrightenedRight : ghostPicRight;
     if (pacman.isSuper()) {
-        currentTexture = flattednedGhost;
+        currentTexture = ghostFlattenedTexture;
     }
     Rectangle sourceRec = {(float)(currentTexture.width), 0, (float)(currentTexture.width), (float)(currentTexture.height)};
     DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
