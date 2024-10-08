@@ -65,7 +65,7 @@ public:
      * @param ghost The Ghost object to be drawn.
      * @param pacman The Pac-Man object used to determine if the ghost should be drawn in a frightened state.
      */
-    void drawGhost(const Ghost& ghost, const PacMan& pacman);
+    void drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostNumber);
 
     /**
      * @brief Draws keys at their specified positions.
@@ -181,9 +181,10 @@ private:
     };
 
     // Ghost Textures
-    Texture2D ghostPicRight = LoadTexture("../resources/pacman-images/ghosty.png"); ///< Texture for ghost facing right.
+    Texture2D ghostPicRed = LoadTexture("../resources/pacman-images/ghostyRed.png"); ///< Texture for red ghost.
+    Texture2D ghostPicGreen = LoadTexture("../resources/pacman-images/ghostyGreen.png"); ///< Texture for green ghost.
+    Texture2D ghostPicOrange = LoadTexture("../resources/pacman-images/ghostyOrange.png"); ///< Texture for orange ghost.
     Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/ghostyScared.png"); ///< Texture for frightened ghost.
-
     Texture2D ghostFlattenedTexture = LoadTexture("../resources/pacman-images/ghostyStreched.png"); ///< Texture for flattened ghost.
 
     // Symbol textures

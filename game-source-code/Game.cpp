@@ -63,6 +63,7 @@ void Game::run() {
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
+        int ghostNumber = 0;
         auto deltaTime = GetFrameTime();         // Get the time elapsed since the last frame
         handleInput(0);                          // Handle user input like key presses for movement
         update();                                // Update the game state
@@ -83,7 +84,8 @@ void Game::run() {
         }
 
         for (const auto& ghost : ghosts) {
-            draw->drawGhost(*ghost, *pacMan);    // Draw each ghost
+            ghostNumber++;
+            draw->drawGhost(*ghost, *pacMan, ghostNumber);    // Draw each ghost
         }
 
         // Draw Pac-Man based on his current state (regular or super)

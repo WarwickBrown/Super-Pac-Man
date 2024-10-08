@@ -1424,7 +1424,7 @@ TEST_CASE("Screen correctly handles ghost drawing") {
 
     // Use the existing ghosts to draw
     for (const auto& ghost : game.getGhosts()) {
-        game.getDraw().drawGhost(*ghost, game.getPacMan());  // Draw each ghost using the current Pac-Man position
+        game.getDraw().drawGhost(*ghost, game.getPacMan(), 1);  // Draw each ghost using the current Pac-Man position
     }
 
     // Check if the test completes without any errors

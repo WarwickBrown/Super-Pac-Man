@@ -117,8 +117,19 @@ void Draw::drawPowerPellets(const std::vector<std::unique_ptr<PowerPellet>>& pow
  * @param ghost The Ghost object to be drawn.
  * @param pacman The Pac-Man object used to determine if the ghost should be drawn in a frightened state.
  */
-void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman) {
-    Texture2D currentTexture = ghostPicRight;
+void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostNumber) {
+    Texture2D currentTexture;
+    switch(ghostNumber){
+        case 1: 
+            currentTexture = ghostPicRed;
+            break;
+        case 2: 
+            currentTexture = ghostPicGreen;
+            break;
+        case 3: 
+            currentTexture = ghostPicOrange;
+            break;
+    }
     if (ghost.isFrightened()) {
         currentTexture = ghostFrightenedRight;
     }
