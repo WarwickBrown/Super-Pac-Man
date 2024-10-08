@@ -103,16 +103,6 @@ public:
     std::vector<Fruit*>& getFruits();
 
     /**
-     * @brief Retrieves a list of pointers to the Star objects for accessing and modifying star objects.
-     * 
-     * This method returns a vector of pointers to the Star objects currently in the game. It can be used
-     * to access and modify properties of the Star objects, such as their position, state, or appearance.
-     * 
-     * @return A vector of raw pointers to Star objects in the game.
-     */
-    std::vector<Star*>& getStars();
-
-    /**
      * @brief Retrieves a reference to the internal vector of power pellet unique pointers.
      * 
      * @return A reference to the vector of unique pointers to PowerPellet objects.
@@ -230,48 +220,6 @@ public:
      * @param pacManManager A unique pointer to the PacManManager object to be set.
      */
     void setPacManManager(std::unique_ptr<PacManManager> pacManManager) { this->pacManManager = std::move(pacManManager); }
-
-    /**
-     * @brief Adds a ghost to the game.
-     * 
-     * @param ghost A unique pointer to the Ghost object to be added.
-     */
-    void addGhost(std::unique_ptr<Ghost> ghost) { ghosts.push_back(std::move(ghost)); }
-
-    /**
-     * @brief Adds a fruit to the game.
-     * 
-     * @param fruit A unique pointer to the Fruit object to be added.
-     */
-    void addFruit(std::unique_ptr<Fruit> fruit) { fruits.push_back(std::move(fruit)); }
-
-    /**
-     * @brief Adds a power pellet to the game.
-     * 
-     * @param powerPellet A unique pointer to the PowerPellet object to be added.
-     */
-    void addPowerPellet(std::unique_ptr<PowerPellet> powerPellet) { powerPellets.push_back(std::move(powerPellet)); }
-
-    /**
-     * @brief Adds a super pellet to the game.
-     * 
-     * @param superPellet A unique pointer to the SuperPellet object to be added.
-     */
-    void addSuperPellet(std::unique_ptr<SuperPellet> superPellet) { superPellets.push_back(std::move(superPellet)); }
-
-    /**
-     * @brief Adds a game key to the game.
-     * 
-     * @param key A GameKey object to be added.
-     */
-    void addKey(GameKey key) { keys.push_back(std::move(key)); }
-
-    /**
-     * @brief Adds a star to the game.
-     * 
-     * @param star A unique pointer to the Star object to be added.
-     */
-    void addStar(std::unique_ptr<Star> star) { stars.push_back(std::move(star)); }
 
     /**
      * @brief Retrieves the updater object for the game.
