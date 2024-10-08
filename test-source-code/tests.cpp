@@ -33,57 +33,18 @@ void createTempFile(const std::string& fileName, const std::vector<std::string>&
     }
 }
 
-// Test for state changes when a fruit is collected
-TEST_CASE("Fruit states change from active to eaten when collected") {
-    Fruit fruit(150, 250);  // Create a fruit at position (150, 250)
+// Collectable Tests
 
-    CHECK(fruit.isActive() == true);  // Fruit should be active initially
+// Test case for Collectable constructor
+TEST_CASE("Collectable class constructor is built correctly") {
+    Collectable collectable(100.0f, 200.0f, 50.0f);  // Create a collectable at position (100, 200) with radius 50
 
-    fruit.collect();  // Mark the fruit as eaten
-    CHECK(fruit.isActive() == false);  // Fruit should no longer be active
+    CHECK(collectable.getX() == 100.0f);  // Verify the initial X coordinate
+    CHECK(collectable.getY() == 200.0f);  // Verify the initial Y coordinate
+    CHECK(collectable.getRadius() == 50.0f);  // Verify the radius
+    CHECK(collectable.isActive() == true);  // Collectable should be active initially
 }
 
-// Test fruit placement at extreme screen boundaries
-TEST_CASE("Fruit placement at extreme screen coordinates") {
-    Fruit fruit1(0, 0);  // Top-left corner
-    Fruit fruit2(1920, 1080);  // Bottom-right corner (assuming screen size)
-
-    CHECK(fruit1.getX() == 0);  // Fruit at (0, 0)
-    CHECK(fruit1.getY() == 0);
-    CHECK(fruit2.getX() == 1920);  // Fruit at bottom-right corner
-    CHECK(fruit2.getY() == 1080);
-}
-
-// Test fruit placement outside screen boundaries (negative coordinates)
-TEST_CASE("Fruit placement outside screen boundaries") {
-    Fruit fruit3(-100, -100);
-
-    CHECK(fruit3.getX() == -100);  // Fruit placed outside screen boundaries
-    CHECK(fruit3.getY() == -100);
-}
-
-// Test multiple fruits placed at the same position (overlapping)
-TEST_CASE("Multiple Fruits at the same position (overlapping)") {
-    Fruit fruit4(100, 100);
-    Fruit fruit5(100, 100);  // Same position as fruit4
-
-    CHECK(fruit4.isActive() == true);  // Both fruits should be active initially
-    CHECK(fruit5.isActive() == true);
-}
-
-// Test collecting one fruit while another fruit remains active
-TEST_CASE("Collecting one fruit keeps the other at the same position active") {
-    Fruit fruit4(100, 100);
-    Fruit fruit5(100, 100);  // Same position as fruit4
-
-    fruit4.collect();  // Collect one fruit
-
-    CHECK(fruit4.isActive() == false);  // Collected fruit should be inactive
-    CHECK(fruit5.isActive() == true);  // Other fruit should remain active
-}
-
-
-// General collectable tests:
 // Test case for Collectable state after collection
 TEST_CASE("Collectable objects collection can go from active to inactive when collected") {
     Collectable collectable(100.0f, 200.0f, 50.0f);
@@ -91,17 +52,6 @@ TEST_CASE("Collectable objects collection can go from active to inactive when co
     CHECK(collectable.isActive() == true);  // Initially active
     collectable.collect();  // Collect the item
     CHECK(collectable.isActive() == false);  // Should be inactive after collection
-}
-
-// Test case for collision detection with another object
-TEST_CASE("Collectable objects have collision detection") {
-    Collectable collectable(100.0f, 100.0f, 30.0f);  // Create a collectable with radius 30
-
-    // Test collision with another object that intersects the collectable
-    CHECK(collectable.checkCollision(110.0f, 110.0f, 20.0f) == true);  // Should detect collision
-
-    // Test collision with another object far away (no collision)
-    CHECK(collectable.checkCollision(300.0f, 300.0f, 20.0f) == false);  // Should not detect collision
 }
 
 // Test case for collision detection when collectable is inactive
@@ -115,32 +65,27 @@ TEST_CASE("Collectable objects do not have collision when inactive") {
     CHECK(collectable.checkCollision(100.0f, 100.0f, 30.0f) == false);  // Should not detect collision
 }
 
-// Test case for Collectable constructor
-TEST_CASE("Collectable class constructor is built correctly") {
-    Collectable collectable(100.0f, 200.0f, 50.0f);  // Create a collectable at position (100, 200) with radius 50
+// Test case for collision detection with another object
+TEST_CASE("Collectable objects have collision detection") {
+    Collectable collectable(100.0f, 100.0f, 30.0f);  // Create a collectable with radius 30
 
-    CHECK(collectable.getX() == 100.0f);  // Verify the initial X coordinate
-    CHECK(collectable.getY() == 200.0f);  // Verify the initial Y coordinate
-    CHECK(collectable.getRadius() == 50.0f);  // Verify the radius
-    CHECK(collectable.isActive() == true);  // Collectable should be active initially
+    // Test collision with another object that intersects the collectable
+    CHECK(collectable.checkCollision(110.0f, 110.0f, 20.0f) == true);  // Should detect collision
+
+    // Test collision with another object far away (no collision)
+    CHECK(collectable.checkCollision(300.0f, 300.0f, 20.0f) == false);  // Should not detect collision
 }
 
-// Test with negative or zero point increments
-TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
-    Score score("../resources/test-files/test_edge_cases.txt");
+// Test collecting one fruit while another fruit remains active
+TEST_CASE("Collecting one fruit keeps the other at the same position active") {
+    Fruit fruit4(100, 100);
+    Fruit fruit5(100, 100);  // Same position as fruit4
 
-    score.addPoints(0);  // Adding zero points
-    CHECK(score.getCurrentScore() == 0);  // Score should remain 0
-    CHECK(score.getHighScore() == 0);  // High score should remain 0
+    fruit4.collect();  // Collect one fruit
 
-    score.addPoints(-10);  // Adding negative points (if allowed)
-    CHECK(score.getCurrentScore() == -10);  // Score should decrease if negative points are allowed
-    CHECK(score.getHighScore() == 0);  // High score should remain unchanged
-
-    // Cleanup
-    std::remove("../resources/test-files/test_edge_cases.txt");
+    CHECK(fruit4.isActive() == false);  // Collected fruit should be inactive
+    CHECK(fruit5.isActive() == true);  // Other fruit should remain active
 }
-
 
 // Test exception handling by simulating file-related errors
 TEST_CASE("Exceptions are handled correctly in the program") {
@@ -171,7 +116,17 @@ TEST_CASE("File paths which are invalid do not crash the program") {
     invalidScore.saveHighScore();
 }
 
-// Fruit tests
+// Fruit Tests
+
+// Test that the Fruit is initialised correctly
+TEST_CASE("Fruit class is constructed correctly") {
+    Fruit fruit(100, 200);  // Create a fruit at position (100, 200)
+
+    CHECK(fruit.getX() == 100);  // Verify initial x position
+    CHECK(fruit.getY() == 200);  // Verify initial y position
+    CHECK(fruit.isActive() == true);  // Fruit should be active initially
+    CHECK(fruit.getRadius() == 50.0f);  // Verify default radius
+}
 
 // Test that a collision is correctly detected between Pac-Man and a fruit
 TEST_CASE("Fruit correctly detects collision with Pac-Man") {
@@ -199,49 +154,42 @@ TEST_CASE("Fruit does not detect collision when Pac-Man is away") {
     CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);
 }
 
+// Test multiple fruits placed at the same position (overlapping)
+TEST_CASE("Fruit objects at the same position (overlapping)") {
+    Fruit fruit4(100, 100);
+    Fruit fruit5(100, 100);  // Same position as fruit4
 
-// Test that the Fruit is initialised correctly
-TEST_CASE("Fruit class is constructed correctly") {
-    Fruit fruit(100, 200);  // Create a fruit at position (100, 200)
+    CHECK(fruit4.isActive() == true);  // Both fruits should be active initially
+    CHECK(fruit5.isActive() == true);
+}
 
-    CHECK(fruit.getX() == 100);  // Verify initial x position
-    CHECK(fruit.getY() == 200);  // Verify initial y position
+// Test fruit placement at extreme screen boundaries
+TEST_CASE("Fruit placement at extreme screen coordinates") {
+    Fruit fruit1(0, 0);  // Top-left corner
+    Fruit fruit2(1920, 1080);  // Bottom-right corner (assuming screen size)
+
+    CHECK(fruit1.getX() == 0);  // Fruit at (0, 0)
+    CHECK(fruit1.getY() == 0);
+    CHECK(fruit2.getX() == 1920);  // Fruit at bottom-right corner
+    CHECK(fruit2.getY() == 1080);
+}
+
+// Test fruit placement outside screen boundaries (negative coordinates)
+TEST_CASE("Fruit placement outside screen boundaries") {
+    Fruit fruit3(-100, -100);
+
+    CHECK(fruit3.getX() == -100);  // Fruit placed outside screen boundaries
+    CHECK(fruit3.getY() == -100);
+}
+
+// Test for state changes when a fruit is collected
+TEST_CASE("Fruit states change from active to eaten when collected") {
+    Fruit fruit(150, 250);  // Create a fruit at position (150, 250)
+
     CHECK(fruit.isActive() == true);  // Fruit should be active initially
-    CHECK(fruit.getRadius() == 50.0f);  // Verify default radius
-}
 
-TEST_CASE("Game correctly handles power pellet interaction with PacMan") {
-    Game game;
-    game.initialise(true);
-
-    // Use game-initialised power pellet
-    auto& powerPellet = game.getPowerPellets().front();
-    CHECK(powerPellet->isActive() == true);  // Power pellet should be active
-    game.getPacMan().setPosition(120, 720);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
-    for (auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
-    }
-}
-
-TEST_CASE("Game ends when all fruits are collected") {
-    Game game;
-    GameInitialiser::initialiseGameObjects(game);  // initialise game objects like Pac-Man, ghosts, maze, etc.
-    GameInitialiser::initialiseFruits(game);  // initialise the fruits in the maze
-
-    // Ensure the game is running at the start
-    CHECK(game.isGameRunning());
-
-    for (const auto& fruit : game.getFruits()) {
-        fruit->collect();  // Mark each fruit as collected
-    }
-
-    game.checkWinCondition();
-
-    CHECK(game.isGameWon() == true);  // Check if the game end flag is triggered
-    CHECK(game.isGameRunning() == false);  // The game should stop running
+    fruit.collect();  // Mark the fruit as eaten
+    CHECK(fruit.isActive() == false);  // Fruit should no longer be active
 }
 
 // Test that Pac-Man can collect fruits correctly and updates score
@@ -260,106 +208,72 @@ TEST_CASE("Fruits are collected correctly") {
     CHECK(fruits[1]->isActive() == false);  // Fruit should be marked as eaten
 }
 
-// Test that ghosts start in a normal state before a power pellet is consumed
-TEST_CASE("Ghosts are in normal state before power pellet consumption") {
+// Game Tests
+
+// Test handleInput for directional controls
+TEST_CASE("Game allows user to input arrow keys which then changes PacMan's direction") {
+    Game game;
+    game.initialise(true);
+    game.handleInput(KEY_RIGHT);
+    CHECK(game.getDirection() == 1);  // Right direction
+
+    game.handleInput(KEY_LEFT);
+    CHECK(game.getDirection() == 2);  // Left direction
+
+    game.handleInput(KEY_UP);
+    CHECK(game.getDirection() == 3);  // Up direction
+
+    game.handleInput(KEY_DOWN);
+    CHECK(game.getDirection() == 4);  // Down direction
+}
+
+TEST_CASE("Game correctly handles power pellet interaction with PacMan") {
     Game game;
     game.initialise(true);
 
-    // Ensure all ghosts are in normal state initially
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);
+    // Use game-initialised power pellet
+    auto& powerPellet = game.getPowerPellets().front();
+    CHECK(powerPellet->isActive() == true);  // Power pellet should be active
+    game.getPacMan().setPosition(120, 720);
+    game.getUpdater()->updatePowerPellets();
+
+    // Check if the power pellet interaction caused the desired effect (e.g., ghosts frightened)
+    for (auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);  // Ghosts should be in frightened mode
     }
 }
 
-// Test that ghosts enter frightened mode when Pac-Man consumes a power pellet
-TEST_CASE("Ghosts enter frightened mode after Pac-Man consumes power pellet") {
+// Test that Game transitions to the correct state based on input
+TEST_CASE("Game ends and closes window correctly") {
     Game game;
     game.initialise(true);
-    game.getPacMan().setPosition(120, 760);
+    // Simulate starting the game
+    game.handleInput(KEY_ENTER);  // Simulate ENTER key press
+    CHECK(game.isGameRunning() == true);
 
-    // Simulate Pac-Man collecting a power pellet
-    game.getUpdater()->updatePowerPellets();
-    CHECK(game.getScore().getCurrentScore() == 100);  // Verify initial score update
+    // Simulate ESCAPE key press to end the game
+    game.handleInput(KEY_ESCAPE);
+    CHECK(game.isGameRunning() == false);
+}
 
-    // Check that all ghosts are in frightened mode
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == true);
+
+TEST_CASE("Game ends when all fruits are collected") {
+    Game game;
+    GameInitialiser::initialiseGameObjects(game);  // initialise game objects like Pac-Man, ghosts, maze, etc.
+    GameInitialiser::initialiseFruits(game);  // initialise the fruits in the maze
+
+    // Ensure the game is running at the start
+    CHECK(game.isGameRunning());
+
+    for (const auto& fruit : game.getFruits()) {
+        fruit->collect();  // Mark each fruit as collected
     }
+
+    game.checkWinCondition();
+
+    CHECK(game.isGameWon() == true);  // Check if the game end flag is triggered
+    CHECK(game.isGameRunning() == false);  // The game should stop running
 }
-
-// Test that ghosts remain in frightened mode for a certain duration
-TEST_CASE("Ghosts remain in frightened mode for the correct duration") {
-    Game game;
-    game.initialise(true);
-    game.getPacMan().setPosition(120, 760);
-
-    // Simulate Pac-Man collecting a power pellet
-    game.getUpdater()->updatePowerPellets();
-
-    // Move time forward to simulate frightened mode duration
-    float elapsedTime = -3.0f;  // Move 3 seconds forward
-    game.setPowerPelletTimer(elapsedTime);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check that ghosts are still in frightened mode
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == true);
-    }
-}
-
-// Test that ghosts exit frightened mode after the full duration elapses
-TEST_CASE("Ghosts exit frightened mode after power pellet duration ends") {
-    Game game;
-    game.initialise(true);
-    game.getPacMan().setPosition(120, 760);
-
-    // Simulate Pac-Man collecting a power pellet
-    game.getUpdater()->updatePowerPellets();
-
-    // Move time forward to simulate frightened mode duration
-    float elapsedTime = -9.0f;  // Move 9 seconds forward (simulate the power pellet duration ending)
-    game.setPowerPelletTimer(elapsedTime);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check that all ghosts have exited frightened mode
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);
-    }
-}
-
-
-
-// Test that power pellet becomes inactive when collected by Pac-Man
-TEST_CASE("Power pellet becomes inactive after being collected by Pac-Man") {
-    Game game;
-    game.initialise(true);
-
-    // Verify initial state
-    CHECK(game.getPowerPellets().size() > 0);  // Ensure there are power pellets
-    auto& firstPellet = game.getPowerPellets().front();
-    CHECK(firstPellet->isActive() == true);  // First power pellet should be active
-
-    // Simulate Pac-Man collecting the power pellet
-    game.getPacMan().setPosition(120, 760);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check that the first pellet is now inactive
-    CHECK(firstPellet->isActive() == false);
-}
-
-// Test that score increases correctly when Pac-Man collects a power pellet
-TEST_CASE("Score increases correctly when Pac-Man collects power pellet") {
-    Game game;
-    game.initialise(true);
-
-    // Simulate Pac-Man collecting a power pellet
-    game.getPacMan().setPosition(120, 760);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check that the score increased correctly
-    CHECK(game.getScore().getCurrentScore() == 100);  // Assume 100 points per pellet
-}
-
 
 // Test case for Pac-Man collecting multiple power pellets in sequence
 TEST_CASE("Game handles sequential power pellet collection by PacMan correctly") {
@@ -383,23 +297,6 @@ TEST_CASE("Game handles sequential power pellet collection by PacMan correctly")
     CHECK(game.getScore().getCurrentScore() == 200);  // 100 points per pellet
 }
 
-// Test handleInput for directional controls
-TEST_CASE("Game allows user to input arrow keys which then changes PacMan's direction") {
-    Game game;
-    game.initialise(true);
-    game.handleInput(KEY_RIGHT);
-    CHECK(game.getDirection() == 1);  // Right direction
-
-    game.handleInput(KEY_LEFT);
-    CHECK(game.getDirection() == 2);  // Left direction
-
-    game.handleInput(KEY_UP);
-    CHECK(game.getDirection() == 3);  // Up direction
-
-    game.handleInput(KEY_DOWN);
-    CHECK(game.getDirection() == 4);  // Down direction
-}
-
 // Test that the game ends when Pac-Man loses all lives
 TEST_CASE("Game over condition is correctly met") {
     Game game;
@@ -419,19 +316,6 @@ TEST_CASE("Game over condition is correctly met") {
     CHECK(game.getPlayerLives().getLives() == 0);  // Check that Pac-Man has no remaining lives
     game.update();
     CHECK(game.isGameRunning() == false);  // The game should stop running
-}
-
-// Test that Game transitions to the correct state based on input
-TEST_CASE("Game ends and closes window correctly") {
-    Game game;
-    game.initialise(true);
-    // Simulate starting the game
-    game.handleInput(KEY_ENTER);  // Simulate ENTER key press
-    CHECK(game.isGameRunning() == true);
-
-    // Simulate ESCAPE key press to end the game
-    game.handleInput(KEY_ESCAPE);
-    CHECK(game.isGameRunning() == false);
 }
 
 // GameKey Tests
@@ -478,7 +362,37 @@ TEST_CASE("GameKey objects are initialised correctly") {
     }
 }
 
-//Ghost Tests
+// Ghost Tests
+
+// Test case for Ghost constructor initialisation
+TEST_CASE("Ghost class is constructed correctly") {
+    Ghost ghost(100, 200, 150.0f);
+
+    CHECK(ghost.getX() == 100);  // Verify initial X position
+    CHECK(ghost.getY() == 200);  // Verify initial Y position
+    CHECK(ghost.getRadius() == 34);  // Default radius value
+    CHECK(ghost.isFrightened() == false);  // Should not be frightened initially
+    CHECK(ghost.isEaten() == false);  // Should not be eaten initially
+}
+
+TEST_CASE("Ghost objects do not have collision with PacMan when not touching") {
+    Ghost ghost(100, 100, 150.0f);
+    PacMan pacman(300, 300);  // Pac-Man is close enough to collide
+    CHECK(ghost.checkCollisionWithPacMan(pacman) == false);  // No collision should occur
+}
+
+// Test ghost frightened mode
+TEST_CASE("Ghost objects handle frightened mode correctly") {
+    Ghost ghost(100, 100, 150.0f);
+
+    // Set ghost to frightened mode
+    ghost.setFrightened(true);
+    CHECK(ghost.isFrightened() == true);
+
+    // Reset to normal mode
+    ghost.setFrightened(false);
+    CHECK(ghost.isFrightened() == false);
+}
 
 // Test case for checking collision with Pac-Man
 TEST_CASE("Ghost objects have collision detection with PacMan") {
@@ -511,64 +425,22 @@ TEST_CASE("Ghost objects have collision detection with the walls") {
     CHECK(ghost.getDirection() != 1);  // Direction should not still be right
 }
 
-// Test case for Ghost constructor initialization
-TEST_CASE("Ghost class is constructed correctly") {
+// Test case for respawn behavior
+TEST_CASE("Ghost objects have the correct attributes when respawned") {
     Ghost ghost(100, 200, 150.0f);
+    ghost.setEaten(true);  // Mark the ghost as eaten
+    ghost.setFrightened(true);  // Mark the ghost as frightened
 
-    CHECK(ghost.getX() == 100);  // Verify initial X position
-    CHECK(ghost.getY() == 200);  // Verify initial Y position
-    CHECK(ghost.getRadius() == 34);  // Default radius value
-    CHECK(ghost.isFrightened() == false);  // Should not be frightened initially
-    CHECK(ghost.isEaten() == false);  // Should not be eaten initially
-}
+    // Move the ghost away from the initial position
+    ghost.setDirection(1);  // Move right
+    ghost.move(createTestMaze(), PacMan(0, 0), 1.0f);  // Move for 1 second
 
-TEST_CASE("Ghost objects do not have collision with PacMan when not touching") {
-    Ghost ghost(100, 100, 150.0f);
-    PacMan pacman(300, 300);  // Pac-Man is close enough to collide
-    CHECK(ghost.checkCollisionWithPacMan(pacman) == false);  // No collision should occur
-}
-
-// Test case for eaten state behavior
-TEST_CASE("Ghost objects respawn correctly when eaten by pacman") {
-    Ghost ghost(100, 200, 150.0f);
-    Maze maze = createTestMaze();
-    PacMan pacman(200, 200);
-
-    // Mark the ghost as eaten
-    ghost.setEaten(true);
-    CHECK(ghost.isEaten() == true);
-
-    // Move the ghost; it should not move when eaten
-    int initialDirection = ghost.move(maze, pacman, 1.0f);
-    CHECK(ghost.getX() == 100);  // X position should not change
-    CHECK(ghost.getY() == 200);  // Y position should not change
-}
-
-// Test ghost frightened mode
-TEST_CASE("Ghost objects handle frightened mode correctly") {
-    Ghost ghost(100, 100, 150.0f);
-
-    // Set ghost to frightened mode
-    ghost.setFrightened(true);
-    CHECK(ghost.isFrightened() == true);
-
-    // Reset to normal mode
-    ghost.setFrightened(false);
-    CHECK(ghost.isFrightened() == false);
-}
-
-
-// Test ghost initialization
-TEST_CASE("Ghost class construction works") {
-    Ghost ghost(100, 100, 150.0f);
-
-    // Check if ghost is initialised at the correct position
-    CHECK(ghost.getX() == 100);
-    CHECK(ghost.getY() == 100);
-    
-    // Check if ghost is not eaten or frightened at start
-    CHECK(ghost.isEaten() == false);
-    CHECK(ghost.isFrightened() == false);
+    // Respawn the ghost
+    ghost.respawn();
+    CHECK(ghost.getX() == 100);  // Should reset to the starting X position
+    CHECK(ghost.getY() == 200);  // Should reset to the starting Y position
+    CHECK(ghost.isFrightened() == false);  // Should no longer be frightened
+    CHECK(ghost.isEaten() == false);  // Should no longer be eaten
 }
 
 // Tests if Ghost has moved correctly
@@ -630,18 +502,6 @@ TEST_CASE("Ghost objects have valid movement") {
     }
 }
 
-// Test case for choosing a random direction
-TEST_CASE("Ghost objects random movement works correctly") {
-    Ghost ghost(100, 200, 150.0f);
-    Maze maze = createTestMaze();
-
-    ghost.chooseRandomDirection(maze);  // Choose a random direction
-
-    // Check that the selected direction is one of the four possible values
-    int direction = ghost.getDirection();
-    CHECK((direction >= 1 && direction <= 4));  // Should be 1, 2, 3, or 4
-}
-
 // Test case for overriding best movement with a random direction
 TEST_CASE("Ghost objects override random movement when necessary") {
     Ghost ghost(100, 200, 150.0f);
@@ -660,6 +520,34 @@ TEST_CASE("Ghost objects override random movement when necessary") {
     } else {
         CHECK(true);  // Passed: Direction did not change
     }
+}
+
+// Test case for choosing a random direction
+TEST_CASE("Ghost objects random movement works correctly") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+
+    ghost.chooseRandomDirection(maze);  // Choose a random direction
+
+    // Check that the selected direction is one of the four possible values
+    int direction = ghost.getDirection();
+    CHECK((direction >= 1 && direction <= 4));  // Should be 1, 2, 3, or 4
+}
+
+// Test case for eaten state behavior
+TEST_CASE("Ghost objects respawn correctly when eaten by pacman") {
+    Ghost ghost(100, 200, 150.0f);
+    Maze maze = createTestMaze();
+    PacMan pacman(200, 200);
+
+    // Mark the ghost as eaten
+    ghost.setEaten(true);
+    CHECK(ghost.isEaten() == true);
+
+    // Move the ghost; it should not move when eaten
+    int initialDirection = ghost.move(maze, pacman, 1.0f);
+    CHECK(ghost.getX() == 100);  // X position should not change
+    CHECK(ghost.getY() == 200);  // Y position should not change
 }
 
 // Test ghost respawn behavior
@@ -681,58 +569,96 @@ TEST_CASE("Ghost objects respawn in the correct location") {
     CHECK(ghost.isEaten() == false);  // Ghost should no longer be eaten
 }
 
-// Test case for respawn behavior
-TEST_CASE("Ghost objects have the correct attributes when respawned") {
-    Ghost ghost(100, 200, 150.0f);
-    ghost.setEaten(true);  // Mark the ghost as eaten
-    ghost.setFrightened(true);  // Mark the ghost as frightened
+// Test that ghosts start in a normal state before a power pellet is consumed
+TEST_CASE("Ghosts are in normal state before power pellet consumption") {
+    Game game;
+    game.initialise(true);
 
-    // Move the ghost away from the initial position
-    ghost.setDirection(1);  // Move right
-    ghost.move(createTestMaze(), PacMan(0, 0), 1.0f);  // Move for 1 second
-
-    // Respawn the ghost
-    ghost.respawn();
-    CHECK(ghost.getX() == 100);  // Should reset to the starting X position
-    CHECK(ghost.getY() == 200);  // Should reset to the starting Y position
-    CHECK(ghost.isFrightened() == false);  // Should no longer be frightened
-    CHECK(ghost.isEaten() == false);  // Should no longer be eaten
+    // Ensure all ghosts are in normal state initially
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);
+    }
 }
 
-// Test saving and loading high scores from a file
-TEST_CASE("High score from previous game loads when a new game is played") {
-    const std::string tempFileName = "../test-files/test_highscore_persistence.txt";
-    Score score(tempFileName);
+// Test that ghosts enter frightened mode when Pac-Man consumes a power pellet
+TEST_CASE("Ghosts enter frightened mode after Pac-Man consumes power pellet") {
+    Game game;
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
 
-    score.addPoints(100);  // Add some points
-    CHECK(score.getCurrentScore() == 100);  // Verify current score
-    CHECK(score.getHighScore() == 100);  // Verify high score
+    // Simulate Pac-Man collecting a power pellet
+    game.getUpdater()->updatePowerPellets();
+    CHECK(game.getScore().getCurrentScore() == 100);  // Verify initial score update
 
-    score.saveHighScore();  // Save high score to file
+    // Check that all ghosts are in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);
+    }
+}
 
-    Score newScore(tempFileName);  // Create a new Score object, should load high score from file
-    CHECK(newScore.getHighScore() == 100);  // High score should be loaded correctly
-    std::remove("../test-files/test_highscore_persistence.txt");
+// Test that ghosts exit frightened mode after the full duration elapses
+TEST_CASE("Ghosts exit frightened mode after power pellet duration ends") {
+    Game game;
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.getUpdater()->updatePowerPellets();
+
+    // Move time forward to simulate frightened mode duration
+    float elapsedTime = -9.0f;  // Move 9 seconds forward (simulate the power pellet duration ending)
+    game.setPowerPelletTimer(elapsedTime);
+    game.getUpdater()->updatePowerPellets();
+
+    // Check that all ghosts have exited frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);
+    }
+}
+
+// Test that ghosts remain in frightened mode for a certain duration
+TEST_CASE("Ghosts remain in frightened mode for the correct duration") {
+    Game game;
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.getUpdater()->updatePowerPellets();
+
+    // Move time forward to simulate frightened mode duration
+    float elapsedTime = -3.0f;  // Move 3 seconds forward
+    game.setPowerPelletTimer(elapsedTime);
+    game.getUpdater()->updatePowerPellets();
+
+    // Check that ghosts are still in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);
+    }
 }
 
 // Lives tests
-
-// Test that lives do not go below 0
-TEST_CASE("Lives increment properly and do not go below 0") {
-    Lives playerLives(1);  // initialise with 1 life
-
-    // Lose all lives and try losing more lives
-    playerLives.loseLife();  // Should reach 0 lives
-    CHECK(playerLives.getLives() == 0);  // Confirm lives are 0
-
-    playerLives.loseLife();  // Attempt to lose more lives (should not go below 0)
-    CHECK(playerLives.getLives() == 0);  // Should remain at 0
-}
 
 // Test that Lives is initialised correctly
 TEST_CASE("Lives class is constructed correctly") {
     Lives playerLives(3);  // initialise with 3 lives
     CHECK(playerLives.getLives() == 3);  // Lives should be 3
+}
+
+// Test that losing a life decreases the life count
+TEST_CASE("Lives decrement properly and do not go below 0") {
+    Lives playerLives(3);  // initialise with 3 lives
+    playerLives.loseLife();  // Lose one life
+    CHECK(playerLives.getLives() == 2);  // Lives should be 2
+
+    playerLives.loseLife();  // Lose another life
+    CHECK(playerLives.getLives() == 1);  // Lives should be 1
+
+    playerLives.loseLife();  // Lose last life
+    CHECK(playerLives.getLives() == 0);  // Lives should be 0
+
+    // Trying to lose a life when none left
+    playerLives.loseLife();  // No effect as lives are already 0
+    CHECK(playerLives.getLives() == 0);  // Lives should still be 0
 }
 
 // Test that gaining a life increases the life count
@@ -757,38 +683,24 @@ TEST_CASE("Lives reflects the players alive status correctly") {
     CHECK(playerLives.isAlive() == true);  // Should be alive again
 }
 
-// Test that losing a life decreases the life count
-TEST_CASE("Lives decrement is handled correctly") {
-    Lives playerLives(3);  // initialise with 3 lives
-    playerLives.loseLife();  // Lose one life
-    CHECK(playerLives.getLives() == 2);  // Lives should be 2
+// Maze Tests
 
-    playerLives.loseLife();  // Lose another life
-    CHECK(playerLives.getLives() == 1);  // Lives should be 1
-
-    playerLives.loseLife();  // Lose last life
-    CHECK(playerLives.getLives() == 0);  // Lives should be 0
-
-    // Trying to lose a life when none left
-    playerLives.loseLife();  // No effect as lives are already 0
-    CHECK(playerLives.getLives() == 0);  // Lives should still be 0
-}
-
-// Test case for boundary collisions with walls at maze edges
-TEST_CASE("Maze objects have working collision detection") {
+// Test case for initialising custom walls from file
+TEST_CASE("Maze class initialises custom walls correctly") {
     Maze maze;
 
-    // Create walls at boundaries of the maze (assuming screen size 1530x890)
-    maze.getWalls().emplace_back(Rectangle{0, 0, 1530, 10}, BLACK);  // Top wall
-    maze.getWalls().emplace_back(Rectangle{0, 880, 1530, 10}, BLACK);  // Bottom wall
-    maze.getWalls().emplace_back(Rectangle{0, 0, 10, 890}, BLACK);  // Left wall
-    maze.getWalls().emplace_back(Rectangle{1520, 0, 10, 890}, BLACK);  // Right wall
+    // Call initialise custom walls (assuming walls.txt is already configured)
+    maze.initialiseCustomWalls();
 
-    // Test collision with boundaries
-    CHECK(maze.isWall(5, 5, 34) == true);  // Should collide with top-left corner
-    CHECK(maze.isWall(1525, 5, 34) == true);  // Should collide with top-right corner
-    CHECK(maze.isWall(5, 885, 34) == true);  // Should collide with bottom-left corner
-    CHECK(maze.isWall(1525, 885, 34) == true);  // Should collide with bottom-right corner
+    // Check that walls have been populated correctly
+    const auto& walls = maze.getWalls();
+    CHECK(!walls.empty());  // Ensure there are walls
+
+    // Verify the properties of a few walls (assuming known values in walls.txt)
+    CHECK(walls[0].rect.x == 90);  // Check wall position
+    CHECK(walls[0].rect.y == 160);
+    CHECK(walls[0].rect.width == 70);  // Check wall dimensions
+    CHECK(walls[0].rect.height == 10);
 }
 
 TEST_CASE("Maze objects have collision with PacMan") {
@@ -829,49 +741,34 @@ TEST_CASE("Maze objects have collision with PacMan") {
     }
 }
 
-// Test case for Maze constructor and initial state
-TEST_CASE("Maze class is constructed and initialises correctly") {
+// Test case for boundary collisions with walls at maze edges
+TEST_CASE("Maze objects have working collision detection") {
     Maze maze;
 
-    // Check that the maze is initialised with no walls
-    CHECK(maze.getWalls().empty());
+    // Create walls at boundaries of the maze (assuming screen size 1530x890)
+    maze.getWalls().emplace_back(Rectangle{0, 0, 1530, 10}, BLACK);  // Top wall
+    maze.getWalls().emplace_back(Rectangle{0, 880, 1530, 10}, BLACK);  // Bottom wall
+    maze.getWalls().emplace_back(Rectangle{0, 0, 10, 890}, BLACK);  // Left wall
+    maze.getWalls().emplace_back(Rectangle{1520, 0, 10, 890}, BLACK);  // Right wall
+
+    // Test collision with boundaries
+    CHECK(maze.isWall(5, 5, 34) == true);  // Should collide with top-left corner
+    CHECK(maze.isWall(1525, 5, 34) == true);  // Should collide with top-right corner
+    CHECK(maze.isWall(5, 885, 34) == true);  // Should collide with bottom-left corner
+    CHECK(maze.isWall(1525, 885, 34) == true);  // Should collide with bottom-right corner
 }
 
-// Test case for initializing custom walls from file
-TEST_CASE("Maze class initialises custom walls correctly") {
-    Maze maze;
+// PacMan Tests
 
-    // Call initialise custom walls (assuming walls.txt is already configured)
-    maze.initialiseCustomWalls();
+// Test case for PacMan constructor initialisation
+TEST_CASE("PacMan class is constructed correctly") {
+    PacMan pacman(100, 200);
 
-    // Check that walls have been populated correctly
-    const auto& walls = maze.getWalls();
-    CHECK(!walls.empty());  // Ensure there are walls
-
-    // Verify the properties of a few walls (assuming known values in walls.txt)
-    CHECK(walls[0].rect.x == 90);  // Check wall position
-    CHECK(walls[0].rect.y == 160);
-    CHECK(walls[0].rect.width == 70);  // Check wall dimensions
-    CHECK(walls[0].rect.height == 10);
-}
-
-// Test PowerPellet initialization at various positions
-TEST_CASE("PowerPellet initializes correctly at specified positions") {
-    // Create multiple power pellets at different positions
-    PowerPellet powerPellet1(100.0f, 100.0f);
-    PowerPellet powerPellet2(200.0f, 200.0f);
-    PowerPellet powerPellet3(300.0f, 300.0f);
-
-    CHECK(powerPellet1.getX() == 100.0f);
-    CHECK(powerPellet1.getY() == 100.0f);
-    CHECK(powerPellet2.getX() == 200.0f);
-    CHECK(powerPellet2.getY() == 200.0f);
-    CHECK(powerPellet3.getX() == 300.0f);
-    CHECK(powerPellet3.getY() == 300.0f);
-
-    CHECK(powerPellet1.isActive() == true);
-    CHECK(powerPellet2.isActive() == true);
-    CHECK(powerPellet3.isActive() == true);
+    CHECK(pacman.getX() == 765);  // Default starting X position
+    CHECK(pacman.getY() == 525);  // Default starting Y position
+    CHECK(pacman.getRadius() == 34);  // Default radius value
+    CHECK(pacman.isSuper() == false);  // Should not be in super mode initially
+    CHECK(pacman.isInvincible() == false);  // Should not be invincible initially
 }
 
 // Test multiple PowerPellet collection sequence
@@ -895,31 +792,6 @@ TEST_CASE("PacMan collects multiple PowerPellets correctly") {
     pacman.setPosition(300.0f, 300.0f);
     CHECK(powerPellet3.checkCollisionWithPacMan(pacman) == true);
     CHECK(powerPellet3.isActive() == false);
-}
-
-
-// Test case for ensuring no interactions occur when PowerPellet is inactive
-TEST_CASE("PowerPellet objects do not have collision with PacMan after being eaten") {
-    PowerPellet powerPellet(100.0f, 100.0f);
-    PacMan pacman(0.0f, 0.0f);
-
-    pacman.setPosition(100.0f, 100.0f);
-    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Collect pellet
-    CHECK(powerPellet.isActive() == false);  // Verify inactive state
-
-    // Pac-Man collides again with the same position (no effect)
-    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == false);  // No collision detected
-}
-
-// Test case for PacMan constructor initialization
-TEST_CASE("PacMan class is constructed correctly") {
-    PacMan pacman(100, 200);
-
-    CHECK(pacman.getX() == 765);  // Default starting X position
-    CHECK(pacman.getY() == 525);  // Default starting Y position
-    CHECK(pacman.getRadius() == 34);  // Default radius value
-    CHECK(pacman.isSuper() == false);  // Should not be in super mode initially
-    CHECK(pacman.isInvincible() == false);  // Should not be invincible initially
 }
 
 // Tests if direction input changes direction of PacMan
@@ -955,34 +827,45 @@ TEST_CASE("PacMan object changes direction correctly") {
     }
 }
 
-// Test case for Invincibility state
-TEST_CASE("PacMan object invincibility state handles correctly") {
+// Test for PacMan's speed change during Super Mode
+TEST_CASE("PacMan object changes speed during super mode") {
     PacMan pacman(100, 200);
     Maze maze = createTestMaze();
 
-    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
+    // Store initial position
+    float initialX = pacman.getX();
+    float initialY = pacman.getY();
 
-    pacman.setInvincible(true);
-    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible now
+    // Move PacMan for 1 second in normal mode
+    pacman.setDirection(PacMan::RIGHT);
+    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in normal mode
+    float normalX = pacman.getX();
+    float normalY = pacman.getY();
 
-    pacman.setInvincible(false);
-    CHECK(pacman.isInvincible() == false);  // PacMan should no longer be invincible
+    // Activate Super Mode and move PacMan for 1 second
+    pacman.activateSuperMode();
+    pacman.setPosition(initialX, initialY);  // Reset position to initial
+    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in Super Mode
+    float superX = pacman.getX();
+    float superY = pacman.getY();
+
+    // Verify that PacMan moved further in Super Mode due to increased speed
+    CHECK(superX > normalX);
+    CHECK(superY == normalY);  // Y position should remain the same
 }
 
-// Test for Invincibility Timer
-TEST_CASE("PacMan object invincibility state has the appropriate duration") {
+// Test case for Super Mode activation and deactivation
+TEST_CASE("PacMan object correctly activates and deactivated super mode") {
     PacMan pacman(100, 200);
-    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
+    CHECK(pacman.isSuper() == false);  // Initially, PacMan is not in super mode
 
-    pacman.setInvincible(true);
-    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible
+    pacman.activateSuperMode();
+    CHECK(pacman.isSuper() == true);  // PacMan should be in super mode
+    CHECK(pacman.getVisualRadius() == pacman.getRadius() * 1.5f);  // Radius should increase
 
-    // Simulate update over time
-    pacman.updateInvincibility(1.0f);  // 1 second elapsed
-    CHECK(pacman.isInvincible() == true);  // Should still be invincible
-
-    pacman.updateInvincibility(1.5f);  // 1.5 more seconds elapsed (total 2.5 seconds)
-    CHECK(pacman.isInvincible() == false);  // Invincibility should have expired
+    pacman.deactivateSuperMode();
+    CHECK(pacman.isSuper() == false);  // Super mode should be deactivated
+    CHECK(pacman.getVisualRadius() == pacman.getRadius());  // Radius should return to normal
 }
 
 // Tests if Pac-Man has moved correctly
@@ -1028,45 +911,34 @@ TEST_CASE("PacMan object has valid movement") {
     }
 }
 
-// Test for PacMan's speed change during Super Mode
-TEST_CASE("PacMan object changes speed during super mode") {
+// Test case for Invincibility state
+TEST_CASE("PacMan object invincibility state handles correctly") {
     PacMan pacman(100, 200);
     Maze maze = createTestMaze();
 
-    // Store initial position
-    float initialX = pacman.getX();
-    float initialY = pacman.getY();
+    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
 
-    // Move PacMan for 1 second in normal mode
-    pacman.setDirection(PacMan::RIGHT);
-    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in normal mode
-    float normalX = pacman.getX();
-    float normalY = pacman.getY();
+    pacman.setInvincible(true);
+    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible now
 
-    // Activate Super Mode and move PacMan for 1 second
-    pacman.activateSuperMode();
-    pacman.setPosition(initialX, initialY);  // Reset position to initial
-    pacman.move(maze, 1.0f, PacMan::RIGHT);  // Simulate movement for 1 second in Super Mode
-    float superX = pacman.getX();
-    float superY = pacman.getY();
-
-    // Verify that PacMan moved further in Super Mode due to increased speed
-    CHECK(superX > normalX);
-    CHECK(superY == normalY);  // Y position should remain the same
+    pacman.setInvincible(false);
+    CHECK(pacman.isInvincible() == false);  // PacMan should no longer be invincible
 }
 
-// Test case for Super Mode activation and deactivation
-TEST_CASE("PacMan object correctly activates and deactivated super mode") {
+// Test for Invincibility Timer
+TEST_CASE("PacMan object invincibility state has the appropriate duration") {
     PacMan pacman(100, 200);
-    CHECK(pacman.isSuper() == false);  // Initially, PacMan is not in super mode
+    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
 
-    pacman.activateSuperMode();
-    CHECK(pacman.isSuper() == true);  // PacMan should be in super mode
-    CHECK(pacman.getVisualRadius() == pacman.getRadius() * 1.5f);  // Radius should increase
+    pacman.setInvincible(true);
+    CHECK(pacman.isInvincible() == true);  // PacMan should be invincible
 
-    pacman.deactivateSuperMode();
-    CHECK(pacman.isSuper() == false);  // Super mode should be deactivated
-    CHECK(pacman.getVisualRadius() == pacman.getRadius());  // Radius should return to normal
+    // Simulate update over time
+    pacman.updateInvincibility(1.0f);  // 1 second elapsed
+    CHECK(pacman.isInvincible() == true);  // Should still be invincible
+
+    pacman.updateInvincibility(1.5f);  // 1.5 more seconds elapsed (total 2.5 seconds)
+    CHECK(pacman.isInvincible() == false);  // Invincibility should have expired
 }
 
 // Test Pac-Man's super mode behavior over time
@@ -1106,6 +978,55 @@ TEST_CASE("PacMan object super mode has the correct duration") {
     CHECK(pacman.isSuper() == false);  // Super mode should have expired
 }
 
+// PowerPellet Tests
+
+// Test that power pellet becomes inactive when collected by Pac-Man
+TEST_CASE("Power pellet becomes inactive after being collected by Pac-Man") {
+    Game game;
+    game.initialise(true);
+
+    // Verify initial state
+    CHECK(game.getPowerPellets().size() > 0);  // Ensure there are power pellets
+    auto& firstPellet = game.getPowerPellets().front();
+    CHECK(firstPellet->isActive() == true);  // First power pellet should be active
+
+    // Simulate Pac-Man collecting the power pellet
+    game.getPacMan().setPosition(120, 760);
+    game.getUpdater()->updatePowerPellets();
+
+    // Check that the first pellet is now inactive
+    CHECK(firstPellet->isActive() == false);
+}
+
+// Test case for PowerPellet constructor
+TEST_CASE("PowerPellet class is constructed correctly") {
+    PowerPellet powerPellet(100.0f, 200.0f);  // Create a power pellet at position (100, 200)
+
+    CHECK(powerPellet.getX() == 100.0f);  // Verify the initial X coordinate
+    CHECK(powerPellet.getY() == 200.0f);  // Verify the initial Y coordinate
+    CHECK(powerPellet.getRadius() == 10.0f);  // Verify the radius
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
+}
+
+// Test PowerPellet initialisation at various positions
+TEST_CASE("PowerPellet initialises correctly at specified positions") {
+    // Create multiple power pellets at different positions
+    PowerPellet powerPellet1(100.0f, 100.0f);
+    PowerPellet powerPellet2(200.0f, 200.0f);
+    PowerPellet powerPellet3(300.0f, 300.0f);
+
+    CHECK(powerPellet1.getX() == 100.0f);
+    CHECK(powerPellet1.getY() == 100.0f);
+    CHECK(powerPellet2.getX() == 200.0f);
+    CHECK(powerPellet2.getY() == 200.0f);
+    CHECK(powerPellet3.getX() == 300.0f);
+    CHECK(powerPellet3.getY() == 300.0f);
+
+    CHECK(powerPellet1.isActive() == true);
+    CHECK(powerPellet2.isActive() == true);
+    CHECK(powerPellet3.isActive() == true);
+}
+
 // Test case for PowerPellet being collected and becoming inactive
 TEST_CASE("PowerPellet objects correctly change state when eaten by PacMan") {
     PowerPellet powerPellet(100.0f, 100.0f);
@@ -1123,6 +1044,32 @@ TEST_CASE("PowerPellet objects correctly change state when eaten by PacMan") {
     CHECK(powerPellet.isActive() == false);  // Remains inactive
 }
 
+// Test case for no collision when Pac-Man is far from PowerPellet
+TEST_CASE("PowerPellet objects do not collide with PacMan when not in contact") {
+    PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
+    PacMan pacman(500, 500);  // Create Pac-Man far from the power pellet
+
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
+
+    // Check if Pac-Man collides with the power pellet (should not)
+    bool collisionDetected = powerPellet.checkCollisionWithPacMan(pacman);
+    CHECK(collisionDetected == false);  // Should not detect collision
+    CHECK(powerPellet.isActive() == true);  // PowerPellet should remain active
+}
+
+// Test case for ensuring no interactions occur when PowerPellet is inactive
+TEST_CASE("PowerPellet objects do not have collision with PacMan after being eaten") {
+    PowerPellet powerPellet(100.0f, 100.0f);
+    PacMan pacman(0.0f, 0.0f);
+
+    pacman.setPosition(100.0f, 100.0f);
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Collect pellet
+    CHECK(powerPellet.isActive() == false);  // Verify inactive state
+
+    // Pac-Man collides again with the same position (no effect)
+    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == false);  // No collision detected
+}
+
 // Test case for collision detection with Pac-Man
 TEST_CASE("PowerPellet objects have collision detection with PacMan") {
     PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
@@ -1137,28 +1084,7 @@ TEST_CASE("PowerPellet objects have collision detection with PacMan") {
     CHECK(powerPellet.isActive() == false);  // PowerPellet should be inactive after collection
 }
 
-// Test case for PowerPellet constructor
-TEST_CASE("PowerPellet class is constructed correctly") {
-    PowerPellet powerPellet(100.0f, 200.0f);  // Create a power pellet at position (100, 200)
-
-    CHECK(powerPellet.getX() == 100.0f);  // Verify the initial X coordinate
-    CHECK(powerPellet.getY() == 200.0f);  // Verify the initial Y coordinate
-    CHECK(powerPellet.getRadius() == 10.0f);  // Verify the radius
-    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
-}
-
-// Test case for no collision when Pac-Man is far from PowerPellet
-TEST_CASE("PowerPellet objects do not collide with PacMan when not in contact") {
-    PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
-    PacMan pacman(500, 500);  // Create Pac-Man far from the power pellet
-
-    CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
-
-    // Check if Pac-Man collides with the power pellet (should not)
-    bool collisionDetected = powerPellet.checkCollisionWithPacMan(pacman);
-    CHECK(collisionDetected == false);  // Should not detect collision
-    CHECK(powerPellet.isActive() == true);  // PowerPellet should remain active
-}
+// Reader Tests
 
 // Test case for handling an empty file
 TEST_CASE("Reader handles an empty file correctly") {
@@ -1179,7 +1105,6 @@ TEST_CASE("Reader handles an empty file correctly") {
     // Clean up the temporary file after the test
     std::remove("../resources/test-files/empty_walls.txt");
 }
-
 
 // Test case for handling a non-existent file
 TEST_CASE("Reader handles non-existent file correctly") {
@@ -1261,6 +1186,59 @@ TEST_CASE("Reader reads file with special characters correctly") {
     std::remove("../resources/test-files/test_special_walls.txt");
 }
 
+// Score Tests
+
+// Test with negative or zero point increments
+TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
+    Score score("../resources/test-files/test_edge_cases.txt");
+
+    score.addPoints(0);  // Adding zero points
+    CHECK(score.getCurrentScore() == 0);  // Score should remain 0
+    CHECK(score.getHighScore() == 0);  // High score should remain 0
+
+    score.addPoints(-10);  // Adding negative points (if allowed)
+    CHECK(score.getCurrentScore() == -10);  // Score should decrease if negative points are allowed
+    CHECK(score.getHighScore() == 0);  // High score should remain unchanged
+
+    // Cleanup
+    std::remove("../resources/test-files/test_edge_cases.txt");
+}
+
+// Test the Score constructor and initial values
+TEST_CASE("Score class is constructed correctly") {
+    const std::string tempFileName = "../resources/test-files/test_highscoreInitial.txt";
+    std::ofstream ofs;
+    // Create an empty file
+    std::ofstream outFile(tempFileName);
+    outFile.close();  // Close the file to ensure it's saved as empty
+
+    // Create a Reader object and read from the empty file
+    Reader reader(tempFileName);
+    reader.readFile();
+    Score score(tempFileName);
+    CHECK(score.getCurrentScore() == 0);  // Initial current score should be 0
+    CHECK(score.getHighScore() == 0);  // Initial high score should be 0 or loaded value if file exists
+
+    // Cleanup: remove test file if created
+    std::remove(tempFileName.c_str());
+}
+
+// Test saving and loading high scores from a file
+TEST_CASE("Score class saves highscore from previous game which loads when a new game is played") {
+    const std::string tempFileName = "../test-files/test_highscore_persistence.txt";
+    Score score(tempFileName);
+
+    score.addPoints(100);  // Add some points
+    CHECK(score.getCurrentScore() == 100);  // Verify current score
+    CHECK(score.getHighScore() == 100);  // Verify high score
+
+    score.saveHighScore();  // Save high score to file
+
+    Score newScore(tempFileName);  // Create a new Score object, should load high score from file
+    CHECK(newScore.getHighScore() == 100);  // High score should be loaded correctly
+    std::remove("../test-files/test_highscore_persistence.txt");
+}
+
 // Test adding points and high score update logic
 TEST_CASE("Score correctly handles addition of score and saving highscore") {
     const std::string tempFileName = "../resources/test-files/test_highscore.txt";
@@ -1290,28 +1268,21 @@ TEST_CASE("Score correctly handles addition of score and saving highscore") {
     std::remove(tempFileName.c_str());
 }
 
+// Test that score increases correctly when Pac-Man collects a power pellet
+TEST_CASE("Score increases correctly when Pac-Man collects power pellet") {
+    Game game;
+    game.initialise(true);
 
-// Test the Score constructor and initial values
-TEST_CASE("Score class is constructed correctly") {
-    const std::string tempFileName = "../resources/test-files/test_highscoreInitial.txt";
-    std::ofstream ofs;
-    // Create an empty file
-    std::ofstream outFile(tempFileName);
-    outFile.close();  // Close the file to ensure it's saved as empty
+    // Simulate Pac-Man collecting a power pellet
+    game.getPacMan().setPosition(120, 760);
+    game.getUpdater()->updatePowerPellets();
 
-    // Create a Reader object and read from the empty file
-    Reader reader(tempFileName);
-    reader.readFile();
-    Score score(tempFileName);
-    CHECK(score.getCurrentScore() == 0);  // Initial current score should be 0
-    CHECK(score.getHighScore() == 0);  // Initial high score should be 0 or loaded value if file exists
-
-    // Cleanup: remove test file if created
-    std::remove(tempFileName.c_str());
+    // Check that the score increased correctly
+    CHECK(game.getScore().getCurrentScore() == 100);  // Assume 100 points per pellet
 }
 
 //Test that collecting a fruit increases the score
-TEST_CASE("Score is incremented correctly") {
+TEST_CASE("Score is incremented correctly when fruit is collected") {
     Fruit fruit(200, 300);
     Score score("../resources/test-files/test_fruit_score.txt");
 
@@ -1353,49 +1324,6 @@ TEST_CASE("Screen correctly handles end game screen") {
     std::remove("../resources/test-files/test_screen_endgame.txt");
 }
 
-TEST_CASE("Screen correctly handles power pellet drawing") {
-    Game game;
-    game.initialise(true);  // Initialise the game without showing the start screen
-
-    // Check if there are power pellets to draw
-    CHECK(!game.getPowerPellets().empty());
-
-    // Use the existing power pellets to draw
-    game.getDraw().drawPowerPellets(game.getPowerPellets()); 
-
-    // Check if the test completes without any errors
-    CHECK(true);  // If no exception or error occurs, the test passes
-}
-
-TEST_CASE("Screen correctly handles super pellet drawing") {
-    Game game;
-    game.initialise(true);  // Initialise the game without showing the start screen
-
-    // Check if there are power pellets to draw
-    CHECK(!game.getSuperPellets().empty());
-
-    // Use the existing power pellets to draw
-    game.getDraw().drawSuperPellets(game.getSuperPellets()); 
-
-    // Check if the test completes without any errors
-    CHECK(true);  // If no exception or error occurs, the test passes
-}
-
-// Test case for verifying that the screen correctly handles star drawing
-TEST_CASE("Screen correctly handles star drawing") {
-    Game game;
-    game.initialise(true);  // Initialise the game without showing the start screen
-
-    // Check if there are stars to draw
-    CHECK(!game.getStarObjects().empty());
-
-    // Use the existing stars to draw
-    game.getDraw().drawStars(game.getStarObjects());
-
-    // Check if the test completes without any errors
-    CHECK(true);  // If no exception or error occurs, the test passes
-}
-
 // Test case for verifying that the screen correctly handles fruit drawing
 TEST_CASE("Screen correctly handles fruit drawing") {
     Game game;
@@ -1423,6 +1351,49 @@ TEST_CASE("Screen correctly handles ghost drawing") {
     for (const auto& ghost : game.getGhosts()) {
         game.getDraw().drawGhost(*ghost, game.getPacMan(), 1);  // Draw each ghost using the current Pac-Man position
     }
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
+TEST_CASE("Screen correctly handles power pellet drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are power pellets to draw
+    CHECK(!game.getPowerPellets().empty());
+
+    // Use the existing power pellets to draw
+    game.getDraw().drawPowerPellets(game.getPowerPellets()); 
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
+// Test case for verifying that the screen correctly handles star drawing
+TEST_CASE("Screen correctly handles star drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are stars to draw
+    CHECK(!game.getStarObjects().empty());
+
+    // Use the existing stars to draw
+    game.getDraw().drawStars(game.getStarObjects());
+
+    // Check if the test completes without any errors
+    CHECK(true);  // If no exception or error occurs, the test passes
+}
+
+TEST_CASE("Screen correctly handles super pellet drawing") {
+    Game game;
+    game.initialise(true);  // Initialise the game without showing the start screen
+
+    // Check if there are power pellets to draw
+    CHECK(!game.getSuperPellets().empty());
+
+    // Use the existing power pellets to draw
+    game.getDraw().drawSuperPellets(game.getSuperPellets()); 
 
     // Check if the test completes without any errors
     CHECK(true);  // If no exception or error occurs, the test passes
@@ -1479,7 +1450,7 @@ TEST_CASE("Screen draws the score correctly") {
     CHECK(true); // If no exception or error occurs, the test passes
 }
 
-// Test case for initializing and displaying the screen
+// Test case for initialising and displaying the screen
 TEST_CASE("Screen initialises and displays correctly") {
     Game game;                     // Create a Game instance
     Screen screen;
@@ -1492,6 +1463,18 @@ TEST_CASE("Screen initialises and displays correctly") {
     // Check if game is running using the Game class method
     CHECK(game.isGameRunning() == true);
     std::remove("../resources/test-files/test_screen_initialisation.txt");
+}
+
+// Star Tests
+
+// Test that Star is initialised correctly with given parameters
+TEST_CASE("Star class is constructed correctly") {
+    Star testStar(100, 200);  // initialise with position (100, 200)
+
+    CHECK(testStar.getX() == 100);           // X position should be 100
+    CHECK(testStar.getY() == 200);           // Y position should be 200
+    CHECK(testStar.getRadius() == 20.0f);    // Radius should be 20.0f as defined
+    CHECK(testStar.isActive() == false);     // Star should be inactive initially
 }
 
 // Test that collision detection works as expected
@@ -1508,16 +1491,6 @@ TEST_CASE("Star objects have working collision detection") {
     CHECK(collisionDetected == false);  // Should not detect collision
 }
 
-// Test that Star is initialised correctly with given parameters
-TEST_CASE("Star class is constructed correctly") {
-    Star testStar(100, 200);  // initialise with position (100, 200)
-
-    CHECK(testStar.getX() == 100);           // X position should be 100
-    CHECK(testStar.getY() == 200);           // Y position should be 200
-    CHECK(testStar.getRadius() == 20.0f);    // Radius should be 20.0f as defined
-    CHECK(testStar.isActive() == false);     // Star should be inactive initially
-}
-
 // Test that the show method activates the Star
 TEST_CASE("Star objects only show after an appropriate duration") {
     Star testStar(150, 250);  // initialise with position (150, 250)
@@ -1525,6 +1498,34 @@ TEST_CASE("Star objects only show after an appropriate duration") {
     CHECK(testStar.isActive() == false);  // Star should be inactive initially
     testStar.show();                     // Activate the star
     CHECK(testStar.isActive() == true);   // Star should be active after show() is called
+}
+
+// SuperPellet Tests
+
+// Test SuperPellet constructor
+TEST_CASE("SuperPellet class is constructed successfully") {
+    SuperPellet superPellet(100.0f, 200.0f);  // Create a SuperPellet at position (100, 200)
+
+    // Check initial position and radius
+    CHECK(superPellet.getX() == 100.0f);
+    CHECK(superPellet.getY() == 200.0f);
+    CHECK(superPellet.getRadius() == 15.0f);  // SuperPellet should have a radius of 15.0f
+
+    // Check that the SuperPellet is active initially
+    CHECK(superPellet.isActive() == true);
+}
+
+// Test that SuperPellet does not interfere with normal Collectable behavior
+TEST_CASE("SuperPellet objects change state when collected by PacMan") {
+    SuperPellet superPellet(300.0f, 400.0f);
+
+    // Verify that SuperPellet inherits and behaves as a Collectable
+    Collectable& base = superPellet;  // Upcast to base class reference
+
+    CHECK(base.isActive() == true);  // Check initial active state
+
+    base.collect();  // Call the base class collect method
+    CHECK(base.isActive() == false);  // Check that the SuperPellet is no longer active
 }
 
 // Test SuperPellet and Pac-Man interaction using the PacMan class
@@ -1550,30 +1551,6 @@ TEST_CASE("SuperPellet objects correctly collide with PacMan") {
     CHECK(pacMan.isSuper() == true);
 }
 
-// Test that SuperPellet does not interfere with normal Collectable behavior
-TEST_CASE("SuperPellet objects change state when collected") {
-    SuperPellet superPellet(300.0f, 400.0f);
-
-    // Verify that SuperPellet inherits and behaves as a Collectable
-    Collectable& base = superPellet;  // Upcast to base class reference
-
-    CHECK(base.isActive() == true);  // Check initial active state
-
-    base.collect();  // Call the base class collect method
-    CHECK(base.isActive() == false);  // Check that the SuperPellet is no longer active
-}
-
-// Test SuperPellet collection behavior
-TEST_CASE("SuperPellet objects change state when collected") {
-    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
-
-    // Simulate Pac-Man collecting the SuperPellet
-    superPellet.collect();
-
-    // Check that the SuperPellet is no longer active
-    CHECK(superPellet.isActive() == false);
-}
-
 // Test SuperPellet collision detection
 TEST_CASE("SuperPellet objects have collision detection with PacMan") {
     SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
@@ -1592,18 +1569,7 @@ TEST_CASE("SuperPellet objects have collision detection with PacMan") {
     CHECK(superPellet.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should occur
 }
 
-// Test SuperPellet constructor
-TEST_CASE("SuperPellet class is constructed successfully") {
-    SuperPellet superPellet(100.0f, 200.0f);  // Create a SuperPellet at position (100, 200)
-
-    // Check initial position and radius
-    CHECK(superPellet.getX() == 100.0f);
-    CHECK(superPellet.getY() == 200.0f);
-    CHECK(superPellet.getRadius() == 15.0f);  // SuperPellet should have a radius of 15.0f
-
-    // Check that the SuperPellet is active initially
-    CHECK(superPellet.isActive() == true);
-}
+// Update Tests
 
 // Integration Test: Check if keys correctly unlock walls in the maze
 TEST_CASE("Update class allows keys to unlock walls") {

@@ -169,7 +169,7 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
  */
 bool Screen::winGame(const Score& score, bool skipDelay) {
     int frameNumber = 0;
-    for (int i = 0; i < 5000; i++) {
+    for (int i = 0; i < 6000; i++) {
         window.BeginDrawing();
         Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/100].width), 0, (float)(backgroundAnimation[frameNumber/100].width), (float)(backgroundAnimation[frameNumber/100].height)};
         DrawTextureRec(backgroundAnimation[frameNumber/100], sourceRec, Vector2{0, 0}, RAYWHITE);
