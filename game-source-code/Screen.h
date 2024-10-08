@@ -23,8 +23,6 @@
 #include "SuperPellet.h"
 #include "Star.h"
 
-// Forward declaration of the Game class.
-class Game;
 
 /**
  * @class Screen
@@ -55,10 +53,9 @@ public:
      * This method displays the game title, instructions for starting the game, and high score information.
      * It waits for the player to press ENTER to begin the game.
      * 
-     * @param game Pointer to the current Game instance.
      * @param score Reference to the Score object to display the high score.
      */
-    void startScreen(const Game* game, const Score& score);
+    void startScreen(const Score& score);
 
     /**
      * @brief Clears the screen and prepares it for rendering.
@@ -71,10 +68,8 @@ public:
      * @brief Draws additional game images (e.g., controls) on the start screen.
      * 
      * This method displays controls and other images on the start screen, such as input keys and game hints.
-     * 
-     * @param game Reference to the Game object to access the necessary textures.
      */
-    void drawGameImages(const Game& game);
+    void drawGameImages();
 
     /**
      * @brief Displays the game over screen and waits for user input to exit.

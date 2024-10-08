@@ -40,7 +40,7 @@ void Game::initialise(bool skipStartScreen) {
 
     if (!skipStartScreen) {
         while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-            screen->startScreen(this, *score);
+            screen->startScreen(*score);
         }
     }
 

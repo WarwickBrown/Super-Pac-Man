@@ -15,6 +15,7 @@
 #include <memory>
 
 class Draw;
+class Game;
 
 /**
  * @class Update

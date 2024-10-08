@@ -13,6 +13,8 @@
 #include "Game.h"
 #include <memory>
 
+class Game;
+
 /**
  * @class PacManManager
  * @brief Manages Pac-Man's movement, direction, and state updates within the game.

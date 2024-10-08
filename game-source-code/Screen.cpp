@@ -45,10 +45,9 @@ Screen::~Screen() {}
  * This method displays the game title, instructions for starting the game, and high score information.
  * It waits for the player to press ENTER to begin the game.
  * 
- * @param game Pointer to the current Game instance.
  * @param score Reference to the Score object to display the high score.
  */
-void Screen::startScreen(const Game* game, const Score& score) {
+void Screen::startScreen(const Score& score) {
     window.BeginDrawing();   ///< Start drawing the screen.
     window.ClearBackground(BLACK);  ///< Set background color to black.
 
@@ -87,7 +86,7 @@ void Screen::startScreen(const Game* game, const Score& score) {
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
             window.GetHeight() / 2 + 100, 35, PURPLE);  // Main color
 
-    drawGameImages(*game);  ///< Draw additional images on the start screen.
+    drawGameImages();  ///< Draw additional images on the start screen.
 
     window.EndDrawing();  ///< Finish drawing the screen.
 }
@@ -106,11 +105,9 @@ void Screen::render() {
 /**
  * @brief Draws additional game images (e.g., controls) on the start screen.
  * 
- * This method displays controls and other images on the start screen, such as input keys and game hints.
- * 
- * @param game Reference to the Game object to access the necessary textures.
+ * This method displays controls and other images on the start screen, such as input keys.
  */
-void Screen::drawGameImages(const Game& game) {
+void Screen::drawGameImages() {
     DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
                 window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
 }
