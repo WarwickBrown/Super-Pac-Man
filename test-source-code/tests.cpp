@@ -145,7 +145,7 @@ TEST_CASE("Collectable class constructor is built correctly") {
 
 // Test with negative or zero point increments
 TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
-    Score score("test_edge_cases.txt");
+    Score score("../resources/test-files/test_edge_cases.txt");
 
     score.addPoints(0);  // Adding zero points
     CHECK(score.getCurrentScore() == 0);  // Score should remain 0
@@ -156,25 +156,25 @@ TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
     CHECK(score.getHighScore() == 0);  // High score should remain unchanged
 
     // Cleanup
-    std::remove("../resources/test_edge_cases.txt");
+    std::remove("../resources/test-files/test_edge_cases.txt");
 }
 
 
 // Test exception handling by simulating file-related errors
 TEST_CASE("Exceptions are handled correctly in the program") {
-    Score score("test_exception_handling.txt");
+    Score score("../resources/test-files/test_exception_handling.txt");
 
     // Simulate file I/O errors
-    std::ofstream outFile("../resources/test_exception_handling.txt", std::ios::out | std::ios::binary);
+    std::ofstream outFile("../resources/test-files/test_exception_handling.txt", std::ios::out | std::ios::binary);
     outFile << "invalid data";  // Write some invalid data to the high score file
     outFile.close();
 
     // Try loading the corrupted file
-    Score corruptedScore("test_exception_handling.txt");
+    Score corruptedScore("../resources/test-files/test_exception_handling.txt");
     CHECK(corruptedScore.getHighScore() == 0);  // High score should default to 0 if file is corrupted
 
     // Cleanup
-    std::remove("../resources/test_exception_handling.txt");
+    std::remove("../resources/test-files/test_exception_handling.txt");
 }
 
 // Test file handling and exception safety
@@ -697,7 +697,7 @@ TEST_CASE("Ghost objects have the correct attributes when respawned") {
 
 // Test saving and loading high scores from a file
 TEST_CASE("High score from previous game loads when a new game is played") {
-    const std::string filename = "test_highscore_persistence.txt";
+    const std::string filename = "../resources/test-files/test_highscore_persistence.txt";
     Score score(filename);
 
     score.addPoints(100);  // Add some points
@@ -1168,7 +1168,7 @@ TEST_CASE("PowerPellet objects do not collide with PacMan when not in contact") 
 
 // Test case for handling an empty file
 TEST_CASE("Reader handles an empty file correctly") {
-    const std::string tempFileName = "../resources/empty_walls.txt";
+    const std::string tempFileName = "../resources/test-files/empty_walls.txt";
     
     // Create an empty file
     std::ofstream outFile(tempFileName);
@@ -1189,7 +1189,7 @@ TEST_CASE("Reader handles an empty file correctly") {
 
 // Test case for handling a non-existent file
 TEST_CASE("Reader handles non-existent file correctly") {
-    const std::string nonExistentFileName = "../resources/non_existent_walls.txt";
+    const std::string nonExistentFileName = "../resources/test-files/non_existent_walls.txt";
     
     // Create a WallReader object and read from the non-existent file
     Reader reader(nonExistentFileName);
@@ -1214,7 +1214,7 @@ TEST_CASE("Reader handles non-existent file correctly") {
 
 // Test case for reading a valid file with content
 TEST_CASE("Reader reads file content correctly") {
-    const std::string tempFileName = "../resources/temp_walls.txt";
+    const std::string tempFileName = "../resources/test-files/temp_walls.txt";
     std::vector<std::string> fileContents = {
         "Wall 1: x=10, y=20, width=50, height=5",
         "Wall 2: x=30, y=40, width=70, height=5",
@@ -1242,7 +1242,7 @@ TEST_CASE("Reader reads file content correctly") {
 
 // Test case for handling a file with multiple lines and special characters
 TEST_CASE("Reader reads file with special characters correctly") {
-    const std::string tempFileName = "../resources/test_special_walls.txt";
+    const std::string tempFileName = "../resources/test-files/test_special_walls.txt";
     std::vector<std::string> fileContents = {
         "Wall #1: x=10, y=20, width=50, height=5",
         "Wall @2: x=30, y=40, width=70, height=5",
@@ -1268,7 +1268,7 @@ TEST_CASE("Reader reads file with special characters correctly") {
 
 // Test adding points and high score update logic
 TEST_CASE("Score correctly handles addition of score and saving highscore") {
-    const std::string tempFileName = "../resources/test_highscore.txt";
+    const std::string tempFileName = "../resources/test-files/test_highscore.txt";
     std::ofstream ofs;
     // Create an empty file
     std::ofstream outFile(tempFileName);
@@ -1298,7 +1298,7 @@ TEST_CASE("Score correctly handles addition of score and saving highscore") {
 
 // Test the Score constructor and initial values
 TEST_CASE("Score class is constructed correctly") {
-    const std::string tempFileName = "test_highscoreInitial.txt";
+    const std::string tempFileName = "../resources/test-files/test_highscoreInitial.txt";
     std::ofstream ofs;
     // Create an empty file
     std::ofstream outFile(tempFileName);
@@ -1318,7 +1318,7 @@ TEST_CASE("Score class is constructed correctly") {
 //Test that collecting a fruit increases the score
 TEST_CASE("Score is incremented correctly") {
     Fruit fruit(200, 300);
-    Score score("test_fruit_score.txt");
+    Score score("../resources/test-files/test_fruit_score.txt");
 
     CHECK(score.getCurrentScore() == 0);  // Initial score should be 0
     fruit.collect();  // Simulate collecting the fruit
@@ -1344,7 +1344,7 @@ TEST_CASE("Screen correctly draws the maze") {
 TEST_CASE("Screen correctly handles end game screen") {
     auto screen = std::make_unique<Screen>(); // If Draw does not contain startScreen
     Game game;
-    Score score("test_screen_endgame.txt");
+    Score score("../resources/test-files/test_screen_endgame.txt");
 
     // initialise game objects and set some score
     game.initialise(true);
@@ -1435,7 +1435,7 @@ TEST_CASE("Screen correctly handles ghost drawing") {
 TEST_CASE("Screen correctly handles win game screen") {
     Screen screen;
     Game game;
-    Score score("test_screen_wingame.txt");
+    Score score("../resources/test-files/test_screen_wingame.txt");
 
     game.initialise(true);
     score.addPoints(5000);
@@ -1485,7 +1485,7 @@ TEST_CASE("Screen draws the score correctly") {
 TEST_CASE("Screen initialises and displays correctly") {
     Game game;                     // Create a Game instance
     Screen screen;
-    Score score("test_screen_initialisation.txt");
+    Score score("../resources/test-files/test_screen_initialisation.txt");
 
     game.initialise(true);             // initialise the game
 
