@@ -62,13 +62,11 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(280, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(360, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(440, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(600, 680));
 
     //Bottom Right Small L
     game.fruits.emplace_back(std::make_unique<Fruit>(1080, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(1160, 600));
     game.fruits.emplace_back(std::make_unique<Fruit>(1240, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(920, 680));
 
     //Bottom Left Big L
     game.fruits.emplace_back(std::make_unique<Fruit>(280, 200));
@@ -111,12 +109,10 @@ void GameInitialiser::initialiseFruits(Game& game) {
     game.fruits.emplace_back(std::make_unique<Fruit>(1240, 760));
 
     // Bottom T
-    game.fruits.emplace_back(std::make_unique<Fruit>(600, 840));
-    game.fruits.emplace_back(std::make_unique<Fruit>(920, 840));
-    game.fruits.emplace_back(std::make_unique<Fruit>(840, 840));
-    game.fruits.emplace_back(std::make_unique<Fruit>(760, 840));
-    game.fruits.emplace_back(std::make_unique<Fruit>(680, 840));
-    game.fruits.emplace_back(std::make_unique<Fruit>(760, 760));
+    game.fruits.emplace_back(std::make_unique<Fruit>(600, 760));
+    game.fruits.emplace_back(std::make_unique<Fruit>(920, 760));
+    game.fruits.emplace_back(std::make_unique<Fruit>(840, 760));
+    game.fruits.emplace_back(std::make_unique<Fruit>(680, 760));
 }
 
 /**
@@ -188,9 +184,9 @@ void GameInitialiser::initialiseKeys(Game& game) {
 
     game.keys.emplace_back(680, 680, std::vector<int>{76, 77, 78, 79}); //
 
-    game.keys.emplace_back(600, 760, std::vector<int>{96, 97, 100, 101}); //
+    game.keys.emplace_back(600, 840, std::vector<int>{96, 97, 100, 101}); //
 
-    game.keys.emplace_back(920, 760, std::vector<int>{98, 99, 102, 103}); //
+    game.keys.emplace_back(920, 840, std::vector<int>{98, 99, 102, 103}); //
 
     game.keys.emplace_back(1320, 280, std::vector<int>{36, 37, 38, 39}); //
 

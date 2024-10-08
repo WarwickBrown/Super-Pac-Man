@@ -97,20 +97,20 @@ Left Bottom Small L Doors
 242 570 6 70 BROWN 73 Vertical
 480 570 10 70 BLACK 74 Vertical
 482 570 6 70 BROWN 75 Vertical
-560 570 10 70 BLACK 76 Vertical
-562 570 6 70 BROWN 77 Vertical
-570 720 70 10 BLACK 78 Horizontal
-570 722 70 6 BROWN 79 Horizontal
+570 560 70 10 BLACK 76 Horizontal
+570 562 70 6 BROWN 77 Horizontal
+570 640 70 10 BLACK 78 Horizontal
+570 642 70 6 BROWN 79 Horizontal
 
 Right Bottom Small L Doors
 1280 570 10 70 BLACK 80 Vertical
 1282 570 6 70 BROWN 81 Vertical
 1040 570 10 70 BLACK 82 Vertical
 1042 570 6 70 BROWN 83 Vertical
-960 570 10 70 BLACK 84 Vertical
-962 570 6 70 BROWN 85 Vertical
-890 720 70 10 BLACK 86 Horizontal
-890 722 70 6 BROWN 87 Horizontal
+890 560 70 10 BLACK 86 Horizontal
+890 562 70 6 BROWN 87 Horizontal
+890 640 70 10 BLACK 86 Horizontal
+890 642 70 6 BROWN 87 Horizontal
 
 Bottom Left Short Doors
 240 730 10 70 BLACK 88 Vertical
@@ -129,10 +129,10 @@ Bottom T-Shaped Doors
 722 730 6 70 BROWN 97 Vertical
 800 730 10 70 BLACK 98 Vertical
 802 730 6 70 BROWN 99 Vertical
-560 810 10 70 BLACK 100 Vertical
-562 810 6 70 BROWN 101 Vertical
-960 810 10 70 BLACK 102 Vertical
-962 810 6 70 BROWN 103 Vertical
+560 730 10 70 BLACK 100 Vertical
+562 730 6 70 BROWN 101 Vertical
+960 730 10 70 BLACK 102 Vertical
+962 730 6 70 BROWN 103 Vertical
 
 Border Walls
 0 80 10 810 PINK 
@@ -199,43 +199,41 @@ Upper Symbol Walls
 Left Bottom Small L Wall
 240 560 250 10 PINK Horizontal
 240 640 250 10 PINK Horizontal
-560 560 90 10 PINK Horizontal
-640 560 10 170 PINK Vertical
-560 640 10 90 PINK Vertical
+640 560 10 90 PINK Vertical
+560 560 10 90 PINK Vertical
 
 Right Bottom Small L Wall
 1040 560 250 10 PINK Horizontal
 1040 640 250 10 PINK Horizontal
-880 560 90 10 PINK Horizontal
-880 560 10 170 PINK Vertical
-960 640 10 90 PINK Vertical
+880 560 10 90 PINK Vertical
+960 560 10 90 PINK Vertical
 
 Bottom Symbol Boxes
-640 560 90 10 PINK 1 Horizontal
-640 640 90 10 PINK 1 Horizontal
-720 560 10 90 PINK 1 Vertical
-800 560 90 10 PINK 1 Horizontal
-800 640 90 10 PINK 1 Horizontal
-800 560 10 90 PINK 1 Vertical
+640 560 90 10 PINK Horizontal
+640 640 90 10 PINK Horizontal
+720 560 10 90 PINK Vertical
+800 560 90 10 PINK Horizontal
+800 640 90 10 PINK Horizontal
+800 560 10 90 PINK Vertical
+560 720 170 10 PINK Horizontal
+560 800 170 10 PINK Horizontal
+800 720 170 10 PINK Horizontal
 
 Ghost Box
-640 400 90 10 PINK 1 Horizontal
-800 400 90 10 PINK 1 Horizontal
-640 400 10 90 PINK 1 Vertical
-880 400 10 90 PINK 1 Vertical
-640 480 250 10 PINK 1 Horizontal
+640 400 90 10 PINK Horizontal
+800 400 90 10 PINK Horizontal
+640 400 10 90 PINK Vertical
+880 400 10 90 PINK Vertical
+640 480 250 10 PINK Horizontal
 
 Bottom Left Short Wall
-240 720 250 10 PINK 1 Horizontal
-240 800 250 10 PINK 1 Horizontal
+240 720 250 10 PINK Horizontal
+240 800 250 10 PINK Horizontal
 
 Bottom Right Short Wall
-1040 720 250 10 PINK 1 Horizontal
-1040 800 250 10 PINK 1 Horizontal
+1040 720 250 10 PINK Horizontal
+1040 800 250 10 PINK Horizontal
 
 Bottom T-Shaped Walls
-560 800 170 10 PINK 1 Horizontal
-800 800 170 10 PINK 1 Horizontal
-720 720 90 10 PINK 1 Horizontal
-
-720 400 170 6 PINK 1 Horizontal
+560 800 170 10 PINK Horizontal
+800 800 170 10 PINK Horizontal
