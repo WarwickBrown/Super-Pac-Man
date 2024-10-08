@@ -19,7 +19,7 @@
  * @param filename The name of the file to read/write the high score.
  */
 Score::Score(const std::string& filename)
-    : currentScore(0), highScore(0), scoreFile("../resources/" + filename) {
+    : currentScore(0), highScore(0), scoreFile("../resources/database-textfiles/" + filename) {
     loadHighScore();
 }
 

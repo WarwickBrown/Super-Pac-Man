@@ -38,7 +38,7 @@ public:
      * 
      * @param filePath The path of the file to be read or written (default is "../resources/walls.txt").
      */
-    Reader(const std::string& filePath = "../resources/walls.txt");
+    Reader(const std::string& filePath = "../resources/database-textfiles/walls.txt");
 
     /**
      * @brief Reads data from the file specified by `fileName`.

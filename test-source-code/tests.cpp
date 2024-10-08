@@ -697,8 +697,8 @@ TEST_CASE("Ghost objects have the correct attributes when respawned") {
 
 // Test saving and loading high scores from a file
 TEST_CASE("High score from previous game loads when a new game is played") {
-    const std::string filename = "../resources/test-files/test_highscore_persistence.txt";
-    Score score(filename);
+    const std::string tempFileName = "../test-files/test_highscore_persistence.txt";
+    Score score(tempFileName);
 
     score.addPoints(100);  // Add some points
     CHECK(score.getCurrentScore() == 100);  // Verify current score
@@ -706,7 +706,7 @@ TEST_CASE("High score from previous game loads when a new game is played") {
 
     score.saveHighScore();  // Save high score to file
 
-    Score newScore(filename);  // Create a new Score object, should load high score from file
+    Score newScore(tempFileName);  // Create a new Score object, should load high score from file
     CHECK(newScore.getHighScore() == 100);  // High score should be loaded correctly
 }
 
