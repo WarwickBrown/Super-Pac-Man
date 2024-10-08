@@ -23,12 +23,6 @@ Maze createTestMaze() {
     return maze;
 }
 
-
-// Helper function to initialise and return a Screen object using a unique pointer
-std::unique_ptr<Draw> createScreen() {
-    return std::make_unique<Draw>();
-}
-
 // Helper function to create a temporary file with given content
 void createTempFile(const std::string& fileName, const std::vector<std::string>& lines) {
     std::ofstream outFile(fileName);
@@ -37,21 +31,6 @@ void createTempFile(const std::string& fileName, const std::vector<std::string>&
             outFile << line << std::endl;
         }
         outFile.close();
-    }
-}
-
-// Helper function to initialise a game with power pellets, Pac-Man, and ghosts
-void initialiseGameWithPowerPellets(Game& game) {
-    GameInitialiser::initialiseGameObjects(game);
-    GameInitialiser::initialisePowerPellets(game);  // Setup power pellets
-
-    // Place Pac-Man near the first power pellet for testing purposes
-    PacMan pacMan = game.getPacMan();
-    pacMan.setPosition(100.0f, 100.0f);
-
-    // Place ghosts at initial positions
-    for (auto& ghost : game.getGhosts()) {
-        ghost->setPosition(150.0f, 150.0f);  // Set some arbitrary position
     }
 }
 
