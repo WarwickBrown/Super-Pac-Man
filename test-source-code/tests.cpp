@@ -11,7 +11,6 @@
 #include "SuperPellet.h"
 #include "Star.h"
 #include "Score.h"
-#include "raylib.h"
 #include "GameInitialiser.h"
 #include "Reader.h"
 #include "Update.h"
