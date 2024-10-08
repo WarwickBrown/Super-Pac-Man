@@ -47,44 +47,46 @@ Screen::~Screen() {}
  * 
  * @param score Reference to the Score object to display the high score.
  */
-void Screen::startScreen(const Score& score) {
+void Screen::startScreen(const Score& score, int frameNumber) {
     window.BeginDrawing();   ///< Start drawing the screen.
-    window.ClearBackground(BLACK);  ///< Set background color to black.
+    
+    Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber].width), 0, (float)(backgroundAnimation[frameNumber].width), (float)(backgroundAnimation[frameNumber].height)};
+    DrawTextureRec(backgroundAnimation[frameNumber], sourceRec, Vector2{0, 0}, RAYWHITE);
 
     // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect.
-    DrawText("Super Pac-Man", 
+     DrawText("Super Pac-Man", 
             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
-            window.GetHeight() / 4 + 2, 70, GRAY);  // Shadow color
+            window.GetHeight() / 4 + 2 + 20, 70, GRAY);  // Shadow color
     DrawText("Super Pac-Man", 
             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
-            window.GetHeight() / 4, 70, YELLOW);  // Main color
+            window.GetHeight() / 4 + 20, 70, YELLOW);  // Main color
 
     // Draw instructions and high score with shadows and colors.
     DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
-            window.GetHeight() / 2 - 18 + 2, 40, DARKGREEN);  // Shadow color
+            window.GetHeight() / 2 - 28 + 2, 40, DARKGREEN);  // Shadow color
     DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
-            window.GetHeight() / 2 - 18, 40, GREEN);  // Main color
+            window.GetHeight() / 2 - 28, 40, GREEN);  // Main color
 
     DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
-            window.GetHeight() / 2 + 40 + 2, 30, RED);  // Shadow color
+            window.GetHeight() / 2 + 20 + 2, 30, RED);  // Shadow color
     DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
-            window.GetHeight() / 2 + 40, 30, RED);  // Main color
+            window.GetHeight() / 2 + 20, 30, RED);  // Main color
 
     DrawText("Use the ARROW KEYS to change direction", 
             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
-            window.GetHeight() - 60, 25, LIGHTGRAY);
+            window.GetHeight() - 80, 25, LIGHTGRAY);
 
     auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
     DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
-            window.GetHeight() / 2 + 100 + 2, 35, DARKPURPLE);  // Shadow color
+            window.GetHeight() / 2 + 80 + 2, 35, DARKPURPLE);  // Shadow color
     DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
-            window.GetHeight() / 2 + 100, 35, PURPLE);  // Main color
+            window.GetHeight() / 2 + 80, 35, PURPLE);  // Main color
 
     drawGameImages();  ///< Draw additional images on the start screen.
 
@@ -109,7 +111,7 @@ void Screen::render() {
  */
 void Screen::drawGameImages() {
     DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
-                window.GetHeight() / 2 - gameImages[0].height + 450, WHITE);
+                window.GetHeight() / 2 - gameImages[0].height + 408, WHITE);
 }
 
 /**
@@ -123,9 +125,12 @@ void Screen::drawGameImages() {
  * @return false Always returns false to ensure the game loop stops.
  */
 bool Screen::endGame(const Score& score, bool skipDelay) {
+    int frameNumber = 0;
     for (int i = 0; i < 1800; i++) {
         window.BeginDrawing();
-        window.ClearBackground(BLACK);
+        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/100].width), 0, (float)(backgroundAnimation[frameNumber/100].width), (float)(backgroundAnimation[frameNumber/100].height)};
+        DrawTextureRec(backgroundAnimation[frameNumber/100], sourceRec, Vector2{0, 0}, RAYWHITE);
+
         DrawText("Game Over!", 
                 window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
                 window.GetHeight() / 3, 60, RED);
@@ -141,7 +146,11 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
                 window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
-
+        frameNumber++;
+            if(frameNumber == 1000)
+            {
+                frameNumber = 0;
+            }
         if(skipDelay) break;
     }
 
@@ -159,9 +168,12 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
  * @return false Always returns false to ensure the game loop stops.
  */
 bool Screen::winGame(const Score& score, bool skipDelay) {
-    for (int i = 0; i < 1800; i++) {
+    int frameNumber = 0;
+    for (int i = 0; i < 5000; i++) {
         window.BeginDrawing();
-        window.ClearBackground(BLACK);
+        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/100].width), 0, (float)(backgroundAnimation[frameNumber/100].width), (float)(backgroundAnimation[frameNumber/100].height)};
+        DrawTextureRec(backgroundAnimation[frameNumber/100], sourceRec, Vector2{0, 0}, RAYWHITE);
+
         DrawText("You Win!", 
                 window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
                 window.GetHeight() / 3, 60, GREEN);
@@ -177,6 +189,11 @@ bool Screen::winGame(const Score& score, bool skipDelay) {
                 window.GetHeight() / 2 + 40, 30, WHITE);
 
         window.EndDrawing();
+        frameNumber++;
+            if(frameNumber == 1000)
+            {
+                frameNumber = 0;
+            }
         if(skipDelay) break;
     }
 

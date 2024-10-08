@@ -1487,7 +1487,7 @@ TEST_CASE("Screen initialises and displays correctly") {
 
     game.initialise(true);             // initialise the game
 
-    screen.startScreen(score);
+    screen.startScreen(score, 1);
 
     // Check if game is running using the Game class method
     CHECK(game.isGameRunning() == true);

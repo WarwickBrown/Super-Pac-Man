@@ -39,8 +39,16 @@ void Game::initialise(bool skipStartScreen) {
     GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen, etc)
 
     if (!skipStartScreen) {
+        int frameNumber = 0;
+        
         while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-            screen->startScreen(*score);
+            screen->startScreen(*score, frameNumber/100);
+            
+            frameNumber++;
+            if(frameNumber == 1000)
+            {
+                frameNumber = 0;
+            }
         }
     }
 

@@ -55,7 +55,7 @@ public:
      * 
      * @param score Reference to the Score object to display the high score.
      */
-    void startScreen(const Score& score);
+    void startScreen(const Score& score, int frameNumber);
 
     /**
      * @brief Clears the screen and prepares it for rendering.
@@ -109,6 +109,20 @@ private:
      */
     std::vector<Texture2D> gameImages = {
         LoadTexture("../resources/pacman-images/inputkeys.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/pacman-images/SplashScreenBackground.png"),
+    };
+
+    std::vector<Texture2D> backgroundAnimation = {
+        LoadTexture("../resources/backgroundAnimation/frame1.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/backgroundAnimation/frame2.png"),
+        LoadTexture("../resources/backgroundAnimation/frame3.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/backgroundAnimation/frame4.png"),
+        LoadTexture("../resources/backgroundAnimation/frame5.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/backgroundAnimation/frame6.png"),
+        LoadTexture("../resources/backgroundAnimation/frame7.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/backgroundAnimation/frame8.png"),
+        LoadTexture("../resources/backgroundAnimation/frame9.png"),  ///< Image showing the input keys.
+        LoadTexture("../resources/backgroundAnimation/frame10.png"),
     };
 };
 
