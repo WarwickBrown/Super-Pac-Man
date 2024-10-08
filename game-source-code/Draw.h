@@ -21,7 +21,6 @@
 #include "Star.h"
 
 // Forward declaration of classes
-class Game;
 class Ghost;
 
 /**
