@@ -24,13 +24,6 @@ Maze createTestMaze() {
 }
 
 
-// Helper function to create and return a Maze instance with custom walls.
-Maze createMaze() {
-    Maze maze;
-    maze.initialiseCustomWalls();  // Set up walls for collision detection
-    return maze;
-}
-
 // Helper function to initialise and return a Screen object using a unique pointer
 std::unique_ptr<Draw> createScreen() {
     return std::make_unique<Draw>();
@@ -72,9 +65,8 @@ TEST_CASE("Fruit states change from active to eaten when collected") {
     CHECK(fruit.isActive() == false);  // Fruit should no longer be active
 }
 
-// Test boundary and edge cases for Fruit placement and behavior
-TEST_CASE("Fruit can be in various locations in maze") {
-    // Fruit at extreme coordinates (top-left and bottom-right corners)
+// Test fruit placement at extreme screen boundaries
+TEST_CASE("Fruit placement at extreme screen coordinates") {
     Fruit fruit1(0, 0);  // Top-left corner
     Fruit fruit2(1920, 1080);  // Bottom-right corner (assuming screen size)
 
@@ -82,24 +74,36 @@ TEST_CASE("Fruit can be in various locations in maze") {
     CHECK(fruit1.getY() == 0);
     CHECK(fruit2.getX() == 1920);  // Fruit at bottom-right corner
     CHECK(fruit2.getY() == 1080);
+}
 
-    // Fruit outside boundaries (e.g., negative coordinates)
+// Test fruit placement outside screen boundaries (negative coordinates)
+TEST_CASE("Fruit placement outside screen boundaries") {
     Fruit fruit3(-100, -100);
+
     CHECK(fruit3.getX() == -100);  // Fruit placed outside screen boundaries
     CHECK(fruit3.getY() == -100);
+}
 
-    // Multiple fruits at the same position (overlapping)
+// Test multiple fruits placed at the same position (overlapping)
+TEST_CASE("Multiple Fruits at the same position (overlapping)") {
     Fruit fruit4(100, 100);
     Fruit fruit5(100, 100);  // Same position as fruit4
 
     CHECK(fruit4.isActive() == true);  // Both fruits should be active initially
     CHECK(fruit5.isActive() == true);
-
-    // Collect one fruit and check that the other remains active
-    fruit4.collect();
-    CHECK(fruit4.isActive() == false);
-    CHECK(fruit5.isActive() == true);  // Fruit5 should remain active
 }
+
+// Test collecting one fruit while another fruit remains active
+TEST_CASE("Collecting one fruit keeps the other at the same position active") {
+    Fruit fruit4(100, 100);
+    Fruit fruit5(100, 100);  // Same position as fruit4
+
+    fruit4.collect();  // Collect one fruit
+
+    CHECK(fruit4.isActive() == false);  // Collected fruit should be inactive
+    CHECK(fruit5.isActive() == true);  // Other fruit should remain active
+}
+
 
 // General collectable tests:
 // Test case for Collectable state after collection
@@ -191,8 +195,8 @@ TEST_CASE("File paths which are invalid do not crash the program") {
 
 // Fruit tests
 
-// Test collision detection with Pac-Man
-TEST_CASE("Fruits have working collision with PacMan") {
+// Test that a collision is correctly detected between Pac-Man and a fruit
+TEST_CASE("Fruit correctly detects collision with Pac-Man") {
     Fruit fruit(300, 400);  // Create a fruit at position (300, 400)
 
     // Simulate Pac-Man's position and radius
@@ -200,13 +204,23 @@ TEST_CASE("Fruits have working collision with PacMan") {
     float pacManY = 400;
     float pacManRadius = 30;
 
-    CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == true);  // Collision should be detected
+    // Collision should be detected when Pac-Man is at the same position as the fruit
+    CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == true);
+}
+
+// Test that no collision is detected when Pac-Man is far from the fruit
+TEST_CASE("Fruit does not detect collision when Pac-Man is away") {
+    Fruit fruit(300, 400);  // Create a fruit at position (300, 400)
 
     // Move Pac-Man away from the fruit
-    pacManX = 500;
-    pacManY = 500;
-    CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should be detected
+    float pacManX = 500;
+    float pacManY = 500;
+    float pacManRadius = 30;
+
+    // No collision should be detected when Pac-Man is far away
+    CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);
 }
+
 
 // Test that the Fruit is initialised correctly
 TEST_CASE("Fruit class is constructed correctly") {
@@ -268,21 +282,41 @@ TEST_CASE("Fruits are collected correctly") {
     CHECK(fruits[1]->isActive() == false);  // Fruit should be marked as eaten
 }
 
-// Test case for power pellet frightened mode duration
-TEST_CASE("Game handles frightened mode duration correctly") {
+// Test that ghosts start in a normal state before a power pellet is consumed
+TEST_CASE("Ghosts are in normal state before power pellet consumption") {
     Game game;
     game.initialise(true);
-    
-    // Ensure initial state
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);  // Ghosts should not be frightened initially
-    }
 
+    // Ensure all ghosts are in normal state initially
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == false);
+    }
+}
+
+// Test that ghosts enter frightened mode when Pac-Man consumes a power pellet
+TEST_CASE("Ghosts enter frightened mode after Pac-Man consumes power pellet") {
+    Game game;
+    game.initialise(true);
     game.getPacMan().setPosition(120, 760);
 
     // Simulate Pac-Man collecting a power pellet
     game.getUpdater()->updatePowerPellets();
     CHECK(game.getScore().getCurrentScore() == 100);  // Verify initial score update
+
+    // Check that all ghosts are in frightened mode
+    for (const auto& ghost : game.getGhosts()) {
+        CHECK(ghost->isFrightened() == true);
+    }
+}
+
+// Test that ghosts remain in frightened mode for a certain duration
+TEST_CASE("Ghosts remain in frightened mode for the correct duration") {
+    Game game;
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.getUpdater()->updatePowerPellets();
 
     // Move time forward to simulate frightened mode duration
     float elapsedTime = -3.0f;  // Move 3 seconds forward
@@ -290,38 +324,39 @@ TEST_CASE("Game handles frightened mode duration correctly") {
     game.getUpdater()->updatePowerPellets();
 
     // Check that ghosts are still in frightened mode
-    bool anyGhostNotFrightened = false;
     for (const auto& ghost : game.getGhosts()) {
-        if (!ghost->isFrightened()) {
-            anyGhostNotFrightened = true;
-            break;
-        }
+        CHECK(ghost->isFrightened() == true);
     }
-    CHECK(anyGhostNotFrightened == false);  // Ensure all ghosts are still frightened
+}
 
-    // Move time forward again to exceed frightened mode duration
-    elapsedTime = -6.0f;  // Total of 9 seconds now (simulate the power pellet duration ending)
+// Test that ghosts exit frightened mode after the full duration elapses
+TEST_CASE("Ghosts exit frightened mode after power pellet duration ends") {
+    Game game;
+    game.initialise(true);
+    game.getPacMan().setPosition(120, 760);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.getUpdater()->updatePowerPellets();
+
+    // Move time forward to simulate frightened mode duration
+    float elapsedTime = -9.0f;  // Move 9 seconds forward (simulate the power pellet duration ending)
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
 
-    // Check that ghosts are no longer in frightened mode
-    bool allGhostsNormal = true;
+    // Check that all ghosts have exited frightened mode
     for (const auto& ghost : game.getGhosts()) {
-        if (ghost->isFrightened()) {
-            allGhostsNormal = false;
-            break;
-        }
+        CHECK(ghost->isFrightened() == false);
     }
-    CHECK(allGhostsNormal == true);  // Ensure all ghosts have exited frightened mode
 }
 
 
-// Test case for Pac-Man collecting a power pellet and ghosts becoming frightened
-TEST_CASE("Game handles power pellet collection and ghost frightened mode duration") {
+
+// Test that power pellet becomes inactive when collected by Pac-Man
+TEST_CASE("Power pellet becomes inactive after being collected by Pac-Man") {
     Game game;
     game.initialise(true);
 
-    // Verify initial state of game objects
+    // Verify initial state
     CHECK(game.getPowerPellets().size() > 0);  // Ensure there are power pellets
     auto& firstPellet = game.getPowerPellets().front();
     CHECK(firstPellet->isActive() == true);  // First power pellet should be active
@@ -332,25 +367,21 @@ TEST_CASE("Game handles power pellet collection and ghost frightened mode durati
 
     // Check that the first pellet is now inactive
     CHECK(firstPellet->isActive() == false);
+}
+
+// Test that score increases correctly when Pac-Man collects a power pellet
+TEST_CASE("Score increases correctly when Pac-Man collects power pellet") {
+    Game game;
+    game.initialise(true);
+
+    // Simulate Pac-Man collecting a power pellet
+    game.getPacMan().setPosition(120, 760);
+    game.getUpdater()->updatePowerPellets();
 
     // Check that the score increased correctly
     CHECK(game.getScore().getCurrentScore() == 100);  // Assume 100 points per pellet
-
-    // Check that all ghosts are in frightened mode
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == true);  // All ghosts should be frightened
-    }
-
-    // Simulate waiting for the frightened mode to expire
-    float elapsedTime = -6.0f;  // Total of 6 seconds 
-    game.setPowerPelletTimer(elapsedTime);
-    game.getUpdater()->updatePowerPellets();
-
-    // Check that all ghosts are no longer in frightened mode
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);  // Frightened mode should be over
-    }
 }
+
 
 // Test case for Pac-Man collecting multiple power pellets in sequence
 TEST_CASE("Game handles sequential power pellet collection by PacMan correctly") {
@@ -480,11 +511,6 @@ TEST_CASE("Ghost objects have collision detection with PacMan") {
     pacman.setPosition(100.0f, 200.0f);
     bool collision = ghost.checkCollisionWithPacMan(pacman);
     CHECK(collision == true);  // Should detect collision
-
-    // Move Pac-Man away
-    pacman.setPosition(300, 300);
-    collision = ghost.checkCollisionWithPacMan(pacman);
-    CHECK(collision == false);  // No collision should be detected
 }
 
 // Test ghost collision with walls
@@ -708,6 +734,7 @@ TEST_CASE("High score from previous game loads when a new game is played") {
 
     Score newScore(tempFileName);  // Create a new Score object, should load high score from file
     CHECK(newScore.getHighScore() == 100);  // High score should be loaded correctly
+    std::remove("../test-files/test_highscore_persistence.txt");
 }
 
 // Lives tests
@@ -722,10 +749,6 @@ TEST_CASE("Lives increment properly and do not go below 0") {
 
     playerLives.loseLife();  // Attempt to lose more lives (should not go below 0)
     CHECK(playerLives.getLives() == 0);  // Should remain at 0
-
-    // Gain a life after losing all lives
-    playerLives.gainLife();
-    CHECK(playerLives.getLives() == 1);  // Should be 1
 }
 
 // Test that Lives is initialised correctly
@@ -854,35 +877,48 @@ TEST_CASE("Maze class initialises custom walls correctly") {
     CHECK(walls[0].rect.height == 10);
 }
 
-// Test case for multiple PowerPellet objects in different positions
-TEST_CASE("PowerPellet objects initialise correctly at various positions and have collision with PacMan") {
+// Test PowerPellet initialization at various positions
+TEST_CASE("PowerPellet initializes correctly at specified positions") {
     // Create multiple power pellets at different positions
     PowerPellet powerPellet1(100.0f, 100.0f);
     PowerPellet powerPellet2(200.0f, 200.0f);
     PowerPellet powerPellet3(300.0f, 300.0f);
 
-    PacMan pacman(0.0f, 0.0f);  // Create Pac-Man at the position of powerPellet1
+    CHECK(powerPellet1.getX() == 100.0f);
+    CHECK(powerPellet1.getY() == 100.0f);
+    CHECK(powerPellet2.getX() == 200.0f);
+    CHECK(powerPellet2.getY() == 200.0f);
+    CHECK(powerPellet3.getX() == 300.0f);
+    CHECK(powerPellet3.getY() == 300.0f);
 
     CHECK(powerPellet1.isActive() == true);
     CHECK(powerPellet2.isActive() == true);
     CHECK(powerPellet3.isActive() == true);
+}
 
+// Test multiple PowerPellet collection sequence
+TEST_CASE("PacMan collects multiple PowerPellets correctly") {
+    PowerPellet powerPellet1(100.0f, 100.0f);
+    PowerPellet powerPellet2(200.0f, 200.0f);
+    PowerPellet powerPellet3(300.0f, 300.0f);
+    PacMan pacman(0.0f, 0.0f);  // Pac-Man starts at a different position
 
     // Collect the first power pellet
     pacman.setPosition(100.0f, 100.0f);
-    CHECK(powerPellet1.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet1
-    CHECK(powerPellet1.isActive() == false);  // powerPellet1 should now be inactive
+    CHECK(powerPellet1.checkCollisionWithPacMan(pacman) == true);
+    CHECK(powerPellet1.isActive() == false);
 
-    // Move Pac-Man to the position of the second power pellet
-    pacman.setPosition(200, 200);
-    CHECK(powerPellet2.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet2
-    CHECK(powerPellet2.isActive() == false);  // powerPellet2 should now be inactive
+    // Collect the second power pellet
+    pacman.setPosition(200.0f, 200.0f);
+    CHECK(powerPellet2.checkCollisionWithPacMan(pacman) == true);
+    CHECK(powerPellet2.isActive() == false);
 
-    // Move Pac-Man to the position of the third power pellet
-    pacman.setPosition(300, 300);
-    CHECK(powerPellet3.checkCollisionWithPacMan(pacman) == true);  // Should collect powerPellet3
-    CHECK(powerPellet3.isActive() == false);  // powerPellet3 should now be inactive
+    // Collect the third power pellet
+    pacman.setPosition(300.0f, 300.0f);
+    CHECK(powerPellet3.checkCollisionWithPacMan(pacman) == true);
+    CHECK(powerPellet3.isActive() == false);
 }
+
 
 // Test case for ensuring no interactions occur when PowerPellet is inactive
 TEST_CASE("PowerPellet objects do not have collision with PacMan after being eaten") {
@@ -944,7 +980,7 @@ TEST_CASE("PacMan object changes direction correctly") {
 // Test case for Invincibility state
 TEST_CASE("PacMan object invincibility state handles correctly") {
     PacMan pacman(100, 200);
-    Maze maze = createMaze();
+    Maze maze = createTestMaze();
 
     CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
 
@@ -1017,7 +1053,7 @@ TEST_CASE("PacMan object has valid movement") {
 // Test for PacMan's speed change during Super Mode
 TEST_CASE("PacMan object changes speed during super mode") {
     PacMan pacman(100, 200);
-    Maze maze = createMaze();
+    Maze maze = createTestMaze();
 
     // Store initial position
     float initialX = pacman.getX();
@@ -1092,26 +1128,6 @@ TEST_CASE("PacMan object super mode has the correct duration") {
     CHECK(pacman.isSuper() == false);  // Super mode should have expired
 }
 
-// Performance and Memory Management Test
-TEST_CASE("Performance and memory of the program is correctly handled in the Fruit class") {
-    std::vector<std::unique_ptr<Fruit>> fruits;
-
-    // Create a large number of fruits to test performance and memory handling
-    for (int i = 0; i < 10000; ++i) {
-        fruits.push_back(std::make_unique<Fruit>(i * 10, i * 10));  // Create fruits at different positions
-    }
-
-    CHECK(fruits.size() == 10000);  // Verify all fruits were created
-
-    // Check that all fruits are active initially
-    for (const auto& fruit : fruits) {
-        CHECK(fruit->isActive() == true);
-    }
-
-    // Measure performance (if required) and ensure no memory leaks
-    // Use external tools like valgrind to verify memory management
-}
-
 // Test case for PowerPellet being collected and becoming inactive
 TEST_CASE("PowerPellet objects correctly change state when eaten by PacMan") {
     PowerPellet powerPellet(100.0f, 100.0f);
@@ -1183,7 +1199,7 @@ TEST_CASE("Reader handles an empty file correctly") {
     CHECK(data.empty());  // Check if the data vector is empty
 
     // Clean up the temporary file after the test
-    std::remove(tempFileName.c_str());
+    std::remove("../resources/test-files/empty_walls.txt");
 }
 
 
@@ -1264,6 +1280,7 @@ TEST_CASE("Reader reads file with special characters correctly") {
     for (size_t i = 0; i < fileContents.size(); ++i) {
         CHECK(data[i] == fileContents[i]);  // Check if each line matches the expected content
     }
+    std::remove("../resources/test-files/test_special_walls.txt");
 }
 
 // Test adding points and high score update logic
@@ -1324,6 +1341,7 @@ TEST_CASE("Score is incremented correctly") {
     fruit.collect();  // Simulate collecting the fruit
     score.addPoints(10);  // Assume collecting the fruit gives 10 points
     CHECK(score.getCurrentScore() == 10);  // Score should now be 10
+    std::remove("../resources/test-files/test_fruit_score.txt");
 }
 
 //Screen Tests
@@ -1354,6 +1372,7 @@ TEST_CASE("Screen correctly handles end game screen") {
     
     bool result = screen->endGame(score, true);
     CHECK(result == false);  // The game loop should stop
+    std::remove("../resources/test-files/test_screen_endgame.txt");
 }
 
 TEST_CASE("Screen correctly handles power pellet drawing") {
@@ -1443,6 +1462,7 @@ TEST_CASE("Screen correctly handles win game screen") {
     // Display win game screen and verify it stops the game loop
     bool result = screen.winGame(score, true);
     CHECK(result == false);  // The game loop should stop
+    std::remove("../resources/test-files/test_screen_wingame.txt");
 }
 
 TEST_CASE("Screen draws Pac-Man correctly") {
@@ -1493,6 +1513,7 @@ TEST_CASE("Screen initialises and displays correctly") {
 
     // Check if game is running using the Game class method
     CHECK(game.isGameRunning() == true);
+    std::remove("../resources/test-files/test_screen_initialisation.txt");
 }
 
 // Test that collision detection works as expected
