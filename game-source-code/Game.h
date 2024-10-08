@@ -39,17 +39,6 @@ class GameInitialiser;
 class Update;
 class PacManManager;
 class Game {
-    /**
-     * @enum Direction
-     * @brief Defines the possible movement directions for Pac-Man and other game elements.
-     */
-    enum Direction {
-        RIGHT = 1, ///< Moving right
-        LEFT,      ///< Moving left
-        UP,        ///< Moving up
-        DOWN,      ///< Moving down
-        NONE       ///< No movement
-    };
 
     friend class GameInitialiser;
     friend class PacManManager;
@@ -184,7 +173,7 @@ public:
      * 
      * @return The current Direction enum value.
      */
-    Direction getDirection() const { return pacManDirection; }
+    PacMan::Direction getDirection() const { return pacManDirection; }
 
     /**
      * @brief Sets the maze object for the game.
@@ -275,9 +264,9 @@ private:
 
     bool isRunning; ///< Indicates if the game is currently running.
     int totalFrames = 1; ///< Total number of frames rendered.
-    Direction pacManDirection; ///< Current direction of Pac-Man's movement.
-    Direction ghostDirection; ///< Current direction of ghost movement.
-    Direction pacManOldDirection = RIGHT; ///< Previous direction of Pac-Man's movement.
+    PacMan::Direction pacManDirection; ///< Current direction of Pac-Man's movement.
+    PacMan::Direction ghostDirection; ///< Current direction of ghost movement.
+    PacMan::Direction pacManOldDirection = PacMan::RIGHT; ///< Previous direction of Pac-Man's movement.
     raylib::Window window; ///< Window object for rendering the game.
     int frame; ///< Current animation frame.
     bool gameWon; ///< Indicates if the game has been won.

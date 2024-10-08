@@ -22,7 +22,7 @@
 /**
  * @brief Constructs a Game object, initialising the game window, running state, and other game elements.
  */
-Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(NONE), frame(0), gameWon(false) {}
+Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(PacMan::NONE), frame(0), gameWon(false) {}
 
 /**
  * @brief Destructor for the Game class, releasing dynamically allocated resources for the maze, Pac-Man, and other objects.
@@ -141,16 +141,16 @@ void Game::handleInput(int inputKey) {
     // Detect arrow key presses to update Pac-Man's direction
     switch (inputKey) {
     case KEY_RIGHT:
-        pacManDirection = RIGHT;
+        pacManDirection = PacMan::RIGHT;
         break;
     case KEY_LEFT:
-        pacManDirection = LEFT;
+        pacManDirection = PacMan::LEFT;
         break;
     case KEY_UP:
-        pacManDirection = UP;
+        pacManDirection = PacMan::UP;
         break;
     case KEY_DOWN:
-        pacManDirection = DOWN;
+        pacManDirection = PacMan::DOWN;
         break;
     default:
         break;

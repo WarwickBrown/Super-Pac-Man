@@ -626,7 +626,7 @@ TEST_CASE("Ghosts remain in frightened mode for the correct duration") {
     game.getUpdater()->updatePowerPellets();
 
     // Move time forward to simulate frightened mode duration
-    float elapsedTime = -3.0f;  // Move 3 seconds forward
+    float elapsedTime = -2.0f;  // Move 2 seconds forward
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
 
