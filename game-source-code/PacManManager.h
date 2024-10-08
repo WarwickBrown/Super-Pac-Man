@@ -25,16 +25,6 @@ class Game;
  */
 class PacManManager {
 public:
-    /**
-     * @enum Direction
-     * @brief Defines the possible movement directions for Pac-Man.
-     */
-    enum Direction {
-        RIGHT = 1, ///< Moving right.
-        LEFT,      ///< Moving left.
-        UP,        ///< Moving up.
-        DOWN       ///< Moving down.
-    };
 
     /**
      * @brief Constructs a PacManManager object and associates it with the given game instance.

@@ -7,6 +7,7 @@
  */
 
 #include "PacManManager.h"
+#include "PacMan.h"
 
 /**
  * @brief Constructs a PacManManager object and associates it with the given game instance.
@@ -29,17 +30,17 @@ void PacManManager::updatePacMan(float deltaTime) {
     auto dx = 0, dy = 0;
 
     // Determine movement direction based on the game's current direction state.
-    switch (game.getDirection()) {
-    case RIGHT:
+    switch (static_cast<PacMan::Direction>(game.getDirection())) {
+    case PacMan::RIGHT:
         dx = 1; dy = 0;
         break;
-    case LEFT:
+    case PacMan::LEFT:
         dx = -1; dy = 0;
         break;
-    case UP:
+    case PacMan::UP:
         dx = 0; dy = -1;
         break;
-    case DOWN:
+    case PacMan::DOWN:
         dx = 0; dy = 1;
         break;
     default:
