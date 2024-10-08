@@ -134,7 +134,17 @@ void Draw::drawGhost(const Ghost& ghost, const PacMan& pacman, int ghostNumber) 
         currentTexture = ghostFrightenedRight;
     }
     else if (pacman.isSuper()) {
-        currentTexture = ghostFlattenedTexture;
+        switch(ghostNumber){
+        case 1: 
+            currentTexture = ghostFlattenedRed;
+            break;
+        case 2: 
+            currentTexture = ghostFlattenedGreen;
+            break;
+        case 3: 
+            currentTexture = ghostFlattenedOrange;
+            break;
+    }
     }
     Rectangle sourceRec = {(float)(currentTexture.width), 0, (float)(currentTexture.width), (float)(currentTexture.height)};
     DrawTextureRec(currentTexture, sourceRec, Vector2{(float)ghost.getX()-35, (float)ghost.getY()-35}, RAYWHITE);
