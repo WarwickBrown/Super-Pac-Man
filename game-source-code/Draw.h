@@ -184,7 +184,9 @@ private:
     Texture2D ghostPicGreen = LoadTexture("../resources/pacman-images/ghostyGreen.png"); ///< Texture for green ghost.
     Texture2D ghostPicOrange = LoadTexture("../resources/pacman-images/ghostyOrange.png"); ///< Texture for orange ghost.
     Texture2D ghostFrightenedRight = LoadTexture("../resources/pacman-images/ghostyScared.png"); ///< Texture for frightened ghost.
-    Texture2D ghostFlattenedTexture = LoadTexture("../resources/pacman-images/ghostyStreched.png"); ///< Texture for flattened ghost.
+    Texture2D ghostFlattenedRed = LoadTexture("../resources/pacman-images/ghostyRedStreched.png"); ///< Texture for flattened ghost.
+    Texture2D ghostFlattenedGreen = LoadTexture("../resources/pacman-images/ghostyGreenStreched.png"); ///< Texture for flattened ghost.
+    Texture2D ghostFlattenedOrange = LoadTexture("../resources/pacman-images/ghostyOrangeStreched.png"); ///< Texture for flattened ghost.
 
     // Symbol textures
     Texture2D symbol1 = LoadTexture("../resources/pacman-images/symbol1.png"); ///< Symbol texture 1.
