@@ -128,11 +128,11 @@ void Update::updateStars() {
     auto updatedTimer = GetTime() - game.timerStart;
     for (auto& stars : game.stars) {
         if (updatedTimer >= 2 * game.multi) {
-            game.num1 = rand() % 6 + 1;
-            game.num2 = rand() % 6 + 1;
+            game.fruitSymbolOne = rand() % 6 + 1;
+            game.fruitSymbolTwo = rand() % 6 + 1;
             game.multi++;
         }
-        draw->drawSymbols(game.num1, game.num2);
+        draw->drawSymbols(game.fruitSymbolOne, game.fruitSymbolTwo);
         if (updatedTimer >= 30 * game.multi2) {
             stars->show();
             draw->setSymbolActive(true);
@@ -142,9 +142,9 @@ void Update::updateStars() {
         if (stars->isActive() && CheckCollisionCircles(
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius() - 30,
                 { static_cast<float>(stars->getX()), static_cast<float>(stars->getY()) }, stars->getRadius())) {
-            if (game.num1 == game.num2 && game.num2 == game.num3) {
+            if (game.fruitSymbolOne == game.fruitSymbolTwo && game.fruitSymbolTwo == game.fruitSymbolInMaze) {
                 game.getScore().addPoints(5000);
-            } else if (game.num1 == game.num2) {
+            } else if (game.fruitSymbolOne == game.fruitSymbolTwo) {
                 game.getScore().addPoints(2000);
             } else {
                 game.getScore().addPoints(500);

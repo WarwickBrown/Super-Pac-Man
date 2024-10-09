@@ -262,18 +262,18 @@ private:
     std::vector<std::unique_ptr<SuperPellet>> superPellets; ///< Vector of unique pointers to SuperPellet objects.
     std::vector<std::unique_ptr<Star>> stars; ///< Vector of unique pointers to Star objects.
 
-    bool isRunning; ///< Indicates if the game is currently running.
-    int totalFrames = 1; ///< Total number of frames rendered.
     PacMan::Direction pacManDirection; ///< Current direction of Pac-Man's movement.
     PacMan::Direction ghostDirection; ///< Current direction of ghost movement.
     PacMan::Direction pacManOldDirection = PacMan::RIGHT; ///< Previous direction of Pac-Man's movement.
     raylib::Window window; ///< Window object for rendering the game.
+    bool isRunning; ///< Indicates if the game is currently running.
     int frame; ///< Current animation frame.
-    bool gameWon; ///< Indicates if the game has been won.
+    int totalFrames = 1; ///< Total number of frames rendered.
     int symbolCounter = 0; ///< Counter for symbol animations.
-    float timerStart = GetTime(); ///< Start time of the game.
     int multi = 0, multi2 = 1; ///< Multipliers for game mechanics.
-    int num1 = 1, num2 = 1, num3 = 1; ///< Numbers for texture selection.
+    int fruitSymbolOne = 1, fruitSymbolTwo = 1, fruitSymbolInMaze = 1; ///< Numbers for texture selection.
+    bool gameWon; ///< Indicates if the game has been won.
+    float timerStart = GetTime(); ///< Start time of the game.
     float powerPelletTimer; ///< Timer for tracking power pellet effects.
 };
 
