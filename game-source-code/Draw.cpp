@@ -275,13 +275,13 @@ void Draw::drawStars(std::vector<std::unique_ptr<Star>>& star) {
     for (const auto& eachStar : star) {
         if (eachStar->getChange()) {
             eachStar->setChange();
-            picture = starTextures[num];
-            num = (num + 1) % starTextures.size();
+            starTexture = starTextures[textureNumber];
+            textureNumber = (textureNumber + 1) % starTextures.size();
         }
 
         if (eachStar->isActive()) {
-            Rectangle sourceRec = {(float)(picture.width), 0, (float)(picture.width), (float)(picture.height)};
-            DrawTextureRec(picture, sourceRec, Vector2{(float)eachStar->getX() - 30, (float)eachStar->getY() - 32}, RAYWHITE);
+            Rectangle sourceRec = {(float)(starTexture.width), 0, (float)(starTexture.width), (float)(starTexture.height)};
+            DrawTextureRec(starTexture, sourceRec, Vector2{(float)eachStar->getX() - 30, (float)eachStar->getY() - 32}, RAYWHITE);
         }
     }
 }

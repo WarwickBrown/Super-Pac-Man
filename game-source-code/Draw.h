@@ -159,10 +159,10 @@ public:
 private:
     std::unique_ptr<Maze> maze; ///< Pointer to the Maze object used for drawing.
     raylib::Window window;      ///< Window object used for rendering the game.
-    int num = 0;                ///< Index for cycling through textures.
+    Texture2D starTexture;          ///< Texture for drawing various symbols.
+    int textureNumber = 0;                ///< Index for cycling through textures.
     bool eaten;                 ///< Flag indicating if a collectable has been eaten.
     bool symbolActive = false;  ///< Flag indicating if the symbol should be active.
-    Texture2D picture;          ///< Texture for drawing various symbols.
 
     // Pac-Man Textures
     std::vector<Texture2D> pacManTextures = {
@@ -199,9 +199,6 @@ private:
 
     // Key Texture
     Texture2D keyTexture = LoadTexture("../resources/pacman-images/key.png"); ///< Texture for game key.
-
-    // Fruit Texture
-    Texture2D fruitPic = LoadTexture("../resources/pacman-images/strawberry.png"); ///< Texture for fruit.
 
     // Power Pellet Texture
     Texture2D powerPelletTexture = LoadTexture("../resources/pacman-images/PowerPellet.png"); ///< Texture for power pellet.
