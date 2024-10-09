@@ -222,6 +222,7 @@ Bottom Symbol Boxes
 Ghost Box
 640 400 90 10 PINK Horizontal
 800 400 90 10 PINK Horizontal
+720 400 90 6 PINK Horizontal
 640 400 10 90 PINK Vertical
 880 400 10 90 PINK Vertical
 640 480 250 10 PINK Horizontal

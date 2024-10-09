@@ -37,15 +37,15 @@ Game::~Game() = default;
  */
 void Game::initialise(bool skipStartScreen) {
     GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen, etc)
-
+    SetTargetFPS(480);
     if (!skipStartScreen) {
         int frameNumber = 0;
         
         while (!IsKeyPressed(KEY_ENTER) && !window.ShouldClose()) {
-            screen->startScreen(*score, frameNumber/100);
+            screen->startScreen(*score, frameNumber/20);
             
             frameNumber++;
-            if(frameNumber == 1000)
+            if(frameNumber == 200)
             {
                 frameNumber = 0;
             }
