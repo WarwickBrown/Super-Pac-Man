@@ -31,10 +31,10 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection
 
     Texture2D texture = pacManTextures[0];  // Default texture is for moving left
     switch(pacManDirection){
-        case RIGHT: texture = pacManTextures[1]; break;
-        case LEFT:  texture = pacManTextures[0]; break;
-        case UP:    texture = pacManTextures[2]; break;
-        case DOWN:  texture = pacManTextures[3]; break;
+        case PacMan::RIGHT: texture = pacManTextures[1]; break;
+        case PacMan::LEFT:  texture = pacManTextures[0]; break;
+        case PacMan::UP:    texture = pacManTextures[2]; break;
+        case PacMan::DOWN:  texture = pacManTextures[3]; break;
     }
 
     Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};
@@ -54,10 +54,10 @@ void Draw::drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDire
 
     auto texture = pacManTexturesBig[0];  // Default texture is for moving left
     switch(pacManDirection){
-        case RIGHT: texture = pacManTexturesBig[1]; break;
-        case LEFT:  texture = pacManTexturesBig[0]; break;
-        case UP:    texture = pacManTexturesBig[2]; break;
-        case DOWN:  texture = pacManTexturesBig[3]; break;
+        case PacMan::RIGHT: texture = pacManTexturesBig[1]; break;
+        case PacMan::LEFT:  texture = pacManTexturesBig[0]; break;
+        case PacMan::UP:    texture = pacManTexturesBig[2]; break;
+        case PacMan::DOWN:  texture = pacManTexturesBig[3]; break;
     }
 
     Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};

@@ -29,16 +29,6 @@ class Ghost;
  */
 class Draw {
 public:
-    /**
-     * @enum Direction
-     * @brief Defines the possible movement directions for Pac-Man and other game elements.
-     */
-    enum Direction {
-        RIGHT = 1, ///< Moving right
-        LEFT,      ///< Moving left
-        UP,        ///< Moving up
-        DOWN       ///< Moving down
-    };
 
     /**
      * @brief Constructor: Initialises the Draw class and associated resources.
