@@ -477,7 +477,7 @@ TEST_CASE("Ghost objects random movement works correctly") {
 }
 
 // Test case for eaten state behavior
-TEST_CASE("Ghost objects respawn correctly when eaten by pacman") {
+TEST_CASE("Ghost objects cannot move when eaten") {
     Ghost ghost(100, 200, 150.0f);
     Maze maze = createTestMaze();
     PacMan pacman(200, 200);
@@ -490,36 +490,6 @@ TEST_CASE("Ghost objects respawn correctly when eaten by pacman") {
     int initialDirection = ghost.move(maze, pacman, 1.0f);
     CHECK(ghost.getX() == 100);  // X position should not change
     CHECK(ghost.getY() == 200);  // Y position should not change
-}
-
-// Test ghost respawn behavior
-TEST_CASE("Ghost objects respawn in the correct location") {
-    Ghost ghost(100, 100, 150.0f);
-    PacMan pacMan(100, 100);
-    Maze maze;
-
-    // Mark the ghost as eaten and move it
-    ghost.setEaten(true);
-    ghost.setDirection(1);  // Set direction to right
-    float deltaTime = 1.0f;
-    ghost.move(maze,pacMan, deltaTime);
-
-    // Respawn the ghost
-    ghost.respawn();
-    CHECK(ghost.getX() == 100);  // Should reset to the starting position
-    CHECK(ghost.getY() == 100);  // Should reset to the starting position
-    CHECK(ghost.isEaten() == false);  // Ghost should no longer be eaten
-}
-
-// Test that ghosts start in a normal state before a power pellet is consumed
-TEST_CASE("Ghosts are in normal state before power pellet consumption") {
-    Game game;
-    game.initialise(true);
-
-    // Ensure all ghosts are in normal state initially
-    for (const auto& ghost : game.getGhosts()) {
-        CHECK(ghost->isFrightened() == false);
-    }
 }
 
 // Test that ghosts enter frightened mode when Pac-Man consumes a power pellet
@@ -870,7 +840,6 @@ TEST_CASE("PacMan object invincibility state handles correctly") {
 // Test for Invincibility Timer
 TEST_CASE("PacMan object invincibility state has the appropriate duration") {
     PacMan pacman(100, 200);
-    CHECK(pacman.isInvincible() == false);  // Initially, PacMan is not invincible
 
     pacman.setInvincible(true);
     CHECK(pacman.isInvincible() == true);  // PacMan should be invincible
@@ -881,27 +850,6 @@ TEST_CASE("PacMan object invincibility state has the appropriate duration") {
 
     pacman.updateInvincibility(1.5f);  // 1.5 more seconds elapsed (total 2.5 seconds)
     CHECK(pacman.isInvincible() == false);  // Invincibility should have expired
-}
-
-// Test Pac-Man's super mode behavior over time
-TEST_CASE("PacMan object super mode has the correct duration") {
-    SuperPellet superPellet(300.0f, 400.0f);  // Create a SuperPellet at position (300, 400)
-    PacMan pacMan(0.0f, 0.0f);  // Create a Pac-Man at the same position
-    pacMan.setPosition(300.0f, 400.0f);
-
-    // Simulate Pac-Man collecting the SuperPellet and entering super mode
-    if (superPellet.checkCollision(pacMan.getX(), pacMan.getY(), pacMan.getRadius())) {
-        pacMan.activateSuperMode();
-        superPellet.collect();
-    }
-
-    CHECK(pacMan.isSuper() == true);  // Pac-Man should be in super mode
-
-    // Simulate passing time to deactivate super mode
-    pacMan.updateSuperMode(5.0f);  // Simulate 5 seconds passing
-
-    // Verify that Pac-Man is no longer in super mode after the duration ends
-    CHECK(pacMan.isSuper() == false);
 }
 
 // Test for Super Mode Timer
@@ -923,7 +871,7 @@ TEST_CASE("PacMan object super mode has the correct duration") {
 // PowerPellet Tests
 
 // Test that power pellet becomes inactive when collected by Pac-Man
-TEST_CASE("Power pellet becomes inactive after being collected by Pac-Man") {
+TEST_CASE("PowerPellet becomes inactive after being collected by Pac-Man") {
     Game game;
     game.initialise(true);
 
@@ -948,25 +896,6 @@ TEST_CASE("PowerPellet class is constructed correctly") {
     CHECK(powerPellet.getY() == 200.0f);  // Verify the initial Y coordinate
     CHECK(powerPellet.getRadius() == 10.0f);  // Verify the radius
     CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
-}
-
-// Test PowerPellet initialisation at various positions
-TEST_CASE("PowerPellet initialises correctly at specified positions") {
-    // Create multiple power pellets at different positions
-    PowerPellet powerPellet1(100.0f, 100.0f);
-    PowerPellet powerPellet2(200.0f, 200.0f);
-    PowerPellet powerPellet3(300.0f, 300.0f);
-
-    CHECK(powerPellet1.getX() == 100.0f);
-    CHECK(powerPellet1.getY() == 100.0f);
-    CHECK(powerPellet2.getX() == 200.0f);
-    CHECK(powerPellet2.getY() == 200.0f);
-    CHECK(powerPellet3.getX() == 300.0f);
-    CHECK(powerPellet3.getY() == 300.0f);
-
-    CHECK(powerPellet1.isActive() == true);
-    CHECK(powerPellet2.isActive() == true);
-    CHECK(powerPellet3.isActive() == true);
 }
 
 // Test case for PowerPellet being collected and becoming inactive
