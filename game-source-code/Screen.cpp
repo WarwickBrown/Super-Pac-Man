@@ -56,25 +56,25 @@ void Screen::startScreen(const Score& score, int frameNumber) {
     // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect.
     DrawText("Super Pac-Man", 
          window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
-         window.GetHeight() / 4 + 2 + 20, 70, Color{153, 153, 0, 255});  // Darker Yellow color
+         window.GetHeight() / 4 + 2 + 20, 70, Color{153, 153, 0, 255});  // Darker Yellow colour
     DrawText("Super Pac-Man", 
             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
-            window.GetHeight() / 4 + 20, 70, YELLOW);  // Main color
+            window.GetHeight() / 4 + 20, 70, YELLOW);  // Main colour
 
-    // Draw instructions and high score with shadows and colors.
+    // Draw instructions and high score with shadows and colours.
     DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
-            window.GetHeight() / 2 - 38 + 2, 40, DARKGREEN);  // Shadow color
+            window.GetHeight() / 2 - 38 + 2, 40, DARKGREEN);  // Shadow colour
     DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
-            window.GetHeight() / 2 - 38, 40, GREEN);  // Main color
+            window.GetHeight() / 2 - 38, 40, GREEN);  // Main colour
 
     DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
-            window.GetHeight() / 2 + 10 + 2, 30, Color{139, 0, 0, 255});  // Shadow color
+            window.GetHeight() / 2 + 10 + 2, 30, Color{139, 0, 0, 255});  // Shadow colour
     DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
-            window.GetHeight() / 2 + 10, 30, RED);  // Main color
+            window.GetHeight() / 2 + 10, 30, RED);  // Main colour
 
     DrawText("Use the ARROW KEYS to change direction", 
             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
@@ -83,10 +83,10 @@ void Screen::startScreen(const Score& score, int frameNumber) {
     auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
     DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
-            window.GetHeight() / 2 + 80 + 2, 35, DARKPURPLE);  // Shadow color
+            window.GetHeight() / 2 + 80 + 2, 35, DARKPURPLE);  // Shadow colour
     DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
-            window.GetHeight() / 2 + 80, 35, PURPLE);  // Main color
+            window.GetHeight() / 2 + 80, 35, PURPLE);  // Main colour
 
     drawGameImages();  ///< Draw additional images on the start screen.
 

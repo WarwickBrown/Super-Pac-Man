@@ -2,7 +2,7 @@
  * @file PowerPellet.cpp
  * @brief Implements the PowerPellet class, which represents a power-up that Pac-Man can collect.
  * 
- * This file defines the methods for initializing the PowerPellet object and handling collisions
+ * This file defines the methods for initialising the PowerPellet object and handling collisions
  * with Pac-Man.
  */
 

@@ -67,7 +67,7 @@ void Game::initialise(bool skipStartScreen) {
 void Game::run() {
     int pixelX, pixelY;                          // Coordinates for rendering
     srand(time(0));
-    num3 = rand() % 6 + 1;                       // Randomise a number for drawing fruits
+    fruitSymbolInMaze = rand() % 6 + 1;                       // Randomise a number for drawing fruits
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -80,7 +80,7 @@ void Game::run() {
         draw->drawMaze(*maze);                   // Draw the maze
         draw->drawKeys(keys);                    // Draw the keys
         frame = pacMan->location(frame);         // Update Pac-Man's frame for animation
-        draw->drawFruits(fruits, num3);          // Draw the fruits
+        draw->drawFruits(fruits, fruitSymbolInMaze);          // Draw the fruits
         draw->drawStars(stars);                  // Draw the stars
         draw->drawPowerPellets(powerPellets);    // Draw the power pellets
         draw->drawSuperPellets(superPellets);    // Draw the super pellets
