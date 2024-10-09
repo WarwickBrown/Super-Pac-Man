@@ -128,8 +128,8 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
     int frameNumber = 0;
     for (int i = 0; i < 600; i++) {
         window.BeginDrawing();
-        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/100].width), 0, (float)(backgroundAnimation[frameNumber/100].width), (float)(backgroundAnimation[frameNumber/100].height)};
-        DrawTextureRec(backgroundAnimation[frameNumber/100], sourceRec, Vector2{0, 0}, RAYWHITE);
+        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/20].width), 0, (float)(backgroundAnimation[frameNumber/20].width), (float)(backgroundAnimation[frameNumber/20].height)};
+        DrawTextureRec(backgroundAnimation[frameNumber/20], sourceRec, Vector2{0, 0}, RAYWHITE);
 
         DrawText("Game Over!", 
                 window.GetWidth() / 2 - MeasureText("Game Over!", 60) / 2, 
@@ -147,7 +147,7 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
 
         window.EndDrawing();
         frameNumber++;
-            if(frameNumber == 1000)
+            if(frameNumber == 200)
             {
                 frameNumber = 0;
             }
@@ -171,8 +171,8 @@ bool Screen::winGame(const Score& score, bool skipDelay) {
     int frameNumber = 0;
     for (int i = 0; i < 1000; i++) {
         window.BeginDrawing();
-        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/100].width), 0, (float)(backgroundAnimation[frameNumber/100].width), (float)(backgroundAnimation[frameNumber/100].height)};
-        DrawTextureRec(backgroundAnimation[frameNumber/100], sourceRec, Vector2{0, 0}, RAYWHITE);
+        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/20].width), 0, (float)(backgroundAnimation[frameNumber/20].width), (float)(backgroundAnimation[frameNumber/20].height)};
+        DrawTextureRec(backgroundAnimation[frameNumber/20], sourceRec, Vector2{0, 0}, RAYWHITE);
 
         DrawText("You Win!", 
                 window.GetWidth() / 2 - MeasureText("You Win!", 60) / 2, 
@@ -190,7 +190,7 @@ bool Screen::winGame(const Score& score, bool skipDelay) {
 
         window.EndDrawing();
         frameNumber++;
-            if(frameNumber == 1000)
+            if(frameNumber == 200)
             {
                 frameNumber = 0;
             }
