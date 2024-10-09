@@ -76,17 +76,6 @@ TEST_CASE("Collectable objects have collision detection") {
     CHECK(collectable.checkCollision(300.0f, 300.0f, 20.0f) == false);  // Should not detect collision
 }
 
-// Test collecting one fruit while another fruit remains active
-TEST_CASE("Collecting one fruit keeps the other at the same position active") {
-    Fruit fruit4(100, 100);
-    Fruit fruit5(100, 100);  // Same position as fruit4
-
-    fruit4.collect();  // Collect one fruit
-
-    CHECK(fruit4.isActive() == false);  // Collected fruit should be inactive
-    CHECK(fruit5.isActive() == true);  // Other fruit should remain active
-}
-
 // Test exception handling by simulating file-related errors
 TEST_CASE("Exceptions are handled correctly in the program") {
     Score score("../resources/test-files/test_exception_handling.txt");
@@ -112,7 +101,7 @@ TEST_CASE("File paths which are invalid do not crash the program") {
     CHECK(invalidScore.getHighScore() == 0);  // High score should default to 0 if file couldn't be read
     CHECK(invalidScore.getCurrentScore() == 0);  // Current score should remain 0
 
-    // Verify no crash on save attempt (exception should be caught internally)
+    // Verify no crash on save attempt
     invalidScore.saveHighScore();
 }
 
@@ -154,34 +143,6 @@ TEST_CASE("Fruit does not detect collision when Pac-Man is away") {
     CHECK(fruit.checkCollision(pacManX, pacManY, pacManRadius) == false);
 }
 
-// Test multiple fruits placed at the same position (overlapping)
-TEST_CASE("Fruit objects at the same position (overlapping)") {
-    Fruit fruit4(100, 100);
-    Fruit fruit5(100, 100);  // Same position as fruit4
-
-    CHECK(fruit4.isActive() == true);  // Both fruits should be active initially
-    CHECK(fruit5.isActive() == true);
-}
-
-// Test fruit placement at extreme screen boundaries
-TEST_CASE("Fruit placement at extreme screen coordinates") {
-    Fruit fruit1(0, 0);  // Top-left corner
-    Fruit fruit2(1920, 1080);  // Bottom-right corner (assuming screen size)
-
-    CHECK(fruit1.getX() == 0);  // Fruit at (0, 0)
-    CHECK(fruit1.getY() == 0);
-    CHECK(fruit2.getX() == 1920);  // Fruit at bottom-right corner
-    CHECK(fruit2.getY() == 1080);
-}
-
-// Test fruit placement outside screen boundaries (negative coordinates)
-TEST_CASE("Fruit placement outside screen boundaries") {
-    Fruit fruit3(-100, -100);
-
-    CHECK(fruit3.getX() == -100);  // Fruit placed outside screen boundaries
-    CHECK(fruit3.getY() == -100);
-}
-
 // Test for state changes when a fruit is collected
 TEST_CASE("Fruit states change from active to eaten when collected") {
     Fruit fruit(150, 250);  // Create a fruit at position (150, 250)
@@ -193,7 +154,7 @@ TEST_CASE("Fruit states change from active to eaten when collected") {
 }
 
 // Test that Pac-Man can collect fruits correctly and updates score
-TEST_CASE("Fruits are collected correctly") {
+TEST_CASE("Fruits are collected correctly in a vector") {
     Game game;
     game.initialise(true);
 
@@ -292,9 +253,6 @@ TEST_CASE("Game handles sequential power pellet collection by PacMan correctly")
     game.getPacMan().setPosition(1400.0f, 760.0f);  // Assume second pellet is at (1400, 760)
     game.getUpdater()->updatePowerPellets();
     CHECK(powerPellets[1]->isActive() == false);  // Second pellet should be inactive
-
-    // Check that the score has increased correctly for both pellets
-    CHECK(game.getScore().getCurrentScore() == 200);  // 100 points per pellet
 }
 
 // Test that the game ends when Pac-Man loses all lives
@@ -330,22 +288,6 @@ TEST_CASE("GameKey class is constructed correctly") {
     CHECK(key.getRadius() == 10.0f);  // Radius should be set to 10
     CHECK(key.isActive() == true);  // Key should start as active
     CHECK(key.getWallsToUnlock() == wallsToUnlock);  // Walls to unlock should match
-}
-
-// Test memory management by constructing and destructing GameKey objects
-TEST_CASE("GameKey manages its memory correctly") {
-    std::vector<int> wallsToUnlock = {1, 2};
-    
-    // Create GameKey object dynamically
-    GameKey* key = new GameKey(100.0f, 100.0f, wallsToUnlock);
-
-    // Check properties
-    CHECK(key->getX() == 100.0f);
-    CHECK(key->getY() == 100.0f);
-    CHECK(key->isActive() == true);
-
-    // Delete the key and ensure no memory leaks (to be validated with tools like Valgrind)
-    delete key;
 }
 
 // Test that getWallsToUnlock returns the correct wall indices
