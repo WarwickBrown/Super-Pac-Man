@@ -73,11 +73,11 @@ void Draw::drawMaze(const Maze& maze) {
     const std::vector<Maze::Wall>& walls = maze.getWalls();
     for (const auto& wall : walls) {
         if (wall.active) {
-            DrawRectangleRec(wall.rect, wall.color);
+            DrawRectangleRec(wall.rect, wall.colour);
         }
     }
     for(const auto& wall : walls) {
-        if (wall.color.r == PINK.r && wall.color.g == PINK.g && wall.color.b == PINK.b && wall.color.a == PINK.a) {
+        if (wall.colour.r == PINK.r && wall.colour.g == PINK.g && wall.colour.b == PINK.b && wall.colour.a == PINK.a) {
             Rectangle innerRect = {wall.rect.x + 2, wall.rect.y + 2, wall.rect.width - 4, wall.rect.height - 4};
             DrawRectangleRec(innerRect, BLACK);
         }

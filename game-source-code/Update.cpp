@@ -128,29 +128,29 @@ void Update::updateStars() {
     auto updatedTimer = GetTime() - game.timerStart;
     for (auto& stars : game.stars) {
         if (updatedTimer >= 2 * game.multi) {
-            game.fruitSymbolOne = rand() % 6 + 1;
-            game.fruitSymbolTwo = rand() % 6 + 1;
+            game.fruitSymbolOne = rand() % 6 + 1;   ///< Generates a random number for the symbol in the left box.
+            game.fruitSymbolTwo = rand() % 6 + 1;   ///< Generates a random number for the symbol in the left box.
             game.multi++;
         }
         draw->drawSymbols(game.fruitSymbolOne, game.fruitSymbolTwo);
         if (updatedTimer >= 30 * game.multi2) {
-            stars->show();
-            draw->setSymbolActive(true);
+            stars->show();  ///< Show the stars after 30 seconds.
+            draw->setSymbolActive(true);    ///< Show the symbols in the boxes.
             game.multi2++;
         }
 
         if (stars->isActive() && CheckCollisionCircles(
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius() - 30,
                 { static_cast<float>(stars->getX()), static_cast<float>(stars->getY()) }, stars->getRadius())) {
-            if (game.fruitSymbolOne == game.fruitSymbolTwo && game.fruitSymbolTwo == game.fruitSymbolInMaze) {
-                game.getScore().addPoints(5000);
-            } else if (game.fruitSymbolOne == game.fruitSymbolTwo) {
+            if (game.fruitSymbolOne == game.fruitSymbolTwo && game.fruitSymbolTwo == game.fruitSymbolInMaze) {  ///< If the symbols in the boxes both match and are the same as the fruits.
+                game.getScore().addPoints(5000);    
+            } else if (game.fruitSymbolOne == game.fruitSymbolTwo) {    ///< If both symbols in the boxes match.
                 game.getScore().addPoints(2000);
-            } else {
+            } else {    ///< If neither of the symbols in the boxes match.
                 game.getScore().addPoints(500);
             }
             stars->collect();  ///< Collect the star.
-            draw->setSymbolActive(false);
+            draw->setSymbolActive(false);   ///< Hides the symbols.
         }
     }
 }
@@ -166,7 +166,7 @@ void Update::updateKeys() {
         if (key.isActive() && CheckCollisionCircles(
                 { game.pacMan->getX(), game.pacMan->getY() }, game.pacMan->getRadius(),
                 { static_cast<float>(key.getX()), static_cast<float>(key.getY()) }, key.getRadius())) {
-            key.collect();
+            key.collect();  ///< Collect the key.
             game.getScore().addPoints(50);  ///< Add 50 points for collecting a key.
             for (int wallIndex : key.getWallsToUnlock()) {
                 game.getMaze().getWalls()[wallIndex].active = false;  ///< Deactivate the walls.

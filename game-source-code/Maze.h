@@ -33,7 +33,7 @@ public:
     struct Wall {
         Rectangle rect;   ///< Rectangle defining the wall's position and dimensions.
         bool active;      ///< Indicates if the wall is currently active.
-        Color color;      ///< The color of the wall.
+        Color colour;      ///< The color of the wall.
 
         /**
          * @brief Constructs a Wall object with a given rectangle and color.
@@ -41,7 +41,7 @@ public:
          * @param rect The rectangle representing the wall's position and size.
          * @param color The color of the wall.
          */
-        Wall(const Rectangle& rect, Color color) : rect(rect), active(true), color(color) {}
+        Wall(const Rectangle& rect, Color colour) : rect(rect), active(true), colour(colour) {}
     };
 
     /**

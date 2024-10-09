@@ -187,19 +187,19 @@ public:
     void deactivateSuperMode();
 
 private:
-    float x, y;             ///< Pac-Man's current position on the screen (x, y).
-    float dx, dy;           ///< Direction of movement (change in x, change in y).
     int newDirection;       ///< The new direction Pac-Man wants to move in.
     int radius;             ///< Radius of Pac-Man (used for collision detection).
+    float x, y;             ///< Pac-Man's current position on the screen (x, y).
+    float dx, dy;           ///< Direction of movement (change in x, change in y).
     float visualRadius;     ///< Visual radius for rendering Pac-Man.
     float normalSpeed;      ///< Movement speed of Pac-Man (pixels per second).
     float superSpeed;       ///< Movement speed during super mode.
-    bool superModeActive;   ///< Indicates if super mode is active.
     float superModeDuration;///< Duration of super mode.
     float superModeTimer;   ///< Timer for tracking super mode state.
-    bool invincible;        ///< Indicates if Pac-Man is currently invincible.
     float invincibilityTime;///< Remaining time of invincibility.
     float invincibilityDuration; ///< Duration of invincibility mode.
+    bool invincible;        ///< Indicates if Pac-Man is currently invincible.
+    bool superModeActive;   ///< Indicates if super mode is active.
 };
 
 #endif // PACMAN_H

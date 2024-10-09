@@ -10,8 +10,6 @@
 #include <raylib-cpp.hpp>
 #include <iostream>
 
-using namespace std;
-
 /**
  * @brief Constructs a PacMan object with a specified starting position.
  * 

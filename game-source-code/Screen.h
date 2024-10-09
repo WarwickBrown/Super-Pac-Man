@@ -23,7 +23,6 @@
 #include "SuperPellet.h"
 #include "Star.h"
 
-
 /**
  * @class Screen
  * @brief Manages rendering and displaying different screens in the game.
@@ -97,12 +96,12 @@ public:
 
 private:
     std::unique_ptr<Maze> maze;     ///< Pointer to the Maze object for managing maze-related operations.
+    raylib::Window window;          ///< Game window object for rendering.
+    Texture2D picture;              ///< Texture object to hold the picture to be drawn on the screen.
     bool isRunning;                 ///< State to check if the game is running.
     int direction;                  ///< Current direction for Pac-Man's movement.
-    raylib::Window window;          ///< Game window object for rendering.
     int num = 0;                    ///< Variable used for various counters and operations.
     bool eaten;                     ///< Flag to track if a certain object is eaten.
-    Texture2D picture;              ///< Texture object to hold the picture to be drawn on the screen.
 
     /**
      * @brief Textures for various game images such as control keys and other hints.
