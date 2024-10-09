@@ -98,9 +98,9 @@ void Game::run() {
 
         // Draw Pac-Man based on his current state (regular or super)
         if (pacMan->isSuper()) {
-            draw->drawSuperPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));
+            draw->drawSuperPacMan(*pacMan, frame, static_cast<PacMan::Direction>(pacManOldDirection));
         } else {
-            draw->drawPacMan(*pacMan, frame, static_cast<Draw::Direction>(pacManOldDirection));
+            draw->drawPacMan(*pacMan, frame, static_cast<PacMan::Direction>(pacManOldDirection));
         }
 
         // If the game has been won, break the loop

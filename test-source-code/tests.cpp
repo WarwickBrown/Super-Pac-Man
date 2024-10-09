@@ -1262,7 +1262,7 @@ TEST_CASE("Screen draws Pac-Man correctly") {
     int frame = 0;
 
     // Draw Pac-Man without copying Screen
-    game.getDraw().drawPacMan(game.getPacMan(), frame, Draw::RIGHT);
+    game.getDraw().drawPacMan(game.getPacMan(), frame, PacMan::RIGHT);
     CHECK(true);  // If no exception or error occurs, the test passes
 }
 

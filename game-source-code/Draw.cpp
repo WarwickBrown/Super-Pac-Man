@@ -25,7 +25,7 @@ Draw::~Draw() {}
  * @param frame The current animation frame of Pac-Man.
  * @param pacManDirection The direction Pac-Man is currently moving.
  */
-void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
+void Draw::drawPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection) {
     auto pixelX = pacman.getX() - 30;  // Adjust X position
     auto pixelY = pacman.getY() - 30;  // Adjust Y position
 
@@ -48,7 +48,7 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection
  * @param frame The current animation frame of Pac-Man.
  * @param pacManDirection The direction Super Pac-Man is currently moving.
  */
-void Draw::drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
+void Draw::drawSuperPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection) {
     auto pixelX = pacman.getX() - 50;  // Adjust X position
     auto pixelY = pacman.getY() - 50;  // Adjust Y position
 

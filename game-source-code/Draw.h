@@ -84,7 +84,7 @@ public:
      * @param frame The current animation frame of Pac-Man.
      * @param pacManDirection The direction Pac-Man is currently moving.
      */
-    void drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection);
+    void drawPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection);
 
     /**
      * @brief Draws power pellets at their specified positions.
@@ -114,7 +114,7 @@ public:
      * @param frame The current animation frame of Pac-Man.
      * @param pacManDirection The direction Super Pac-Man is currently moving.
      */
-    void drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection);
+    void drawSuperPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection);
 
     /**
      * @brief Draws the super pellets on the screen.
