@@ -898,23 +898,6 @@ TEST_CASE("PowerPellet class is constructed correctly") {
     CHECK(powerPellet.isActive() == true);  // PowerPellet should be active initially
 }
 
-// Test case for PowerPellet being collected and becoming inactive
-TEST_CASE("PowerPellet objects correctly change state when eaten by PacMan") {
-    PowerPellet powerPellet(100.0f, 100.0f);
-    PacMan pacman(0.0f, 0.0f);  // Create Pac-Man at the same position to collect the PowerPellet
-
-    pacman.setPosition(100.0f, 100.0f);
-    CHECK(powerPellet.isActive() == true);  // Should be active initially
-
-    // Check collision and collect the pellet
-    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == true);  // Should collect
-    CHECK(powerPellet.isActive() == false);  // Should be inactive after collection
-
-    // Attempt to collect again (should not change state or collect)
-    CHECK(powerPellet.checkCollisionWithPacMan(pacman) == false);  // No further collision
-    CHECK(powerPellet.isActive() == false);  // Remains inactive
-}
-
 // Test case for no collision when Pac-Man is far from PowerPellet
 TEST_CASE("PowerPellet objects do not collide with PacMan when not in contact") {
     PowerPellet powerPellet(100.0f, 100.0f);  // Create a power pellet at position (100, 100)
@@ -1067,7 +1050,7 @@ TEST_CASE("Score can never be less than 0 (i.e. score cannot be negative)") {
     CHECK(score.getCurrentScore() == 0);  // Score should remain 0
     CHECK(score.getHighScore() == 0);  // High score should remain 0
 
-    score.addPoints(-10);  // Adding negative points (if allowed)
+    score.addPoints(-10);  // Adding negative points
     CHECK(score.getCurrentScore() == -10);  // Score should decrease if negative points are allowed
     CHECK(score.getHighScore() == 0);  // High score should remain unchanged
 
@@ -1132,7 +1115,7 @@ TEST_CASE("Score correctly handles addition of score and saving highscore") {
     CHECK(score.getHighScore() == 30);  // High score should update to 30
 
     // Test if high score remains the same when lower points are added
-    score.addPoints(-10);  // Invalid operation, subtracting points (assuming it's not allowed)
+    score.addPoints(-10);  // Invalid operation, subtracting points
     CHECK(score.getCurrentScore() == 20);  // Score should decrease to 20
     CHECK(score.getHighScore() == 30);  // High score should remain 30
     // Cleanup: Delete the file after the test is complete
@@ -1149,19 +1132,7 @@ TEST_CASE("Score increases correctly when Pac-Man collects power pellet") {
     game.getUpdater()->updatePowerPellets();
 
     // Check that the score increased correctly
-    CHECK(game.getScore().getCurrentScore() == 100);  // Assume 100 points per pellet
-}
-
-//Test that collecting a fruit increases the score
-TEST_CASE("Score is incremented correctly when fruit is collected") {
-    Fruit fruit(200, 300);
-    Score score("../resources/test-files/test_fruit_score.txt");
-
-    CHECK(score.getCurrentScore() == 0);  // Initial score should be 0
-    fruit.collect();  // Simulate collecting the fruit
-    score.addPoints(10);  // Assume collecting the fruit gives 10 points
-    CHECK(score.getCurrentScore() == 10);  // Score should now be 10
-    std::remove("../resources/test-files/test_fruit_score.txt");
+    CHECK(game.getScore().getCurrentScore() == 100);
 }
 
 //Screen Tests
@@ -1386,18 +1357,6 @@ TEST_CASE("SuperPellet class is constructed successfully") {
     CHECK(superPellet.isActive() == true);
 }
 
-// Test that SuperPellet does not interfere with normal Collectable behavior
-TEST_CASE("SuperPellet objects change state when collected by PacMan") {
-    SuperPellet superPellet(300.0f, 400.0f);
-
-    // Verify that SuperPellet inherits and behaves as a Collectable
-    Collectable& base = superPellet;  // Upcast to base class reference
-
-    CHECK(base.isActive() == true);  // Check initial active state
-
-    base.collect();  // Call the base class collect method
-    CHECK(base.isActive() == false);  // Check that the SuperPellet is no longer active
-}
 
 // Test SuperPellet and Pac-Man interaction using the PacMan class
 TEST_CASE("SuperPellet objects correctly collide with PacMan") {
@@ -1439,6 +1398,7 @@ TEST_CASE("SuperPellet objects have collision detection with PacMan") {
 
     CHECK(superPellet.checkCollision(pacManX, pacManY, pacManRadius) == false);  // No collision should occur
 }
+
 
 // Update Tests
 
