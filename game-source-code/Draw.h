@@ -29,16 +29,6 @@ class Ghost;
  */
 class Draw {
 public:
-    /**
-     * @enum Direction
-     * @brief Defines the possible movement directions for Pac-Man and other game elements.
-     */
-    enum Direction {
-        RIGHT = 1, ///< Moving right
-        LEFT,      ///< Moving left
-        UP,        ///< Moving up
-        DOWN       ///< Moving down
-    };
 
     /**
      * @brief Constructor: Initialises the Draw class and associated resources.
@@ -94,7 +84,7 @@ public:
      * @param frame The current animation frame of Pac-Man.
      * @param pacManDirection The direction Pac-Man is currently moving.
      */
-    void drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection);
+    void drawPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection);
 
     /**
      * @brief Draws power pellets at their specified positions.
@@ -124,7 +114,7 @@ public:
      * @param frame The current animation frame of Pac-Man.
      * @param pacManDirection The direction Super Pac-Man is currently moving.
      */
-    void drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection);
+    void drawSuperPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection);
 
     /**
      * @brief Draws the super pellets on the screen.

@@ -25,16 +25,16 @@ Draw::~Draw() {}
  * @param frame The current animation frame of Pac-Man.
  * @param pacManDirection The direction Pac-Man is currently moving.
  */
-void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
+void Draw::drawPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection) {
     auto pixelX = pacman.getX() - 30;  // Adjust X position
     auto pixelY = pacman.getY() - 30;  // Adjust Y position
 
     Texture2D texture = pacManTextures[0];  // Default texture is for moving left
     switch(pacManDirection){
-        case RIGHT: texture = pacManTextures[1]; break;
-        case LEFT:  texture = pacManTextures[0]; break;
-        case UP:    texture = pacManTextures[2]; break;
-        case DOWN:  texture = pacManTextures[3]; break;
+        case PacMan::RIGHT: texture = pacManTextures[1]; break;
+        case PacMan::LEFT:  texture = pacManTextures[0]; break;
+        case PacMan::UP:    texture = pacManTextures[2]; break;
+        case PacMan::DOWN:  texture = pacManTextures[3]; break;
     }
 
     Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};
@@ -48,16 +48,16 @@ void Draw::drawPacMan(const PacMan& pacman, int frame, Direction pacManDirection
  * @param frame The current animation frame of Pac-Man.
  * @param pacManDirection The direction Super Pac-Man is currently moving.
  */
-void Draw::drawSuperPacMan(const PacMan& pacman, int frame, Direction pacManDirection) {
+void Draw::drawSuperPacMan(const PacMan& pacman, int frame, PacMan::Direction pacManDirection) {
     auto pixelX = pacman.getX() - 50;  // Adjust X position
     auto pixelY = pacman.getY() - 50;  // Adjust Y position
 
     auto texture = pacManTexturesBig[0];  // Default texture is for moving left
     switch(pacManDirection){
-        case RIGHT: texture = pacManTexturesBig[1]; break;
-        case LEFT:  texture = pacManTexturesBig[0]; break;
-        case UP:    texture = pacManTexturesBig[2]; break;
-        case DOWN:  texture = pacManTexturesBig[3]; break;
+        case PacMan::RIGHT: texture = pacManTexturesBig[1]; break;
+        case PacMan::LEFT:  texture = pacManTexturesBig[0]; break;
+        case PacMan::UP:    texture = pacManTexturesBig[2]; break;
+        case PacMan::DOWN:  texture = pacManTexturesBig[3]; break;
     }
 
     Rectangle sourceRec = {(float)(texture.width / 6) * frame, 0, (float)(texture.width / 6), (float)(texture.height)};

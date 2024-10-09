@@ -131,10 +131,10 @@ void Ghost::chooseNewDirection(const Maze& maze) {
     std::vector<int> possibleDirections;
 
     // Check if the ghost can move in each direction (up, down, left, right)
-    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(1);  // Right
-    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(2);  // Left
-    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(3);  // Up
-    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(4);  // Down
+    if (!maze.isWallRec(x + speed, y, radius)) possibleDirections.push_back(RIGHT);  // Right
+    if (!maze.isWallRec(x - speed, y, radius)) possibleDirections.push_back(LEFT);  // Left
+    if (!maze.isWallRec(x, y - speed, radius)) possibleDirections.push_back(UP);  // Up
+    if (!maze.isWallRec(x, y + speed, radius)) possibleDirections.push_back(DOWN);  // Down
 
     // Randomly pick a new valid direction if there are possible directions
     if (!possibleDirections.empty()) {
@@ -153,16 +153,16 @@ void Ghost::chooseNewDirection(const Maze& maze) {
 void Ghost::ghostEscapeBox(int direction, auto newX, auto newY, float deltaTime)
 {
     if (getX() > 765) {
-            direction = 2;  // Move left toward the center
+            direction = LEFT;  // Move left toward the center
     } else if (getX() < 765) {
-            direction = 1;  // Move right toward the center
+            direction = RIGHT;  // Move right toward the center
     } else if (getX() == 765) {
-            direction = 3;  // Move up to exit the box
+            direction = UP;  // Move up to exit the box
     }
     switch (direction) {
-        case 1: newX += speed * deltaTime; break;  // Move right
-        case 2: newX -= speed * deltaTime; break;  // Move left
-        case 3: newY -= speed * deltaTime; break;  // Move up (exit the box)
+        case RIGHT: newX += speed * deltaTime; break;  // Move right
+        case LEFT: newX -= speed * deltaTime; break;  // Move left
+        case UP: newY -= speed * deltaTime; break;  // Move up (exit the box)
     }
     x = newX;
     y = newY;
@@ -181,10 +181,10 @@ void Ghost::ghostEscapeBox(int direction, auto newX, auto newY, float deltaTime)
 void Ghost::ghostChasePacMan(int direction, auto newX, auto newY, float deltaTime, const Maze& maze, const PacMan& pacman)
 {
     switch (direction) {
-            case 1: newX += speed * deltaTime; break;  // Move right
-            case 2: newX -= speed * deltaTime; break;  // Move left
-            case 3: newY -= speed * deltaTime; break;  // Move up
-            case 4: newY += speed * deltaTime; break;  // Move down
+            case RIGHT: newX += speed * deltaTime; break;  // Move right
+            case LEFT: newX -= speed * deltaTime; break;  // Move left
+            case UP: newY -= speed * deltaTime; break;  // Move up
+            case DOWN: newY += speed * deltaTime; break;  // Move down
     }
 
     // Check if the new position hits a wall
@@ -206,29 +206,29 @@ void Ghost::ghostChasePacMan(int direction, auto newX, auto newY, float deltaTim
     if (std::abs(deltaX) > std::abs(deltaY)) {
         // Try moving horizontally first (closer to Pac-Man)
         if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
-        setDirection(1);  // Move right
+        setDirection(RIGHT);  // Move right
         } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
-            setDirection(2);  // Move left
+            setDirection(LEFT);  // Move left
         } else {
             // If horizontal movement is blocked, try vertical
             if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
-                setDirection(4);  // Move down
+                setDirection(DOWN);  // Move down
             } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
-                setDirection(3);  // Move up
+                setDirection(UP);  // Move up
             }
         }
     } else {
         // Try moving vertically first (closer to Pac-Man)
         if (deltaY > 0 && !maze.isWallRec(x, y + speed * deltaTime, radius)) {
-            setDirection(4);  // Move down
+            setDirection(DOWN);  // Move down
         } else if (deltaY < 0 && !maze.isWallRec(x, y - speed * deltaTime, radius)) {
-            setDirection(3);  // Move up
+            setDirection(UP);  // Move up
         } else {
             // If vertical movement is blocked, try horizontal
             if (deltaX > 0 && !maze.isWallRec(x + speed * deltaTime, y, radius)) {
-                setDirection(1);  // Move right
+                setDirection(RIGHT);  // Move right
             } else if (deltaX < 0 && !maze.isWallRec(x - speed * deltaTime, y, radius)) {
-                setDirection(2);  // Move left
+                setDirection(LEFT);  // Move left
             }
         }
     }
