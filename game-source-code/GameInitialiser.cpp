@@ -4,6 +4,9 @@
  */
 
 #include "GameInitialiser.h"
+#include <sstream>
+#include <iostream>
+#include <vector>
 #include "Game.h"
 
 /**
@@ -27,191 +30,140 @@ void GameInitialiser::initialiseGameObjects(Game& game) {
     game.playerLives = std::make_unique<Lives>(3);      // Initialises player lives
 
     // Initialise the ghosts at specific positions
-    game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 150.0f));
+    game.ghosts.push_back(std::make_unique<Ghost>(685, 445, 250.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
-    game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 150.0f));
+    game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 200.0f));
 
-    initialiseFruits(game);       // Initialises fruit collectables
-    initialiseKeys(game);         // Initialises keys
-    initialiseStars(game);        // Initialises stars
-    initialisePowerPellets(game); // Initialises power pellets
-    initialiseSuperPellets(game); // Initialises super pellets
+   initialiseCollectables(game);
 }
 
 /**
- * @brief Initialises the fruits at specific positions on the game map.
+ * @brief Initialises the collectables at specific positions on the game map.
  * 
- * @param game The Game instance to which the fruits are added.
+ * @param game The Game instance to which the collectables are extracted.
  * 
- * This function places fruits at various locations in a structured manner to form patterns or paths.
+ * Collectables are special objects that may provide additional points or effects when collected.
  */
-void GameInitialiser::initialiseFruits(Game& game) {
-    //Left Long Wall
-    game.fruits.emplace_back(std::make_unique<Fruit>(120, 360));
-    game.fruits.emplace_back(std::make_unique<Fruit>(120, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(120, 520));
-    game.fruits.emplace_back(std::make_unique<Fruit>(120, 600));
+void GameInitialiser::initialiseCollectables(Game& game)
+{
+    Reader reader("../resources/database-textfiles/collectables.txt");  ///< Create a Reader object to read the collectables file.
+    reader.readFile();                                                  ///< Read the file content into the `data` vector.
+    const auto data = reader.getData();                                 ///< Get the file data.
 
-    //Right Long Wall
-    game.fruits.emplace_back(std::make_unique<Fruit>(1400, 360));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1400, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1400, 520));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1400, 600));
+    for (const auto& line : data) {
+        std::istringstream iss(line);
+        std::string collectableType;
+        iss >> collectableType;
 
-    //Bottom Left Small L
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(360, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(440, 600));
+        if (collectableType.empty()) continue;  // Skip empty lines
 
-    //Bottom Right Small L
-    game.fruits.emplace_back(std::make_unique<Fruit>(1080, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1160, 600));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 600));
-
-    //Bottom Left Big L
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 200));
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(440, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(520, 440));
-
-    //Bottom Right Big L
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 200));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1000, 440));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1080, 440));
-
-    //Top Left Small L
-    game.fruits.emplace_back(std::make_unique<Fruit>(440, 200));
-    game.fruits.emplace_back(std::make_unique<Fruit>(440, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(600, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(680, 280));
-
-    //Top Right Small L
-    game.fruits.emplace_back(std::make_unique<Fruit>(1080, 200));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1080, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(840, 280));
-    game.fruits.emplace_back(std::make_unique<Fruit>(920, 280));
-
-    //Upper Symbol
-    game.fruits.emplace_back(std::make_unique<Fruit>(600, 120));
-    game.fruits.emplace_back(std::make_unique<Fruit>(680, 120));
-    game.fruits.emplace_back(std::make_unique<Fruit>(840, 120));
-    game.fruits.emplace_back(std::make_unique<Fruit>(920, 120));
-
-    //Bottom Left Small 
-    game.fruits.emplace_back(std::make_unique<Fruit>(280, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(360, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(440, 760));
-
-    //Bottom Right Small 
-    game.fruits.emplace_back(std::make_unique<Fruit>(1080, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1160, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(1240, 760));
-
-    // Bottom T
-    game.fruits.emplace_back(std::make_unique<Fruit>(600, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(920, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(840, 760));
-    game.fruits.emplace_back(std::make_unique<Fruit>(680, 760));
+        // Delegate processing based on collectable type
+        if (collectableType == "Fruit") {
+            processFruit(game, iss);
+        } 
+        else if (collectableType == "SuperPellet") {
+            processSuperPellet(game, iss);
+        } 
+        else if (collectableType == "PowerPellet") {
+            processPowerPellet(game, iss);
+        } 
+        else if (collectableType == "Key") {
+            processKey(game, iss);
+        } 
+        else if (collectableType == "Star") {
+            processStar(game, iss);
+        }
+        else {
+            std::cerr << "Unknown collectable type: " << collectableType << std::endl;
+        }
+    }
 }
 
 /**
- * @brief Initialises the power pellets at specific positions on the game map.
+ * @brief Initialises the fruit at specific positions on the game map.
  * 
- * @param game The Game instance to which the power pellets are added.
+ * @param game The Game instance to which the fruit are added.
+ * @param iss Data line that contains the fruits coordinates.
  * 
- * Power pellets provide special abilities or effects when collected by Pac-Man.
+ * Fruits are special objects that provide additional points when collected.
  */
-void GameInitialiser::initialisePowerPellets(Game& game) {
-    game.powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 760)); 
-    game.powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 760)); 
-    game.powerPellets.emplace_back(std::make_unique<PowerPellet>(120, 200)); 
-    game.powerPellets.emplace_back(std::make_unique<PowerPellet>(1400, 200)); 
+void GameInitialiser::processFruit(Game& game, std::istringstream& iss)
+{
+    int x, y;
+    if (iss >> x >> y) {
+        game.fruits.emplace_back(std::make_unique<Fruit>(x, y));
+    } else {
+        std::cerr << "Error reading Fruit data." << std::endl;
+    }
 }
 
 /**
- * @brief Initialises the super pellets at specific positions on the game map.
+ * @brief Initialises the Super Pellets at specific positions on the game map.
  * 
- * @param game The Game instance to which the super pellets are added.
+ * @param game The Game instance to which the Super Pellets are added.
+ * @param iss Data line that contains the Super Pellets coordinates.
  * 
- * Super pellets grant Pac-Man additional abilities such as invincibility or enhanced speed.
+ * Super Pellets are special objects that provide additional effects when collected.
  */
-void GameInitialiser::initialiseSuperPellets(Game& game) {
-    game.superPellets.emplace_back(std::make_unique<SuperPellet>(600, 600));
-    game.superPellets.emplace_back(std::make_unique<SuperPellet>(920, 600));
-    game.superPellets.emplace_back(std::make_unique<SuperPellet>(280, 440));
-    game.superPellets.emplace_back(std::make_unique<SuperPellet>(1240, 440));
+void GameInitialiser::processSuperPellet(Game& game, std::istringstream& iss)
+{
+    int x, y;
+    if (iss >> x >> y) {
+        game.superPellets.emplace_back(std::make_unique<SuperPellet>(x, y));
+    } else {
+        std::cerr << "Error reading SuperPellet data." << std::endl;
+    }
 }
 
 /**
- * @brief Initialises the game keys at specific positions on the game map.
+ * @brief Initialises the Power Pellets at specific positions on the game map.
+ * 
+ * @param game The Game instance to which the Power Pellets are added.
+ * @param iss Data line that contains the Power Pellets coordinates.
+ * 
+ * Power Pellets are special objects that provide additional effects when collected.
+ */
+void GameInitialiser::processPowerPellet(Game& game, std::istringstream& iss)
+{
+    int x, y;
+    if (iss >> x >> y) {
+        game.powerPellets.emplace_back(std::make_unique<PowerPellet>(x, y));
+    } else {
+        std::cerr << "Error reading PowerPellet data." << std::endl;
+    }
+}
+
+/**
+ * @brief Initialises the keys at specific positions on the game map.
  * 
  * @param game The Game instance to which the keys are added.
+ * @param iss Data line that contains the keys coordinates.
  * 
- * Keys can be used to unlock certain sections of the maze, providing new pathways or access to collectables.
+ * Keys are special objects that unlock doors when collected.
  */
-void GameInitialiser::initialiseKeys(Game& game) {
-    // Top Left Box
-    game.keys.emplace_back(40, 120, std::vector<int>{0, 1, 2, 3}); //
-    // Top Right Box
-    game.keys.emplace_back(1480, 120, std::vector<int>{4, 5, 6, 7}); //
-    // Bottom Left
-    game.keys.emplace_back(40, 840, std::vector<int>{8, 9, 10 , 11}); //
-    // Bottom Right Box
-    game.keys.emplace_back(1480, 840, std::vector<int>{12, 13, 14, 15}); //
-    //Left Long Wall 
-    game.keys.emplace_back(40, 440, std::vector<int>{16, 17 , 18, 19}); //
-    //Right Long Wall
-    game.keys.emplace_back(1480, 440, std::vector<int>{20, 21, 22, 23}); //
-
-    game.keys.emplace_back(360, 200, std::vector<int>{48, 49, 50, 51}); //
-
-    game.keys.emplace_back(1160, 200, std::vector<int>{56, 57, 58, 59}); //
-
-    game.keys.emplace_back(600, 200, std::vector<int>{64, 65, 66, 67}); //
-
-    game.keys.emplace_back(920, 200, std::vector<int>{68, 69, 70, 71}); //
-
-    game.keys.emplace_back(600, 360, std::vector<int>{52, 53, 54, 55}); //
-
-    game.keys.emplace_back(920, 360, std::vector<int>{60, 61, 62, 63}); //
-
-    game.keys.emplace_back(1320, 520, std::vector<int>{40, 41, 42, 43}); //
-
-    game.keys.emplace_back(360, 680, std::vector<int>{72, 73, 74, 75}); //
-
-    game.keys.emplace_back(1160, 680, std::vector<int>{80, 81, 82, 83}); //
-
-    game.keys.emplace_back(680, 680, std::vector<int>{76, 77, 78, 79}); //
-
-    game.keys.emplace_back(600, 840, std::vector<int>{96, 97, 100, 101}); //
-
-    game.keys.emplace_back(920, 840, std::vector<int>{98, 99, 102, 103}); //
-
-    game.keys.emplace_back(1320, 280, std::vector<int>{36, 37, 38, 39}); //
-
-    game.keys.emplace_back(200, 280, std::vector<int>{24, 25, 26, 27}); //
-
-    game.keys.emplace_back(520, 520, std::vector<int>{32, 33, 34, 35}); //
-
-    game.keys.emplace_back(1000, 520, std::vector<int>{44, 45, 46, 47}); //
-
-    game.keys.emplace_back(840, 680, std::vector<int>{84, 85, 86, 87}); //
-
-    game.keys.emplace_back(200, 520, std::vector<int>{28, 29, 30, 31}); //
-
-    game.keys.emplace_back(360, 840, std::vector<int>{88, 89, 90, 91}); //
-
-    game.keys.emplace_back(1160, 840, std::vector<int>{92, 93, 94, 95}); //
+void GameInitialiser::processKey(Game& game, std::istringstream& iss)
+{
+    int x, y, doorNumber1Overlay, doorNumber1, doorNumber2Overlay, doorNumber2;
+    if (iss >> x >> y >> doorNumber1Overlay >> doorNumber1 >> doorNumber2Overlay >> doorNumber2) {
+        game.keys.emplace_back(x, y, std::vector<int>{doorNumber1Overlay, doorNumber1, doorNumber2Overlay, doorNumber2});
+    } else {
+        std::cerr << "Error reading Key data." << std::endl;
+    }
 }
 
 /**
- * @brief Initialises the stars at specific positions on the game map.
+ * @brief Initialises the star at specific positions on the game map.
  * 
- * @param game The Game instance to which the stars are added.
+ * @param game The Game instance to which the star is added.
+ * @param iss Data line that contains the star coordinates.
  * 
- * Stars are special objects that may provide additional points or effects when collected.
+ * Stars are special objects that provide additional points when collected.
  */
-void GameInitialiser::initialiseStars(Game& game) {
-    game.stars.emplace_back(std::make_unique<Star>(760, 600));
+void GameInitialiser::processStar(Game& game, std::istringstream& iss) {
+    int x, y;
+    if (iss >> x >> y) {
+        game.stars.emplace_back(std::make_unique<Star>(x, y));
+    } else {
+        std::cerr << "Error reading Fruit data." << std::endl;
+    }
 }

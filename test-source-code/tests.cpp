@@ -260,7 +260,7 @@ TEST_CASE("Game ends and closes window correctly") {
 TEST_CASE("Game ends when all fruits are collected") {
     Game game;
     GameInitialiser::initialiseGameObjects(game);  // initialise game objects like Pac-Man, ghosts, maze, etc.
-    GameInitialiser::initialiseFruits(game);  // initialise the fruits in the maze
+    GameInitialiser::initialiseCollectables(game);  // initialise the fruits in the maze
 
     // Ensure the game is running at the start
     CHECK(game.isGameRunning());

@@ -1,0 +1,106 @@
+Left Long Wall
+Fruit 120 360
+Fruit 120 440
+Fruit 120 520
+Fruit 120 600
+
+Right Long Wall
+Fruit 1400 360
+Fruit 1400 440
+Fruit 1400 520
+Fruit 1400 600
+
+Bottom Left Small L
+Fruit 280 600
+Fruit 360 600
+Fruit 440 600
+
+Bottom Right Small L
+Fruit 1080 600
+Fruit 1160 600
+Fruit 1240 600
+
+Bottom Left Big L
+Fruit 280 200
+Fruit 280 280
+Fruit 440 440
+Fruit 520 440
+
+Bottom Right Big L
+Fruit 1240 200
+Fruit 1240 280
+Fruit 1000 440
+Fruit 1080 440
+
+Top Left Small L
+Fruit 440 200
+Fruit 440 280
+Fruit 600 280
+Fruit 680 280
+
+Top Right Small L
+Fruit 1080 200
+Fruit 1080 280
+Fruit 840 280
+Fruit 920 280
+
+Upper Symbol
+Fruit 600 120
+Fruit 680 120
+Fruit 840 120
+Fruit 920 120
+
+Bottom Left Small 
+Fruit 280 760
+Fruit 360 760
+Fruit 440 760
+
+Bottom Right Small 
+Fruit 1080 760
+Fruit 1160 760
+Fruit 1240 760
+
+Bottom T
+Fruit 600 760
+Fruit 920 760
+Fruit 840 760
+Fruit 680 760
+
+SuperPellet 600 600
+SuperPellet 920 600
+SuperPellet 280 440
+SuperPellet 1240 440
+
+PowerPellet 120 760 
+PowerPellet 1400 760 
+PowerPellet 120 200 
+PowerPellet 1400 200 
+
+Key 40 120 0 1 2 3
+Key 1480 120 4 5 6 7
+Key 40 840 8 9 10  11
+Key 1480 840 12 13 14 15
+Key 40 440 16 17  18 19
+Key 1480 440 20 21 22 23
+Key 360 200 48 49 50 51
+Key 1160 200 56 57 58 59
+Key 600 200 64 65 66 67
+Key 920 200 68 69 70 71
+Key 600 360 52 53 54 55
+Key 920 360 60 61 62 63
+Key 1320 520 40 41 42 43
+Key 360 680 72 73 74 75
+Key 1160 680 80 81 82 83
+Key 680 680 76 77 78 79
+Key 600 840 96 97 100 101
+Key 920 840 98 99 102 103
+Key 1320 280 36 37 38 39
+Key 200 280 24 25 26 27
+Key 520 520 32 33 34 35
+Key 1000 520 44 45 46 47
+Key 840 680 84 85 86 87
+Key 200 520 28 29 30 31
+Key 360 840 88 89 90 91
+Key 1160 840 92 93 94 95
+
+Star 760 600

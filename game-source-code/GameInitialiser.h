@@ -5,8 +5,12 @@
 
 #pragma once
 
+#include "GameInitialiser.h"
+#include <sstream>
+#include <iostream>
+#include <vector>
 #include "Game.h"
-#include <memory>
+#include "Reader.h"
 
 /**
  * @class GameInitialiser
@@ -16,7 +20,7 @@
  * are properly initialised before the game starts. This includes creating fruits, power pellets, super pellets, keys, and stars.
  */
 
-class GameInitialiser {
+class GameInitialiser : public Reader{
 public:
     /**
      * @brief Initialises the primary game objects such as the maze, Pac-Man, screen, and ghosts.
@@ -26,47 +30,61 @@ public:
     static void initialiseGameObjects(Game& game);
 
     /**
-     * @brief Initialises the fruits at specific positions on the game map.
-     * 
-     * @param game The Game instance to which the fruits are added.
-     * 
-     * This function places fruits at various locations in a structured manner to form patterns or paths.
-     */
-    static void initialiseFruits(Game& game);
+    * @brief Initialises the fruit at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the fruit are added.
+    * @param iss Data line that contains the fruits coordinates.
+    * 
+    * Fruits are special objects that provide additional points when collected.
+    */
+    static void processFruit(Game& game, std::istringstream& iss);
 
     /**
-     * @brief Initialises the power pellets at specific positions on the game map.
-     * 
-     * @param game The Game instance to which the power pellets are added.
-     * 
-     * Power pellets provide special abilities or effects when collected by Pac-Man.
-     */
-    static void initialisePowerPellets(Game& game);
+    * @brief Initialises the keys at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the keys are added.
+    * @param iss Data line that contains the keys coordinates.
+    * 
+    * Keys are special objects that unlock doors when collected.
+    */
+    static void processKey(Game& game, std::istringstream& iss);
 
     /**
-     * @brief Initialises the super pellets at specific positions on the game map.
-     * 
-     * @param game The Game instance to which the super pellets are added.
-     * 
-     * Super pellets grant Pac-Man additional abilities such as invincibility or enhanced speed.
-     */
-    static void initialiseSuperPellets(Game& game);
+    * @brief Initialises the Super Pellets at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the Super Pellets are added.
+    * @param iss Data line that contains the Super Pellets coordinates.
+    * 
+    * Super Pellets are special objects that provide additional effects when collected.
+    */
+    static void processSuperPellet(Game& game, std::istringstream& iss);
 
     /**
-     * @brief Initialises the game keys at specific positions on the game map.
-     * 
-     * @param game The Game instance to which the keys are added.
-     * 
-     * Keys can be used to unlock certain sections of the maze, providing new pathways or access to collectables.
-     */
-    static void initialiseKeys(Game& game);
+    * @brief Initialises the Power Pellets at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the Power Pellets are added.
+    * @param iss Data line that contains the Power Pellets coordinates.
+    * 
+    * Power Pellets are special objects that provide additional effects when collected.
+    */
+    static void processPowerPellet(Game& game, std::istringstream& iss);
 
     /**
-     * @brief Initialises the stars at specific positions on the game map.
-     * 
-     * @param game The Game instance to which the stars are added.
-     * 
-     * Stars are special objects that may provide additional points or effects when collected.
-     */
-    static void initialiseStars(Game& game);
+    * @brief Initialises the star at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the star is added.
+    * @param iss Data line that contains the star coordinates.
+    * 
+    * Stars are special objects that provide additional points when collected.
+    */
+    static void processStar(Game& game, std::istringstream& iss);
+
+    /**
+    * @brief Initialises the collectables at specific positions on the game map.
+    * 
+    * @param game The Game instance to which the collectables are extracted.
+    * 
+    * Collectables are special objects that may provide additional points or effects when collected.
+    */
+    static void initialiseCollectables(Game& game);
 };
