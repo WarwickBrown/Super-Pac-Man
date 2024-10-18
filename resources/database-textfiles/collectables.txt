@@ -55,6 +55,46 @@ Fruit 280 760
 Fruit 360 760
 Fruit 440 760
 
+Bottom Right Small L
+Fruit 1080 600
+Fruit 1160 600
+Fruit 1240 600
+
+Bottom Left Big L
+Fruit 280 200
+Fruit 280 280
+Fruit 440 440
+Fruit 520 440
+
+Bottom Right Big L
+Fruit 1240 200
+Fruit 1240 280
+Fruit 1000 440
+Fruit 1080 440
+
+Top Left Small L
+Fruit 440 200
+Fruit 440 280
+Fruit 600 280
+Fruit 680 280
+
+Top Right Small L
+Fruit 1080 200
+Fruit 1080 280
+Fruit 840 280
+Fruit 920 280
+
+Upper Symbol
+Fruit 600 120
+Fruit 680 120
+Fruit 840 120
+Fruit 920 120
+
+Bottom Left Small 
+Fruit 280 760
+Fruit 360 760
+Fruit 440 760
+
 Bottom Right Small 
 Fruit 1080 760
 Fruit 1160 760
