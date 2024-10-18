@@ -538,7 +538,7 @@ TEST_CASE("Ghosts remain in frightened mode for the correct duration") {
     game.getUpdater()->updatePowerPellets();
 
     // Move time forward to simulate frightened mode duration
-    float elapsedTime = -2.0f;  // Move 2 seconds forward
+    float elapsedTime = -1.0f;  // Move 1 seconds forward
     game.setPowerPelletTimer(elapsedTime);
     game.getUpdater()->updatePowerPellets();
 
@@ -1460,5 +1460,3 @@ TEST_CASE("Update class allows score to increment on key collection") {
     // Check that the score has been updated correctly
     CHECK(game.getScore().getCurrentScore() == 50);  // Score should increase by 50 points
 }
-
-
