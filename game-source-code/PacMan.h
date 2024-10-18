@@ -72,7 +72,6 @@ public:
      */
     void move(const Maze& maze, float deltaTime, Direction direction);
 
-    // Getters for Pac-Man's position, movement, radius, and speed.
     /**
      * @brief Gets Pac-Man's current x-coordinate.
      * 

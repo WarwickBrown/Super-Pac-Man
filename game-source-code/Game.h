@@ -23,6 +23,7 @@
 #include "Update.h"
 #include "PacManManager.h"
 #include "Ghost.h"
+#include "SoundManager.h"
 
 /**
  * @class Game
@@ -38,6 +39,7 @@ class Screen;
 class GameInitialiser;
 class Update;
 class PacManManager;
+
 class Game {
 
     friend class GameInitialiser;
@@ -91,7 +93,7 @@ public:
      */
     std::vector<Fruit*>& getFruits();
 
-    /**
+        /**
      * @brief Retrieves a reference to the internal vector of power pellet unique pointers.
      * 
      * @return A reference to the vector of unique pointers to PowerPellet objects.
@@ -230,7 +232,6 @@ public:
      * @return A reference to the `Draw` class instance managing game drawing.
      */
     Draw& getDraw() const { return *draw; } ///< Getter for the Draw object
-
     /**
      * @brief Retrieves a reference to the original vector of Star objects.
      * 
@@ -245,7 +246,6 @@ public:
      */
     std::vector<std::unique_ptr<Fruit>>& getFruitObjects();
 
-
 private:
     std::vector<GameKey> keys; ///< A vector of GameKey objects representing keys in the game.
     std::unique_ptr<Maze> maze; ///< Unique pointer to the Maze object.
@@ -256,6 +256,7 @@ private:
     std::unique_ptr<Lives> playerLives; ///< Unique pointer to the Lives object.
     std::unique_ptr<Update> updater; ///< Unique pointer to the Update object.
     std::unique_ptr<PacManManager> pacManManager; ///< Unique pointer to the PacManManager object.
+    std::unique_ptr<SoundManager> soundManager; ///< Unique pointer to the SoundManager object.
     std::vector<std::unique_ptr<Ghost>> ghosts; ///< Vector of unique pointers to Ghost objects.
     std::vector<std::unique_ptr<Fruit>> fruits; ///< Vector of unique pointers to Fruit objects.
     std::vector<std::unique_ptr<PowerPellet>> powerPellets; ///< Vector of unique pointers to PowerPellet objects.

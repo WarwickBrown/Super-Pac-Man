@@ -20,113 +20,80 @@
 #include <iostream>
 #include <memory>
 
-/**
- * @brief Constructs a Screen object and initialises the game window.
- * 
- * Initialises the window with specified dimensions and title. Sets up the initial state of the game.
- */
 Screen::Screen() 
-    : window(1530, 890, "Super Pac-Man"),  ///< initialise window dimensions and title.
-      isRunning(true)                      ///< Set initial game state to running.
+        : window(1530, 890, "Super Pac-Man"),  ///< initialise window dimensions and title.
+        isRunning(true)                      ///< Set initial game state to running.
 { 
-    maze = std::make_unique<Maze>();       ///< Allocate memory for Maze object.
+        maze = std::make_unique<Maze>();       ///< Allocate memory for Maze object.
 }
 
-/**
- * @brief Destructor for the Screen class.
- * 
- * Cleans up any dynamically allocated memory or resources (if applicable).
- */
 Screen::~Screen() {}
 
-/**
- * @brief Displays the start screen with game instructions and high score.
- * 
- * This method displays the game title, instructions for starting the game, and high score information.
- * It waits for the player to press ENTER to begin the game.
- * 
- * @param score Reference to the Score object to display the high score.
- */
 void Screen::startScreen(const Score& score, int frameNumber) {
-    window.BeginDrawing();   ///< Start drawing the screen.
+        window.BeginDrawing();   ///< Start drawing the screen.
     
-    Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber].width), 0, (float)(backgroundAnimation[frameNumber].width), (float)(backgroundAnimation[frameNumber].height)};
-    DrawTextureRec(backgroundAnimation[frameNumber], sourceRec, Vector2{0, 0}, RAYWHITE);
+        Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber].width), 0, (float)(backgroundAnimation[frameNumber].width), (float)(backgroundAnimation[frameNumber].height)};
+        DrawTextureRec(backgroundAnimation[frameNumber], sourceRec, Vector2{0, 0}, RAYWHITE);
 
-    // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect.
-    DrawText("Super Pac-Man", 
+        // Draw the title "Super Pac-Man" at the top in yellow with a shadow effect.
+        DrawText("Super Pac-Man", 
          window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2 + 2,  // Shadow effect offset
          window.GetHeight() / 4 + 2 + 20, 70, Color{153, 153, 0, 255});  // Darker Yellow colour
-    DrawText("Super Pac-Man", 
+        DrawText("Super Pac-Man", 
             window.GetWidth() / 2 - MeasureText("Super Pac-Man", 70) / 2, 
             window.GetHeight() / 4 + 20, 70, YELLOW);  // Main colour
 
-    // Draw instructions and high score with shadows and colours.
-    DrawText("Press ENTER to Start", 
+        // Draw instructions and high score with shadows and colours.
+        DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2 + 2, 
             window.GetHeight() / 2 - 38 + 2, 40, DARKGREEN);  // Shadow colour
-    DrawText("Press ENTER to Start", 
+        DrawText("Press ENTER to Start", 
             window.GetWidth() / 2 - MeasureText("Press ENTER to Start", 40) / 2, 
             window.GetHeight() / 2 - 38, 40, GREEN);  // Main colour
 
-    DrawText("Press ESC to Exit", 
+        DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2 + 2, 
             window.GetHeight() / 2 + 10 + 2, 30, Color{139, 0, 0, 255});  // Shadow colour
-    DrawText("Press ESC to Exit", 
+        DrawText("Press ESC to Exit", 
             window.GetWidth() / 2 - MeasureText("Press ESC to Exit", 30) / 2, 
             window.GetHeight() / 2 + 10, 30, RED);  // Main colour
 
-    DrawText("Use the ARROW KEYS to change direction", 
+        DrawText("Use the ARROW KEYS to change direction", 
             window.GetWidth() / 2 - MeasureText("Use the ARROW KEYS to change direction", 25) / 2, 
-            window.GetHeight() - 80, 25, LIGHTGRAY);
+            window.GetHeight() - 80, 25, WHITE);
 
-    auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
-    DrawText(highScoreText.c_str(),
+        auto highScoreText = "High Score: " + std::to_string(score.getHighScore());
+        DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2 + 2,
             window.GetHeight() / 2 + 80 + 2, 35, DARKPURPLE);  // Shadow colour
-    DrawText(highScoreText.c_str(),
+        DrawText(highScoreText.c_str(),
             window.GetWidth() / 2 - MeasureText(highScoreText.c_str(), 35) / 2,
             window.GetHeight() / 2 + 80, 35, PURPLE);  // Main colour
 
-    drawGameImages();  ///< Draw additional images on the start screen.
+        DrawText("Turn on Audio For Best Experience",
+            window.GetWidth() / 2 - MeasureText("Turn on Audio For Best Experience", 20) / 2 - 560,
+            window.GetHeight() / 2 + 410, 18, WHITE);  // Main colour
 
-    window.EndDrawing();  ///< Finish drawing the screen.
+        drawGameImages();  ///< Draw additional images on the start screen.
+
+        window.EndDrawing();  ///< Finish drawing the screen.
 }
 
-/**
- * @brief Clears the screen and prepares it for rendering.
- * 
- * This method is used to reset the screen and draw a new frame, setting a black background.
- */
 void Screen::render() {
-    window.BeginDrawing();
-    window.ClearBackground(BLACK);  ///< Clear the screen with a black background.
-    window.EndDrawing();
+        window.BeginDrawing();      
+        window.ClearBackground(BLACK);  ///< Clear the screen with a black background.
+        window.EndDrawing();
 }
 
-/**
- * @brief Draws additional game images (e.g., controls) on the start screen.
- * 
- * This method displays controls and other images on the start screen, such as input keys.
- */
 void Screen::drawGameImages() {
-    DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
+        DrawTexture(gameImages[0], window.GetWidth() / 2 - gameImages[0].width / 2, 
                 window.GetHeight() / 2 - gameImages[0].height + 408, WHITE);
+        DrawTexture(gameImages[2], 100, 700, WHITE);
 }
 
-/**
- * @brief Displays the game over screen and waits for user input to exit.
- * 
- * This method displays the game over message, the player's score, and the high score. It waits
- * for a few seconds before closing the window and exiting the game.
- * 
- * @param score Reference to the Score object to display the current score and high score.
- * @param skipDelay Boolean that allows the function to skip the 3 second delay.
- * @return false Always returns false to ensure the game loop stops.
- */
 bool Screen::endGame(const Score& score, bool skipDelay) {
-    int frameNumber = 0;
-    for (int i = 0; i < 600; i++) {
+        int frameNumber = 0;
+        for (int i = 0; i < 1200; i++) {
         window.BeginDrawing();
         Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/20].width), 0, (float)(backgroundAnimation[frameNumber/20].width), (float)(backgroundAnimation[frameNumber/20].height)};
         DrawTextureRec(backgroundAnimation[frameNumber/20], sourceRec, Vector2{0, 0}, RAYWHITE);
@@ -147,29 +114,19 @@ bool Screen::endGame(const Score& score, bool skipDelay) {
 
         window.EndDrawing();
         frameNumber++;
-            if(frameNumber == 200)
-            {
+        if(frameNumber == 200)
+        {
                 frameNumber = 0;
-            }
+        }
         if(skipDelay) break;
-    }
-
-    return false;  ///< Ensure the game loop stops.
+        }
+        return false;  ///< Ensure the game loop stops.
 }
 
-/**
- * @brief Displays the win screen and waits for user input to exit.
- * 
- * This method displays the win message, the player's score, and the high score. It waits
- * for a few seconds before restarting the game.
- * 
- * @param score Reference to the Score object to display the current score and high score.
- * @param skipDelay Boolean that allows the function to skip the 3 second delay.
- * @return false Always returns false to ensure the game loop stops.
- */
 bool Screen::winGame(const Score& score, bool skipDelay) {
-    int frameNumber = 0;
-    for (int i = 0; i < 1000; i++) {
+        int frameNumber = 0;
+
+        for (int i = 0; i < 1600; i++) {
         window.BeginDrawing();
         Rectangle sourceRec = {(float)(backgroundAnimation[frameNumber/20].width), 0, (float)(backgroundAnimation[frameNumber/20].width), (float)(backgroundAnimation[frameNumber/20].height)};
         DrawTextureRec(backgroundAnimation[frameNumber/20], sourceRec, Vector2{0, 0}, RAYWHITE);
@@ -190,13 +147,12 @@ bool Screen::winGame(const Score& score, bool skipDelay) {
 
         window.EndDrawing();
         frameNumber++;
-            if(frameNumber == 200)
-            {
+        if(frameNumber == 200)
+        {
                 frameNumber = 0;
-            }
+        }
         if(skipDelay) break;
-    }
-
-    window.Close();  ///< Close the window when the game is won.
-    return false;  ///< Ensure the game loop stops.
+        }
+        window.Close();  ///< Close the window when the game is won.
+        return false;  ///< Ensure the game loop stops.
 }

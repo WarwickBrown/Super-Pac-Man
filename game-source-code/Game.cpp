@@ -14,30 +14,24 @@
 #include "SuperPellet.h"
 #include "Star.h"
 #include "GameInitialiser.h"
+#include "SoundManager.h"
 #include <raylib-cpp.hpp>
 #include <cstdlib>
 #include <cmath>
 #include <memory>
 
-/**
- * @brief Constructs a Game object, initialising the game window, running state, and other game elements.
- */
+// Constructor - Initialises game window, running state, and sets pointers to nullptr
 Game::Game() : isRunning(true), maze(nullptr), pacMan(nullptr), pacManDirection(PacMan::NONE), frame(0), gameWon(false) {}
 
-/**
- * @brief Destructor for the Game class, releasing dynamically allocated resources for the maze, Pac-Man, and other objects.
- */
+// Destructor - Frees dynamically allocated memory for maze, pacMan, and screen
 Game::~Game() = default;
 
-/**
- * @brief Initialises the game objects such as maze, Pac-Man, and various collectables.
- * 
- * This function uses the `GameInitialiser` class to set up the game objects, displays the start screen,
- * and waits for the player to start the game by pressing ENTER.
- */
+// Function to initialise the game
 void Game::initialise(bool skipStartScreen) {
     GameInitialiser::initialiseGameObjects(*this);  // Initialises game objects (maze, Pac-Man, screen, etc)
-    SetTargetFPS(480);
+    
+    soundManager->playSound("start_screen_music");
+
     if (!skipStartScreen) {
         int frameNumber = 0;
         
@@ -56,18 +50,15 @@ void Game::initialise(bool skipStartScreen) {
     if (window.ShouldClose()) {
         isRunning = false;  // Stop running the game if the window is closed
     }
+    soundManager->stopSound("start_screen_music");
 }
 
-/**
- * @brief Main game loop that handles input, updates game state, and renders game elements.
- * 
- * This function contains the primary game loop, which continues until the game is won or the window is closed.
- * It renders all game elements such as the maze, Pac-Man, ghosts, collectables, and updates their states accordingly.
- */
+// Main game loop
 void Game::run() {
     int pixelX, pixelY;                          // Coordinates for rendering
     srand(time(0));
     fruitSymbolInMaze = rand() % 6 + 1;                       // Randomise a number for drawing fruits
+    soundManager->playSound("gameplay_music");
 
     // Continue the game loop until the window is closed or the game stops running
     while (isRunning && !window.ShouldClose()) {
@@ -111,22 +102,20 @@ void Game::run() {
 
     // Save high score when the game ends
     score->saveHighScore();
-
+    soundManager->stopSound("gameplay_music");
+    soundManager->stopSound("super_pellet");
     // If the game is won, show the win screen, otherwise show the end game screen
     if (gameWon) {
+        soundManager->playSound("win_game");
         isRunning = screen->winGame(*score);
     } else {
+        soundManager->playSound("lose_game");
         isRunning = screen->endGame(*score);
     }
 }
 
-/**
- * @brief Handles user input for controlling Pac-Man's direction and other game controls.
- * 
- * @param inputKey The key input for controlling movement (optional).
- * 
- * This function checks for arrow key presses to update Pac-Man's direction and ESCAPE to exit the game.
- */
+
+// Handles user input for controlling Pac-Man's direction
 void Game::handleInput(int inputKey) {
     if (inputKey == 0) {
         inputKey = GetKeyPressed();              // Get the key that was pressed
@@ -157,14 +146,10 @@ void Game::handleInput(int inputKey) {
     }
 }
 
-/**
- * @brief Updates the state of the game elements, such as Pac-Man, ghosts, and collectables.
- * 
- * This function delegates the update logic to the `PacManManager` and `Update` classes and checks if the game has been won.
- */
+// Updates the game state (e.g., Pac-Man's position)
 void Game::update() {
     auto deltaTime = GetFrameTime();             // Get the time elapsed since the last frame
-
+    
     // Delegate Pac-Man update logic to PacManManager
     pacManManager->updatePacMan(deltaTime);
 
@@ -175,26 +160,18 @@ void Game::update() {
     checkWinCondition();
 }
 
-/**
- * @brief Checks if all the fruits have been collected to determine if the game has been won.
- * 
- * If all fruits are collected, the game is marked as won, and the game loop is stopped.
- */
+// Implement the method to check if all fruits are collected
 void Game::checkWinCondition() {
     for (const auto& fruit : fruits) {
         if (fruit->isActive()) {
             return;  // If any fruit is still active, return early
         }
     }
-    gameWon = true;                              // If all fruits are collected, set gameWon to true
-    isRunning = false;                           // Stop the game loop
+    // If all fruits are collected, set gameWon to true
+    gameWon = true;
+    isRunning = false;  // Stop the game loop
 }
 
-/**
- * @brief Retrieves a list of fruit pointers for accessing and modifying fruit objects.
- * 
- * @return A vector of raw pointers to Fruit objects.
- */
 std::vector<Fruit*>& Game::getFruits() {
     static std::vector<Fruit*> fruitPtrs;
     fruitPtrs.clear();
@@ -204,20 +181,10 @@ std::vector<Fruit*>& Game::getFruits() {
     return fruitPtrs;
 }
 
-/**
- * @brief Retrieves a reference to the original vector of Star objects.
- * 
- * @return A reference to the vector of std::unique_ptr<Star> objects.
- */
 std::vector<std::unique_ptr<Star>>& Game::getStarObjects() {
     return stars;  // Assuming `stars` is the original vector of unique_ptr<Star>
 }
 
-/**
- * @brief Retrieves a reference to the original vector of Fruit objects.
- * 
- * @return A reference to the vector of std::unique_ptr<Fruit> objects.
- */
 std::vector<std::unique_ptr<Fruit>>& Game::getFruitObjects() {
     return fruits;  // Assuming `fruits` is the original vector of unique_ptr<Fruit>
 }

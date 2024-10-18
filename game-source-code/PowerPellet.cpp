@@ -8,37 +8,14 @@
 
 #include "PowerPellet.h"
 
-/**
- * @brief Constructs a PowerPellet object with a specified position.
- * 
- * This constructor initialises the PowerPellet using the Collectable class's constructor
- * and sets its position and radius.
- * 
- * @param x The x-coordinate of the power pellet.
- * @param y The y-coordinate of the power pellet.
- */
 PowerPellet::PowerPellet(float x, float y)
     : Collectable(x, y, 10.0f) {
 }
 
-/**
- * @brief Destructor for the PowerPellet class.
- * 
- * This destructor does not perform any specific actions but is defined for completeness.
- */
 PowerPellet::~PowerPellet() {
 }
 
-/**
- * @brief Checks if Pac-Man collides with the power pellet.
- * 
- * This method checks if Pac-Man collides with the power pellet using circle collision detection.
- * If a collision is detected, the pellet is marked as collected, and the method returns true.
- * Otherwise, it returns false.
- * 
- * @param pacman The Pac-Man object to check for collisions.
- * @return true if Pac-Man collides with the pellet, false otherwise.
- */
+// Check if Pac-Man collides with the power pellet
 bool PowerPellet::checkCollisionWithPacMan(const PacMan& pacman) {
     if (active && CheckCollisionCircles(
             { pacman.getX(), pacman.getY() }, pacman.getRadius(),

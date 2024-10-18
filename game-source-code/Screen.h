@@ -109,6 +109,7 @@ private:
     std::vector<Texture2D> gameImages = {
         LoadTexture("../resources/pacman-images/inputkeys.png"),  ///< Image showing the input keys.
         LoadTexture("../resources/pacman-images/SplashScreenBackground.png"),
+        LoadTexture("../resources/pacman-images/Audio-Symbol.png")
     };
 
     std::vector<Texture2D> backgroundAnimation = {

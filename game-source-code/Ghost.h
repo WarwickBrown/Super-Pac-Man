@@ -50,6 +50,7 @@ public:
      * This destructor does not perform any specific actions but is defined for completeness.
      */
     ~Ghost();
+
     /**
      * @brief Resets the ghost's position and state to its initial values.
      * 
@@ -105,7 +106,7 @@ public:
      */
     int move(const Maze& maze,const PacMan& pacman, float deltaTime);  // Moves the ghost based on direction
 
-    // Getters and setters for the ghost's position, state, and attributes.
+// Getters and setters for the ghost's position, state, and attributes.
 
     /**
      * @brief Gets the current x-coordinate of the ghost.

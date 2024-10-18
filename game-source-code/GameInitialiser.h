@@ -3,7 +3,8 @@
  * @brief Defines the GameInitialiser class, which handles the initialisation of various game objects and collectables.
  */
 
-#pragma once
+#ifndef GAMEINITIALISER_H
+#define GAMEINITIALISER_H
 
 #include "GameInitialiser.h"
 #include <sstream>
@@ -19,7 +20,6 @@
  * The GameInitialiser class provides static methods to set up various game components, ensuring that all necessary objects
  * are properly initialised before the game starts. This includes creating fruits, power pellets, super pellets, keys, and stars.
  */
-
 class GameInitialiser : public Reader{
 public:
     /**
@@ -88,3 +88,5 @@ public:
     */
     static void initialiseCollectables(Game& game);
 };
+
+#endif // GAMEINITIALISER_H

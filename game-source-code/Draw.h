@@ -29,7 +29,6 @@ class Ghost;
  */
 class Draw {
 public:
-
     /**
      * @brief Constructor: Initialises the Draw class and associated resources.
      */
@@ -77,7 +76,7 @@ public:
      */
     void drawMaze(const Maze& maze);
 
-    /**
+        /**
      * @brief Draws Pac-Man at a specified location and frame based on his current direction.
      * 
      * @param pacman The Pac-Man object to be drawn.
@@ -145,7 +144,7 @@ public:
      * @param status A boolean value to set the symbol's active state.
      */
     void setSymbolActive(bool status);
-
+    
 private:
     std::unique_ptr<Maze> maze; ///< Pointer to the Maze object used for drawing.
     raylib::Window window;      ///< Window object used for rendering the game.

@@ -12,6 +12,7 @@
 
 #include "Game.h"
 #include "Draw.h"
+#include "SoundManager.h"
 #include <memory>
 
 class Draw;
@@ -101,6 +102,7 @@ public:
 private:
     Game& game;  ///< Reference to the Game instance for accessing game elements and state.
     Draw* draw;  ///< Pointer to the Draw instance for rendering and visual updates.
+    std::unique_ptr<SoundManager> soundManager; ///< Unique pointer to the SoundManager object.
 };
 
 #endif // UPDATE_H

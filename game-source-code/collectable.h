@@ -1,4 +1,11 @@
-#pragma once
+/**
+ * @file Collectable.h
+ * @brief Defines the Collectable class, a base for all collectable objects in the game.
+ */
+
+#ifndef COLLECTABLE_H
+#define COLLECTABLE_H
+
 #include <raylib-cpp.hpp>
 
 /**
@@ -70,3 +77,5 @@ public:
      */
     virtual bool checkCollision(float otherX, float otherY, float otherRadius) const;
 };
+
+#endif // COLLECTABLE_H

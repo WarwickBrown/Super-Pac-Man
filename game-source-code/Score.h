@@ -65,15 +65,15 @@ public:
     int getHighScore() const { return highScore; }
 
     /**
-     * @brief Loads the high score from the file specified by `scoreFile`.
+     * @brief Loads the high score from the file specified by scoreFile.
      * 
-     * This method reads the high score from the file and sets the `highScore` member variable.
+     * This method reads the high score from the file and sets the highScore member variable.
      * If the file is empty or not found, the high score is set to zero.
      */
     void loadHighScore();
 
     /**
-     * @brief Saves the high score to the file specified by `scoreFile`.
+     * @brief Saves the high score to the file specified by scoreFile.
      * 
      * This method writes the current high score to the file, ensuring that the high score
      * persists across game sessions.

@@ -54,26 +54,26 @@ public:
      * @brief Determines if the star's texture should change based on elapsed time.
      * 
      * This method uses the elapsed time since the star was created to determine if its texture
-     * should change. If the time condition is met, the `change` flag is set to true.
+     * should change. If the time condition is met, the change flag is set to true.
      */
     void determineChange();
 
     /**
-     * @brief Gets the current state of the `change` flag.
+     * @brief Gets the current state of the change flag.
      * 
-     * The `change` flag indicates whether the star's texture needs to change. This method returns
-     * the current value of the `change` flag.
+     * The change flag indicates whether the star's texture needs to change. This method returns
+     * the current value of the change flag.
      * 
      * @return true if the texture should change, false otherwise.
      */
     bool getChange() const { return change; }
 
     /**
-     * @brief Resets the `change` flag to false.
+     * @brief Resets the change flag to false.
      * 
-     * This method sets the `change` flag to false, indicating that no texture change is needed.
+     * This method sets the change flag to false, indicating that no texture change is needed.
      */
-    void setChange() { change = false; };
+    void setChange() { change = false; }
 
 private:
     mutable bool change = false;    ///< Tracks if a texture change is needed for the star.

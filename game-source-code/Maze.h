@@ -31,9 +31,9 @@ public:
      * active state, and color.
      */
     struct Wall {
-        Rectangle rect;   ///< Rectangle defining the wall's position and dimensions.
-        bool active;      ///< Indicates if the wall is currently active.
-        Color colour;      ///< The color of the wall.
+        Rectangle rect;
+        bool active;
+        Color colour;
 
         /**
          * @brief Constructs a Wall object with a given rectangle and color.

@@ -9,13 +9,6 @@
 #include <vector>
 #include "Game.h"
 
-/**
- * @brief Initialises the primary game objects such as the maze, Pac-Man, screen, and ghosts.
- * 
- * @param game The Game instance to which the objects are added.
- * 
- * This function sets up the main game objects using `std::make_unique` for memory management.
- */
 void GameInitialiser::initialiseGameObjects(Game& game) {
     game.maze = std::make_unique<Maze>();  ///< Initialise the maze object.
     game.pacMan = std::make_unique<PacMan>(game.maze->getStartX(), game.maze->getStartY());  ///< Initialise Pac-Man at the start position.
@@ -23,6 +16,7 @@ void GameInitialiser::initialiseGameObjects(Game& game) {
     game.draw = std::make_unique<Draw>();  ///< Initialise the draw object.
     game.updater = std::make_unique<Update>(game, game.draw.get());
     game.pacManManager = std::make_unique<PacManManager>(game);
+    game.soundManager = std::make_unique<SoundManager>();
 
     game.maze->initialiseCustomWalls();                 // Sets up custom walls for the maze
     game.pacMan->setDirection(PacMan::NONE);            // Sets Pac-Man's initial direction to none
@@ -34,16 +28,10 @@ void GameInitialiser::initialiseGameObjects(Game& game) {
     game.ghosts.push_back(std::make_unique<Ghost>(765, 445, 150.0f));
     game.ghosts.push_back(std::make_unique<Ghost>(845, 445, 200.0f));
 
-   initialiseCollectables(game);
+    initialiseCollectables(game);
+    SetTargetFPS(480);
 }
 
-/**
- * @brief Initialises the collectables at specific positions on the game map.
- * 
- * @param game The Game instance to which the collectables are extracted.
- * 
- * Collectables are special objects that may provide additional points or effects when collected.
- */
 void GameInitialiser::initialiseCollectables(Game& game)
 {
     Reader reader("../resources/database-textfiles/collectables.txt");  ///< Create a Reader object to read the collectables file.
@@ -73,20 +61,9 @@ void GameInitialiser::initialiseCollectables(Game& game)
         else if (collectableType == "Star") {
             processStar(game, iss);
         }
-        else {
-            std::cerr << "Unknown collectable type: " << collectableType << std::endl;
-        }
     }
 }
 
-/**
- * @brief Initialises the fruit at specific positions on the game map.
- * 
- * @param game The Game instance to which the fruit are added.
- * @param iss Data line that contains the fruits coordinates.
- * 
- * Fruits are special objects that provide additional points when collected.
- */
 void GameInitialiser::processFruit(Game& game, std::istringstream& iss)
 {
     int x, y;
@@ -97,14 +74,6 @@ void GameInitialiser::processFruit(Game& game, std::istringstream& iss)
     }
 }
 
-/**
- * @brief Initialises the Super Pellets at specific positions on the game map.
- * 
- * @param game The Game instance to which the Super Pellets are added.
- * @param iss Data line that contains the Super Pellets coordinates.
- * 
- * Super Pellets are special objects that provide additional effects when collected.
- */
 void GameInitialiser::processSuperPellet(Game& game, std::istringstream& iss)
 {
     int x, y;
@@ -115,14 +84,6 @@ void GameInitialiser::processSuperPellet(Game& game, std::istringstream& iss)
     }
 }
 
-/**
- * @brief Initialises the Power Pellets at specific positions on the game map.
- * 
- * @param game The Game instance to which the Power Pellets are added.
- * @param iss Data line that contains the Power Pellets coordinates.
- * 
- * Power Pellets are special objects that provide additional effects when collected.
- */
 void GameInitialiser::processPowerPellet(Game& game, std::istringstream& iss)
 {
     int x, y;
@@ -133,14 +94,6 @@ void GameInitialiser::processPowerPellet(Game& game, std::istringstream& iss)
     }
 }
 
-/**
- * @brief Initialises the keys at specific positions on the game map.
- * 
- * @param game The Game instance to which the keys are added.
- * @param iss Data line that contains the keys coordinates.
- * 
- * Keys are special objects that unlock doors when collected.
- */
 void GameInitialiser::processKey(Game& game, std::istringstream& iss)
 {
     int x, y, doorNumber1Overlay, doorNumber1, doorNumber2Overlay, doorNumber2;
@@ -151,14 +104,6 @@ void GameInitialiser::processKey(Game& game, std::istringstream& iss)
     }
 }
 
-/**
- * @brief Initialises the star at specific positions on the game map.
- * 
- * @param game The Game instance to which the star is added.
- * @param iss Data line that contains the star coordinates.
- * 
- * Stars are special objects that provide additional points when collected.
- */
 void GameInitialiser::processStar(Game& game, std::istringstream& iss) {
     int x, y;
     if (iss >> x >> y) {
